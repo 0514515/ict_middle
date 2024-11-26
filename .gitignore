@@ -2,7 +2,10 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=eclipse
 
 !src/
-!src/**
+!src/main/
+!src/main/**
+!src/test/
+!src/test/**
 
 ### Eclipse ###
 .metadata
