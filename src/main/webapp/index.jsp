@@ -84,7 +84,7 @@ body {
 							</a>
 							<h3>로그인</h3>
 						</div>
-						<!-- 로그인 요청 작업 -->
+						<!-- 로그인 요청 작업 / action, method, name-->
 						<form action="" method="">
 							<div class="form-floating mb-3">
 								<input type="text" class="form-control" id="login_id"
