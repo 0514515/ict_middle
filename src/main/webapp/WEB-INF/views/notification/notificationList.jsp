@@ -6,7 +6,7 @@
 
 <head>
 <meta charset="utf-8">
-<title>사원 목록 : 피플윙</title>
+<title>공지 목록 : 피플윙</title>
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 <meta content="" name="keywords">
 <meta content="" name="description">
@@ -110,8 +110,8 @@ body {
 					<div class="bg-light rounded min-vh-100 p-4">
 						<div
 							class="d-flex align-items-center justify-content-between mb-4">
-							<h4>사원 목록</h4>
-							<button type="button" class="btn btn-primary">사원 추가</button>
+							<h4>공지 목록</h4>
+							<button type="button" class="btn btn-primary">공지 추가</button>
 						</div>
 
 
@@ -133,29 +133,32 @@ body {
 						<table class="table table-striped">
 							<thead>
 								<tr>
-									<th scope="col">부서명</th>
-									<th scope="col">사원 이름</th>
-									<th scope="col">직급</th>
-									<th scope="col">전화번호</th>
-									<th scope="col">이메일</th>
-									<th scope="col">입사일</th>
+									<th scope="col">공지 번호</th>
+									<th scope="col">공지 제목</th>
+									<th scope="col">기간</th>
+									<th scope="col">게시일</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
-									<td>부서 1</td>
-									<td>사원 1</td>
-									<td>직급 1</td>
-									<td>010-0000-0000</td>
-									<td>example@example.com</td>
+									<td>1</td>
+									<td>제목 1</td>
+									<td>2020-01-01 ~ 2021-01-01<span
+										class="badge bg-secondary ms-2">기간전</span></td>
 									<td>2020-00-00</td>
 								</tr>
 								<tr>
-									<td>부서 1</td>
-									<td>사원 1</td>
-									<td>직급 1</td>
-									<td>010-0000-0000</td>
-									<td>example@example.com</td>
+									<td>2</td>
+									<td>제목 2</td>
+									<td>2020-01-01 ~ 2021-01-01<span
+										class="badge bg-primary ms-2">진행중</span></td>
+									<td>2020-00-00</td>
+								</tr>
+								<tr>
+									<td>3</td>
+									<td>제목 3</td>
+									<td>2020-01-01 ~ 2021-01-01<span
+										class="badge bg-danger ms-2">종료</span></td>
 									<td>2020-00-00</td>
 								</tr>
 							</tbody>
@@ -164,6 +167,7 @@ body {
 					</div>
 				</div>
 			</div>
+
 			<div class="d-flex align-items-center justify-content-center">
 				<nav aria-label="Page navigation">
 					<ul class="pagination pt-3 pr-3">

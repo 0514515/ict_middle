@@ -6,7 +6,7 @@
 
 <head>
 <meta charset="utf-8">
-<title>사원 목록 : 피플윙</title>
+<title>사원 권한 목록 : 피플윙</title>
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 <meta content="" name="keywords">
 <meta content="" name="description">
@@ -107,17 +107,15 @@ body {
 			<!-- 본문 작성 (body start) -->
 			<div class="container-fluid pt-4 px-4">
 				<div class="col">
-					<div class="bg-light rounded min-vh-100 p-4">
+					<div class="bg-light rounded h-100 p-4">
 						<div
 							class="d-flex align-items-center justify-content-between mb-4">
-							<h4>사원 목록</h4>
-							<button type="button" class="btn btn-primary">사원 추가</button>
+							<h4>사원 권한 목록</h4>
 						</div>
-
 
 						<div class="d-flex align-items-center justify-content-end mb-4">
 							<div class="d-flex w-25 justify-content-end">
-								<select class="form-select ms-2 w-50"
+								<select class="form-select ms-2 w-75"
 									aria-label="Default select example">
 									<option value="1" selected>One</option>
 									<option value="2">Two</option>
@@ -128,55 +126,65 @@ body {
 								id="name" disabled>
 							<button type="button" class="btn btn-dark ms-2 px-4 text-nowrap">검색</button>
 						</div>
-
 						<!-- 이 테이블에 데이터 뿌리기, 없으면 목록이 없다는 라벨 하나 보여줘야 함 -->
 						<table class="table table-striped">
 							<thead>
 								<tr>
+									<th><input type="checkbox" class="form-check-input"
+										id="exampleCheck1"></th>
 									<th scope="col">부서명</th>
 									<th scope="col">사원 이름</th>
 									<th scope="col">직급</th>
-									<th scope="col">전화번호</th>
-									<th scope="col">이메일</th>
-									<th scope="col">입사일</th>
+									<th scope="col">권한 등급</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
+								<tr class="align-middle">
+									<td><input type="checkbox" class="form-check-input"
+										id="exampleCheck1"></td>
 									<td>부서 1</td>
 									<td>사원 1</td>
 									<td>직급 1</td>
-									<td>010-0000-0000</td>
-									<td>example@example.com</td>
-									<td>2020-00-00</td>
+									<td><input class="form-control w-50"type="text"
+										placeholder="등급"></td>
+
 								</tr>
-								<tr>
-									<td>부서 1</td>
-									<td>사원 1</td>
-									<td>직급 1</td>
-									<td>010-0000-0000</td>
-									<td>example@example.com</td>
-									<td>2020-00-00</td>
+								<tr class="align-middle">
+									<td><input type="checkbox" class="form-check-input"
+										id="exampleCheck1"></td>
+									<td>부서 2</td>
+									<td>사원 2</td>
+									<td>직급 2</td>
+									<td><input class="form-control w-50" type="text"
+										placeholder="등급"></td>
 								</tr>
 							</tbody>
 						</table>
-
+						<div
+							class="d-grid gap-2 d-md-flex justify-content-md-end mx-4 my-4">
+							<button class="btn btn-primary" type="button">선택 수정</button>
+						</div>
+						<div class="d-flex align-items-center justify-content-center">
+							<nav aria-label="Page navigation">
+								<ul class="pagination pt-3 pr-3">
+									<li class="page-item"><a class="page-link" href="#">이전</a></li>
+									<li class="page-item"><a class="page-link" href="#">1</a></li>
+									<li class="page-item"><a class="page-link" href="#">2</a></li>
+									<li class="page-item active"><a class="page-link" href="#">3</a></li>
+									<li class="page-item"><a class="page-link" href="#">4</a></li>
+									<li class="page-item"><a class="page-link" href="#">5</a></li>
+									<li class="page-item"><a class="page-link" href="#">다음</a></li>
+								</ul>
+							</nav>
+						</div>
+						<!-- 버튼 -->
+						
 					</div>
 				</div>
 			</div>
-			<div class="d-flex align-items-center justify-content-center">
-				<nav aria-label="Page navigation">
-					<ul class="pagination pt-3 pr-3">
-						<li class="page-item"><a class="page-link" href="#">이전</a></li>
-						<li class="page-item"><a class="page-link" href="#">1</a></li>
-						<li class="page-item"><a class="page-link" href="#">2</a></li>
-						<li class="page-item active"><a class="page-link" href="#">3</a></li>
-						<li class="page-item"><a class="page-link" href="#">4</a></li>
-						<li class="page-item"><a class="page-link" href="#">5</a></li>
-						<li class="page-item"><a class="page-link" href="#">다음</a></li>
-					</ul>
-				</nav>
-			</div>
+
+
+
 			<!-- 본문 끝 (body end) -->
 
 

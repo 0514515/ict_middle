@@ -6,7 +6,7 @@
 
 <head>
 <meta charset="utf-8">
-<title>회사 등록 : 피플윙</title>
+<title>공지 등록 : 피플윙</title>
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 <meta content="" name="keywords">
 <meta content="" name="description">
@@ -34,18 +34,16 @@
 
 <!-- Libraries Stylesheet -->
 <link
-	href="../../resources/template/lib/owlcarousel/assets/owl.carousel.min.css"
+	href="/resources/template/lib/owlcarousel/assets/owl.carousel.min.css"
 	rel="stylesheet">
-<link
-	href="../../resources/template/css/tempusdominus-bootstrap-4.min.css"
+<link href="/resources/template/css/tempusdominus-bootstrap-4.min.css"
 	rel="stylesheet" />
 
 <!-- Customized Bootstrap Stylesheet -->
-<link href="../../resources/template/css/bootstrap.min.css"
-	rel="stylesheet">
+<link href="/resources/template/css/bootstrap.min.css" rel="stylesheet">
 
 <!-- Template Stylesheet -->
-<link href="../../resources/template/css/style.css" rel="stylesheet">
+<link href="/resources/template/css/style.css" rel="stylesheet">
 
 <!-- 커스텀 스타일 -->
 <style>
@@ -91,7 +89,7 @@ body {
 
 
 		<!-- @@@ Menu Tab Include @@@ -->
-		<jsp:include page="../../../common_layout/menu_tab.jsp">
+		<jsp:include page="/common_layout/menu_tab.jsp">
 			<jsp:param name="menu_tab" value="menu_tab" />
 		</jsp:include>
 		<!-- @@@@@@@@@@@@@@@@@@@@@@@@ -->
@@ -100,58 +98,71 @@ body {
 		<div class="content">
 
 			<!-- @@@ Navigation Bar Include @@@ -->
-			<jsp:include page="../../../common_layout/nav_bar.jsp">
+			<jsp:include page="/common_layout/nav_bar.jsp">
 				<jsp:param name="nav_bar" value="nav_bar" />
 			</jsp:include>
 			<!-- @@@@@@@@@@@@@@@@@@@@@@@@ -->
 
 
 			<!-- 본문 작성 (body start) -->
-			<div class="container-fluid pt-4 px-4">
-				<div class="bg-light rounded h-100 p-4">
-					<div class="d-flex align-items-center justify-content-between mb-4">
-						<h4>회사 등록</h4>
-						<button type="button" class="btn btn-primary">목록으로</button>
+			<div class="container-fliud">
+				<form>
+					<div class="container-fluid pt-4 px-4">
+						<div class="bg-light rounded vh-100 p-4">
+							<div
+								class="d-flex align-items-center justify-content-between mb-4">
+								<h4>공지 등록</h4>
+								<button type="button" class="btn btn-primary">목록으로</button>
+							</div>
+							<div class="mb-3">
+								<label for="name" class="form-label">공지 제목</label> <input
+									type="text" class="form-control" name="name" id="name">
+							</div>
+
+
+							<div class="mb-3 d-flex">
+								<input type="checkbox" class="form-check-input me-2"
+									id="exampleCheck1"> <label class="form-check-label"
+									for="startDuration">공지 기간</label>
+							</div>
+							<div class="mb-3 align-middle">
+								<div class="d-flex">
+									<input type="text" class="form-control" name="startDuration"
+										id="startDuration"> <span class="mx-2"> ~ </span> <input
+										type="text" class="form-control" name="endDuration"
+										id="endDuration">
+								</div>
+
+							</div>
+
+							<label for="content" class="form-label">공지 내용</label>
+							<div class="mb-3 form-floating">
+
+								<textarea class="form-control" name="content" id="content"></textarea>
+							</div>
+
+
+						</div>
 					</div>
-					<!-- 회사 등록 요청 작업 / action, method, name -->
-					<form>
-						<div class="mb-3">
-							<label for="name" class="form-label">회사 이름</label>
-							<input type="text" class="form-control" name="name" id="name">
-						</div>
 
-						<!-- 회사 주소 API 연결하기 -->
-						<div class="mb-3">
-							<label for="address" class="form-label">회사 주소</label>
-							<input type="text" class="form-control" name="address" id="address">
+					<div class="container-fluid">
+						<div
+							class="d-flex bg-white rounded h-100 mt-3 mx-3 mb-3 justify-content-center">
+							<button type="submit" class="btn btn-primary h-50 w-25">등록</button>
 						</div>
-
-						<div class="mb-3">
-							<label for="phoneNumber" class="form-label">전화번호</label> <input
-								type="text" class="form-control" id="phoneNumber">
-						</div>
-						
-						<div class="mb-3">
-							<label for="foundedDate" class="form-label">창립일</label> <input
-								type="text" class="form-control" id="foundedDate">
-						</div>
-						<div class="pt-2">
-							<button type="submit" class="btn btn-primary">등록</button>
-						</div>
-
-					</form>
+					</div>
+				</form>
 				</div>
+				<!-- 본문 끝 (body end) -->
+
+
+				<!-- @@@ Footer Include @@@ -->
+				<jsp:include page="/common_layout/footer.jsp">
+					<jsp:param name="footer" value="footer" />
+				</jsp:include>
+				<!-- @@@@@@@@@@@@@@@@@@@@@@@@ -->
 			</div>
-
-			<!-- 본문 끝 (body end) -->
-
-
-			<!-- @@@ Footer Include @@@ -->
-			<jsp:include page="../../../common_layout/footer.jsp">
-				<jsp:param name="footer" value="footer" />
-			</jsp:include>
-			<!-- @@@@@@@@@@@@@@@@@@@@@@@@ -->
-		</div>
+		
 		<!-- Content End -->
 
 
@@ -164,20 +175,18 @@ body {
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="../../resources/template/lib/chart/chart.min.js"></script>
-	<script src="../../resources/template/lib/easing/easing.min.js"></script>
-	<script src="../../resources/template/lib/waypoints/waypoints.min.js"></script>
+	<script src="/resources/template/lib/chart/chart.min.js"></script>
+	<script src="/resources/template/lib/easing/easing.min.js"></script>
+	<script src="/resources/template/lib/waypoints/waypoints.min.js"></script>
+	<script src="/resources/template/lib/owlcarousel/owl.carousel.min.js"></script>
+	<script src="/resources/template/lib/tempusdominus/js/moment.min.js"></script>
 	<script
-		src="../../resources/template/lib/owlcarousel/owl.carousel.min.js"></script>
+		src="/resources/template/lib/tempusdominus/js/moment-timezone.min.js"></script>
 	<script
-		src="../../resources/template/lib/tempusdominus/js/moment.min.js"></script>
-	<script
-		src="../../resources/template/lib/tempusdominus/js/moment-timezone.min.js"></script>
-	<script
-		src="../../resources/template/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+		src="/resources/template/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
 	<!-- Template Javascript -->
-	<script src="../../resources/template/js/main.js"></script>
+	<script src="/resources/template/js/main.js"></script>
 </body>
 
 </html>

@@ -6,7 +6,7 @@
 
 <head>
 <meta charset="utf-8">
-<title>사원 목록 : 피플윙</title>
+<title>관리자 추가 : 피플윙</title>
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 <meta content="" name="keywords">
 <meta content="" name="description">
@@ -105,78 +105,64 @@ body {
 
 
 			<!-- 본문 작성 (body start) -->
-			<div class="container-fluid pt-4 px-4">
-				<div class="col">
+			<form>
+				<div class="container-fluid pt-4 px-4">
 					<div class="bg-light rounded min-vh-100 p-4">
 						<div
 							class="d-flex align-items-center justify-content-between mb-4">
-							<h4>사원 목록</h4>
-							<button type="button" class="btn btn-primary">사원 추가</button>
+							<h4>관리자 등록</h4>
+							<button type="button" class="btn btn-primary">목록으로</button>
+						</div>
+						<!-- 회사 등록 요청 작업 / action, method, name -->
+
+						<label for="name" class="form-label">회사 이름</label>
+						<div class="d-flex mb-3">
+							<input type="text" class="form-control" name="name" id="name" disabled>
+							<button type="button" class="btn btn-dark ms-2 px-4 text-nowrap">찾기</button>
 						</div>
 
-
-						<div class="d-flex align-items-center justify-content-end mb-4">
-							<div class="d-flex w-25 justify-content-end">
-								<select class="form-select ms-2 w-50"
-									aria-label="Default select example">
-									<option value="1" selected>One</option>
-									<option value="2">Two</option>
-									<option value="3">Three</option>
-								</select>
-							</div>
-							<input type="text" class="form-control ms-2 w-25" name="name"
-								id="name" disabled>
-							<button type="button" class="btn btn-dark ms-2 px-4 text-nowrap">검색</button>
+						<div class="mb-3">
+							<label for="name" class="form-label">관리자 이름</label> <input
+								type="text" class="form-control" name="name" id="name">
 						</div>
 
-						<!-- 이 테이블에 데이터 뿌리기, 없으면 목록이 없다는 라벨 하나 보여줘야 함 -->
-						<table class="table table-striped">
-							<thead>
-								<tr>
-									<th scope="col">부서명</th>
-									<th scope="col">사원 이름</th>
-									<th scope="col">직급</th>
-									<th scope="col">전화번호</th>
-									<th scope="col">이메일</th>
-									<th scope="col">입사일</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>부서 1</td>
-									<td>사원 1</td>
-									<td>직급 1</td>
-									<td>010-0000-0000</td>
-									<td>example@example.com</td>
-									<td>2020-00-00</td>
-								</tr>
-								<tr>
-									<td>부서 1</td>
-									<td>사원 1</td>
-									<td>직급 1</td>
-									<td>010-0000-0000</td>
-									<td>example@example.com</td>
-									<td>2020-00-00</td>
-								</tr>
-							</tbody>
-						</table>
+						<div class="mb-3">
+							<label for="loginId" class="form-label">로그인 아이디</label> <input
+								type="text" class="form-control" name="loginId" id="loginId">
+						</div>
 
+						<div class="mb-3">
+							<label for="password" class="form-label">비밀번호</label> <input
+								type="password" class="form-control" name="password"
+								id="password">
+						</div>
+
+						<div class="mb-3">
+							<label for="passwordConfirm" class="form-label">비밀번호 확인</label> <input
+								type="password" class="form-control" name="passwordConfirm"
+								id="passwordConfirm">
+						</div>
+
+						<div class="mb-3">
+							<label for="phoneNumber" class="form-label">전화번호</label> <input
+								type="text" class="form-control" id="phoneNumber">
+						</div>
+
+						<div class="mb-3">
+							<label for="email" class="form-label">이메일</label> <input
+								type="text" class="form-control" id="email" name="email">
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="d-flex align-items-center justify-content-center">
-				<nav aria-label="Page navigation">
-					<ul class="pagination pt-3 pr-3">
-						<li class="page-item"><a class="page-link" href="#">이전</a></li>
-						<li class="page-item"><a class="page-link" href="#">1</a></li>
-						<li class="page-item"><a class="page-link" href="#">2</a></li>
-						<li class="page-item active"><a class="page-link" href="#">3</a></li>
-						<li class="page-item"><a class="page-link" href="#">4</a></li>
-						<li class="page-item"><a class="page-link" href="#">5</a></li>
-						<li class="page-item"><a class="page-link" href="#">다음</a></li>
-					</ul>
-				</nav>
-			</div>
+
+				<div class="container-fluid">
+					<div
+						class="d-flex bg-white rounded h-100 mt-3 mx-3 mb-3 justify-content-center">
+						<button type="submit" class="btn btn-primary h-50 w-25">등록</button>
+					</div>
+				</div>
+
+			</form>
 			<!-- 본문 끝 (body end) -->
 
 

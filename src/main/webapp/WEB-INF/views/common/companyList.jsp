@@ -34,17 +34,16 @@
 
 <!-- Libraries Stylesheet -->
 <link
-	href="../resources/template/lib/owlcarousel/assets/owl.carousel.min.css"
+	href="/resources/template/lib/owlcarousel/assets/owl.carousel.min.css"
 	rel="stylesheet">
-<link href="../resources/template/css/tempusdominus-bootstrap-4.min.css"
+<link href="/resources/template/css/tempusdominus-bootstrap-4.min.css"
 	rel="stylesheet" />
 
 <!-- Customized Bootstrap Stylesheet -->
-<link href="../resources/template/css/bootstrap.min.css"
-	rel="stylesheet">
+<link href="/resources/template/css/bootstrap.min.css" rel="stylesheet">
 
 <!-- Template Stylesheet -->
-<link href="../resources/template/css/style.css" rel="stylesheet">
+<link href="/resources/template/css/style.css" rel="stylesheet">
 
 <!-- 커스텀 스타일 -->
 <style>
@@ -90,7 +89,7 @@ body {
 
 
 		<!-- @@@ Menu Tab Include @@@ -->
-		<jsp:include page="../../../common_layout/menu_tab.jsp">
+		<jsp:include page="/common_layout/menu_tab.jsp">
 			<jsp:param name="menu_tab" value="menu_tab" />
 		</jsp:include>
 		<!-- @@@@@@@@@@@@@@@@@@@@@@@@ -->
@@ -99,7 +98,7 @@ body {
 		<div class="content">
 
 			<!-- @@@ Navigation Bar Include @@@ -->
-			<jsp:include page="../../../common_layout/nav_bar.jsp">
+			<jsp:include page="/common_layout/nav_bar.jsp">
 				<jsp:param name="nav_bar" value="nav_bar" />
 			</jsp:include>
 			<!-- @@@@@@@@@@@@@@@@@@@@@@@@ -->
@@ -108,11 +107,25 @@ body {
 			<!-- 본문 작성 (body start) -->
 			<div class="container-fluid pt-4 px-4">
 				<div class="col">
-					<div class="bg-light rounded h-100 p-4">
+					<div class="bg-light rounded min-vh-100 p-4">
 						<div
 							class="d-flex align-items-center justify-content-between mb-4">
 							<h4>회사 목록</h4>
 							<button type="button" class="btn btn-primary">회사 추가</button>
+						</div>
+
+						<div class="d-flex align-items-center justify-content-end mb-4">
+							<div class="d-flex w-25 justify-content-end">
+								<select class="form-select ms-2 w-50"
+									aria-label="Default select example">
+									<option value="1" selected>One</option>
+									<option value="2">Two</option>
+									<option value="3">Three</option>
+								</select>
+							</div>
+							<input type="text" class="form-control ms-2 w-25" name="name"
+								id="name" disabled>
+							<button type="button" class="btn btn-dark ms-2 px-4 text-nowrap">검색</button>
 						</div>
 						<!-- 이 테이블에 데이터 뿌리기, 없으면 목록이 없다는 라벨 하나 보여줘야 함 -->
 						<table class="table table-striped">
@@ -139,29 +152,28 @@ body {
 								</tr>
 							</tbody>
 						</table>
-						<div
-							class="d-flex align-items-center justify-content-center">
-							<nav aria-label="Page navigation">
-								<ul class="pagination pt-3 pr-3">
-									<li class="page-item"><a class="page-link" href="#">이전</a></li>
-									<li class="page-item"><a class="page-link" href="#">1</a></li>
-									<li class="page-item"><a class="page-link" href="#">2</a></li>
-									<li class="page-item active"><a class="page-link" href="#">3</a></li>
-									<li class="page-item"><a class="page-link" href="#">4</a></li>
-									<li class="page-item"><a class="page-link" href="#">5</a></li>
-									<li class="page-item"><a class="page-link" href="#">다음</a></li>
-								</ul>
-							</nav>
-						</div>
+
 					</div>
 				</div>
 			</div>
-
+			<div class="d-flex align-items-center justify-content-center">
+				<nav aria-label="Page navigation">
+					<ul class="pagination pt-3 pr-3">
+						<li class="page-item"><a class="page-link" href="#">이전</a></li>
+						<li class="page-item"><a class="page-link" href="#">1</a></li>
+						<li class="page-item"><a class="page-link" href="#">2</a></li>
+						<li class="page-item active"><a class="page-link" href="#">3</a></li>
+						<li class="page-item"><a class="page-link" href="#">4</a></li>
+						<li class="page-item"><a class="page-link" href="#">5</a></li>
+						<li class="page-item"><a class="page-link" href="#">다음</a></li>
+					</ul>
+				</nav>
+			</div>
 			<!-- 본문 끝 (body end) -->
 
 
 			<!-- @@@ Footer Include @@@ -->
-			<jsp:include page="../../../common_layout/footer.jsp">
+			<jsp:include page="/common_layout/footer.jsp">
 				<jsp:param name="footer" value="footer" />
 			</jsp:include>
 			<!-- @@@@@@@@@@@@@@@@@@@@@@@@ -->
@@ -178,18 +190,18 @@ body {
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="../resources/template/lib/chart/chart.min.js"></script>
-	<script src="../resources/template/lib/easing/easing.min.js"></script>
-	<script src="../resources/template/lib/waypoints/waypoints.min.js"></script>
-	<script src="../resources/template/lib/owlcarousel/owl.carousel.min.js"></script>
-	<script src="../resources/template/lib/tempusdominus/js/moment.min.js"></script>
+	<script src="/resources/template/lib/chart/chart.min.js"></script>
+	<script src="/resources/template/lib/easing/easing.min.js"></script>
+	<script src="/resources/template/lib/waypoints/waypoints.min.js"></script>
+	<script src="/resources/template/lib/owlcarousel/owl.carousel.min.js"></script>
+	<script src="/resources/template/lib/tempusdominus/js/moment.min.js"></script>
 	<script
-		src="../resources/template/lib/tempusdominus/js/moment-timezone.min.js"></script>
+		src="/resources/template/lib/tempusdominus/js/moment-timezone.min.js"></script>
 	<script
-		src="../resources/template/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+		src="/resources/template/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
 	<!-- Template Javascript -->
-	<script src="../resources/template/js/main.js"></script>
+	<script src="/resources/template/js/main.js"></script>
 </body>
 
 </html>
