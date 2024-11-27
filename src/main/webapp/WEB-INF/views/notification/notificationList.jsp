@@ -71,6 +71,28 @@ body {
 .ms-4 {
 	margin-top: 1rem;
 }
+
+/*뱃지 컬러 : 반려*/
+.bg-danger {
+	background-color: #F8D7DA !important;
+	color: #58151C;
+}
+
+/*뱃지 컬러 : 진행중*/
+.bg-success {
+	background-color: #D1E7DD !important;
+	color: #0A3622;
+}
+/*뱃지 컬러 : 결재 대기*/
+.bg-warning {
+	background-color: #FFF3CD !important;
+	color: #664D03;
+}
+/*뱃지 컬러 : 승인 완료*/
+.bg-info {
+	background-color: #CFF4FC !important;
+	color: #055160;
+}
 </style>
 
 </head>
@@ -130,12 +152,13 @@ body {
 						</div>
 
 						<!-- 이 테이블에 데이터 뿌리기, 없으면 목록이 없다는 라벨 하나 보여줘야 함 -->
-						<table class="table table-striped">
+						<table class="table table-hover">
 							<thead>
 								<tr>
 									<th scope="col">공지 번호</th>
 									<th scope="col">공지 제목</th>
 									<th scope="col">기간</th>
+									<th scope="col">상태</th>
 									<th scope="col">게시일</th>
 								</tr>
 							</thead>
@@ -143,22 +166,22 @@ body {
 								<tr>
 									<td>1</td>
 									<td>제목 1</td>
-									<td>2020-01-01 ~ 2021-01-01<span
-										class="badge bg-secondary ms-2">기간전</span></td>
+									<td>2020-01-01 ~ 2021-01-01</td>
+									<td><span class="badge bg-warning">기간전</span></td>
 									<td>2020-00-00</td>
 								</tr>
 								<tr>
 									<td>2</td>
 									<td>제목 2</td>
-									<td>2020-01-01 ~ 2021-01-01<span
-										class="badge bg-primary ms-2">진행중</span></td>
+									<td>2020-01-01 ~ 2021-01-01</td>
+									<td><span class="badge bg-success">진행중</span></td>
 									<td>2020-00-00</td>
 								</tr>
 								<tr>
 									<td>3</td>
 									<td>제목 3</td>
-									<td>2020-01-01 ~ 2021-01-01<span
-										class="badge bg-danger ms-2">종료</span></td>
+									<td>2020-01-01 ~ 2021-01-01</td>
+									<td><span class="badge bg-danger">종료</span></td>
 									<td>2020-00-00</td>
 								</tr>
 							</tbody>

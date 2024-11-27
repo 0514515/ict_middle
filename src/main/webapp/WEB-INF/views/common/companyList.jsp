@@ -128,7 +128,7 @@ body {
 							<button type="button" class="btn btn-dark ms-2 px-4 text-nowrap">검색</button>
 						</div>
 						<!-- 이 테이블에 데이터 뿌리기, 없으면 목록이 없다는 라벨 하나 보여줘야 함 -->
-						<table class="table table-striped">
+						<table class="table table table-hover">
 							<thead>
 								<tr>
 									<th scope="col">회사 번호</th>

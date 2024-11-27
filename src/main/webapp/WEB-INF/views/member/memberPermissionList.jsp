@@ -107,7 +107,7 @@ body {
 			<!-- 본문 작성 (body start) -->
 			<div class="container-fluid pt-4 px-4">
 				<div class="col">
-					<div class="bg-light rounded h-100 p-4">
+					<div class="bg-light rounded min-vh-100 p-4">
 						<div
 							class="d-flex align-items-center justify-content-between mb-4">
 							<h4>사원 권한 목록</h4>
@@ -127,7 +127,7 @@ body {
 							<button type="button" class="btn btn-dark ms-2 px-4 text-nowrap">검색</button>
 						</div>
 						<!-- 이 테이블에 데이터 뿌리기, 없으면 목록이 없다는 라벨 하나 보여줘야 함 -->
-						<table class="table table-striped">
+						<table class="table table table-hover">
 							<thead>
 								<tr>
 									<th><input type="checkbox" class="form-check-input"
@@ -145,7 +145,7 @@ body {
 									<td>부서 1</td>
 									<td>사원 1</td>
 									<td>직급 1</td>
-									<td><input class="form-control w-50"type="text"
+									<td><input class="form-control w-50" type="text"
 										placeholder="등급"></td>
 
 								</tr>
@@ -160,26 +160,26 @@ body {
 								</tr>
 							</tbody>
 						</table>
-						<div
-							class="d-grid gap-2 d-md-flex justify-content-md-end mx-4 my-4">
-							<button class="btn btn-primary" type="button">선택 수정</button>
-						</div>
-						<div class="d-flex align-items-center justify-content-center">
-							<nav aria-label="Page navigation">
-								<ul class="pagination pt-3 pr-3">
-									<li class="page-item"><a class="page-link" href="#">이전</a></li>
-									<li class="page-item"><a class="page-link" href="#">1</a></li>
-									<li class="page-item"><a class="page-link" href="#">2</a></li>
-									<li class="page-item active"><a class="page-link" href="#">3</a></li>
-									<li class="page-item"><a class="page-link" href="#">4</a></li>
-									<li class="page-item"><a class="page-link" href="#">5</a></li>
-									<li class="page-item"><a class="page-link" href="#">다음</a></li>
-								</ul>
-							</nav>
-						</div>
-						<!-- 버튼 -->
-						
+
+
+
 					</div>
+				</div>
+				<div class="d-grid gap-2 d-md-flex justify-content-md-end mx-4 my-4">
+					<button class="btn btn-primary" type="button">선택 수정</button>
+				</div>
+				<div class="d-flex align-items-center justify-content-center">
+					<nav aria-label="Page navigation">
+						<ul class="pagination pt-3 pr-3">
+							<li class="page-item"><a class="page-link" href="#">이전</a></li>
+							<li class="page-item"><a class="page-link" href="#">1</a></li>
+							<li class="page-item"><a class="page-link" href="#">2</a></li>
+							<li class="page-item active"><a class="page-link" href="#">3</a></li>
+							<li class="page-item"><a class="page-link" href="#">4</a></li>
+							<li class="page-item"><a class="page-link" href="#">5</a></li>
+							<li class="page-item"><a class="page-link" href="#">다음</a></li>
+						</ul>
+					</nav>
 				</div>
 			</div>
 

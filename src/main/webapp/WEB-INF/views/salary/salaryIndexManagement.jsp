@@ -6,7 +6,7 @@
 
 <head>
 <meta charset="utf-8">
-<title>관리자 목록 : 피플윙</title>
+<title>기본급 항목 관리 : 피플윙</title>
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 <meta content="" name="keywords">
 <meta content="" name="description">
@@ -71,6 +71,28 @@ body {
 .ms-4 {
 	margin-top: 1rem;
 }
+
+/*뱃지 컬러 : 반려*/
+.bg-danger {
+	background-color: #F8D7DA !important;
+	color: #58151C;
+}
+
+/*뱃지 컬러 : 진행중*/
+.bg-success {
+	background-color: #D1E7DD !important;
+	color: #0A3622;
+}
+/*뱃지 컬러 : 결재 대기*/
+.bg-warning {
+	background-color: #FFF3CD !important;
+	color: #664D03;
+}
+/*뱃지 컬러 : 승인 완료*/
+.bg-info {
+	background-color: #CFF4FC !important;
+	color: #055160;
+}
 </style>
 
 </head>
@@ -106,58 +128,99 @@ body {
 
 			<!-- 본문 작성 (body start) -->
 			<div class="container-fluid pt-4 px-4">
+				<div class="d-flex align-items-center justify-content-between mb-4">
+					<h4>기본급 항목 관리</h4>
+				</div>
 				<div class="col">
-					<div class="bg-light rounded min-vh-100 p-4">
-						<div
-							class="d-flex align-items-center justify-content-between mb-4">
-							<h4>관리자 목록</h4>
-							<button type="button" class="btn btn-primary">관리자 추가</button>
-						</div>
-						<div class="d-flex align-items-center justify-content-end mb-4">
-							<div class="d-flex w-25 justify-content-end">
-								<select class="form-select ms-2 w-50"
-									aria-label="Default select example">
-									<option value="1" selected>One</option>
-									<option value="2">Two</option>
-									<option value="3">Three</option>
-								</select>
+					<div class="bg-white rounded min-vh-100 p-4">
+
+						<div class="row min-vh-100">
+							<div class="col-sm-12 col-xl-6 bg-light">
+                        <div class="bg-light rounded h-100 p-4">
+                            <h6 class="mb-4">Hoverable Table</h6>
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">First Name</th>
+                                        <th scope="col">Last Name</th>
+                                        <th scope="col">Email</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>John</td>
+                                        <td>Doe</td>
+                                        <td>jhon@email.com</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">2</th>
+                                        <td>Mark</td>
+                                        <td>Otto</td>
+                                        <td>mark@email.com</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td>Jacob</td>
+                                        <td>Thornton</td>
+                                        <td>jacob@email.com</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>John</td>
+                                        <td>Doe</td>
+                                        <td>jhon@email.com</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">2</th>
+                                        <td>Mark</td>
+                                        <td>Otto</td>
+                                        <td>mark@email.com</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td>Jacob</td>
+                                        <td>Thornton</td>
+                                        <td>jacob@email.com</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>John</td>
+                                        <td>Doe</td>
+                                        <td>jhon@email.com</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">2</th>
+                                        <td>Mark</td>
+                                        <td>Otto</td>
+                                        <td>mark@email.com</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td>Jacob</td>
+                                        <td>Thornton</td>
+                                        <td>jacob@email.com</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+							<div class="col">
+								<div class="row h-50">
+									편집
+								</div>
+								<div class="row h-50">
+									사원목록
+								</div>
 							</div>
-							<input type="text" class="form-control ms-2 w-25" name="name"
-								id="name" disabled>
-							<button type="button" class="btn btn-dark ms-2 px-4 text-nowrap">검색</button>
 						</div>
-						<!-- 이 테이블에 데이터 뿌리기, 없으면 목록이 없다는 라벨 하나 보여줘야 함 -->
-						<table class="table table table-hover">
-							<thead>
-								<tr>
-									<th scope="col">관리자 번호</th>
-									<th scope="col">회사 번호</th>
-									<th scope="col">회사 이름</th>
-									<th scope="col">관리자 이름</th>
-									<th scope="col">관리자 생성일</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<th scope="row">1</th>
-									<td>3</td>
-									<td>회사1</td>
-									<td>Doe</td>
-									<td>2020-01-01</td>
-								</tr>
-								<tr>
-									<th scope="row">2</th>
-									<td>4</td>
-									<td>회사2</td>
-									<td>Otto</td>
-									<td>2020-01-01</td>
-								</tr>
-							</tbody>
-						</table>
 
 					</div>
 				</div>
 			</div>
+
 			<div class="d-flex align-items-center justify-content-center">
 				<nav aria-label="Page navigation">
 					<ul class="pagination pt-3 pr-3">
