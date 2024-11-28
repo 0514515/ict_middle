@@ -127,146 +127,151 @@ body {
 
 
 			<!-- 본문 작성 (body start) -->
-			<div class="container-fluid pt-4 px-4">
+			<div class="container container-fluid pt-4 px-4">
 				<div class="d-flex align-items-center justify-content-between mb-4">
 					<h4>기본급 항목 관리</h4>
 				</div>
 				<div class="col">
-					<div class="bg-white rounded min-vh-100 p-4">
+					<div class="bg-white rounded p-4">
 
-						<div class="row min-vh-100">
-							<div class="col-sm-12 col-xl-6 bg-light">
-                        <div class="bg-light rounded h-100 p-4">
-                            <h6 class="mb-4">Hoverable Table</h6>
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">First Name</th>
-                                        <th scope="col">Last Name</th>
-                                        <th scope="col">Email</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>John</td>
-                                        <td>Doe</td>
-                                        <td>jhon@email.com</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>mark@email.com</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                        <td>jacob@email.com</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>John</td>
-                                        <td>Doe</td>
-                                        <td>jhon@email.com</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>mark@email.com</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                        <td>jacob@email.com</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>John</td>
-                                        <td>Doe</td>
-                                        <td>jhon@email.com</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>mark@email.com</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                        <td>jacob@email.com</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-							<div class="col">
-								<div class="row h-50">
-									편집
-								</div>
-								<div class="row h-50">
-									사원목록
+						<div class="row">
+							<div class="col mb-3">
+								<div class="bg-light rounded p-4">
+									<h5 class="mb-4 text-center">선택 기본급 사원 목록</h5>
+									<div class="table-responsive" style="height: 550px">
+										<table class="table table-hover">
+											<thead>
+												<tr>
+													<th scope="col">#</th>
+													<th scope="col">First Name</th>
+													<th scope="col">Last Name</th>
+													<th scope="col">Email</th>
+												</tr>
+											</thead>
+											<tbody>
+
+												<tr>
+													<th scope="row">1</th>
+													<td>John</td>
+													<td>Doe</td>
+													<td>jhon@email.com</td>
+												</tr>
+												<tr>
+													<th scope="row">2</th>
+													<td>Mark</td>
+													<td>Otto</td>
+													<td>mark@email.com</td>
+												</tr>
+												
+											</tbody>
+										</table>
+									</div>
 								</div>
 							</div>
-						</div>
+							<div class="col">
+								<div class="bg-light rounded p-4 mb-2 justify-content-center">
+									<h5 class="mb-4 text-center">기본급 목록</h5>
+									<div class="row mb-3">
+										<label for="inputEmail3" class="col-sm-3 col-form-label fw-bold">이름</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control" id="inputEmail3">
+										</div>
+									</div>
+									<div class="row mb-3">
+										<label for="inputEmail3" class="col-sm-3 col-form-label fw-bold">금액 액수</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control" id="inputEmail3">
+										</div>
+									</div>
+								</div>
+								
+								<div class="row">
+									<div
+										class="d-flex rounded h-100 m-3 justify-content-center">
+										<div class="d-flex pe-2 justify-content-end h-50 w-25">
+											<button type="button" class="btn btn-primary w-75 text-nowrap">저장 ↓</button>
+										</div>
 
+										<div class="d-flex ps-2 justify-content-start h-50 w-25">
+											<button type="button" class="btn btn-danger  w-75 text-nowrap">삭제 ↑</button>
+										</div>
+
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col">
+										<div class="bg-light rounded p-4 mt-2 justify-content-center">
+											<h5 class="mb-4 text-center">기본급 편집</h5>
+											<div class="table-responsive" style="height: 260px">
+												<table class="table table-hover">
+													<thead>
+														<tr>
+															<th scope="col">#</th>
+															<th scope="col">First Name</th>
+															<th scope="col">Last Name</th>
+															<th scope="col">Email</th>
+														</tr>
+													</thead>
+													<tbody>
+
+														<tr>
+															<th scope="row">1</th>
+															<td>John</td>
+															<td>Doe</td>
+															<td>jhon@email.com</td>
+														</tr>
+														<tr>
+															<th scope="row">2</th>
+															<td>Mark</td>
+															<td>Otto</td>
+															<td>mark@email.com</td>
+														</tr>
+														
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
 					</div>
 				</div>
+				<!-- 본문 끝 (body end) -->
+
+
+				<!-- @@@ Footer Include @@@ -->
+				<jsp:include page="/common_layout/footer.jsp">
+					<jsp:param name="footer" value="footer" />
+				</jsp:include>
+				<!-- @@@@@@@@@@@@@@@@@@@@@@@@ -->
 			</div>
-
-			<div class="d-flex align-items-center justify-content-center">
-				<nav aria-label="Page navigation">
-					<ul class="pagination pt-3 pr-3">
-						<li class="page-item"><a class="page-link" href="#">이전</a></li>
-						<li class="page-item"><a class="page-link" href="#">1</a></li>
-						<li class="page-item"><a class="page-link" href="#">2</a></li>
-						<li class="page-item active"><a class="page-link" href="#">3</a></li>
-						<li class="page-item"><a class="page-link" href="#">4</a></li>
-						<li class="page-item"><a class="page-link" href="#">5</a></li>
-						<li class="page-item"><a class="page-link" href="#">다음</a></li>
-					</ul>
-				</nav>
-			</div>
-			<!-- 본문 끝 (body end) -->
+			<!-- Content End -->
 
 
-			<!-- @@@ Footer Include @@@ -->
-			<jsp:include page="/common_layout/footer.jsp">
-				<jsp:param name="footer" value="footer" />
-			</jsp:include>
-			<!-- @@@@@@@@@@@@@@@@@@@@@@@@ -->
+			<!-- Back to Top -->
+			<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i
+				class="bi bi-arrow-up"></i></a>
 		</div>
-		<!-- Content End -->
 
+		<!-- JavaScript Libraries -->
+		<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+		<script src="/resources/template/lib/chart/chart.min.js"></script>
+		<script src="/resources/template/lib/easing/easing.min.js"></script>
+		<script src="/resources/template/lib/waypoints/waypoints.min.js"></script>
+		<script src="/resources/template/lib/owlcarousel/owl.carousel.min.js"></script>
+		<script src="/resources/template/lib/tempusdominus/js/moment.min.js"></script>
+		<script
+			src="/resources/template/lib/tempusdominus/js/moment-timezone.min.js"></script>
+		<script
+			src="/resources/template/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
-		<!-- Back to Top -->
-		<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i
-			class="bi bi-arrow-up"></i></a>
-	</div>
-
-	<!-- JavaScript Libraries -->
-	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="/resources/template/lib/chart/chart.min.js"></script>
-	<script src="/resources/template/lib/easing/easing.min.js"></script>
-	<script src="/resources/template/lib/waypoints/waypoints.min.js"></script>
-	<script src="/resources/template/lib/owlcarousel/owl.carousel.min.js"></script>
-	<script src="/resources/template/lib/tempusdominus/js/moment.min.js"></script>
-	<script
-		src="/resources/template/lib/tempusdominus/js/moment-timezone.min.js"></script>
-	<script
-		src="/resources/template/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
-
-	<!-- Template Javascript -->
-	<script src="/resources/template/js/main.js"></script>
+		<!-- Template Javascript -->
+		<script src="/resources/template/js/main.js"></script>
 </body>
 
 </html>

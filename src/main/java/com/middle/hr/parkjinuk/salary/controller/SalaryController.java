@@ -14,7 +14,7 @@ public class SalaryController {
 	
 	// 사원 기본급 설정 페이지
 	@GetMapping("salary/base")
-	public String getSalaryManagement() {
-		return "salary/salaryManagement";
+	public String getSalarySettingList() {
+		return "salary/salarySettingList";
 	}
 }
