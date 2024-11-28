@@ -6,7 +6,7 @@
 
 <head>
 <meta charset="utf-8">
-<title>사원 목록 : 피플윙</title>
+<title>사원 기본급 설정 : 피플윙</title>
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 <meta content="" name="keywords">
 <meta content="" name="description">
@@ -107,7 +107,7 @@ body {
 			<!-- 본문 작성 (body start) -->
 			<div class="container container-fluid pt-4 px-4">
 				<div class="d-flex align-items-center justify-content-between mb-4">
-					<h4>사원 목록</h4>
+					<h4>사원 기본급 설정</h4>
 				</div>
 
 				<div class="col p-4">
@@ -131,30 +131,39 @@ body {
 							<table class="table table table-hover">
 								<thead>
 									<tr>
-										<th scope="col">부서명</th>
+										<th><input type="checkbox" class="form-check-input"
+											id="exampleCheck1"></th>
 										<th scope="col">사원 이름</th>
-										<th scope="col">직급</th>
-										<th scope="col">전화번호</th>
-										<th scope="col">이메일</th>
-										<th scope="col">입사일</th>
+										<th scope="col">기본급 액수</th>
+										<th scope="col">기본급</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td>부서 1</td>
+									<tr class="align-middle">
+										<td><input type="checkbox" class="form-check-input"
+											id="exampleCheck1"></td>
 										<td>사원 1</td>
-										<td>직급 1</td>
-										<td>010-0000-0000</td>
-										<td>example@example.com</td>
-										<td>2020-00-00</td>
+										<td>2,300,000원</td>
+										<td><select class="form-select w-50"
+											aria-label="Default select example">
+												<option selected="">Open this select menu</option>
+												<option value="1">One</option>
+												<option value="2">Two</option>
+												<option value="3">Three</option>
+										</select></td>
 									</tr>
-									<tr>
-										<td>부서 1</td>
+									<tr class="align-middle">
+										<td><input type="checkbox" class="form-check-input"
+											id="exampleCheck1"></td>
 										<td>사원 1</td>
-										<td>직급 1</td>
-										<td>010-0000-0000</td>
-										<td>example@example.com</td>
-										<td>2020-00-00</td>
+										<td>2,100,000원</td>
+										<td><select class="form-select w-50"
+											aria-label="Default select example">
+												<option selected="">Open this select menu</option>
+												<option value="1">One</option>
+												<option value="2">Two</option>
+												<option value="3">Three</option>
+										</select></td>
 									</tr>
 								</tbody>
 							</table>
@@ -174,6 +183,21 @@ body {
 						<li class="page-item"><a class="page-link" href="#">다음</a></li>
 					</ul>
 				</nav>
+			</div>
+
+			<div class="row">
+				<div class="d-flex rounded h-100 m-3 justify-content-center">
+					<div class="d-flex pe-2 justify-content-end h-50 w-25">
+						<button type="button" class="btn btn-primary w-75 text-nowrap">저장
+						</button>
+					</div>
+
+					<div class="d-flex ps-2 justify-content-start h-50 w-25">
+						<button type="button" class="btn btn-secondary  w-75 text-nowrap">선택
+							취소</button>
+					</div>
+
+				</div>
 			</div>
 			<!-- 본문 끝 (body end) -->
 

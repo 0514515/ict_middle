@@ -17,4 +17,10 @@ public class SalaryController {
 	public String getSalarySettingList() {
 		return "salary/salarySettingList";
 	}
+	
+	// 수당 관리 페이지
+	@GetMapping("commission")
+	public String getCommissinManagement() {
+		return "commission/commissionManagement";
+	}
 }
