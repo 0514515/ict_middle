@@ -143,26 +143,28 @@ body {
 											<div class="table-responsive" style="height: 550px">
 												<table class="table table-hover">
 													<thead>
-														<tr>
-															<th scope="col">#</th>
-															<th scope="col">First Name</th>
-															<th scope="col">Last Name</th>
-															<th scope="col">Email</th>
+														<tr class="align-middle">
+															<th scope="col"><input type="checkbox"
+																class="form-check-input" id="exampleCheck1"></th>
+															<th scope="col">추가수당 이름</th>
+															<th scope="col">기본 액수</th>
 														</tr>
 													</thead>
 													<tbody>
 
-														<tr>
-															<th scope="row">1</th>
+														<tr class="align-middle">
+															<th><input type="checkbox" class="form-check-input"
+																id="exampleCheck1"></th>
 															<td>John</td>
-															<td>Doe</td>
-															<td>jhon@email.com</td>
+															<td class="w-50"><input class="form-control"
+																type="text" placeholder="등급"></td>
 														</tr>
-														<tr>
-															<th scope="row">2</th>
+														<tr class="align-middle">
+															<th><input type="checkbox" class="form-check-input"
+																id="exampleCheck1"></th>
 															<td>Mark</td>
-															<td>Otto</td>
-															<td>mark@email.com</td>
+															<td class="w-50"><input class="form-control"
+																type="text" placeholder="등급"></td>
 														</tr>
 
 													</tbody>
@@ -182,19 +184,21 @@ body {
 										</div>
 
 										<div class="d-flex px-1 justify-content-start h-50 ">
-											<button type="button" class="btn btn-danger text-nowrap">선택
-												삭제</button>
+											<button type="button"
+												class="btn btn-outline-primary text-nowrap">선택 삭제</button>
 										</div>
 									</div>
 								</div>
 							</div>
 
-								<div class="col-sm-1 d-flex align-items-center justify-contet-center">
-									<div class="row d-flex justify-content-center">
-										<button type="button" class="btn btn-primary w-75">
-											사원 조회 <br> →</button>
-									</div>
+							<div
+								class="col-sm-1 d-flex align-items-center justify-contet-center">
+								<div class="col d-flex justify-content-center">
+									<button type="button" class="btn btn-primary">
+										조회<br> →
+									</button>
 								</div>
+							</div>
 
 							<div class="col">
 								<div class="row">
@@ -204,26 +208,28 @@ body {
 											<div class="table-responsive" style="height: 550px">
 												<table class="table table-hover">
 													<thead>
-														<tr>
-															<th scope="col">#</th>
-															<th scope="col">First Name</th>
-															<th scope="col">Last Name</th>
-															<th scope="col">Email</th>
+														<tr class="align-middle">
+															<th scope="col">사원 이름</th>
+															<th scope="col">추가수당 이름</th>
+															<th scope="col">금액</th>
+															<th scope="col">기본액수</th>
 														</tr>
 													</thead>
 													<tbody>
 
-														<tr>
-															<th scope="row">1</th>
-															<td>John</td>
-															<td>Doe</td>
-															<td>jhon@email.com</td>
+														<tr class="align-middle">
+															<td>홍길동</td>
+															<td>식대</td>
+															<td>200,000원</td>
+															<td scope="col"><input type="checkbox"
+																class="form-check-input" id="exampleCheck1"></td>
 														</tr>
-														<tr>
-															<th scope="row">2</th>
-															<td>Mark</td>
-															<td>Otto</td>
-															<td>mark@email.com</td>
+														<tr class="align-middle">
+															<td>김길동</td>
+															<td>식대</td>
+															<td>200,000원</td>
+															<td scope="col"><input type="checkbox"
+																class="form-check-input" id="exampleCheck1"></td>
 														</tr>
 
 													</tbody>
@@ -235,8 +241,9 @@ body {
 								<div class="row">
 									<div class="d-flex rounded h-100 mt-3 justify-content-center">
 										<div class="d-flex pe-2 justify-content-end h-50 w-25">
-											<button type="button"
-												class="btn btn-primary text-nowrap">수당 지급 추가</button>
+											<button type="button" class="btn btn-primary text-nowrap"
+												data-bs-toggle="modal" data-bs-target="#exampleModal">수당
+												지급 추가</button>
 										</div>
 									</div>
 								</div>
@@ -253,6 +260,110 @@ body {
 					<jsp:param name="footer" value="footer" />
 				</jsp:include>
 				<!-- @@@@@@@@@@@@@@@@@@@@@@@@ -->
+			</div>
+
+			<!-- Modal -->
+			<div class="modal fade" id="exampleModal" tabindex="-1"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-xl">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<div class="row">
+								<div class="col">
+									<div class="bg-light rounded p-4">
+										<h5 class="mb-4 text-center">수당 목록</h5>
+										<div class="table-responsive" style="height: 550px">
+											<table class="table table-hover">
+												<thead>
+													<tr class="align-middle">
+														<th scope="col"><input type="checkbox"
+															class="form-check-input" id="exampleCheck1"></th>
+														<th scope="col">추가수당 이름</th>
+														<th scope="col">기본 액수</th>
+													</tr>
+												</thead>
+												<tbody>
+
+													<tr class="align-middle">
+														<th><input type="checkbox" class="form-check-input"
+															id="exampleCheck1"></th>
+														<td>John</td>
+														<td class="w-50"><input class="form-control"
+															type="text" placeholder="등급"></td>
+													</tr>
+													<tr class="align-middle">
+														<th><input type="checkbox" class="form-check-input"
+															id="exampleCheck1"></th>
+														<td>Mark</td>
+														<td class="w-50"><input class="form-control"
+															type="text" placeholder="등급"></td>
+													</tr>
+
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+								<div
+									class="col-sm-1 d-flex align-items-center justify-contet-center">
+									<div class="col d-flex justify-content-center">
+										<button type="button" class="btn btn-primary">
+											조회<br> →
+										</button>
+									</div>
+								</div>
+								<div class="col">
+									<div class="bg-light rounded p-4 justify-content-center">
+										<h5 class="mb-4 text-center">수당 지급 사원 목록</h5>
+										<div class="table-responsive" style="height: 550px">
+											<table class="table table-hover">
+												<thead>
+													<tr class="align-middle">
+														<th scope="col">사원 이름</th>
+														<th scope="col">추가수당 이름</th>
+														<th scope="col">금액</th>
+														<th scope="col">기본액수</th>
+													</tr>
+												</thead>
+												<tbody>
+
+													<tr class="align-middle">
+														<td>홍길동</td>
+														<td>식대</td>
+														<td>200,000원</td>
+														<td scope="col"><input type="checkbox"
+															class="form-check-input" id="exampleCheck1"></td>
+													</tr>
+													<tr class="align-middle">
+														<td>김길동</td>
+														<td>식대</td>
+														<td>200,000원</td>
+														<td scope="col"><input type="checkbox"
+															class="form-check-input" id="exampleCheck1"></td>
+													</tr>
+
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="modal-footer">
+							<div class="mx-auto">
+								<button type="button" class="btn btn-primary">저장</button>
+								<button type="button" class="btn btn-secondary"
+									data-bs-dismiss="modal">닫기</button>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 			<!-- Content End -->
 
