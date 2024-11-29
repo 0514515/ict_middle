@@ -1,6 +1,6 @@
 (function ($) {
     "use strict";
-
+    
     // Spinner
     var spinner = function () {
         setTimeout(function () {
@@ -40,6 +40,7 @@
         });
     }, {offset: '80%'});
 
+    
 
     // Calender
     $('#calender').datetimepicker({
@@ -202,6 +203,6 @@
         }
     });
 
-    
+
 })(jQuery);
 

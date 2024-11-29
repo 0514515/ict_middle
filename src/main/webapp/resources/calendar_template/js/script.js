@@ -6,9 +6,9 @@ document.addEventListener('DOMContentLoaded', function () {
  
   const calendar = new FullCalendar.Calendar(calendarEl, {
     header: {
-      left: 'title',     // fc-center의 header를 fc-left로 옮김 (제목)
-      center: '',        // fc-center 비워두기
-      right: 'prev,next', // fc-left에 있던 버튼들을 fc-right로 옮김
+      left: '',     // fc-center의 header를 fc-left로 옮김 (제목)
+      center: 'prev, title, next',        // fc-center 비워두기
+      right: '', // fc-left에 있던 버튼들을 fc-right로 옮김
     },
     plugins: ['dayGrid', 'interaction'],
     allDay: false,
@@ -128,7 +128,8 @@ document.addEventListener('DOMContentLoaded', function () {
       myEvents.splice(eventIndex, 1, updatedEvent); // Replace old event data with updated event data
       localStorage.setItem('events', JSON.stringify(myEvents));
       console.log(updatedEvent);
-    }*/
+=======
+    }*/  
   });
 
   calendar.on('select', function(info) {
@@ -143,7 +144,26 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   calendar.render();
+  
+  // class가 fc-left인 <div>에 width: 265px을 추가
+  const fcLeftEl = document.querySelector('.fc-left');
+  if (fcLeftEl) {
+    fcLeftEl.style.width = '265px';
+  }
 
+  // 휴가신청 버튼을 툴바에 추가
+  const toolbarEl = document.querySelector('.fc-toolbar.fc-header-toolbar');
+  if (toolbarEl) {
+    const vacationButton = document.createElement('button');
+    vacationButton.type = 'button';
+    vacationButton.classList.add('btn', 'btn-primary');
+    vacationButton.textContent = '휴가신청';
+    vacationButton.addEventListener('click', function() {
+      // 버튼 클릭 시 실행할 동작을 정의
+     // myModal.show();
+    });
+    toolbarEl.appendChild(vacationButton); // 버튼을 툴바에 추가
+  }
   const form = document.querySelector('form');
 
   form.addEventListener('submit', function(event) {
@@ -157,7 +177,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const endDateFormatted = moment(endDate, 'YYYY-MM-DD').add(1, 'day').format('YYYY-MM-DD');
     const eventId = uuidv4();
 
-    console.log(eventId);
 
     if (endDateFormatted <= startDate) { // add if statement to check end date
       dangerAlert.style.display = 'block';
