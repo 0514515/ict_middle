@@ -6,7 +6,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>출/퇴근 정정</title>
+    <title>휴가 신청 내역</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -66,23 +66,9 @@
     <!-- 개인 커스텀 -->
     <style>
        
-       .card-header{
-          text-align:center;
-       }
-       .card-text{
-          text-align:center;
-       }
-       .card-text span:nth-child(1){
-          font-size:4rem;
-       }
-       .card-text span:nth-child(2){
-          font-size:3rem;
-       }
-       
        table{
           text-align:center; 
        }
-       
        
        /*뱃지 컬러 : 반려*/
        .bg-danger{
@@ -106,25 +92,8 @@
           	color:#055160;
        }
        
-       .mb-3 > h4 {
-       	  	color: #14A4FF;
-       }
-       
-       .mb-3 > h4 > span {
-       		font-size:smaller;
-       }
-       
-       .card {
-       	margin : 0 auto;
-       }
-       
-       .card-header {
-		    font-weight: bold;
-		    font-size: larger;
-		    color: #191C24;
-		}
+       /* 모달 커스텀 */
 		
-		/* 모달 커스텀 */
 		#modal {
 			text-align : center;
 			position: fixed;
@@ -215,6 +184,8 @@
 		    color: #191C24;
 		}
 		
+		/* 모달 커스텀 끝 */
+       
     </style>
     
 </head>
@@ -248,8 +219,9 @@
          
          
    <!-- 본문 작성 (body start) -->
-         
-      <!-- 정정 요청 모달 팝업 시작 -->
+   
+   
+         <!-- 휴가 생성 모달 팝업 시작 -->
       
 	     <div class="modal" id="modal" tabindex="-1">
 			<div class="modal-dialog">
@@ -317,159 +289,114 @@
 		 </div>
 
         <!-- 모달 팝업 끝-->
-         
-         
-         <!-- 본문 여백 -->
-         <div class="container container-fluid pt-4 px-4">
-         
-         <div class="mx-4 my-4">   
-            <h4>출 / 퇴근 현황</h4>
-         </div>
-            
-         <div class="mx-4 my-4">
-            <div class="row row-cols-1 row-cols-md-3 g-3">
-              <div class="col">
-                <div class="card border-primary mb-3 " style="max-width: 18rem;">
-                 <div class="card-header">근태 이상</div>
-                 <div class="card-body text-primary">
-                   <p class="card-text"><span>3</span><span>건</span></p>
-                 </div>
-               </div>
-              </div>
-              <div class="col">
-                 <div class="card border-primary mb-3 " style="max-width: 18rem;">
-                 <div class="card-header">결재 대기</div>
-                 <div class="card-body text-primary">
-                   <p class="card-text"><span>3</span><span>건</span></p>
-                 </div>
-               </div>
-              </div>
-              <div class="col">
-                 <div class="card border-primary mb-3 " style="max-width: 18rem;">
-                 <div class="card-header">승인 완료</div>
-                 <div class="card-body text-primary">
-                   <p class="card-text"><span>3</span><span>건</span></p>
-                 </div>
-               </div>
-              </div>
-            </div>
-           </div>
-           
-         <!-- 테이블 명 -->        
-         <div class="mx-4 mb-3">   
-            <h4>정준하님의 &nbsp<span> 2024-11-01~2024-11-30 출/퇴근 기록</span></h4>
-         </div>
-            
+       
+         <div class="container container-fluid pt-4 px-4">           
+	         <div class="d-flex align-items-center justify-content-between mx-4 my-4">   	
+            	<h4>휴가 신청 내역</h4>
+            	<button type="button" class="list_btn btn btn-primary">휴가신청</button>
+	         </div>      
          <!-- 테이블 시작 -->
-         <div class="mx-4 my-4">
-            <table class="table table-hover">
-                 <tr>
-                    <th class="table-light">일자</th>
-                    <th class="table-light">출근시간</th>
-                    <th class="table-light">퇴근시간</th>
-                    <th class="table-light">근무시간</th>
-                    <th class="table-light">근태이상</th>
-                    <th class="table-light">진행상태</th>
-                 </tr>
-                 <tr data-toggle="modal" data-target="#modal">
-                    <td>2024-11-19</td>
-                    <td>08:51:11</td>
-                    <td>18:12:45</td>
-                    <td>09h</td>
-                    <td></td>
-                    <td></td>
-                 </tr>
-                 <tr>
-                    <td>2024-11-18</td>
-                    <td>10:55:27</td>
-                    <td>18:01:46</td>
-                    <td>06h</td>
-                    <td><span class="badge bg-danger">근태이상</span></td>
-                    <td></td>
-                 </tr> 
-                 <tr>
-                    <td>2024-11-17</td>
-                    <td>09:00:00</td>
-                    <td>18:00:00</td>
-                    <td>09h</td>
-                    <td></td>
-                    <td><span class="badge bg-info">승인완료</span></td>
-                 </tr>
-                 <tr>
-                    <td>2024-11-16</td>
-                    <td>08:54:12</td>
-                    <td>18:11:57</td>
-                    <td>09h</td>
-                    <td></td>
-                    <td></td>
-                 </tr>
-                 <tr>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                 </tr>
-                 <tr>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                 </tr>
-                 <tr>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                 </tr>
-                 <tr>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                 </tr>
-                 <tr>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                 </tr>
-                 <tr>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                 </tr>
-            </table>
-            </div>
-            
-            <!-- 페이징 버튼 -->
-            <div class="d-flex align-items-center justify-content-center">
-                     <nav aria-label="Page navigation">
-                        <ul class="pagination pt-3 pr-3">
-                           <li class="page-item"><a class="page-link" href="#">이전</a></li>
-                           <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                           <li class="page-item"><a class="page-link" href="#">2</a></li>
-                           <li class="page-item"><a class="page-link" href="#">3</a></li>
-                           <li class="page-item"><a class="page-link" href="#">4</a></li>
-                           <li class="page-item"><a class="page-link" href="#">5</a></li>
-                           <li class="page-item"><a class="page-link" href="#">다음</a></li>
-                        </ul>
-                     </nav>
-                 </div>
+
+ 
+	         <div class="mx-4 my-4">
+	            <table class="table table-hover">
+	                 <tr>
+	                    <th class="table-light">휴가종류</th>
+	                    <th class="table-light">신청일자</th>                    
+	                    <th class="table-light">처리일자</th>
+	                    <th class="table-light">승인자</th>
+	                    <th class="table-light">진행상태</th>
+	                 </tr>
+	                 <tr>
+	                    <th>연차</th>
+	                    <td>2024-11-20</td>
+	                    <td>2024-11-20</td>
+	                    <td>이동욱</td>
+	                    <td><span class="badge bg-warning text-dark">결재대기</span></td>
+	                 </tr>
+	                 <tr>
+	                    <th>반차</th>
+	                    <td>2024-08-13</td>
+	                    <td>-</td>
+	                    <td>이동욱</td>
+	                    <td><span class="badge bg-danger">반려</span></td>
+	                 </tr> 
+	                 <tr>
+	                    <th>반반차</th>
+	                    <td>2024-07-28</td>
+	                    <td>2024-07-28</td>
+	                    <td>이동욱</td>
+	                    <td><span class="badge bg-info">승인완료</span></td>
+	                 </tr>
+	                 <tr>
+	                 	<th>반반차</th>
+	                    <td>2024-07-11</td>
+	                    <td>-</td>
+	                    <td>이동욱</td>
+	                    <td><span class="badge bg-danger">반려</span></td>
+	                 </tr>
+	                 <tr>
+	                    <td>test</td>
+	                    <td>test</td>
+	                    <td>test</td>
+	                    <td>test</td>
+	                    <td>test</td>
+	                 </tr>
+	                 <tr>
+	                    <td>test</td>
+	                    <td>test</td>
+	                    <td>test</td>
+	                    <td>test</td>
+	                    <td>test</td>
+	                 </tr>
+	                 <tr>
+	                    <td>test</td>
+	                    <td>test</td>
+	                    <td>test</td>
+	                    <td>test</td>
+	                    <td>test</td>
+	                 </tr>
+	                 <tr>
+	                    <td>test</td>
+	                    <td>test</td>
+	                    <td>test</td>
+	                    <td>test</td>
+	                    <td>test</td>
+	                 </tr>
+	                 <tr>
+	                    <td>test</td>
+	                    <td>test</td>
+	                    <td>test</td>
+	                    <td>test</td>
+	                    <td>test</td>
+	                 </tr>
+	                 <tr>
+	                    <td>test</td>
+	                    <td>test</td>
+	                    <td>test</td>
+	                    <td>test</td>
+	                    <td>test</td>
+	                 </tr>
+	            </table>
+	            </div>
+	            
+	            <!-- 페이징 버튼 -->
+	            <div class="d-flex align-items-center justify-content-center">
+	                     <nav aria-label="Page navigation">
+	                        <ul class="pagination pt-3 pr-3">
+	                           <li class="page-item"><a class="page-link" href="#">이전</a></li>
+	                           <li class="page-item active"><a class="page-link" href="#">1</a></li>
+	                           <li class="page-item"><a class="page-link" href="#">2</a></li>
+	                           <li class="page-item"><a class="page-link" href="#">3</a></li>
+	                           <li class="page-item"><a class="page-link" href="#">4</a></li>
+	                           <li class="page-item"><a class="page-link" href="#">5</a></li>
+	                           <li class="page-item"><a class="page-link" href="#">다음</a></li>
+	                        </ul>
+	                     </nav>
+	                 </div>
+	                 
          </div> <!-- end of class = container-fluid -->
-         
+   
          <!-- 본문 끝 (body end) -->
 
 
@@ -499,7 +426,7 @@
 
     <!-- Template Javascript -->
     <script src="/resources/template/js/main.js" type="text/javascript"></script>
-    <script src="/resources/attendence/js/modify.js" type="text/javascript"></script>
+    <script src="/resources/attendence/js/list.js" type="text/javascript"></script>
 </body>
 
 </html>

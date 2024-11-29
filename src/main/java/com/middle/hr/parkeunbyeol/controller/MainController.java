@@ -11,10 +11,6 @@ public class MainController {
 		return "attendence/attendenceMain";
 	}
 	
-	@GetMapping("attendence/record")
-	public String attendenceRecord() {
-		return "attendence/attendenceRecord";
-	}
 
 	@GetMapping("attendence/modify")
 	public String attendenceModify() {
@@ -25,5 +21,18 @@ public class MainController {
 	public String attendenceHoliday() {
 		return "attendence/attendenceHoliday";
 	}
+	
+	@GetMapping("attendence/list")
+	public String attendenceList() {
+		return "attendence/attendenceList";
+	}
+	
+	
+	@GetMapping("management/request")
+	public String managementRequest() {
+		return "attendence/managementRequest";
+	}
+	
+	
 	
 }

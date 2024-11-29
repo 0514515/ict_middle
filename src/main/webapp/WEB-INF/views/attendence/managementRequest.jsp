@@ -6,7 +6,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>출/퇴근현황</title>
+    <title>관리자-근태/휴가관리</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -78,9 +78,12 @@
        .card-text span:nth-child(2){
           font-size:3rem;
        }
+       
        table{
           text-align:center; 
        }
+       
+       
        /*뱃지 컬러 : 반려*/
        .bg-danger{
           background-color:#F8D7DA !important;
@@ -120,7 +123,98 @@
 		    font-size: larger;
 		    color: #191C24;
 		}
+		
+		/* 모달 커스텀 */
+		#modal {
+			text-align : center;
+			position: fixed;
+			left: 50%;
+			top: 55%;
+			transform: translate(-50%, -50%);
+		}
+
+		.modal-title {
+			color :  #009CFF;
+		}
+		
+		.modal table {
+			color: #191C24;
        
+       }
+       
+		
+		.modal-body {
+		    padding: 2rem;
+		}
+		
+		.modal-dialog {
+			display : inline-block;
+			text-align : left;
+			font-size : 0.9em;
+			vertical-align : middle;
+			width : 80%;
+			height : auto;
+			margin : 0;
+			padding : 0;
+		}
+		
+		.modal-content {
+			heigh : auto;
+			min-height : 100%;
+			border-radius : 10px;
+			border: 2px solid #009CFF;
+		}
+		
+		@media screen and (min-width: 78px) {
+			#modal : before {
+				display : inline-block;
+				vertical-align : middle;
+				content: " ";
+				height: 50%;
+			}
+		}
+		
+		.modal-footer {
+		    justify-content: center;
+		} 
+
+
+		.modal-body tr th {
+		 	width:40%;
+		 	padding: .3rem .3rem;
+		}
+		
+		.modal-body tr td {
+		 	padding: .3rem .3rem;
+		}
+
+		/* 요청 후 출퇴근 시간 간격 */
+		.modal-body .d-flex {
+			border: 1px solid rgba(0, 0, 0, 0.2);
+    		padding: 15px;
+		}
+		
+		.form-control{
+			margin-bottom: 1rem;		
+		}
+		
+		.modal-body table:nth-child(3) td input {
+			border: 1px solid #000;
+		    padding: 0px 15px;
+		}
+		
+		.cs-form .form-control{
+			padding : 0px;
+			margin-bottom : 0px;
+		}
+		
+		label {
+		    display: inline-block;
+		    font-size: 15px;
+		    font-weight: 600;
+		    color: #191C24;
+		}
+		
     </style>
     
 </head>
@@ -155,132 +249,194 @@
          
    <!-- 본문 작성 (body start) -->
          
-         <!-- 본문 여백 -->
+         <!-- 정정 요청 모달 팝업 시작 -->
+	     <div class="modal" id="modal" tabindex="-1">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+			        	<h5 class="modal-title">출/퇴근 정정요청서</h5>
+			       		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			     	</div>
+			      	<div class="modal-body">
+				      	<h6>요청자 정보</h6>
+			          	  <table class="table table-bordered">
+			          	  		<tr>
+			          	  			<th>요청자</th><td>정준하 과장</td>
+			          	  		</tr>
+								 <tr>
+			          	  			<th>근무일</th><td>2024-11-20</td>
+			          	  		</tr>
+						  </table>
+						  <h6>요청 전</h6>
+			          	  <table class="table table-bordered md-3">
+			          	  		<tr>
+			          	  			<th>출근 시간</th><td>10:55:27</td>
+			          	  		</tr>
+								 <tr>
+			          	  			<th>퇴근 시간</th><td>18:01:54</td>
+			          	  		</tr>
+						  </table>
+						 <h6>요청 후</h6>
+			          	 <table class="table table-bordered md-3">
+			          	 	<tr>
+			          	  		<th>출근 시간</th><td>기안자의선택시간</td>
+			          	  	</tr>
+								<tr>
+			          	  			<th>퇴근 시간</th><td>기안자의선택시간</td>
+			          	  		</tr>
+						 </table>	       	          	  
+						 <h6>승인자 정보</h6>
+			          	 <table class="table table-bordered">
+			          	 	<tr>
+	          	  				<th>승인권자</th><td>이동욱 인사 담당자</td>
+			          	  	</tr>	          	  			
+						 </table>
+						 <div>
+						 	<h6>사유</h6>
+			          	 		<table class="table table-bordered md-3">
+			          	  			<tr>
+			          	  				<th>내용</th><td>기안자가 작성한 내용</td>
+			          	  			</tr>
+						  		</table>	
+		    	  		 </div>
+		    	  		 <div>
+		    	  		 <h6>증빙 서류</h6>
+			    	  		 <table class="table table-bordered md-3">
+			    	  		 	<tr>
+					          		<th>파일</th><td>기안자가 올린 파일</td>
+					          	</tr>
+							 </table>
+						 </div>
+			     	</div> <!--  end of modal body -->
+			      	<div class="modal-footer">
+			        	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+			        	<button type="button" class="btn btn-primary">승인</button>
+			      	</div>
+			    </div>
+			 </div>
+		 </div>
+
+         <!-- 모달 팝업 끝-->
+         
+         
+		<!-- 본문 여백 -->
          <div class="container container-fluid pt-4 px-4">
          
          <div class="mx-4 my-4">   
-            <h4>출 / 퇴근 현황</h4>
+            <h4>근태/휴가 관리</h4>
          </div>
             
          <div class="mx-4 my-4">
-            <div class="row row-cols-1 row-cols-md-3 g-3">
+            <div class="row row-cols-1 row-cols-md-4 g-4">
               <div class="col">
-                <div class="card border-primary mb-3 " style="max-width: 18rem;">
-                 <div class="card-header">근태 이상</div>
+                <div class="card border-primary mb-4 " style="max-width: 18rem;">
+                 <div class="card-header">근태 정정</div>
                  <div class="card-body text-primary">
-                   <p class="card-text"><span>3</span><span>건</span></p>
+                   <p class="card-text"><span>1</span><span>건</span></p>
                  </div>
                </div>
               </div>
               <div class="col">
-                 <div class="card border-primary mb-3 " style="max-width: 18rem;">
+                 <div class="card border-primary mb-4 " style="max-width: 18rem;">
+                 <div class="card-header">휴가 신청</div>
+                 <div class="card-body text-primary">
+                   <p class="card-text"><span>1</span><span>건</span></p>
+                 </div>
+               </div>
+              </div>
+              <div class="col">
+                 <div class="card border-primary mb-4 " style="max-width: 18rem;">
                  <div class="card-header">결재 대기</div>
                  <div class="card-body text-primary">
-                   <p class="card-text"><span>3</span><span>건</span></p>
+                   <p class="card-text"><span>2</span><span>건</span></p>
                  </div>
                </div>
               </div>
               <div class="col">
-                 <div class="card border-primary mb-3 " style="max-width: 18rem;">
+                 <div class="card border-primary mb-4 " style="max-width: 18rem;">
                  <div class="card-header">승인 완료</div>
                  <div class="card-body text-primary">
-                   <p class="card-text"><span>3</span><span>건</span></p>
+                   <p class="card-text"><span>6</span><span>건</span></p>
                  </div>
                </div>
               </div>
             </div>
            </div>
          
-         <!-- 테이블 명 -->        
-         <div class="mx-4 mb-3">   
-            <h4>정준하님의 &nbsp<span> 2024-11-01~2024-11-30 출/퇴근 기록</span></h4>
-         </div>
-            
          <!-- 테이블 시작 -->
          <div class="mx-4 my-4">
             <table class="table table-hover">
                  <tr>
-                    <th class="table-light">일자</th>
-                    <th class="table-light">출근시간</th>
-                    <th class="table-light">퇴근시간</th>
-                    <th class="table-light">근무시간</th>
-                    <th class="table-light">근태이상</th>
+                    <th class="table-light">종류</th>
+                    <th class="table-light">기안일자</th>
+                    <th class="table-light">승인일자</th>
+                    <th class="table-light">기안자</th>
                     <th class="table-light">진행상태</th>
                  </tr>
                  <tr>
-                    <td>2024-11-19</td>
-                    <td>08:51:11</td>
-                    <td>18:12:45</td>
-                    <td>09h</td>
-                    <td></td>
-                    <td></td>
+                    <th>근태 정정</th>
+                    <td>2024-11-20</td>
+                    <td>2024-11-20</td>
+                    <td>정준하</td>
+                    <td><span class="badge bg-warning">결재대기</span></td>
                  </tr>
                  <tr>
-                    <td>2024-11-18</td>
-                    <td>10:55:27</td>
-                    <td>18:01:46</td>
-                    <td>06h</td>
-                    <td><span class="badge bg-danger">근태이상</span></td>
-                    <td></td>
+                    <th>근태 정정</th>
+                    <td>2024-08-13</td>
+                    <td>-</td>
+                    <td>박명수</td>
+                    <td><span class="badge bg-danger">반려</span></td>
                  </tr> 
                  <tr>
-                    <td>2024-11-17</td>
-                    <td>09:00:00</td>
-                    <td>18:00:00</td>
-                    <td>09h</td>
-                    <td></td>
+                    <th>휴가 신청</th>
+                    <td>2024-07-28</td>
+                    <td>2024-07-28</td>
+                    <td>남창희</td>
+                    <td><span class="badge bg-warning">결재대기</span></td>
+                 </tr>
+                 <tr>
+                    <th>휴가 신청</th>
+                    <td>2024-07-11</td>
+                    <td>-</td>
+                    <td>조세호</td>
+                    <td><span class="badge bg-danger">반려</span></td>
+                 </tr>
+                 <tr>
+                    <th>근태 정정</th>
+                    <td>2024-06-24</td>
+                    <td>2024-06-24</td>
+                    <td>홍진경</td>
                     <td><span class="badge bg-info">승인완료</span></td>
                  </tr>
                  <tr>
-                    <td>2024-11-16</td>
-                    <td>08:54:12</td>
-                    <td>18:11:57</td>
-                    <td>9h</td>
-                    <td></td>
-                    <td></td>
+                    <th>휴가 신청</th>
+                    <td>2024-05-05</td>
+                    <td>2024-05-05</td>
+                    <td>양세찬</td>
+                    <td><span class="badge bg-info">승인완료</span></td>
                  </tr>
                  <tr>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                 </tr>
-                 <tr>
-                    <td>test</td>
-                    <td>test</td>
+                    <th>test</th>
                     <td>test</td>
                     <td>test</td>
                     <td>test</td>
                     <td>test</td>
                  </tr>
                  <tr>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                 </tr>
-                 <tr>
-                    <td>test</td>
-                    <td>test</td>
+                    <th>test</th>
                     <td>test</td>
                     <td>test</td>
                     <td>test</td>
                     <td>test</td>
                  </tr>
                  <tr>
-                    <td>test</td>
-                    <td>test</td>
+                    <th>test</th>
                     <td>test</td>
                     <td>test</td>
                     <td>test</td>
                     <td>test</td>
                  </tr>
                  <tr>
-                    <td>test</td>
                     <td>test</td>
                     <td>test</td>
                     <td>test</td>
@@ -306,7 +462,7 @@
                  </div>
          
          </div> <!-- end of class = container-fluid -->
-         
+        
          <!-- 본문 끝 (body end) -->
 
 
@@ -335,7 +491,8 @@
     <script src="/resources/template/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
     <!-- Template Javascript -->
-    <script src="/resources/template/js/main.js"></script>
+    <script src="/resources/template/js/main.js" type="text/javascript"></script>
+    <script src="/resources/attendence/js/request.js" type="text/javascript"></script>
 </body>
 
 </html>
