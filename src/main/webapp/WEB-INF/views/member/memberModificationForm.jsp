@@ -40,8 +40,7 @@
 	rel="stylesheet" />
 
 <!-- Customized Bootstrap Stylesheet -->
-<link href="/resources/template/css/bootstrap.min.css"
-	rel="stylesheet">
+<link href="/resources/template/css/bootstrap.min.css" rel="stylesheet">
 
 <!-- Template Stylesheet -->
 <link href="/resources/template/css/style.css" rel="stylesheet">
@@ -108,46 +107,53 @@ body {
 			<!-- 본문 작성 (body start) -->
 			<!-- 회사 등록 요청 작업 / action, method, name -->
 			<form>
-				<input type="hidden" id="id" name="name"/>
+				<input type="hidden" id="id" name="name" />
 				<!-- 필수 입력 정보 패널 -->
-				<div class="container-fluid pt-4 px-4">
-					<div class="bg-light rounded h-100 p-4">
+				<div class="container pt-4 px-4">
+					<div class="d-flex align-items-center justify-content-between mb-4">
+						<h4>사원 정보 수정</h4>
+						<button type="button" class="btn btn-primary">목록으로</button>
+					</div>
+					<div class="col p-4">
 						<div
 							class="d-flex align-items-center justify-content-between mb-4">
-							<h4>사원 정보 수정 - 필수 입력 정보</h4>
-							<button type="button" class="btn btn-primary">목록으로</button>
-						</div>
+							<h5>필수 입력 정보</h5>
 
-						<div class="mb-3">
-							<label for="name" class="form-label">사원 이름</label> <input
-								type="text" class="form-control" name="name" id="name">
 						</div>
+						<div class="bg-light rounded h-100 p-4">
 
-						<div class="mb-3">
-							<label for="loginId" class="form-label">로그인 아이디</label> <input
-								type="text" class="form-control" name="loginId" id="loginId">
-						</div>
 
-						<div class="mb-3">
-							<label for="password" class="form-label">비밀번호</label> <input
-								type="password" class="form-control" name="password"
-								id="password">
-						</div>
+							<div class="mb-3">
+								<label for="name" class="form-label">사원 이름</label> <input
+									type="text" class="form-control" name="name" id="name">
+							</div>
 
-						<div class="mb-3">
-							<label for="passwordConfirm" class="form-label">비밀번호 확인</label> <input
-								type="password" class="form-control" name="passwordConfirm"
-								id="passwordConfirm">
-						</div>
+							<div class="mb-3">
+								<label for="loginId" class="form-label">로그인 아이디</label> <input
+									type="text" class="form-control" name="loginId" id="loginId">
+							</div>
 
-						<div class="mb-3">
-							<label for="phoneNumber" class="form-label">전화번호</label> <input
-								type="text" class="form-control" id="phoneNumber">
-						</div>
+							<div class="mb-3">
+								<label for="password" class="form-label">비밀번호</label> <input
+									type="password" class="form-control" name="password"
+									id="password">
+							</div>
 
-						<div class="mb-3">
-							<label for="email" class="form-label">이메일</label> <input
-								type="text" class="form-control" id="email" name="email">
+							<div class="mb-3">
+								<label for="passwordConfirm" class="form-label">비밀번호 확인</label>
+								<input type="password" class="form-control"
+									name="passwordConfirm" id="passwordConfirm">
+							</div>
+
+							<div class="mb-3">
+								<label for="phoneNumber" class="form-label">전화번호</label> <input
+									type="text" class="form-control" id="phoneNumber">
+							</div>
+
+							<div class="mb-3">
+								<label for="email" class="form-label">이메일</label> <input
+									type="text" class="form-control" id="email" name="email">
+							</div>
 						</div>
 					</div>
 				</div>
@@ -155,47 +161,51 @@ body {
 
 				<!-- 선택 입력 정보 패널 -->
 				<div class="container-fluid pt-4 px-4">
-					<div class="bg-light rounded h-100 p-4">
+					<div class="col p-4">
 						<div
 							class="d-flex align-items-center justify-content-between mb-4">
-							<h4>사원 정보 수정 - 선택 입력 정보</h4>
+							<h5>선택 입력 정보</h5>
 						</div>
-						<div class="mb-3">
-							<label for="memberPhoto" class="form-label">사진</label> <input
-								accept="image/*" type="file" class="form-control" name="memberPhoto"
-								id="memberPhoto">
+						<div class="bg-light rounded h-100 p-4">
+
+							<div class="mb-3">
+								<label for="memberPhoto" class="form-label">사진</label> <input
+									accept="image/*" type="file" class="form-control"
+									name="memberPhoto" id="memberPhoto">
+							</div>
+
+
+							<div class="mb-3">
+								<label for="sign" class="form-label">결재 도장</label> <input
+									accept="image/*" type="file" class="form-control" id="sign"
+									name="sign">
+							</div>
+							<div class="mb-3">
+								<label for="address" class="form-label">거주지 주소</label> <input
+									type="text" class="form-control" name="address" id="address">
+							</div>
+
+							<div class="mb-3">
+								<label for="gender" class="form-label">성별</label> <input
+									type="text" class="form-control" name="gender" id="gender">
+							</div>
+
+							<div class="mb-3">
+								<label for="birthdate" class="form-label">생년월일</label> <input
+									type="text" class="form-control" name="birthdate"
+									id="birthdate">
+							</div>
+
+
+
+							<div class="mb-3">
+								<label for="email" class="form-label">이메일</label> <input
+									type="text" class="form-control" id="email" name="email">
+							</div>
+
+
+
 						</div>
-						
-
-						<div class="mb-3">
-							<label for="sign" class="form-label">결재 도장</label> <input
-								accept="image/*" type="file" class="form-control" id="sign" name="sign">
-						</div>
-						<div class="mb-3">
-							<label for="address" class="form-label">거주지 주소</label> <input
-								type="text" class="form-control" name="address" id="address">
-						</div>
-
-						<div class="mb-3">
-							<label for="gender" class="form-label">성별</label> <input
-								type="text" class="form-control" name="gender" id="gender">
-						</div>
-
-						<div class="mb-3">
-							<label for="birthdate" class="form-label">생년월일</label> <input
-								type="text" class="form-control" name="birthdate"
-								id="birthdate">
-						</div>
-
-
-
-						<div class="mb-3">
-							<label for="email" class="form-label">이메일</label> <input
-								type="text" class="form-control" id="email" name="email">
-						</div>
-
-
-
 					</div>
 				</div>
 

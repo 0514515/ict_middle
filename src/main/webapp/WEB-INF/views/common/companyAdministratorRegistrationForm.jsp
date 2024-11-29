@@ -106,51 +106,59 @@ body {
 
 			<!-- 본문 작성 (body start) -->
 			<form>
-				<div class="container-fluid pt-4 px-4">
-					<div class="bg-light rounded min-vh-100 p-4">
+				<div class="container pt-4 px-4">
+					<div class="d-flex align-items-center justify-content-between mb-4">
+						<h4>관리자 등록</h4>
+
+					</div>
+					<div class="col p-4">
 						<div
-							class="d-flex align-items-center justify-content-between mb-4">
-							<h4>관리자 등록</h4>
+							class="d-flex align-items-center justify-content-end mb-4">
+
 							<button type="button" class="btn btn-primary">목록으로</button>
 						</div>
-						<!-- 회사 등록 요청 작업 / action, method, name -->
+						<div class="bg-light rounded min-vh-100 p-4">
 
-						<label for="name" class="form-label">회사 이름</label>
-						<div class="d-flex mb-3">
-							<input type="text" class="form-control" name="name" id="name" disabled>
-							<button type="button" class="btn btn-dark ms-2 px-4 text-nowrap">찾기</button>
-						</div>
+							<!-- 회사 등록 요청 작업 / action, method, name -->
 
-						<div class="mb-3">
-							<label for="name" class="form-label">관리자 이름</label> <input
-								type="text" class="form-control" name="name" id="name">
-						</div>
+							<label for="name" class="form-label">회사 이름</label>
+							<div class="d-flex mb-3">
+								<input type="text" class="form-control" name="name" id="name"
+									disabled>
+								<button type="button" class="btn btn-dark ms-2 px-4 text-nowrap">찾기</button>
+							</div>
 
-						<div class="mb-3">
-							<label for="loginId" class="form-label">로그인 아이디</label> <input
-								type="text" class="form-control" name="loginId" id="loginId">
-						</div>
+							<div class="mb-3">
+								<label for="name" class="form-label">관리자 이름</label> <input
+									type="text" class="form-control" name="name" id="name">
+							</div>
 
-						<div class="mb-3">
-							<label for="password" class="form-label">비밀번호</label> <input
-								type="password" class="form-control" name="password"
-								id="password">
-						</div>
+							<div class="mb-3">
+								<label for="loginId" class="form-label">로그인 아이디</label> <input
+									type="text" class="form-control" name="loginId" id="loginId">
+							</div>
 
-						<div class="mb-3">
-							<label for="passwordConfirm" class="form-label">비밀번호 확인</label> <input
-								type="password" class="form-control" name="passwordConfirm"
-								id="passwordConfirm">
-						</div>
+							<div class="mb-3">
+								<label for="password" class="form-label">비밀번호</label> <input
+									type="password" class="form-control" name="password"
+									id="password">
+							</div>
 
-						<div class="mb-3">
-							<label for="phoneNumber" class="form-label">전화번호</label> <input
-								type="text" class="form-control" id="phoneNumber">
-						</div>
+							<div class="mb-3">
+								<label for="passwordConfirm" class="form-label">비밀번호 확인</label>
+								<input type="password" class="form-control"
+									name="passwordConfirm" id="passwordConfirm">
+							</div>
 
-						<div class="mb-3">
-							<label for="email" class="form-label">이메일</label> <input
-								type="text" class="form-control" id="email" name="email">
+							<div class="mb-3">
+								<label for="phoneNumber" class="form-label">전화번호</label> <input
+									type="text" class="form-control" id="phoneNumber">
+							</div>
+
+							<div class="mb-3">
+								<label for="email" class="form-label">이메일</label> <input
+									type="text" class="form-control" id="email" name="email">
+							</div>
 						</div>
 					</div>
 				</div>

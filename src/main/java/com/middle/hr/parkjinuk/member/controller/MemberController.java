@@ -14,14 +14,14 @@ public class MemberController {
 	}
 	
 	// 사원 등록 페이지
-	@GetMapping("member/registration")
+	@GetMapping("member/new")
 	public String getMemberRegistrationForm() {
 		
 		return "member/memberRegistrationForm";
 	}
 	
 	// 사원 수정 페이지
-	@GetMapping("member/modification")
+	@GetMapping("member/modify")
 	public String getMemberModificationForm() {
 		
 		return "member/memberModificationForm";

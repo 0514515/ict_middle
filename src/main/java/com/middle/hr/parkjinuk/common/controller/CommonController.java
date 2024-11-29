@@ -13,7 +13,7 @@ public class CommonController {
 	}
 	
 	//회사 등록 페이지
-	@GetMapping("super/company/registration")
+	@GetMapping("super/company/new")
 	public String getCompanyAddForm() {
 		return "common/companyRegistrationForm";
 	}
@@ -25,7 +25,7 @@ public class CommonController {
 	}
 	
 	//회사 관리자 등록 페이지
-	@GetMapping("super/administrator/registration")
+	@GetMapping("super/administrator/new")
 	public String getCompanyAdministratorAddForm() {
 		return "common/companyAdministratorRegistrationForm";
 	}

@@ -268,7 +268,8 @@ body {
 				<div class="modal-dialog modal-xl">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+								<h4 class="modal-title" id="exampleModalLabel">수당 지급 추가</h4>
+							
 							<button type="button" class="btn-close" data-bs-dismiss="modal"
 								aria-label="Close"></button>
 						</div>

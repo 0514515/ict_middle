@@ -105,14 +105,18 @@ body {
 
 
 			<!-- 본문 작성 (body start) -->
-			<div class="container-fluid pt-4 px-4">
-				<div class="col">
+			<div class="container pt-4 px-4">
+				<div class="d-flex align-items-center justify-content-between mb-4">
+					<h4>사원 목록</h4>
+					
+				</div>
+				<div class="col p-4">
+					<div class="d-flex align-items-center justify-content-end mb-4">
+						
+						<button type="button" class="btn btn-primary">사원 추가</button>
+					</div>
 					<div class="bg-light rounded min-vh-100 p-4">
-						<div
-							class="d-flex align-items-center justify-content-between mb-4">
-							<h4>사원 목록</h4>
-							<button type="button" class="btn btn-primary">사원 추가</button>
-						</div>
+
 
 
 						<div class="d-flex align-items-center justify-content-end mb-4">

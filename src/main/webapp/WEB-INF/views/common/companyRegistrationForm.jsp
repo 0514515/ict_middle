@@ -36,13 +36,11 @@
 <link
 	href="/resources/template/lib/owlcarousel/assets/owl.carousel.min.css"
 	rel="stylesheet">
-<link
-	href="/resources/template/css/tempusdominus-bootstrap-4.min.css"
+<link href="/resources/template/css/tempusdominus-bootstrap-4.min.css"
 	rel="stylesheet" />
 
 <!-- Customized Bootstrap Stylesheet -->
-<link href="/resources/template/css/bootstrap.min.css"
-	rel="stylesheet">
+<link href="/resources/template/css/bootstrap.min.css" rel="stylesheet">
 
 <!-- Template Stylesheet -->
 <link href="/resources/template/css/style.css" rel="stylesheet">
@@ -108,45 +106,53 @@ body {
 
 			<!-- 본문 작성 (body start) -->
 			<form>
-			<div class="container-fluid pt-4 px-4">
-				<div class="bg-light rounded min-vh-100 p-4">
+				<div class="container pt-4 px-4">
+
 					<div class="d-flex align-items-center justify-content-between mb-4">
 						<h4>회사 등록</h4>
-						<button type="button" class="btn btn-primary">목록으로</button>
 					</div>
-					<!-- 회사 등록 요청 작업 / action, method, name -->
-					
-						<div class="mb-3">
-							<label for="name" class="form-label">회사 이름</label> <input
-								type="text" class="form-control" name="name" id="name">
+					<div class="col p-4">
+						<div
+							class="d-flex align-items-center justify-content-end mb-4">
+							
+							<button type="button" class="btn btn-primary">목록으로</button>
 						</div>
+						<div class="bg-light rounded min-vh-100 p-4">
 
-						<!-- 회사 주소 API 연결하기 -->
-						<div class="mb-3">
-							<label for="address" class="form-label">회사 주소</label> <input
-								type="text" class="form-control" name="address" id="address">
+							<!-- 회사 등록 요청 작업 / action, method, name -->
+
+							<div class="mb-3">
+								<label for="name" class="form-label">회사 이름</label> <input
+									type="text" class="form-control" name="name" id="name">
+							</div>
+
+							<!-- 회사 주소 API 연결하기 -->
+							<div class="mb-3">
+								<label for="address" class="form-label">회사 주소</label> <input
+									type="text" class="form-control" name="address" id="address">
+							</div>
+
+							<div class="mb-3">
+								<label for="phoneNumber" class="form-label">전화번호</label> <input
+									type="text" class="form-control" id="phoneNumber">
+							</div>
+
+							<div class="mb-3">
+								<label for="foundedDate" class="form-label">창립일</label> <input
+									type="text" class="form-control" id="foundedDate">
+							</div>
+
+
 						</div>
-
-						<div class="mb-3">
-							<label for="phoneNumber" class="form-label">전화번호</label> <input
-								type="text" class="form-control" id="phoneNumber">
-						</div>
-
-						<div class="mb-3">
-							<label for="foundedDate" class="form-label">창립일</label> <input
-								type="text" class="form-control" id="foundedDate">
-						</div>
-
-					
+					</div>
 				</div>
-			</div>
 
-			<div class="container-fluid">
-				<div
-					class="d-flex bg-white rounded h-100 mt-3 mx-3 mb-3 justify-content-center">
-					<button type="submit" class="btn btn-primary h-50 w-25">등록</button>
+				<div class="container-fluid">
+					<div
+						class="d-flex bg-white rounded h-100 mt-3 mx-3 mb-3 justify-content-center">
+						<button type="submit" class="btn btn-primary h-50 w-25">등록</button>
+					</div>
 				</div>
-			</div>
 			</form>
 			<!-- 본문 끝 (body end) -->
 
@@ -172,10 +178,8 @@ body {
 	<script src="/resources/template/lib/chart/chart.min.js"></script>
 	<script src="/resources/template/lib/easing/easing.min.js"></script>
 	<script src="/resources/template/lib/waypoints/waypoints.min.js"></script>
-	<script
-		src="/resources/template/lib/owlcarousel/owl.carousel.min.js"></script>
-	<script
-		src="/resources/template/lib/tempusdominus/js/moment.min.js"></script>
+	<script src="/resources/template/lib/owlcarousel/owl.carousel.min.js"></script>
+	<script src="/resources/template/lib/tempusdominus/js/moment.min.js"></script>
 	<script
 		src="/resources/template/lib/tempusdominus/js/moment-timezone.min.js"></script>
 	<script
