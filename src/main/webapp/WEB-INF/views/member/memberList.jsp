@@ -108,31 +108,27 @@ body {
 			<div class="container pt-4 px-4">
 				<div class="d-flex align-items-center justify-content-between mb-4">
 					<h4>사원 목록</h4>
-					
+
 				</div>
 				<div class="col p-4">
-					<div class="d-flex align-items-center justify-content-end mb-4">
-						
-						<button type="button" class="btn btn-primary">사원 추가</button>
-					</div>
-					<div class="bg-light rounded min-vh-100 p-4">
-
-
-
-						<div class="d-flex align-items-center justify-content-end mb-4">
-							<div class="d-flex w-25 justify-content-end">
-								<select class="form-select ms-2 w-50"
+					<div class="d-flex align-items-center justify-content-between mb-4">
+						<div class="d-flex align-items-center justify-content-start">
+							<div class="d-flex w-25 justify-content-start w-50">
+								<select class="form-select w-100"
 									aria-label="Default select example">
 									<option value="1" selected>One</option>
 									<option value="2">Two</option>
 									<option value="3">Three</option>
 								</select>
 							</div>
-							<input type="text" class="form-control ms-2 w-25" name="name"
-								id="name" disabled>
-							<button type="button" class="btn btn-dark ms-2 px-4 text-nowrap">검색</button>
+							<input type="text" class="form-control ms-2" name="name"
+								id="name">
+							<button type="button" class="btn btn-primary ms-2 px-4 text-nowrap">검색</button>
 						</div>
-
+						<button type="button" class="btn btn-primary">사원 추가</button>
+					</div>
+					<div class="bg-light rounded min-vh-100 p-4">
+					
 						<!-- 이 테이블에 데이터 뿌리기, 없으면 목록이 없다는 라벨 하나 보여줘야 함 -->
 						<table class="table table table-hover">
 							<thead>

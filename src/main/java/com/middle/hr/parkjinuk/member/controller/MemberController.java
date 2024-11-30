@@ -32,4 +32,9 @@ public class MemberController {
 	public String getMemberPermissionList() {
 		return "member/memberPermissionList";
 	}
+	
+	@GetMapping("member/detail")
+	public String getMemberDetail() {
+		return "member/memberDetail";
+	}
 }

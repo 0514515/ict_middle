@@ -105,64 +105,68 @@ body {
 
 
 			<!-- 본문 작성 (body start) -->
-			<div class="container-fliud">
+			<div class="container">
 				<form>
-					<div class="container-fluid pt-4 px-4">
-						<div class="bg-light rounded vh-100 p-4">
+					<div class="container pt-4">
+						<div
+							class="d-flex align-items-center justify-content-between mb-4">
+							<h4>공지 등록</h4>
+						</div>
+						<div class="col p-4">
 							<div
-								class="d-flex align-items-center justify-content-between mb-4">
-								<h4>공지 등록</h4>
-								<button type="button" class="btn btn-primary">목록으로</button>
+								class="d-flex align-items-center justify-content-end mb-4">
+								<button type="button" class="btn btn-outline-primary">목록으로</button>
 							</div>
-							<div class="mb-3">
-								<label for="name" class="form-label">공지 제목</label> <input
-									type="text" class="form-control" name="name" id="name">
-							</div>
+							<div class="bg-light rounded vh-100 p-4">
+								<div class="mb-3">
+									<label for="name" class="form-label">공지 제목</label> <input
+										type="text" class="form-control" name="name" id="name">
+								</div>
 
 
-							<div class="mb-3 d-flex">
-								<input type="checkbox" class="form-check-input me-2"
-									id="exampleCheck1"> <label class="form-check-label"
-									for="startDuration">공지 기간</label>
-							</div>
-							<div class="mb-3 align-middle">
-								<div class="d-flex">
-									<input type="text" class="form-control" name="startDuration"
-										id="startDuration"> <span class="mx-2"> ~ </span> <input
-										type="text" class="form-control" name="endDuration"
-										id="endDuration">
+								<div class="mb-3 d-flex">
+									<input type="checkbox" class="form-check-input me-2"
+										id="exampleCheck1"> <label class="form-check-label"
+										for="startDuration">공지 기간</label>
+								</div>
+								<div class="mb-3 align-middle">
+									<div class="d-flex">
+										<input type="text" class="form-control" name="startDuration"
+											id="startDuration"> <span class="mx-2"> ~ </span> <input
+											type="text" class="form-control" name="endDuration"
+											id="endDuration">
+									</div>
+
+								</div>
+
+								<label for="content" class="form-label">공지 내용</label>
+								<div class="mb-3 form-floating">
+
+									<textarea class="form-control" name="content" id="content"></textarea>
 								</div>
 
 							</div>
-
-							<label for="content" class="form-label">공지 내용</label>
-							<div class="mb-3 form-floating">
-
-								<textarea class="form-control" name="content" id="content"></textarea>
-							</div>
-
-
 						</div>
 					</div>
 
-					<div class="container-fluid">
+					<div class="container">
 						<div
 							class="d-flex bg-white rounded h-100 mt-3 mx-3 mb-3 justify-content-center">
 							<button type="submit" class="btn btn-primary h-50 w-25">등록</button>
 						</div>
 					</div>
 				</form>
-				</div>
-				<!-- 본문 끝 (body end) -->
-
-
-				<!-- @@@ Footer Include @@@ -->
-				<jsp:include page="/common_layout/footer.jsp">
-					<jsp:param name="footer" value="footer" />
-				</jsp:include>
-				<!-- @@@@@@@@@@@@@@@@@@@@@@@@ -->
 			</div>
-		
+			<!-- 본문 끝 (body end) -->
+
+
+			<!-- @@@ Footer Include @@@ -->
+			<jsp:include page="/common_layout/footer.jsp">
+				<jsp:param name="footer" value="footer" />
+			</jsp:include>
+			<!-- @@@@@@@@@@@@@@@@@@@@@@@@ -->
+		</div>
+
 		<!-- Content End -->
 
 

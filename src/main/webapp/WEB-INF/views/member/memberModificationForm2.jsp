@@ -6,7 +6,7 @@
 
 <head>
 <meta charset="utf-8">
-<title>관리자 추가 : 피플윙</title>
+<title>사원 정보 수정 : 피플윙</title>
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 <meta content="" name="keywords">
 <meta content="" name="description">
@@ -105,31 +105,26 @@ body {
 
 
 			<!-- 본문 작성 (body start) -->
+			<!-- 회사 등록 요청 작업 / action, method, name -->
 			<form>
+				<input type="hidden" id="id" name="name" />
+				<!-- 필수 입력 정보 패널 -->
 				<div class="container pt-4 px-4">
 					<div class="d-flex align-items-center justify-content-between mb-4">
-						<h4>관리자 등록</h4>
-
+						<h4>사원 정보 수정</h4>
+						<button type="button" class="btn btn-outline-primary">목록으로</button>
 					</div>
 					<div class="col p-4">
 						<div
-							class="d-flex align-items-center justify-content-end mb-4">
+							class="d-flex align-items-center justify-content-between mb-4">
+							<h5>필수 입력 정보</h5>
 
-							<button type="button" class="btn btn-outline-primary">목록으로</button>
 						</div>
-						<div class="bg-light rounded min-vh-100 p-4">
+						<div class="bg-light rounded h-100 p-4">
 
-							<!-- 회사 등록 요청 작업 / action, method, name -->
-
-							<label for="name" class="form-label">회사 이름</label>
-							<div class="d-flex mb-3">
-								<input type="text" class="form-control" name="name" id="name"
-									disabled>
-								<button type="button" class="btn btn-primary ms-2 px-4 text-nowrap">찾기</button>
-							</div>
 
 							<div class="mb-3">
-								<label for="name" class="form-label">관리자 이름</label> <input
+								<label for="name" class="form-label">사원 이름</label> <input
 									type="text" class="form-control" name="name" id="name">
 							</div>
 
@@ -163,10 +158,61 @@ body {
 					</div>
 				</div>
 
+
+				<!-- 선택 입력 정보 패널 -->
+				<div class="container-fluid pt-4 px-4">
+					<div class="col p-4">
+						<div
+							class="d-flex align-items-center justify-content-between mb-4">
+							<h5>선택 입력 정보</h5>
+						</div>
+						<div class="bg-light rounded h-100 p-4">
+
+							<div class="mb-3">
+								<label for="memberPhoto" class="form-label">사진</label> <input
+									accept="image/*" type="file" class="form-control"
+									name="memberPhoto" id="memberPhoto">
+							</div>
+
+
+							<div class="mb-3">
+								<label for="sign" class="form-label">결재 도장</label> <input
+									accept="image/*" type="file" class="form-control" id="sign"
+									name="sign">
+							</div>
+							<div class="mb-3">
+								<label for="address" class="form-label">거주지 주소</label> <input
+									type="text" class="form-control" name="address" id="address">
+							</div>
+
+							<div class="mb-3">
+								<label for="gender" class="form-label">성별</label> <input
+									type="text" class="form-control" name="gender" id="gender">
+							</div>
+
+							<div class="mb-3">
+								<label for="birthdate" class="form-label">생년월일</label> <input
+									type="text" class="form-control" name="birthdate"
+									id="birthdate">
+							</div>
+
+
+
+							<div class="mb-3">
+								<label for="email" class="form-label">이메일</label> <input
+									type="text" class="form-control" id="email" name="email">
+							</div>
+
+
+
+						</div>
+					</div>
+				</div>
+
 				<div class="container-fluid">
 					<div
 						class="d-flex bg-white rounded h-100 mt-3 mx-3 mb-3 justify-content-center">
-						<button type="submit" class="btn btn-primary h-50 w-25">등록</button>
+						<button type="submit" class="btn btn-primary h-50 w-25">수정</button>
 					</div>
 				</div>
 

@@ -123,7 +123,7 @@ body {
 							</div>
 							<input type="text" class="form-control ms-2" name="name"
 								id="name">
-							<button type="button" class="btn btn-dark ms-2 px-4 text-nowrap">검색</button>
+							<button type="button" class="btn btn-primary ms-2 px-4 text-nowrap">검색</button>
 						</div>
 						<button type="button" class="btn btn-primary">관리자 추가</button>
 					</div>

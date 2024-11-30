@@ -115,7 +115,7 @@ body {
 						<div
 							class="d-flex align-items-center justify-content-end mb-4">
 							
-							<button type="button" class="btn btn-primary">목록으로</button>
+							<button type="button" class="btn btn-outline-primary">목록으로</button>
 						</div>
 						<div class="bg-light rounded min-vh-100 p-4">
 

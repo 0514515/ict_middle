@@ -193,7 +193,7 @@ body {
 										</div>
 
 										<div class="d-flex ps-2 justify-content-start h-50 w-25">
-											<button type="button" class="btn btn-danger  w-75 text-nowrap">삭제 ↑</button>
+											<button type="button" class="btn btn-outline-primary  w-75 text-nowrap">삭제 ↑</button>
 										</div>
 
 									</div>

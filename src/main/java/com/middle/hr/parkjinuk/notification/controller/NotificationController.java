@@ -11,12 +11,12 @@ public class NotificationController {
 		return "notification/notificationList";
 	}
 	
-	@GetMapping("notification/registration")
+	@GetMapping("notification/new")
 	public String getNotificationRegistrationForm() {
 		return "notification/notificationRegistrationForm";
 	}
 	
-	@GetMapping("notification/modification")
+	@GetMapping("notification/modify")
 	public String getNotificationModificationForm() {
 		return "notification/notificationModificationForm";
 	}

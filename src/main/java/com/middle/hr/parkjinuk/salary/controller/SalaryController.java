@@ -19,7 +19,7 @@ public class SalaryController {
 	}
 	
 	// 수당 관리 페이지
-	@GetMapping("commission")
+	@GetMapping("salary/commission")
 	public String getCommissinManagement() {
 		return "commission/commissionManagement";
 	}
@@ -28,5 +28,11 @@ public class SalaryController {
 	@GetMapping("salary/specify")
 	public String getSalarySpecifyingForm() {
 		return "salary/salarySpecifyingForm";
+	}
+	
+	// 급여 명세 리스트
+	@GetMapping("salary/specification")
+	public String getSalarySpecificationList() {
+		return "salary/salarySpecificationList";
 	}
 }

@@ -122,7 +122,7 @@ body {
 						</div>
 						<input type="text" class="form-control ms-2 w-25" name="name"
 							id="name" disabled>
-						<button type="button" class="btn btn-dark ms-2 px-4 text-nowrap">검색</button>
+						<button type="button" class="btn btn-primary ms-2 px-4 text-nowrap">검색</button>
 					</div>
 					<div class="bg-light rounded min-vh-100 p-4">
 

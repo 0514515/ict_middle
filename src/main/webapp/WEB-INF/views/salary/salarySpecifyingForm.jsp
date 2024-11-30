@@ -155,7 +155,7 @@ body {
 					<div class="bg-light rounded min-vh-100 p-4 table-responsive">
 
 						<!-- 이 테이블에 데이터 뿌리기, 없으면 목록이 없다는 라벨 하나 보여줘야 함 -->
-						<div class="table=responsive" id="main_table">
+						<div id="main_table">
 							<table class="table table-hover">
 								<thead>
 									<tr>

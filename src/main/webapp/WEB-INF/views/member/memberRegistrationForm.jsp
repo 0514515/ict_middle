@@ -111,7 +111,7 @@ body {
 				<div class="container pt-4 px-4">
 					<div class="d-flex align-items-center justify-content-between mb-4">
 						<h4>사원 등록</h4>
-						<button type="button" class="btn btn-primary">목록으로</button>
+						<button type="button" class="btn btn-outline-primary">목록으로</button>
 					</div>
 					<div class="col p-4">
 						<div
