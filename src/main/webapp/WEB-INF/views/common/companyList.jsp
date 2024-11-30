@@ -110,37 +110,40 @@ body {
 					<h4>회사 목록</h4>
 
 				</div>
+				
+				<!-- search, button bar start -->
 				<div class="col pt-4 px-4">
 					<div class="d-flex align-items-center justify-content-between mb-4">
+						<!-- 검색 도구 start -->
 						<div class="d-flex align-items-center justify-content-start">
 							<div class="d-flex justify-content-start w-50">
-								<select class="form-select w-100"
-									aria-label="Default select example">
-									<option value="1" selected>One</option>
-									<option value="2">Two</option>
-									<option value="3">Three</option>
+								<select class="form-select w-100" name="search_option" id="search_option">
+									<option value="id">회사 번호</option>
+									<option value="name" selected>회사 이름</option>
+									<option value="phone_number">전화번호</option>
 								</select>
 							</div>
-							<input type="text" class="form-control ms-2" name="name"
-								id="name">
+							<input type="text" class="form-control ms-2" name="search_keyword"
+								id="search_keyword">
 							<button type="button" class="btn btn-primary ms-2 px-4 text-nowrap">검색</button>
 						</div>
-						<button type="button" class="btn btn-primary">회사 추가</button>
+						<!-- 검색 도구 end -->
+						<button onClick="location.href='/super/company/new'" type="button" class="btn btn-primary">회사 추가</button>
 					</div>
 				</div>
+				<!-- search, button bar end -->
+				
+				<!-- table column start -->
 				<div class="col">
 					<div class="bg-light rounded min-vh-100 p-4 mx-4">
-
-
-
-						<!-- 이 테이블에 데이터 뿌리기, 없으면 목록이 없다는 라벨 하나 보여줘야 함 -->
+						<!-- 테이블 start -->
 						<table class="table table table-hover">
 							<thead>
 								<tr>
 									<th scope="col">회사 번호</th>
 									<th scope="col">회사 이름</th>
 									<th scope="col">전화번호</th>
-									<th scope="col">생성일</th>
+									<th scope="col">창립일</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -161,7 +164,10 @@ body {
 
 					</div>
 				</div>
+				<!-- table column end -->
 			</div>
+			
+			<!-- pagination start -->
 			<div class="d-flex align-items-center justify-content-center">
 				<nav aria-label="Page navigation">
 					<ul class="pagination pt-3 pr-3">
@@ -175,6 +181,7 @@ body {
 					</ul>
 				</nav>
 			</div>
+			<!-- pagination end -->
 			<!-- 본문 끝 (body end) -->
 
 

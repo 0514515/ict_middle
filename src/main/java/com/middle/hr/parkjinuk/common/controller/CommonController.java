@@ -9,6 +9,8 @@ public class CommonController {
 	//회사 목록 페이지
 	@GetMapping("super/company")
 	public String getCompanyList() {
+		
+		
 		return "common/companyList";
 	}
 	

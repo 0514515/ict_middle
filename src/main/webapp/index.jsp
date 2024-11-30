@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix='c' uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -85,15 +86,17 @@ body {
 							</a>
 							<h3>로그인</h3>
 						</div>
-						<!-- 로그인 요청 작업 / action, method, name-->
-						<form action="" method="">
+						<!-- form start -->
+						<form action="login" method="POST">
 							<div class="form-floating mb-3">
-								<input type="text" class="form-control" id="login_id"
-									placeholder="아이디 입력"> <label for="login_id">아이디</label>
+								<input type="text" class="form-control" id="loginId"
+									name="loginId" placeholder="아이디 입력"> <label
+									for="loginId">아이디</label>
 							</div>
 							<div class="form-floating mb-4">
 								<input type="password" class="form-control" id="password"
-									placeholder="패스워드 입력"> <label for="password">비밀번호</label>
+									name="password" placeholder="패스워드 입력"> <label
+									for="password">비밀번호</label>
 							</div>
 
 							<div
@@ -107,6 +110,7 @@ body {
 							<button type="submit" class="btn btn-primary py-3 w-100 mb-4">
 								로그인</button>
 						</form>
+						<!-- form end -->
 					</div>
 				</div>
 			</div>

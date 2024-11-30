@@ -64,6 +64,7 @@
                             <a href="#" class="dropdown-item">[게시판] 자유게시판 관리</a>
                         </div>
                     </div>
+                    <a href="/logout" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>로그아웃</a>
                     
                <!-- <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Pages</a>

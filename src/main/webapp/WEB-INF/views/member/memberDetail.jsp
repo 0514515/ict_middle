@@ -120,7 +120,7 @@ body {
 								<div class="row mb-3 justify-content-center">
 									<label for="inputEmail3" class="col-sm-3 h5">이름</label>
 									<div class="col-sm-6">
-										<label for="inputEmail3" class="col-form-label h5">홍길동</label>
+										<label for="inputEmail3" class="col-form-label h5">${sessionScope.loginId}</label>
 									</div>
 								</div>
 								<div class="row mb-3 justify-content-center">
