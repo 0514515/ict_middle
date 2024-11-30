@@ -123,8 +123,8 @@ body {
 									<option value="phone_number">전화번호</option>
 								</select>
 							</div>
-							<input type="text" class="form-control ms-2" name="search_keyword"
-								id="search_keyword">
+							<input type="text" class="form-control ms-2" name="searchKeyword"
+								id="searchKeyword">
 							<button type="button" class="btn btn-primary ms-2 px-4 text-nowrap">검색</button>
 						</div>
 						<!-- 검색 도구 end -->

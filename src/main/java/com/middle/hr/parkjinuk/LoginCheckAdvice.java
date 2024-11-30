@@ -27,6 +27,7 @@ public class LoginCheckAdvice {
 		HttpSession currentSession = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest().getSession();
 		
 		//세션의 로그인 아이디 받아오기
+		//나중에 특정 메소드 제외로 바꿔야함
 		String loginId = (String)(currentSession.getAttribute("loginId"));
 		
 		//세션 없으면 null이므로 로그인 창으로 리다이렉트
