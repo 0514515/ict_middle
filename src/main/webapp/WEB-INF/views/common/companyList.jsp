@@ -71,7 +71,13 @@ body {
 .ms-4 {
 	margin-top: 1rem;
 }
+
+#tableContainer{
+	height:510px;
+}
 </style>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
 </head>
 
@@ -117,7 +123,7 @@ body {
 						<!-- 검색 도구 start -->
 						<div class="d-flex align-items-center justify-content-start">
 							<div class="d-flex justify-content-start w-50">
-								<select class="form-select w-100" name="search_option" id="search_option">
+								<select class="form-select w-100" name="search_option" id="searchOption">
 									<option value="id">회사 번호</option>
 									<option value="name" selected>회사 이름</option>
 									<option value="phone_number">전화번호</option>
@@ -125,17 +131,17 @@ body {
 							</div>
 							<input type="text" class="form-control ms-2" name="searchKeyword"
 								id="searchKeyword">
-							<button type="button" class="btn btn-primary ms-2 px-4 text-nowrap">검색</button>
+							<button type="button" id="searchButton" class="btn btn-primary ms-2 px-4 text-nowrap">검색</button>
 						</div>
 						<!-- 검색 도구 end -->
-						<button onClick="location.href='/super/company/new'" type="button" class="btn btn-primary">회사 추가</button>
+						<button onClick="location.href='/super/company/new'" type="button" class="btn btn-primary text-nowrap">회사 추가</button>
 					</div>
 				</div>
 				<!-- search, button bar end -->
 				
 				<!-- table column start -->
 				<div class="col">
-					<div class="bg-light rounded min-vh-100 p-4 mx-4">
+					<div id="tableContainer" class="bg-light rounded p-4 mx-4">
 						<!-- 테이블 start -->
 						<table class="table table table-hover">
 							<thead>
@@ -146,7 +152,7 @@ body {
 									<th scope="col">창립일</th>
 								</tr>
 							</thead>
-							<tbody>
+							<tbody id="tableBody">
 								<tr>
 									<th scope="row">1</th>
 									<td>John</td>
@@ -200,7 +206,7 @@ body {
 	</div>
 
 	<!-- JavaScript Libraries -->
-	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="/resources/template/lib/chart/chart.min.js"></script>
@@ -215,6 +221,7 @@ body {
 
 	<!-- Template Javascript -->
 	<script src="/resources/template/js/main.js"></script>
+	<script src="/resources/common/js/companyList.js"></script>
 </body>
 
 </html>

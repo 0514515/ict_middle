@@ -3,7 +3,6 @@
 <%@ taglib prefix='c' uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 <meta charset="utf-8">
 <title>회사 등록 : 피플윙</title>
@@ -71,6 +70,10 @@ body {
 .ms-4 {
 	margin-top: 1rem;
 }
+
+#tableContainer{
+	height:510px;
+}
 </style>
 
 </head>
@@ -105,18 +108,21 @@ body {
 
 
 			<!-- 본문 작성 (body start) -->
-			<form>
+			<form action="/super/company/new" method="POST">
 				<div class="container pt-4 px-4">
 
 					<div class="d-flex align-items-center justify-content-between mb-4">
 						<h4>회사 등록</h4>
 					</div>
+					
+					<!-- search, button bar start -->
 					<div class="col p-4">
 						<div
 							class="d-flex align-items-center justify-content-end mb-4">
 							
 							<button onClick="location.href='/super/company'" type="button" class="btn btn-outline-primary">목록으로</button>
 						</div>
+						
 						<div class="bg-light rounded min-vh-100 p-4">
 
 							<!-- 회사 등록 요청 작업 / action, method, name -->
@@ -134,20 +140,22 @@ body {
 
 							<div class="mb-3">
 								<label for="phoneNumber" class="form-label">전화번호</label> <input
-									type="text" class="form-control" id="phoneNumber">
+									type="text" class="form-control" name="phoneNumber" id="phoneNumber">
 							</div>
 
 							<div class="mb-3">
 								<label for="foundedDate" class="form-label">창립일</label> <input
-									type="text" class="form-control" id="foundedDate">
+									type="text" class="form-control" name="foundedDate" id="foundedDate">
 							</div>
 
 
 						</div>
 					</div>
+					
+					<!-- search, button bar end -->
 				</div>
 
-				<div class="container-fluid">
+				<div class="container">
 					<div
 						class="d-flex bg-white rounded h-100 mt-3 mx-3 mb-3 justify-content-center">
 						<button type="submit" class="btn btn-primary h-50 w-25">등록</button>

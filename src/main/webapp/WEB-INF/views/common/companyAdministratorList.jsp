@@ -112,6 +112,7 @@ body {
 				</div>
 				<div class="col p-4">
 					<div class="d-flex align-items-center justify-content-between mb-4">
+						<!-- 검색 도구 start -->
 						<div class="d-flex align-items-center justify-content-start">
 							<div class="d-flex justify-content-start w-50">
 								<select class="form-select w-100"
@@ -123,14 +124,18 @@ body {
 							</div>
 							<input type="text" class="form-control ms-2" name="name"
 								id="name">
-							<button type="button" class="btn btn-primary ms-2 px-4 text-nowrap">검색</button>
+							<button type="button"
+								class="btn btn-primary ms-2 px-4 text-nowrap">검색</button>
 						</div>
-						<button type="button" class="btn btn-primary">관리자 추가</button>
+						<!-- 검색 도구 end -->
+						<button onClick="location.href='/super/administrator/new'" type="button" class="btn btn-primary">관리자 추가</button>
+
 					</div>
+					
+					
+					<!-- table column start -->
 					<div class="bg-light rounded min-vh-100 p-4">
-
-
-						<!-- 이 테이블에 데이터 뿌리기, 없으면 목록이 없다는 라벨 하나 보여줘야 함 -->
+						<!-- 테이블 start -->
 						<table class="table table table-hover">
 							<thead>
 								<tr>
@@ -158,8 +163,9 @@ body {
 								</tr>
 							</tbody>
 						</table>
-
+						<!-- 테이블 end -->
 					</div>
+					<!-- table column end -->
 				</div>
 			</div>
 			<div class="d-flex align-items-center justify-content-center">

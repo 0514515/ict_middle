@@ -50,7 +50,8 @@ body {
 
 .fa-hashtag:before {
 	display: none;
-}
+}	
+
 </style>
 
 

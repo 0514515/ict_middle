@@ -2,7 +2,6 @@ package com.middle.hr.parkjinuk.member.controller.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.ToString;
 
 @Getter
