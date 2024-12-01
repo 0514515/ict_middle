@@ -48,182 +48,182 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script	src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
 
-<!-- 공통 커스텀 스타일 -->
-<style>
-body {
-	font-family: "Noto Sans KR", sans-serif !important;
-}
-
-.navbar {
-	border-bottom: 1px solid #14A4FF;
-	height: 60px;
-}
-
-.fa-hashtag:before {
-	display: none;
-}
-
-.sidebar .navbar .dropdown-item {
-	padding-left: 35px;
-}
-
-.sidebar .navbar .navbar-nav .nav-link {
-	font-weight: 600;
-}
-
-.ms-4 {
-	margin-top: 1rem;
-}
-</style>
-
-<!-- 개인 커스텀 -->
-<style>
-
-/* 본문 높이값 _ footer올라오는 현상 방지 */
-.container {
-	height: 83%;
-}
-
-table {
-	text-align: left;
-	border: 1px solid #ccc;
-}
-
-/*뱃지 컬러 : 임시저장*/
-.bg-success {
-	background-color: #D1E7DD !important;
-	color: #0A3622;
-}
-/*뱃지 컬러 : 회수*/
-.bg-warning {
-	background-color: #FFF3CD !important;
-	color: #664D03;
-}
-
-.form-select {
-	display: inline-block;
-	width: 35%;
-}
-
-.search_form {
-	text-align: right;
-}
-
-.search_form form {
-	display: inline-block;
-}
-
-.border-0 {
-	border: 1px solid #ced4da !important;
-}
-
-.form-check {
-	min-height: 0px;
-	padding-left: 0px;
-	margin-bottom: 0px;
-	margin-left: 0px !important;
-	display: inline-block;
-}
-
-.form-check-input {
-	margin-left: 0px !important;
-}
-
-.choice_save, .choice_cancel {
-	border: 1px solid #14A4FF;
-	background-color: #fff;
-	color: #14A4FF;
-	font-weight: 500;
-}
-
-.choice_send {
-	border: 1px solid #14A4FF;
-	background-color: #14A4FF;
-	color: #fff;
-	font-weight: 500;
-}
-
-.btn:hover {
-	color: #00539d;
-}
-
-.form_box {
-	border: 1px solid #14A4FF;
-	border-radius: 10px;
-}
-
-.form_box_hidden {
-	border: 1px solid #ccc;
-	border-radius: 10px;
-}
-
-.form-label {
-	color: #191C24;
-	font-size: 1.2em;
-	font-weight: 500;
-}
-
-h5 {
-	color: #14A4FF;
-}
-
-.first_cell {
-	width: 88%;
-}
-
-.form_preview {
-	border: 1px solid #191C24;
-	height: 300px;
-}
-
-iframe {
-	width: 25vw;
-	height: 58.5vh;
-	border: none;
-}
-
-.form_ch_name span {
-	color: #191C24;
-}
-
-.form_subtitle {
-	font-size: 20px;
-	color: #191C24;
-	font-weight: 500;
-}
-
-.frame_div {
-	text-align: center;
-}
-
-.tree_div {
-	border: 1px solid #191C24;
-	height: 400px;
-}
-
-.table_div{
-	height:50%;
-	align-content:center;
-}
-
-.btn_group{
-	text-align:center;
-	height:100%;
-}
-
-.btn_group div{
-	align-content:center;
-	height:50%;
-}
-
-.btn_group .btn{
-	border: 1px solid #14A4FF;
-	background-color: #fff;
-	color: #14A4FF;
-	font-weight: 500;
-}
-
-</style>
+	<!-- 공통 커스텀 스타일 -->
+	<style>
+	body {
+		font-family: "Noto Sans KR", sans-serif !important;
+	}
+	
+	.navbar {
+		border-bottom: 1px solid #14A4FF;
+		height: 60px;
+	}
+	
+	.fa-hashtag:before {
+		display: none;
+	}
+	
+	.sidebar .navbar .dropdown-item {
+		padding-left: 35px;
+	}
+	
+	.sidebar .navbar .navbar-nav .nav-link {
+		font-weight: 600;
+	}
+	
+	.ms-4 {
+		margin-top: 1rem;
+	}
+	</style>
+	
+	<!-- 개인 커스텀 -->
+	<style>
+	
+	/* 본문 높이값 _ footer올라오는 현상 방지 */
+	.container {
+		height: 83%;
+	}
+	
+	table {
+		text-align: left;
+		border: 1px solid #ccc;
+	}
+	
+	/*뱃지 컬러 : 임시저장*/
+	.bg-success {
+		background-color: #D1E7DD !important;
+		color: #0A3622;
+	}
+	/*뱃지 컬러 : 회수*/
+	.bg-warning {
+		background-color: #FFF3CD !important;
+		color: #664D03;
+	}
+	
+	.form-select {
+		display: inline-block;
+		width: 35%;
+	}
+	
+	.search_form {
+		text-align: right;
+	}
+	
+	.search_form form {
+		display: inline-block;
+	}
+	
+	.border-0 {
+		border: 1px solid #ced4da !important;
+	}
+	
+	.form-check {
+		min-height: 0px;
+		padding-left: 0px;
+		margin-bottom: 0px;
+		margin-left: 0px !important;
+		display: inline-block;
+	}
+	
+	.form-check-input {
+		margin-left: 0px !important;
+	}
+	
+	.choice_save, .choice_cancel {
+		border: 1px solid #14A4FF;
+		background-color: #fff;
+		color: #14A4FF;
+		font-weight: 500;
+	}
+	
+	.choice_send {
+		border: 1px solid #14A4FF;
+		background-color: #14A4FF;
+		color: #fff;
+		font-weight: 500;
+	}
+	
+	.btn:hover {
+		color: #00539d;
+	}
+	
+	.form_box {
+		border: 1px solid #14A4FF;
+		border-radius: 10px;
+	}
+	
+	.form_box_hidden {
+		border: 1px solid #ccc;
+		border-radius: 10px;
+	}
+	
+	.form-label {
+		color: #191C24;
+		font-size: 1.2em;
+		font-weight: 500;
+	}
+	
+	h5 {
+		color: #14A4FF;
+	}
+	
+	.first_cell {
+		width: 88%;
+	}
+	
+	.form_preview {
+		border: 1px solid #191C24;
+		height: 300px;
+	}
+	
+	iframe {
+		width: 25vw;
+		height: 58.5vh;
+		border: none;
+	}
+	
+	.form_ch_name span {
+		color: #191C24;
+	}
+	
+	.form_subtitle {
+		font-size: 20px;
+		color: #191C24;
+		font-weight: 500;
+	}
+	
+	.frame_div {
+		text-align: center;
+	}
+	
+	.tree_div {
+		border: 1px solid #191C24;
+		height: 400px;
+	}
+	
+	.table_div{
+		height:50%;
+		align-content:center;
+	}
+	
+	.btn_group{
+		text-align:center;
+		height:100%;
+	}
+	
+	.btn_group div{
+		align-content:center;
+		height:50%;
+	}
+	
+	.btn_group .btn{
+		border: 1px solid #14A4FF;
+		background-color: #fff;
+		color: #14A4FF;
+		font-weight: 500;
+	}
+	
+	</style>
 
 </head>
 
@@ -247,24 +247,25 @@ iframe {
 						<div class="col-md-4 ms-auto ps-5">
 							<p class="mt-4 mb-4 form_subtitle">결재 양식 선택</p>
 							<div class="mx-3 mt-2 mb-2 form_ch_name">
-								<input class="form-check-input me-2" type="checkbox" value=""
-									id="flexCheckChecked" checked> <span>기안서</span>
+								<input class="form-check-input me-2" type="checkbox" name="formCheck" value="1" 
+								    id="flexCheckChecked"> 
+								<span>기안서</span>
 							</div>
 							<div class="mx-3 mt-2 mb-2 form_ch_name">
-								<input class="form-check-input me-2" type="checkbox" value=""
-									id="flexCheckChecked" checked> <span>지출결의서</span>
+								<input class="form-check-input me-2" type="checkbox" name="formCheck" value="2"
+									id="flexCheckChecked"> <span>지출결의서</span>
 							</div>
 							<div class="mx-3 mt-2 mb-2 form_ch_name">
-								<input class="form-check-input me-2" type="checkbox" value=""
-									id="flexCheckChecked" checked> <span>품의서</span>
+								<input class="form-check-input me-2" type="checkbox" name="formCheck" value="3"
+									id="flexCheckChecked"> <span>품의서</span>
 							</div>
 							<div class="mx-3 mt-2 mb-2 form_ch_name">
-								<input class="form-check-input me-2" type="checkbox" value=""
-									id="flexCheckChecked" checked> <span>출장보고서</span>
+								<input class="form-check-input me-2" type="checkbox" name="formCheck" value="4"
+									id="flexCheckChecked"> <span>출장보고서</span>
 							</div>
 							<div class="mx-3 mt-2 mb-2 form_ch_name">
-								<input class="form-check-input me-2" type="checkbox" value=""
-									id="flexCheckChecked" checked> <span>사직서</span>
+								<input class="form-check-input me-2" type="checkbox" name="formCheck" value="5"
+									id="flexCheckChecked"> <span>사직서</span>
 							</div>
 						</div>
 						<div class="col-md-8 ms-auto frame_div">
@@ -280,7 +281,7 @@ iframe {
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
 						data-bs-dismiss="modal">취소</button>
-					<button type="button" class="btn btn-primary">적용</button>
+					<button type="button" class="btn btn-primary" id="formSelectBtn">적용</button>
 				</div>
 			</div>
 		</div>
@@ -363,10 +364,10 @@ iframe {
 							<div class="btn_group">
 								<!-- 버튼 -->
 								<div>
-									<button type="button" class="btn btn-primary mb-3">결재 추가<i class="bi bi-caret-right-fill"></i></button>
+									<button type="button" id="linePlus" class="btn btn-primary mb-3">결재 추가<i class="bi bi-caret-right-fill"></i></button>
 								</div>
 								<div>
-									<button type="button" class="btn btn-primary mb-3">참조 추가<i class="bi bi-caret-right-fill"></i></button>
+									<button type="button" id="refPlus" class="btn btn-primary mb-3">참조 추가<i class="bi bi-caret-right-fill"></i></button>
 								</div>
 								
 							</div>
@@ -495,7 +496,7 @@ iframe {
 				<div class="form_box_hidden mx-4 my-4 px-4 py-4">
 					<!-- 그레이 박스선 -->
 
-					<!-- 기안일자 -->
+					<!-- 기안일자 -->  
 					<div class="mb-3">
 						<label for="draftDate" class="form-label">기안일자</label>
 						<div class="row g-2 mb-4">
@@ -512,7 +513,7 @@ iframe {
 						<div class="row g-2">
 							<div class="col-md-9">
 								<input type="text" class="form-control" id="approval_form"
-									value="" aria-label="Disabled input example" disabled>
+									value="" aria-label="Disabled input example" readonly>
 							</div>
 							<div class="col-md-3">
 								<button type="button" class="btn btn-primary mb-3"
@@ -593,25 +594,24 @@ iframe {
 				<!-- 결재 내용 본문 박스 -->
 				<div class="form_box mx-4 my-4 px-4 py-4">
 
-					<!-- 제목 영역 -->
-					<div class="mb-3">
-						<label for="inputTitle" class="form-label">제목</label> <input
-							type="text" class="form-control" id="inputTitle">
-					</div>
-
-				<form id="writeDraftForm" action="/save" method="post">
-				
-					<!-- SmartEditor2  -->
-					<div class="jsx-2303464893 editor">
-						<div class="fr-box fr-basic fr-top" role="application">
-							<div class="fr-wrapper show-placeholder" dir="auto">
-								<!-- style="overflow: scroll;" 제외 -->
-								<textarea name="notice_content" id="smartEditor" 
-										  style="width: 100%; height: 412px;">${htmlContent}</textarea>  <!-- 엑셀 변환 HTML -->
+					<form id="writeDraftForm" action="/save" method="post">
+						<!-- 제목 영역 -->
+						<div class="mb-3">
+							<label for="inputTitle" class="form-label">제목</label>
+							<input type="text" class="form-control" id="inputTitle" name="draftTitle">
+						</div>		
+									
+						<!-- SmartEditor2  -->
+						<div class="jsx-2303464893 editor">
+							<div class="fr-box fr-basic fr-top" role="application">
+								<div class="fr-wrapper show-placeholder" dir="auto">
+									<!-- style="overflow: scroll;" 제외 -->
+									<textarea name="notice_content" id="smartEditor" 
+											  style="width: 100%; height: 412px;">${htmlContent}</textarea>  <!-- 엑셀 변환 HTML -->
+								</div>
 							</div>
 						</div>
-					</div>
-				</form>	
+					</form>	
 
 				</div>
 
@@ -685,11 +685,37 @@ iframe {
 	<!-- SmartEditor2 -->
 	<script type="text/javascript" src="/resources/template/js/notice-write.js"></script>
 		
-	<!-- jstree, html form 전송 관련 js -->
-	<script type="text/javascript" src="/resources/approval/js/approval.js"></script>
+	<!-- jstree js -->
+	<script type="text/javascript" src="/resources/approval/js/jstreeCustom.js"></script>
 	
 	<script>
 		$(function(){
+			
+			// 양식 선택 체크박스 중복 적용 안 되도록  
+			$('input[type="checkbox"][name="formCheck"]').click(function(){
+				if($(this).prop('checked')){
+					$('input[type="checkbox"][name="formCheck"]').prop('checked', false);
+					$(this).prop('checked', true);
+				}
+			})
+			
+			// 양식 선택 모달창에서 양식 선택 후 '적용' 버튼 클릭시 
+			$('#formSelectBtn').click(function(){
+				// 모달창 닫기 
+				$('#formModal').modal('hide');
+				// 텍스트 필드 값 초기화 
+				var textField = $('#approval_form');
+				textField.val('');
+				
+				// input 옆에 있는 span의 값(양식 이름 text)을 spanTxt 변수에 저장 후 텍스트필드의 값으로 해당 값 출력 
+				var spanTxt = $('.form_ch_name input[name="formCheck"]:checked').next('span').text(); 
+				textField.val(spanTxt);
+					
+			})
+			
+			
+			
+			
 			// 결재 상신 버튼 클릭시 실행될 함수 
 			$('.choice_send').click(function(){
 			    // SmartEditor에서 textarea에 내용 업데이트
@@ -701,6 +727,8 @@ iframe {
 				// 폼 제출 (textarea 값은 자동으로 폼에 포함됨)
 			    $('#writeDraftForm').submit(); // form 제출 
 			})
+			
+			
 			
 		})
 	</script>
