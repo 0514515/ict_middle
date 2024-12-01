@@ -145,7 +145,7 @@
     	}
     	
     	.col-form-label{
-    		color:#191C24;
+    		color:#14A4FF;
     	 	font-size:1.2em;
     		font-weight:500;
     	}
@@ -153,11 +153,37 @@
     	.html_view{
     		overflow:scroll;
 	    	padding: 30px;
-		    border-radius: 10px;
 		    border: 1px solid #ccc;
 		    height: 500px;
 		    background-color:#fff;	
     	}
+    	
+    	.title_div{
+    		align-items :center;
+    	}
+    	
+    	.title_txt{
+    		color:#191C24;
+    		font-size:18px;
+    		font-weight:500;
+    	}
+    	
+    	/* 프린트 영역 */
+    	@media print {
+		    /* 페이지 배경색 제거 */
+		    body {
+		        background: none !important;
+		    }
+		
+		    /* 다른 스타일도 추가 가능 */
+		    .html_view {
+		        background: none; /* 배경색 제거 */
+		    }
+		
+		    #pdf_view {
+		        background: none;  /* PDF 보기 div의 배경색 제거 */
+		    }
+		}
     	
     </style>
     
@@ -216,15 +242,20 @@
 			
 			<div class="form_box mx-4 my-4 px-5 py-5">
 				
-			  <div class="mb-3 row">
-			    <label for="inputTitle" class="col-sm-2 col-form-label">제목</label>
-			    <div class="col-sm-10">
-			      <input type="text" class="form-control" id="inputTitle">
+			  <div class="mb-3 row title_div">
+			    <label for="inputTitle" class="col-sm-1 col-form-label">제목</label>
+			    <div class="col-sm-11 title_txt">
+			       ${writeDraftForm.draftTitle}
+			      <!-- <input type="text" class="form-control" id="inputTitle">  -->
 			    </div>
 			  </div>
 				
 			  <!-- html 출력 -->	
-			  <div class="html_view">${writeDraftForm.noticeContent}</div>
+			  <div class="html_view">
+			  	<div id="pdf_view">
+			  		${writeDraftForm.noticeContent}
+			  	</div>
+			  </div>
 
 			</div>	
      
@@ -237,12 +268,7 @@
 			
 		</div> <!-- end of class = container-->
 			
-			
-			
-			
-			
-			
-			
+		
 			<!-- 본문 끝 (body end) -->
 
 
@@ -279,6 +305,11 @@
     
     <!-- SmartEditor2 -->
 	<script type="text/javascript" src = "/resources/template/js/notice-write.js"></script>
+	
+	    <!-- html 영역 pdf 다운로드 (jspdf, html2canvas)-->
+ 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+	<script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script type="text/javascript" src ="/resources/approval/js/pdf_print.js"></script>
 
     
 </body>

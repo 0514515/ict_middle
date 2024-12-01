@@ -30,7 +30,7 @@ $(function(){
 		$('#jstree').jstree(true).search(text);
 		// $("#jstree").jstree("search", searchString);
 		
-		$('#confirmationBtn').click(function() {
+		$('#linePlus').click(function() {  //#confirmationBtn
 			var selectedNodes = $('#jstree').jstree('get_selected', true);
 			var selectedNodeIds = selectedNodes.map(function(node) {
 				return node.id;

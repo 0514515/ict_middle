@@ -65,9 +65,14 @@
     
     <!-- 개인 커스텀 -->
     <style>
-    	
     	.card-header{
     		text-align:center;
+    		color:#191C24;
+    		font-weight:500;
+    	}
+    	.card-header span{
+    		font-size: 13px;
+    		color: #14A4FF;
     	}
     	.card-text{
     		text-align:center;
@@ -149,7 +154,7 @@
 				<div class="row row-cols-1 row-cols-md-4 g-4">
 				  <div class="col">
 				    <div class="card border-primary mb-4 " style="max-width: 18rem;">
-					  <div class="card-header">결재 진행중</div>
+					  <div class="card-header"><span>[ 결재 받을 문서 ]</span><br/>결재 진행중</div>
 					  <div class="card-body text-primary">
 					    <p class="card-text"><span>3</span><span>건</span></p>
 					  </div>
@@ -157,7 +162,7 @@
 				  </div>
 				  <div class="col">
 				     <div class="card border-primary mb-4 " style="max-width: 18rem;">
-					  <div class="card-header">승인 완료</div>
+					  <div class="card-header"><span>[ 결재 받을 문서 ]</span><br/>승인 완료</div>
 					  <div class="card-body text-primary">
 					    <p class="card-text"><span>3</span><span>건</span></p>
 					  </div>
@@ -165,15 +170,16 @@
 				  </div>
 				  <div class="col">
 				     <div class="card border-primary mb-4 " style="max-width: 18rem;">
-					  <div class="card-header">반려</div>
+					  <div class="card-header"><span>[ 결재 받을 문서 ]</span><br/>반려</div>
 					  <div class="card-body text-primary">
 					    <p class="card-text"><span>3</span><span>건</span></p>
 					  </div>
 					</div>
 				  </div>
+				  
 				  <div class="col">
 				     <div class="card border-primary mb-4 " style="max-width: 18rem;">
-					  <div class="card-header">승인할 문서</div>
+					  <div class="card-header"><span>[ 결재 할 문서 ]</span><br/>승인할 문서</div>
 					  <div class="card-body text-primary">
 					    <p class="card-text"><span>3</span><span>건</span></p>
 					  </div>

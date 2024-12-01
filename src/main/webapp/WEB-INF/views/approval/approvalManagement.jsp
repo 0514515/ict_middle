@@ -181,7 +181,7 @@
 			
 			<div class="mx-4 my-4">
 			<div class="row g-0">
-				<div class="col-sm-6 col-md-6">
+				<div class="col-sm-6 col-md-6 d-flex">
 					<ul class="nav nav-pills nav-fill">
 					  <li class="nav-item">
 					    <a class="nav-link active" aria-current="page" href="#">전체</a>
@@ -203,8 +203,8 @@
 					  </li>
 					</ul>
 				</div>
-				<div class="col-6 col-md-6 search_form">
-					<select class="form-select" aria-label="Default select example">
+				<div class="col-6 col-md-6 d-flex justify-content-end">
+					<select class="form-select me-2 col-auto" aria-label="Default select example">
 					  <option selected>선택</option>
 					  <option value="1">제목으로 검색</option>
 					  <option value="2">내용으로 검색</option>
@@ -212,13 +212,12 @@
 					  <option value="3">기안자로 검색</option>
 					  <option value="3">문서번호로 검색</option>
 					</select>
-					<form>
-	                    <input class="form-control border-0" type="search" placeholder="Search">
-	                </form> 
+					<input class="form-control me-2" type="search" name="query" placeholder="Search">
+	                <button type="button" class="btn btn-primary col-auto">검색</button>
 				</div>
 			</div>	
 			</div>	
-				
+						
 			<!-- 테이블 시작 -->
 			<div class="mx-4 my-4">
 				<table class="table table-hover">

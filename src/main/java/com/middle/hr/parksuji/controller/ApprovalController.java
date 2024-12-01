@@ -1,4 +1,4 @@
-package com.middle.hr.parksuji;
+package com.middle.hr.parksuji.controller;
 
 import java.io.UnsupportedEncodingException;
 
@@ -7,6 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.middle.hr.parksuji.vo.writeDraftFormVO;
 
 @Controller
 public class ApprovalController {
@@ -31,12 +33,17 @@ public class ApprovalController {
 	
 	// html 입력 내용 저장하기 
 	@PostMapping("/save")
-	public String saveWriteDraftForm(@RequestParam("notice_content") String noticeContent, Model model) {
+	public String saveWriteDraftForm(@RequestParam("draftTitle") String draftTitle,
+									@RequestParam("notice_content") String noticeContent, 
+									Model model) {
 		
 		// noticeContent는 SmartEditor에서 입력한 HTML 내용(textarea 안의 내용)
-		System.out.println("Received content: " + noticeContent);  // html이 제대로 넘어오는지 확인 
+		 System.out.println("Received content: " + draftTitle); 
+		// System.out.println("Received content: " + noticeContent);  // html이 제대로 넘어오는지 확인 
 		
+		// writeDraftFormVO 객체 생성하고 값 설정
 		writeDraftFormVO writeDraftForm = new writeDraftFormVO();
+		writeDraftForm.setDraftTitle(draftTitle);
 		writeDraftForm.setNoticeContent(noticeContent); // SmartEditor에서 입력한 HTML 저장
 		
 		model.addAttribute("writeDraftForm", writeDraftForm); // writeDraftForm 이름으로 Model에 객체 담기
