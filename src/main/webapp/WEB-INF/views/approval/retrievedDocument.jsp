@@ -6,33 +6,47 @@
 
 <head>
     <meta charset="utf-8">
-    <title>임시보관함</title>
+    <title>임시보관함 _ 회수 문서</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
 
-    <!-- Favicon -->
-    <link href="/resources/template/img/favicon.ico" rel="icon">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
 
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
-    
-    <!-- Icon Font Stylesheet -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+<!-- Favicon -->
+<link href="/resources/template/img/favicon.ico" rel="icon">
 
-    <!-- Libraries Stylesheet -->
-    <link href="/resources/template/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="/resources/template/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+<!-- Google Web Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+	href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap"
+	rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap"
+	rel="stylesheet">
 
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="/resources/template/css/bootstrap.min.css" rel="stylesheet">
+<!-- Icon Font Stylesheet -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
-    <!-- Template Stylesheet -->
-    <link href="/resources/template/css/style.css" rel="stylesheet">
+<!-- Libraries Stylesheet -->
+<link
+	href="/resources/template/lib/owlcarousel/assets/owl.carousel.min.css"
+	rel="stylesheet">
+<link href="/resources/template/css/tempusdominus-bootstrap-4.min.css"
+	rel="stylesheet" />
+
+<!-- Customized Bootstrap Stylesheet -->
+<link href="/resources/template/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Template Stylesheet -->
+<link href="/resources/template/css/style.css" rel="stylesheet">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script	src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+
     
     <!-- 공통 커스텀 스타일 -->
     <style> 
@@ -168,6 +182,59 @@
     		font-weight:500;
     
     	}
+    	
+    		.form_preview {
+		border: 1px solid #191C24;
+		height: 300px;
+	}
+	
+	iframe {
+		width: 25vw;
+		height: 58.5vh;
+		border: none;
+	}
+	
+	.form_ch_name span {
+		color: #191C24;
+	}
+	
+	.form_subtitle {
+		font-size: 20px;
+		color: #191C24;
+		font-weight: 500;
+	}
+	
+	.frame_div {
+		text-align: center;
+	}
+	
+	.tree_div {
+		border: 1px solid #191C24;
+		height: 400px;
+	}
+	
+	.table_div{
+		height:50%;
+		align-content:center;
+	}
+	
+	.btn_group{
+		text-align:center;
+		height:100%;
+	}
+	
+	.btn_group div{
+		align-content:center;
+		height:50%;
+	}
+	
+	.btn_group .btn{
+		border: 1px solid #14A4FF;
+		background-color: #fff;
+		color: #14A4FF;
+		font-weight: 500;
+	}
+	
     	
     	
     </style>
@@ -396,7 +463,7 @@
 		     <div class="col-sm-6 col-md-4 justify-content-md-start">
 				  <!-- 페이지 타이틀 -->
 				  <div class="mx-4 mt-4">	
-					<h4>임시보관함</h4>
+					<h4>임시보관함 _ 회수 문서</h4>
 				  </div>
 		     </div>
 			 <div class="col-sm-6 col-md-8 "> 
@@ -562,26 +629,133 @@
     </div>
 
     <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/resources/template/lib/chart/chart.min.js"></script>
-    <script src="/resources/template/lib/easing/easing.min.js"></script>
-    <script src="/resources/template/lib/waypoints/waypoints.min.js"></script>
-    <script src="/resources/template/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="/resources/template/lib/tempusdominus/js/moment.min.js"></script>
-    <script src="/resources/template/lib/tempusdominus/js/moment-timezone.min.js"></script>
-    <script src="/resources/template/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+	<!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="/resources/template/lib/chart/chart.min.js"></script>
+	<script src="/resources/template/lib/easing/easing.min.js"></script>
+	<script src="/resources/template/lib/waypoints/waypoints.min.js"></script>
+	<script src="/resources/template/lib/owlcarousel/owl.carousel.min.js"></script>
+	<script src="/resources/template/lib/tempusdominus/js/moment.min.js"></script>
+	<script src="/resources/template/lib/tempusdominus/js/moment-timezone.min.js"></script>
+	<script src="/resources/template/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
     
-    <!-- SmartEditor2 라이브러리  --> 
+    <!-- modal Javascript -->
+	<script type="text/javascript" src="/resources/approval/js/approvalFormSelect.js"></script>
+
+	<!-- SmartEditor2 라이브러리  -->
 	<script type="text/javascript" src="/resources/se2/js/HuskyEZCreator.js" charset="utf-8"></script>
-	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
 
-    <!-- Template Javascript -->
-    <script src="/resources/template/js/main.js"></script>
-    
-    <!-- SmartEditor2 -->
-	<script type="text/javascript" src = "/resources/template/js/notice-write.js"></script>
+	<!-- Template Javascript -->
+	<script src="/resources/template/js/main.js"></script>
 
+	<!-- SmartEditor2 -->
+	<script type="text/javascript" src="/resources/template/js/notice-write.js"></script>
+		
+	<!-- jstree js -->
+	<script type="text/javascript" src="/resources/approval/js/jstreeCustom.js"></script>
+
+		<script>
+		$(function(){
+			
+			// 양식 선택 체크박스 중복 적용 안 되도록  
+			$('input[type="checkbox"][name="formCheck"]').click(function(){
+				if($(this).prop('checked')){
+					$('input[type="checkbox"][name="formCheck"]').prop('checked', false);
+					$(this).prop('checked', true);
+				}
+			})
+			
+			// 양식 선택 모달창에서 양식 선택 후 '적용' 버튼 클릭시 
+			$('#formSelectBtn').click(function(){
+				// 모달창 닫기 
+				$('#formModal').modal('hide');
+				// 텍스트 필드 값 초기화 
+				var textField = $('#approval_form');
+				textField.val('');
+				
+				// input 옆에 있는 span의 값(양식 이름 text)을 spanTxt 변수에 저장 후 텍스트필드의 값으로 해당 값 출력 
+				var spanTxt = $('.form_ch_name input[name="formCheck"]:checked').next('span').text(); 
+				textField.val(spanTxt);
+					
+			})
+			
+			
+			// '적용' 버튼 클릭 시 '결재자' mainTable에 데이터 추가
+			   $('#line_complete').click(function() {
+			       // 모달에서 추가된 행들을 가져오기
+			       $('.line_table tbody tr').each(function() {
+			           // 행의 데이터를 가져옴
+			           var name = $(this).find('td').eq(0).text();
+			           // var position = $(this).find('td').eq(1).text();
+			
+			           // 새로운 행을 mainTable에 추가
+			           var newRow = '<tr><td>' + name + '</td><td>' + '<div><button type="button" class="btn-close" aria-label="Close"></button></div>' + '</td></tr>';
+			           $('#body_line_table tbody').append(newRow);
+			       });
+			
+			       // 모달 닫기
+			       $('#lineModal').modal('hide');
+			
+			       // 모달 내용 비우기
+			       $('.line_table tbody').empty();
+			       
+			    // 추가된 버튼에 클릭 이벤트를 바인딩
+				    $('.btn-close').click(function() {
+				        // 클릭된 버튼이 속한 행을 삭제
+				        $(this).closest('tr').remove(); 
+				    });
+			       
+			   });
+
+			// '적용' 버튼 클릭 시 '참조자' mainTable에 데이터 추가
+			   $('#line_complete').click(function() {
+			       // 모달에서 추가된 행들을 가져오기
+			       $('.ref_table tbody tr').each(function() {
+			           // 행의 데이터를 가져옴
+			           var name = $(this).find('td').eq(0).text();
+			           // var position = $(this).find('td').eq(1).text();
+			
+			           // 새로운 행을 mainTable에 추가
+			           var newRow = '<tr><td>' + name + '</td><td>' + '<div><button type="button" class="btn-close" aria-label="Close"></button></div>' + '</td></tr>';
+			           $('#body_ref_table tbody').append(newRow);
+			       });
+			
+			       // 모달 닫기
+			       $('#lineModal').modal('hide');
+			
+			       // 모달 내용 비우기
+			       $('.ref_table tbody').empty();
+			       
+			    // 추가된 버튼에 클릭 이벤트를 바인딩
+				    $('.btn-close').click(function() {
+				        // 클릭된 버튼이 속한 행을 삭제
+				        $(this).closest('tr').remove(); 
+				    });
+			       
+			   });
+			
+			
+			   			
+			// 재기안 버튼 클릭시 실행될 함수 
+			$('.choice_send').click(function(){
+			    // SmartEditor에서 textarea에 내용 업데이트
+			    oEditors.getById["smartEditor"].exec("UPDATE_CONTENTS_FIELD", []); // 이 명령이 `textarea`의 값을 업데이트함
+				
+			    var htmlContent = document.getElementsByName("notice_content")[0].value;
+			    console.log(htmlContent);  // 콘솔에서 HTML 값 확인
+			    
+				// 폼 제출 (textarea 값은 자동으로 폼에 포함됨)
+			    $('#writeDraftForm').submit(); // form 제출 
+			})
+			
+			// 취소 버튼 클릭시 페이지 리로드  
+			$('.choice_cancel').click(function(){
+				// 페이지 새로고침
+				location.reload();  	
+			})
+				
+		})
+	</script>
     
 </body>
 

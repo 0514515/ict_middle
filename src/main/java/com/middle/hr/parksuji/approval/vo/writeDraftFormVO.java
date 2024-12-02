@@ -1,4 +1,4 @@
-package com.middle.hr.parksuji.vo;
+package com.middle.hr.parksuji.approval.vo;
 
 import org.springframework.stereotype.Component;
 

@@ -61,7 +61,8 @@ $(function(){
 						+ '</td></tr>'; 
 			
 			})
-
+			
+			
 		    // 테이블의 tbody에 추가
 		    $('.ref_table tbody').append(rows);
 			
