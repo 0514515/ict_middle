@@ -6,7 +6,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>DASHMIN - Bootstrap Admin Template</title>
+    <title>임시보관함</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -175,6 +175,191 @@
 </head>
 
 <body>
+
+<!-- 결재양식 선택 Modal -->
+	<div class="modal fade" id="formModal" tabindex="-1"
+		aria-labelledby="formModalLabel" aria-hidden="true">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="formModalLabel">결재 양식 선택 및 미리보기</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+
+					<div class="row">
+
+						<div class="col-md-4 ms-auto ps-5">
+							<p class="mt-4 mb-4 form_subtitle">결재 양식 선택</p>
+							<div class="mx-3 mt-2 mb-2 form_ch_name">
+								<input class="form-check-input me-2" type="checkbox" name="formCheck" value="1" 
+								    id="flexCheckChecked"> 
+								<span>기안서</span>
+							</div>
+							<div class="mx-3 mt-2 mb-2 form_ch_name">
+								<input class="form-check-input me-2" type="checkbox" name="formCheck" value="2"
+									id="flexCheckChecked"> <span>지출결의서</span>
+							</div>
+							<div class="mx-3 mt-2 mb-2 form_ch_name">
+								<input class="form-check-input me-2" type="checkbox" name="formCheck" value="3"
+									id="flexCheckChecked"> <span>품의서</span>
+							</div>
+							<div class="mx-3 mt-2 mb-2 form_ch_name">
+								<input class="form-check-input me-2" type="checkbox" name="formCheck" value="4"
+									id="flexCheckChecked"> <span>출장보고서</span>
+							</div>
+							<div class="mx-3 mt-2 mb-2 form_ch_name">
+								<input class="form-check-input me-2" type="checkbox" name="formCheck" value="5"
+									id="flexCheckChecked"> <span>사직서</span>
+							</div>
+						</div>
+						<div class="col-md-8 ms-auto frame_div">
+							<div>
+								<!-- 툴바 숨기기 : 확장자명 뒤에 #toolbar=0&navpanes=0&scrollbar=0 추가 -->
+								<iframe
+									src="/resources/approval/img/sample.pdf#toolbar=0&navpanes=0&scrollbar=0"></iframe>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">취소</button>
+					<button type="button" class="btn btn-primary" id="formSelectBtn">적용</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+<!-- 결재선 선택 Modal -->
+	<div class="modal fade" id="lineModal" tabindex="-1"
+		aria-labelledby="formModalLabel" aria-hidden="true">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="formModalLabel">결재선 지정</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+
+					<div class="row g-2">
+						<div class="col-md-4">
+							<input type="text" class="form-control" id="search_input" value="" placeholder="이름 또는 부서 검색" onkeypress="show_name(event)">
+						</div>
+						<div class="col-md-8">
+							<button type="button" id="search_btn" class="btn btn-primary mb-3">선택</button>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-5 ms-auto">
+						
+						<!-- 트리구조 조직도 -->
+							<div class="tree_div overflow-scroll">
+							<div id="jstree">
+								<ul>
+									<li id="root">무한상사
+										<ul>
+											<li class="group" id="groupA">대표이사
+												<ul>
+													<li id="child1">유재석</li>
+												</ul>
+											</li>
+											<li class="group" id="groupB">경영지원부
+												<ul>
+													<li id="child2">홍진경 사원</li>
+													<li id="child3">남창희 사원</li>
+													<li id="child4">조세호 대리</li>
+													<li id="child5">이동욱 과장</li>
+													<li id="child6">황정민 부장</li>
+													
+												</ul>
+											</li>
+											<li class="group" id="groupC">디자인부
+												<ul>
+													<li id="child7">양세찬 사원</li>
+													<li id="child8">이광수 사원</li>
+													<li id="child9">지예은 사원</li>
+													<li id="child10">송지효 대리</li>
+													<li id="child11">김종국 과장</li>
+													<li id="child12">지석진 부장</li>
+												</ul>
+											</li>
+											<li class="group" id="groupD">영업부 
+												<ul>
+													<li id="child13">하동훈 사원</li>
+													<li id="child14">노홍철 사원</li>
+													<li id="child15">정형돈 대리</li>
+													<li id="child16">정준하 과장</li>
+													<li id="child17">박명수 부장</li>
+												</ul>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</div>
+							
+							</div>
+						</div>
+						<div class="col-md-2 ms-auto">
+							<div class="btn_group">
+								<!-- 버튼 -->
+								<div>
+									<button type="button" id="line_plus" class="btn btn-primary mb-3">결재 추가<i class="bi bi-caret-right-fill"></i></button>
+								</div>
+								<div>
+									<button type="button" id="ref_plus" class="btn btn-primary mb-3">참조 추가<i class="bi bi-caret-right-fill"></i></button>
+								</div>
+								
+							</div>
+						</div>
+						<div class="col-md-5 ms-auto">
+						  <div class="table_div">
+							<table class="table modal_table line_table">
+								<thead>
+									<tr>
+										<th colspan=2>결재자</th>
+									</tr>
+								</thead>
+								<tbody>
+									<!-- 동적 테이블 추가 -->	
+								</tbody>
+							</table>
+						  </div>
+						  
+						  <div class="table_div">
+							<table class="table ref_table">
+								<thead>
+									<tr>
+										<th colspan=2>참조자</th>
+									</tr>
+								</thead>
+								<tbody>
+									<!-- 동적 테이블 추가 -->	
+								</tbody>
+							</table>
+						   </div>
+							
+						</div>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">취소</button>
+					<button type="button" id="line_complete" class="btn btn-primary">적용</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
     <div class="container-fluid position-relative bg-white d-flex p-0">
     
         <!-- Spinner Start -->
@@ -244,74 +429,62 @@
 				  </div>
 			  </div>
 			  
-			<!-- 결재양식 -->
-			  <div class="mb-3">
-				  <label for="approvalForm" class="form-label">결재양식</label>
-				  <div class="row g-2">
-				  	<div class="col-md-9">
-				  		<input type="text" class="form-control" id="approval_form" value="" aria-label="Disabled input example" disabled>
-				  	</div>
-				  	<div class="col-md-3">
-				  		<button type="button" class="btn btn-primary mb-3">선택</button>
-				  	</div>
-				  </div>
-			  </div>
+				<!-- 결재양식 -->
+				<div class="mb-3">
+					<label for="approvalForm" class="form-label">결재양식</label>
+					<div class="row g-2">
+						<div class="col-md-9">
+							<input type="text" class="form-control" id="approval_form"
+								value="" aria-label="Disabled input example" readonly>
+						</div>
+						<div class="col-md-3">
+							<button type="button" class="btn btn-primary mb-3"
+								data-bs-toggle="modal" data-bs-target="#formModal">선택</button>
+						</div>
+					</div>
+				</div>
 			  
-			  <!-- 결재선 -->
-			  <div class="mb-3">
-				  <label for="approvalLine" class="form-label">결재선</label>
-				  <div class="row g-2">
-				  	<div class="col-md-9">
-				  		<input type="text" class="form-control" id="approval_line" value="" aria-label="Disabled input example" disabled>
-				  	</div>
-				  	<div class="col-md-3">
-				  		<button type="button" class="btn btn-primary mb-3">선택</button>
-				  	</div>
-				  </div>
-			  </div>
+				<!-- 결재선 -->
+				<div class="mb-3">
+					<label for="approvalLine" class="form-label">결재선</label>
+					<div class="row g-2">
+						<div class="col-md-9">
+							<input type="text" class="form-control" id="approval_line"
+								value="" aria-label="Disabled input example" disabled>
+						</div>
+						<div class="col-md-3">
+							<button type="button" class="btn btn-primary mb-3"
+								data-bs-toggle="modal" data-bs-target="#lineModal">선택</button>
+						</div>
+					</div>
+				</div>
 			  
-			  <!-- 결재자 -->
-			  <div class="mb-3">
-				  <label for="inputTitle" class="form-label">결재자</label>
-				  <table class="table">
-					  <tbody>
-					    <tr>
-					      <td colspan=2>[디자인팀] 양세찬 사원</td>
-					    </tr>
-					    <tr>
-					      <td class="first_cell">[디자인팀] 지석진 과장</td>
-					      <td>
-					      	<div>
-					      		<button type="button" class="btn-close" aria-label="Close"></button>
-					      	</div>
-					      </td>
-					    </tr>
-					  </tbody>
-				   </table>
-			  </div>
-			  
-			  <!-- 참조자 -->
-			  <div class="mb-3">
-				  <label for="inputTitle" class="form-label">참조자</label>
-				  <table class="table">
-					  <tbody>
-					    <td class="first_cell">[경영지원부] 조세호 대리</td>
-					      <td>
-					      	<div>
-					      		<button type="button" class="btn-close" aria-label="Close"></button>
-					      	</div>
-					      </td>
-					    <tr>
-					      <td class="first_cell">[디자인팀] 송지효 대리</td>
-					      <td>
-					      	<div>
-					      		<button type="button" class="btn-close" aria-label="Close"></button>
-					      	</div>
-					      </td>
-					    </tr>
-					  </tbody>
-				   </table>
-			  </div>
+					<!-- 결재자 -->
+					<div class="mb-3">
+						<label for="inputTitle" class="form-label">결재자</label>
+						<table id="body_line_table" class="table">
+							<tbody>
+								<tr>
+									<td colspan=2>[디자인팀] 양세찬 사원</td>
+								</tr>
+								
+								<!-- 동적 테이블 생성 -->
+								
+							</tbody>
+						</table>
+					</div>
+
+					<!-- 참조자 -->
+					<div class="mb-3">
+						<label for="inputTitle" class="form-label">참조자</label>
+						<table id="body_ref_table" class="table">
+							<tbody>
+							
+								<!-- 동적 테이블 생성 -->
+							
+							</tbody>
+						</table>
+					</div>
 			  
 			  
 			</div> <!-- end 그레이 박스선 -->
@@ -323,33 +496,35 @@
 				<h5>결재 내용</h5>
 			</div>
 			
-			<!-- 결재 내용 본문 박스 -->
-			<div class="form_box mx-4 my-4 px-4 py-4">
-				
-			  <!-- 제목 영역 -->
-			  <div class="mb-3">
-				  <label for="inputTitle" class="form-label">제목</label>
-				  <input type="text" class="form-control" id="inputTitle">
-			  </div>	
-		
-				
-			<!-- SmartEditor2  -->
-				<div class="jsx-2303464893 editor">
-					<div class="fr-box fr-basic fr-top" role="application">
-						<div class="fr-wrapper show-placeholder" dir="auto" >  <!-- style="overflow: scroll;" 제외 -->
-							<textarea name="notice_content" id="smartEditor"
-								style="width: 100%; height: 412px;"></textarea>
+				<!-- 결재 내용 본문 박스 -->
+				<div class="form_box mx-4 my-4 px-4 py-4">
+
+					<form id="writeDraftForm" action="/save" method="post">
+						<!-- 제목 영역 -->
+						<div class="mb-3">
+							<label for="inputTitle" class="form-label">제목</label>
+							<input type="text" class="form-control" id="inputTitle" name="draftTitle">
+						</div>		
+									
+						<!-- SmartEditor2  -->
+						<div class="jsx-2303464893 editor">
+							<div class="fr-box fr-basic fr-top" role="application">
+								<div class="fr-wrapper show-placeholder" dir="auto">
+									<!-- style="overflow: scroll;" 제외 -->
+									<textarea name="notice_content" id="smartEditor" 
+											  style="width: 100%; height: 412px;">${htmlContent}</textarea>  <!-- 엑셀 변환 HTML -->
+								</div>
+							</div>
 						</div>
-					</div>
+					</form>	
+
 				</div>
 
-			</div>	
-			
 			</div>
+
+		</div>
 			
-			</div>	
-			
-			<!-- 버튼 -->
+			<!-- 버튼 (form 외부에 위치) -->
 			<div class="mx-4 my-4">
 				<div class="row g-0">
 					<div class="col-sm-6 col-md-6 justify-content-md-start">
@@ -358,7 +533,7 @@
 					<div class="col-6 col-md-6 d-md-flex justify-content-md-end">
 						<div class="gap-2" >
 							<button class="btn choice_save me-2" type="button">저장</button>
-					 		<button class="btn choice_send" type="button">재기안</button>
+					 		<button class="btn choice_send" type="submit">재기안</button>
 					 	</div>
 					</div>
 				</div>	
