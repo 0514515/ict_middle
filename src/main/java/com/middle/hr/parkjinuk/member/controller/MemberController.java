@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.middle.hr.parkjinuk.member.controller.dto.Login;
+import com.middle.hr.parkjinuk.member.controller.dto.LoginFormDTO;
 
 @Controller
 public class MemberController {
@@ -53,7 +53,7 @@ public class MemberController {
 	
 	// 로그인
 	@PostMapping("login")
-	public String login(Login login, HttpSession session) {
+	public String login(LoginFormDTO login, HttpSession session) {
 		
 		//로그인 아이디가 공백이거나 null이면 로그인 페이지에서 안넘어감
 		if(login.getLoginId() == null || login.getLoginId().isBlank()) {
