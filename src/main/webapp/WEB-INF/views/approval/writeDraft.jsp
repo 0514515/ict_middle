@@ -86,7 +86,6 @@
 	
 	table {
 		text-align: left;
-		border: 1px solid #ccc;
 	}
 	
 	/*뱃지 컬러 : 임시저장*/
@@ -222,6 +221,14 @@
 		color: #14A4FF;
 		font-weight: 500;
 	}
+	
+	.table_height{
+		height:168px;
+		border: 1px solid #ccc;
+		overflow-y:scroll;
+	}
+	
+	
 	
 	</style>
 
@@ -374,29 +381,33 @@
 						</div>
 						<div class="col-md-5 ms-auto">
 						  <div class="table_div">
-							<table class="table modal_table line_table">
-								<thead>
-									<tr>
-										<th colspan=2>결재자</th>
-									</tr>
-								</thead>
-								<tbody>
-									<!-- 동적 테이블 추가 -->	
-								</tbody>
-							</table>
+							  	<div class="table_height">
+									<table class="table modal_table line_table">
+										<thead>
+											<tr>
+												<th colspan=2>결재자</th>
+											</tr>
+										</thead>
+										<tbody>
+											<!-- 동적 테이블 추가 -->	
+										</tbody>
+									</table>
+								</div>	
 						  </div>
 						  
 						  <div class="table_div">
-							<table class="table ref_table">
-								<thead>
-									<tr>
-										<th colspan=2>참조자</th>
-									</tr>
-								</thead>
-								<tbody>
-									<!-- 동적 테이블 추가 -->	
-								</tbody>
-							</table>
+						  	<div class="table_height">
+								<table class="table ref_table">
+									<thead>
+										<tr>
+											<th colspan=2>참조자</th>
+										</tr>
+									</thead>
+									<tbody>
+										<!-- 동적 테이블 추가 -->	
+									</tbody>
+								</table>
+							</div>
 						   </div>
 							
 						</div>
@@ -612,17 +623,14 @@
 
 	<!-- JavaScript Libraries -->
 	<!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="/resources/template/lib/chart/chart.min.js"></script>
 	<script src="/resources/template/lib/easing/easing.min.js"></script>
 	<script src="/resources/template/lib/waypoints/waypoints.min.js"></script>
 	<script src="/resources/template/lib/owlcarousel/owl.carousel.min.js"></script>
 	<script src="/resources/template/lib/tempusdominus/js/moment.min.js"></script>
-	<script
-		src="/resources/template/lib/tempusdominus/js/moment-timezone.min.js"></script>
-	<script
-		src="/resources/template/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+	<script src="/resources/template/lib/tempusdominus/js/moment-timezone.min.js"></script>
+	<script src="/resources/template/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
 
 	<!-- modal Javascript -->
@@ -735,6 +743,11 @@
 			    $('#writeDraftForm').submit(); // form 제출 
 			})
 			
+			// 취소 버튼 클릭시 페이지 리로드  
+			$('.choice_cancel').click(function(){
+				// 페이지 새로고침
+				location.reload();  	
+			})
 			
 			
 		})

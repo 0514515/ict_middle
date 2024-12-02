@@ -1,4 +1,4 @@
-package com.middle.hr.parksuji.controller;
+package com.middle.hr.parksuji.approval.controller;
 
 import java.io.UnsupportedEncodingException;
 
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.middle.hr.parksuji.vo.writeDraftFormVO;
+import com.middle.hr.parksuji.approval.vo.writeDraftFormVO;
 
 @Controller
 public class ApprovalController {
@@ -52,6 +52,7 @@ public class ApprovalController {
 	}
 	
 	// 결재 받을 문서
+	
 	@GetMapping("approval/history/sent")
 	public String getSentApprovalList() {
 		return "/approval/sentApprovalList";
