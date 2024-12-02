@@ -13,7 +13,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 @Component
 public class LoginCheckAdvice {
 	
-	@Around("execution(* com.middle.hr.parkjinuk.*.controller.*.*(..))")
+/*	@Around("execution(* com.middle.hr.parkjinuk.*.controller.*.*(..))")
 	//로그인 검사 AOP
 	public Object sessionCheck(ProceedingJoinPoint point) throws Throwable{
 		
@@ -42,4 +42,5 @@ public class LoginCheckAdvice {
 		
 		return point.proceed();
 	}
+	*/
 }

@@ -8,10 +8,9 @@ import lombok.Setter;
 @Setter
 @ToString
 public class Administrator {
+	private String staffId;
 	private String companyId;
-	private String name;
-	private String loginId;
-	private String password;
-	private String phoneNumber;
-	private String email;
+	private String companyName;
+	private String staffName;
+	private String createdAt;
 }
