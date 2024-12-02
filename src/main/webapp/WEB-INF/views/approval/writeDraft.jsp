@@ -364,67 +364,37 @@
 							<div class="btn_group">
 								<!-- 버튼 -->
 								<div>
-									<button type="button" id="linePlus" class="btn btn-primary mb-3">결재 추가<i class="bi bi-caret-right-fill"></i></button>
+									<button type="button" id="line_plus" class="btn btn-primary mb-3">결재 추가<i class="bi bi-caret-right-fill"></i></button>
 								</div>
 								<div>
-									<button type="button" id="refPlus" class="btn btn-primary mb-3">참조 추가<i class="bi bi-caret-right-fill"></i></button>
+									<button type="button" id="ref_plus" class="btn btn-primary mb-3">참조 추가<i class="bi bi-caret-right-fill"></i></button>
 								</div>
 								
 							</div>
 						</div>
 						<div class="col-md-5 ms-auto">
 						  <div class="table_div">
-							<table class="table modal_table">
+							<table class="table modal_table line_table">
 								<thead>
 									<tr>
 										<th colspan=2>결재자</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td class="first_cell">[디자인팀] 지석진 과장</td>
-										<td>
-											<div>
-												<button type="button" class="btn-close" aria-label="Close"></button>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td class="first_cell">[디자인팀] 지석진 과장</td>
-										<td>
-											<div>
-												<button type="button" class="btn-close" aria-label="Close"></button>
-											</div>
-										</td>
-									</tr>	
+									<!-- 동적 테이블 추가 -->	
 								</tbody>
 							</table>
 						  </div>
 						  
 						  <div class="table_div">
-							<table class="table">
+							<table class="table ref_table">
 								<thead>
 									<tr>
 										<th colspan=2>참조자</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td class="first_cell">[디자인팀] 지석진 과장</td>
-										<td>
-											<div>
-												<button type="button" class="btn-close" aria-label="Close"></button>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td class="first_cell">[디자인팀] 지석진 과장</td>
-										<td>
-											<div>
-												<button type="button" class="btn-close" aria-label="Close"></button>
-											</div>
-										</td>
-									</tr>
+									<!-- 동적 테이블 추가 -->	
 								</tbody>
 							</table>
 						   </div>
@@ -436,7 +406,7 @@
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
 						data-bs-dismiss="modal">취소</button>
-					<button type="button" class="btn btn-primary">적용</button>
+					<button type="button" id="line_complete" class="btn btn-primary">적용</button>
 				</div>
 			</div>
 		</div>
@@ -493,8 +463,7 @@
 				<div class="mx-4 my-4">
 					<h5>양식 및 결재선</h5>
 				</div>
-				<div class="form_box_hidden mx-4 my-4 px-4 py-4">
-					<!-- 그레이 박스선 -->
+				<div class="form_box_hidden mx-4 my-4 px-4 py-4"> <!-- 그레이 박스선 -->
 
 					<!-- 기안일자 -->  
 					<div class="mb-3">
@@ -540,19 +509,14 @@
 					<!-- 결재자 -->
 					<div class="mb-3">
 						<label for="inputTitle" class="form-label">결재자</label>
-						<table class="table">
+						<table id="body_line_table" class="table">
 							<tbody>
 								<tr>
 									<td colspan=2>[디자인팀] 양세찬 사원</td>
 								</tr>
-								<tr>
-									<td class="first_cell">[디자인팀] 지석진 과장</td>
-									<td>
-										<div>
-											<button type="button" class="btn-close" aria-label="Close"></button>
-										</div>
-									</td>
-								</tr>
+								
+								<!-- 동적 테이블 생성 -->
+								
 							</tbody>
 						</table>
 					</div>
@@ -560,22 +524,11 @@
 					<!-- 참조자 -->
 					<div class="mb-3">
 						<label for="inputTitle" class="form-label">참조자</label>
-						<table class="table">
+						<table id="body_ref_table" class="table">
 							<tbody>
-								<td class="first_cell">[경영지원부] 조세호 대리</td>
-								<td>
-									<div>
-										<button type="button" class="btn-close" aria-label="Close"></button>
-									</div>
-								</td>
-								<tr>
-									<td class="first_cell">[디자인팀] 송지효 대리</td>
-									<td>
-										<div>
-											<button type="button" class="btn-close" aria-label="Close"></button>
-										</div>
-									</td>
-								</tr>
+							
+								<!-- 동적 테이블 생성 -->
+							
 							</tbody>
 						</table>
 					</div>
@@ -654,8 +607,7 @@
 
 
 		<!-- Back to Top -->
-		<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i
-			class="bi bi-arrow-up"></i></a>
+		<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 	</div>
 
 	<!-- JavaScript Libraries -->
@@ -714,7 +666,62 @@
 			})
 			
 			
+			// '적용' 버튼 클릭 시 '결재자' mainTable에 데이터 추가
+			   $('#line_complete').click(function() {
+			       // 모달에서 추가된 행들을 가져오기
+			       $('.line_table tbody tr').each(function() {
+			           // 행의 데이터를 가져옴
+			           var name = $(this).find('td').eq(0).text();
+			           // var position = $(this).find('td').eq(1).text();
 			
+			           // 새로운 행을 mainTable에 추가
+			           var newRow = '<tr><td>' + name + '</td><td>' + '<div><button type="button" class="btn-close" aria-label="Close"></button></div>' + '</td></tr>';
+			           $('#body_line_table tbody').append(newRow);
+			       });
+			
+			       // 모달 닫기
+			       $('#lineModal').modal('hide');
+			
+			       // 모달 내용 비우기
+			       $('.line_table tbody').empty();
+			       
+			    // 추가된 버튼에 클릭 이벤트를 바인딩
+				    $('.btn-close').click(function() {
+				        // 클릭된 버튼이 속한 행을 삭제
+				        $(this).closest('tr').remove(); 
+				    });
+			       
+			   });
+
+			// '적용' 버튼 클릭 시 '참조자' mainTable에 데이터 추가
+			   $('#line_complete').click(function() {
+			       // 모달에서 추가된 행들을 가져오기
+			       $('.ref_table tbody tr').each(function() {
+			           // 행의 데이터를 가져옴
+			           var name = $(this).find('td').eq(0).text();
+			           // var position = $(this).find('td').eq(1).text();
+			
+			           // 새로운 행을 mainTable에 추가
+			           var newRow = '<tr><td>' + name + '</td><td>' + '<div><button type="button" class="btn-close" aria-label="Close"></button></div>' + '</td></tr>';
+			           $('#body_ref_table tbody').append(newRow);
+			       });
+			
+			       // 모달 닫기
+			       $('#lineModal').modal('hide');
+			
+			       // 모달 내용 비우기
+			       $('.ref_table tbody').empty();
+			       
+			    // 추가된 버튼에 클릭 이벤트를 바인딩
+				    $('.btn-close').click(function() {
+				        // 클릭된 버튼이 속한 행을 삭제
+				        $(this).closest('tr').remove(); 
+				    });
+			       
+			   });
+			
+			
+			   
 			
 			// 결재 상신 버튼 클릭시 실행될 함수 
 			$('.choice_send').click(function(){

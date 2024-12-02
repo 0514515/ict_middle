@@ -13,6 +13,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 @Component
 public class LoginCheckAdvice {
 	
+	//로그인 검사 AOP
 	@Around("execution(* com.middle.hr.parkjinuk.member.controller.*.*(..))")
 	public Object sessionCheck(ProceedingJoinPoint point) throws Throwable{
 		
@@ -24,6 +25,7 @@ public class LoginCheckAdvice {
 			return point.proceed();
 		}
 		
+		//세션 받아오기
 		HttpSession currentSession = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest().getSession();
 		
 		//세션의 로그인 아이디 받아오기
