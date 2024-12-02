@@ -3,17 +3,22 @@ package com.middle.hr.parkjinuk.common.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.middle.hr.parkjinuk.common.controller.vo.Administrator;
-import com.middle.hr.parkjinuk.common.controller.vo.Company;
+import com.middle.hr.parkjinuk.common.service.CommonService;
+import com.middle.hr.parkjinuk.common.vo.Administrator;
+import com.middle.hr.parkjinuk.common.vo.Company;
 
 @Controller
 public class CommonController {
 
+	@Autowired
+	CommonService commonService;
+	
 	//회사 목록 페이지
 	@GetMapping("super/company")
 	public String getCompanyList() {
@@ -40,15 +45,14 @@ public class CommonController {
 	
 	//회사 등록 URI
 	@PostMapping("super/company/new")
-	public String createCompany(Company company) {
+	public String createCompany(com.middle.hr.parkjinuk.common.vo.Company company) {
 		
-		/**
-		 * To Do
-		 * 
-		 * 회사를 추가하는 서비스 로직 실행
-		 */
+		//실제 회사 실행
+		Integer result = commonService.createCompany(company);
 		
-		System.out.println(company);
+		if(result==1) {
+			System.out.println("@@@ 등록 성공 @@@");
+		}
 		
 		return "redirect:/super/company";
 	}

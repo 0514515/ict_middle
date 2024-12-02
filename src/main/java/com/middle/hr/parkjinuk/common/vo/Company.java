@@ -1,4 +1,4 @@
-package com.middle.hr.parkjinuk.common.controller.vo;
+package com.middle.hr.parkjinuk.common.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

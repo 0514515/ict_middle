@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CommonRepository">
+
+	<insert id="insertCompany" parameterType="Company">
+		INSERT INTO COMPANY(id,name,address,phone_number,founded_at,created_at,updated_at)
+		VALUES (seq_company_id.nextval,#{name},#{address},#{phoneNumber},#{foundedDate},sysdate,sysdate)
+	</insert>
+</mapper>

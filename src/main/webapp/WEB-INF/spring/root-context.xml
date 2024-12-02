@@ -18,11 +18,11 @@
 		class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="mapperLocations"
-			value="classpath:*/*/mappers/*Mapper.xml"></property>
+			value="classpath:*/**/mappers/*Mapper.xml"></property>
 		<property name="typeAliases">
 			<list>
 				<!-- parkjinuk -->
-				<value>com.middle.hr.parkjinuk.common.controller.vo.Company</value>
+				<value>com.middle.hr.parkjinuk.common.vo.Company</value>
 				<!-- parksuji -->
 				<!-- parkeunbyeol -->
 			</list>

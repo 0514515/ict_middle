@@ -145,7 +145,7 @@ body {
 
 							<div class="mb-3">
 								<label for="foundedDate" class="form-label">창립일</label> <input
-									type="text" class="form-control" name="foundedDate" id="foundedDate">
+									type="date" class="form-control" name="foundedDate" id="foundedDate">
 							</div>
 
 
