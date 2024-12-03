@@ -198,28 +198,28 @@
 			
 			<div class="form_box mx-4 my-4 px-5 py-5">
 				<form id="createForm" action="/form_save" method="post">
-			  <div class="mb-3 row">
-			    <label for="inputTitle" class="col-sm-2 col-form-label">결재 양식명</label>
-			    <div class="col-sm-10">
-			      <input type="text" class="form-control" id="inputTitle" name="title">  <!-- input name 필수기입 -->
-			    </div>
-			  </div>
-			  <div class="mb-3 row">
-			    <label for="inputTitle" class="col-sm-2 col-form-label">문서 구분</label>
-			    <div class="col-sm-10">
-			      <select class="form-select" aria-label="Default select example" name="document_type">
-					  <option selected>선택</option>
-					  <option value="기안 문서">기안 문서</option>
-					  <option value="인사 문서">인사 문서</option>
-				  </select>
-			    </div>
-			  </div>
+				  <div class="mb-3 row">
+				    <label for="inputTitle" class="col-sm-2 col-form-label">결재 양식명</label>
+				    <div class="col-sm-10">
+				      <input type="text" class="form-control" id="inputTitle" name="title">  <!-- input name 필수기입 -->
+				    </div>
+				  </div>
+				  <div class="mb-3 row">
+				    <label for="inputTitle" class="col-sm-2 col-form-label">문서 구분</label>
+				    <div class="col-sm-10">
+				      <select class="form-select" aria-label="Default select example" name="documentType">
+						  <option selected>선택</option>
+						  <option value="기안 문서">기안 문서</option>
+						  <option value="인사 문서">인사 문서</option>
+					  </select>
+				    </div>
+				  </div>
 				
 			<!-- SmartEditor2  -->
 				<div class="jsx-2303464893 editor">
 					<div class="fr-box fr-basic fr-top" role="application">
 						<div class="fr-wrapper show-placeholder" dir="auto" >  <!-- style="overflow: scroll;" 제외 -->
-							<textarea name="form_content" id="smartEditor"
+							<textarea name="formContent" id="smartEditor"
 								style="width: 100%; height: 412px;"></textarea>
 						</div>
 					</div>
@@ -286,7 +286,7 @@
 	    // SmartEditor에서 textarea에 내용 업데이트
 	    oEditors.getById["smartEditor"].exec("UPDATE_CONTENTS_FIELD", []); // 이 명령이 `textarea`의 값을 업데이트함
 		
-	    var htmlContent = document.getElementsByName("form_content")[0].value;
+	    var htmlContent = document.getElementsByName("formContent")[0].value;
 	    console.log(htmlContent);  // 콘솔에서 HTML 값 확인
 	    
 		// 폼 제출 (textarea 값은 자동으로 폼에 포함됨)

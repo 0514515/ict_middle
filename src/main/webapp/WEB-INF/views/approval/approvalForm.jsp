@@ -223,8 +223,7 @@ table {
 						<tr>
 							<th class="table-light">
 								<div class="form-check">
-									<input class="form-check-input" type="checkbox" value=""
-										id="flexCheckChecked" checked>
+									<input class="form-check-input all_check" type="checkbox" value="" id="flexCheckChecked">
 								</div>
 							</th>
 							<th class="table-light">번호</th>
@@ -237,34 +236,21 @@ table {
 							<tr>
 								<td>
 									<div class="form-check">
-										<input class="form-check-input" type="checkbox" value=""
-											id="flexCheckChecked" checked>
+										<input class="form-check-input each_check" type="checkbox" value="" id="flexCheckChecked">
 									</div>
 								</td>
 								<td>${forms.id}</td>
 								<td>${forms.title}</td>
 								<td>${forms.name}</td>
-								<td>${forms.created_at}</td>
+								<td>${forms.createdAt}</td>
 								<%-- <td><span class="badge bg-warning">${forms.document_type}</span></td> --%>
 								<td><span class="badge <c:choose>
-										            <c:when test="${forms.document_type == '기안 문서'}">bg-warning</c:when>
-										            <c:when test="${forms.document_type == '인사 문서'}">bg-success</c:when>
+										            <c:when test="${forms.documentType == '기안 문서'}">bg-warning</c:when>
+										            <c:when test="${forms.documentType == '인사 문서'}">bg-success</c:when>
 										            <c:otherwise>bg-danger</c:otherwise>
-												</c:choose>">${forms.document_type}</span></td>
+												   </c:choose>">${forms.documentType}</span></td>
 							</tr>
 						</c:forEach>
-						<!-- <tr>
-				  		<td>
-				  			<div class="form-check">
-							  <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-							</div>
-				  		</td>
-				  		<td>2</td>
-				  		<td>사직서</td>
-				  		<td>관리자</td>
-				  		<td>2024-11-19</td>
-				  		<td><span class="badge bg-success">인사 문서</span></td>
-				  	</tr> -->
 
 
 					</table>
@@ -341,6 +327,27 @@ table {
 			// '새 양식 만들기' 페이지로 이동
 			window.location.href = '/approval/approvalForm/CreateForm';
 		})
+		
+		// 전체 선택 클릭시 전체 선택 및 해제  
+			$('.all_check').click(function(){
+				if($(this).prop('checked')){
+					$('.form-check-input').prop('checked', true);
+				}else{
+					$('.form-check-input').prop('checked', false);
+				}
+			})
+			
+			// 양식 선택 체크박스 중복 적용 안 되도록  
+			$('.each_check').click(function(){
+				if($(this).prop('checked')){
+					$(this).prop('checked', true);
+					
+				}else{
+					$(this).prop('checked', false);
+				}
+				
+			})
+		
 	</script>
 
 </body>

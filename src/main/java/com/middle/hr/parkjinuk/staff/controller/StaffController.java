@@ -33,7 +33,7 @@ public class StaffController {
             pageNum = 1;
 
         String loginId = httpSession.getAttribute("loginId").toString();
-
+        
         // 검색 옵션과 키워드로 페이지네이션 검색 (회사 검색)
         Map<String, Object> result = staffService.searchStaffList(loginId, searchOption, searchKeyword, pageNum, 10);
 

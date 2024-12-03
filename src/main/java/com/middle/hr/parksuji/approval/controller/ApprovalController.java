@@ -166,13 +166,13 @@ public class ApprovalController {
 	// 저장 후 양식 생성 완료 화면 출력 
 	@PostMapping("/form_save")  // form action값 기입 
 	public String saveCreateForm(@RequestParam("title") String title,  // input name값 가져오기 
-									@RequestParam("document_type") String document_type,  // input name값 가져오기
-									@RequestParam("form_content") String form_content,  // input name값 가져오기
+									@RequestParam("documentType") String documentType,  // input name값 가져오기
+									@RequestParam("formContent") String formContent,  // input name값 가져오기
 									Model model, HttpServletRequest request) throws IOException {
 		
 		System.out.println("Received content: " + title);  // html이 제대로 넘어오는지 확인 
-		System.out.println("Received content: " + document_type);  // html이 제대로 넘어오는지 확인 
-		System.out.println("Received content: " + form_content);  // html이 제대로 넘어오는지 확인 
+		System.out.println("Received content: " + documentType);  // html이 제대로 넘어오는지 확인 
+		System.out.println("Received content: " + formContent);  // html이 제대로 넘어오는지 확인 
 		
 		 // 네트워크 공유 폴더의 경로 (절대 경로 사용)
 	    String uploadDirectory = "\\\\DESKTOP-B94HRMS\\file\\approval\\uploads\\forms"; // 네트워크 공유 폴더 경로
@@ -186,7 +186,7 @@ public class ApprovalController {
 		
 		 // HTML 콘텐츠를 파일로 작성
 	    try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-	        writer.write(form_content);
+	        writer.write(formContent);
 	    } catch (IOException e) {
 	        e.printStackTrace();
 	        throw new IOException(" HTML content를 파일로 작성하는 데 실패했습니다.", e);
@@ -195,8 +195,8 @@ public class ApprovalController {
 		// Forms 객체 생성하여 값 설정
 		Forms forms = new Forms();  // vo 
 		forms.setTitle(title); // 양식 제목 
-		forms.setDocument_type(document_type); // 문서 구분
-		forms.setForm_content(form_content); // html 콘텐츠
+		forms.setDocumentType(documentType); // 문서 구분
+		forms.setFormContent(formContent); // html 콘텐츠
 		forms.setPath(uploadDirectory + "/" + fileName); // 파일 경로 
 		
 		// FormService를 통해 DB에 저장
