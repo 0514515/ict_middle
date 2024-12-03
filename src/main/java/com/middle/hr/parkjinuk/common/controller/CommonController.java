@@ -47,7 +47,7 @@ public class CommonController {
 	@PostMapping("super/company/new")
 	public String createCompany(com.middle.hr.parkjinuk.common.vo.Company company) {
 		
-		//실제 회사 실행
+		//실제 회사 등록 실행
 		Integer result = commonService.createCompany(company);
 		
 		if(result==1) {

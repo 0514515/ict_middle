@@ -6,7 +6,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>DASHMIN - Bootstrap Admin Template</title>
+    <title>결재 양식 생성 완료</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -65,11 +65,6 @@
     
     <!-- 개인 커스텀 -->
     <style>
-    
-    	/* 본문 높이값 _ footer올라오는 현상 방지 */
-    	.container{
-    		height:83%;
-    	}
     	
     	table{
     		text-align:center; 
@@ -116,37 +111,58 @@
     		margin-left:0px !important;
     	}
     	
-    	.choice_del, .choice_list{
+    	.choice_list, .modify_btn{
     		border:1px solid #14A4FF;
     		background-color:#fff;
     		color:#14A4FF;
     		font-weight:500;
     	}
     	
-    	.choice_plus{
+    	.confirm_btn{
     		border:1px solid #14A4FF;
     		background-color:#14A4FF;
     		color:#fff;
     		font-weight:500;
     	}
     	
-    	.btn{
-    		width:9%;
-    	}
     	.btn:hover{
     		color: #00539d;
     	}
     	
+    	.list_btn{
+    		text-align:right;
+    	}
+    	
     	.form_box{
     		border:1px solid #14A4FF;
+    		background-color:#F3F6F9;
     		border-radius:10px;
     	}
     	
     	.col-form-label{
-    		color:#191C24;
+    		color:#14A4FF;
     	 	font-size:1.2em;
     		font-weight:500;
     	}
+    	
+    	.html_view{
+    		overflow:scroll;
+	    	padding: 30px;
+		    border: 1px solid #ccc;
+		    height: 500px;
+		    background-color:#fff;	
+    	}
+    	
+    	.title_div{
+    		align-items :center;
+    	}
+    	
+    	.title_txt{
+    		color:#191C24;
+    		font-size:18px;
+    		font-weight:500;
+    	}
+
     	
     </style>
     
@@ -185,63 +201,59 @@
 		<!-- 본문 여백 -->
 		<div class="container container-fluid pt-4 px-4">
 			
-			<div class="mx-4 my-4">	
-				<h4>결재 양식 관리</h4>
-			</div>
-			
-			<!-- 버튼 -->
-             <div class="d-grid gap-2 d-md-flex justify-content-md-end mx-4 my-4">
-			 	 <button class="btn choice_list" type="button">목록</button>
-			 </div>
+			<div class="row g-0">	
+		     <div class="col-sm-6 col-md-4">
+				  <!-- 페이지 타이틀 -->
+				  <div class="mx-4 mt-4">	
+					<h4>결재 양식 생성 완료</h4>
+				  </div>
+		     </div>
+			 <div class="col-sm-6 col-md-8"> 
+				<!-- 목록 버튼 -->
+	             <div class="mx-4 mt-4 list_btn">
+				 	 <button class="btn choice_list" type="button">목록</button>
+				 </div>
+		     </div>
+	     
+		</div>
 			
 			<!-- 본문박스 -->
 			
 			<div class="form_box mx-4 my-4 px-5 py-5">
-				<form id="createForm" action="/form_save" method="post">
-			  <div class="mb-3 row">
+				
+			  <div class="mb-3 row title_div">
 			    <label for="inputTitle" class="col-sm-2 col-form-label">결재 양식명</label>
-			    <div class="col-sm-10">
-			      <input type="text" class="form-control" id="inputTitle" name="title">  <!-- input name 필수기입 -->
+			    <div class="col-sm-10 title_txt">
+			       ${forms.title}
+			      <!-- <input type="text" class="form-control" id="inputTitle">  -->
 			    </div>
-			  </div>
-			  <div class="mb-3 row">
+			    
 			    <label for="inputTitle" class="col-sm-2 col-form-label">문서 구분</label>
-			    <div class="col-sm-10">
-			      <select class="form-select" aria-label="Default select example" name="document_type">
-					  <option selected>선택</option>
-					  <option value="기안 문서">기안 문서</option>
-					  <option value="인사 문서">인사 문서</option>
-				  </select>
+			    <div class="col-sm-10 title_txt">
+			       ${forms.document_type}
+			      <!-- <input type="text" class="form-control" id="inputTitle">  -->
 			    </div>
 			  </div>
 				
-			<!-- SmartEditor2  -->
-				<div class="jsx-2303464893 editor">
-					<div class="fr-box fr-basic fr-top" role="application">
-						<div class="fr-wrapper show-placeholder" dir="auto" >  <!-- style="overflow: scroll;" 제외 -->
-							<textarea name="form_content" id="smartEditor"
-								style="width: 100%; height: 412px;"></textarea>
-						</div>
-					</div>
-				</div>
+			  <!-- html 출력 -->	
+			  <div class="html_view">
+			  	<div id="pdf_view">
+			  		${forms.form_content}
+			  	</div>
+			  </div>
 
 			</div>	
      
              <!-- 버튼 -->
              <div class="d-grid gap-2 d-md-flex justify-content-md-center mx-4 my-4">
-			 	 <button class="btn choice_del" type="button">취소</button>
-			 	 <button class="btn choice_plus" type="button">생성</button>
+			 	 <button class="btn modify_btn" type="button">수정</button>
+			 	 <button class="btn confirm_btn" type="button">확인</button>
 			 </div>
 				
 			
 		</div> <!-- end of class = container-->
 			
-			
-			
-			
-			
-			
-			
+		
 			<!-- 본문 끝 (body end) -->
 
 
@@ -279,22 +291,19 @@
     <!-- SmartEditor2 -->
 	<script type="text/javascript" src = "/resources/template/js/notice-write.js"></script>
 
-	<script type="text/javascript">
-		
-	// 생성 버튼 클릭시 실행될 함수 
-	$('.choice_plus').click(function(){
-	    // SmartEditor에서 textarea에 내용 업데이트
-	    oEditors.getById["smartEditor"].exec("UPDATE_CONTENTS_FIELD", []); // 이 명령이 `textarea`의 값을 업데이트함
-		
-	    var htmlContent = document.getElementsByName("form_content")[0].value;
-	    console.log(htmlContent);  // 콘솔에서 HTML 값 확인
-	    
-		// 폼 제출 (textarea 값은 자동으로 폼에 포함됨)
-	    $('#createForm').submit(); // form 제출 
+	<script>
+	// '목록' 버튼 클릭시 
+	$('.choice_list').click(function() {
+		// '새 양식 만들기' 페이지로 이동
+		window.location.href = '/approval/approvalForm';
+	})
+	
+	$('.confirm_btn').click(function() {
+		// '새 양식 만들기' 페이지로 이동
+		window.location.href = '/approval/approvalForm';
 	})
 	
 	</script>
-
     
 </body>
 

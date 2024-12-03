@@ -222,10 +222,18 @@
 		font-weight: 500;
 	}
 	
+	/* 결재선 모달 내부 테이블 높이값 및 overflow 지정 */
 	.table_height{
 		height:168px;
 		border: 1px solid #ccc;
 		overflow-y:scroll;
+	}
+	
+	/* 본문 테이블 높이값 및 overflow 지정 */
+	.body_table_height{
+	height:144px;
+	border: 1px solid #ccc;
+	overflow-y:scroll;
 	}
 	
 	
@@ -520,6 +528,7 @@
 					<!-- 결재자 -->
 					<div class="mb-3">
 						<label for="inputTitle" class="form-label">결재자</label>
+						<div class="body_table_height">
 						<table id="body_line_table" class="table">
 							<tbody>
 								<tr>
@@ -530,11 +539,13 @@
 								
 							</tbody>
 						</table>
+						</div>
 					</div>
 
 					<!-- 참조자 -->
 					<div class="mb-3">
 						<label for="inputTitle" class="form-label">참조자</label>
+						<div class="body_table_height">
 						<table id="body_ref_table" class="table">
 							<tbody>
 							
@@ -542,6 +553,7 @@
 							
 							</tbody>
 						</table>
+						</div>
 					</div>
 
 
@@ -558,7 +570,7 @@
 				<!-- 결재 내용 본문 박스 -->
 				<div class="form_box mx-4 my-4 px-4 py-4">
 
-					<form id="writeDraftForm" action="/save" method="post">
+					<form id="writeDraftForm" action="/form_save" method="post">
 						<!-- 제목 영역 -->
 						<div class="mb-3">
 							<label for="inputTitle" class="form-label">제목</label>
@@ -571,7 +583,7 @@
 								<div class="fr-wrapper show-placeholder" dir="auto">
 									<!-- style="overflow: scroll;" 제외 -->
 									<textarea name="notice_content" id="smartEditor" 
-											  style="width: 100%; height: 412px;">${htmlContent}</textarea>  <!-- 엑셀 변환 HTML -->
+											  style="width: 100%; height: 560px;">${htmlContent}</textarea>  <!-- 엑셀 변환 HTML -->
 								</div>
 							</div>
 						</div>
