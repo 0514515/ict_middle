@@ -36,6 +36,7 @@
 				<!-- parksuji -->
 				<value>com.middle.hr.parksuji.approval.vo.Forms</value>
 				<!-- parkeunbyeol -->
+				<value>com.middle.hr.parkeunbyeol.attendance.vo.Attendance</value>
 			</list>
 		</property>
 	</bean>

@@ -72,20 +72,27 @@
     
 		.card {
 			    padding: 15px;
+			    height : 282px;
 		}
 	
 	    .col-md-8 {
 	        padding: 15px 25px 0px 0px;
 	    }
 	    
-	    .card-body {
-	    	padding: 1rem 1rem 5rem;
-		}
 	    
-		.card-title {
+		.start_title, .end_title {
 	 	   text-align: left;
 	 	   color : #009CFF;
 		}
+		
+		.card-body {
+		   align-items: center;
+		}
+		    
+    	.start_body, .end_body {
+			text-align: -webkit-right;
+    		font-size: 20px;
+    	}
 		
 		.main_total_context_div{
 			padding: 10px;
@@ -162,7 +169,8 @@
 		}
 		
 		/* 프로그래스 바 커스텀 끝  */
-    
+
+    	
     </style>
     
     
@@ -196,11 +204,14 @@
 			
 			
 			<!-- 본문 작성 (body start) -->
-	         
-			<div class="container container-fluid pt-4 px-4">
+	       <form> 
+			<div class="container container-fluid pt-5 px-4">
+				
 				<div class="mx-4 my-4">
 					<h4>나의 근태 현황</h4>
 				</div>
+				
+				 <div class="mx-4 my-4">
 				<div class="bg-light text-center rounded p-4">
 					<div class="row g-0">
 						<div class="col-sm-6 col-md-8">
@@ -225,12 +236,12 @@
 						<div class="col-6 col-md-4">
 							<div class="card">
 								<div class="d-grid gap-2 col-12 mx-auto">
-									<button href="record" class="btn btn_start btn-primary" type="button">출근</button>										
+									<input type='hidden' name='staff_id' id='staff_id' value=24>
+									<button type='button' class="btn btn_start btn-primary" value="출근">출근</button>										
 								</div>
-								<div class="card-body">
-									<h5 class="card-title">출근 시간</h5>
-									<h5 class="card-title">퇴근 시간</h5>
-									<p class="card-text"></p>
+								<div class="row card-body">
+									<h5 class="col-5 start_title">출근 시간</h5><p id="start_body" class="col-7 start_body">${attendance.start_at}</p>
+									<h5 class="col-5 end_title">퇴근 시간</h5><p id="end_body" class="col-7 end_body">${attendance.end_at}</p>
 								</div>
 								<div class="d-grid gap-2 col-12 mx-auto">
 									<a href="#" class="btn btn_modify btn-primary">출/퇴근 관리</a>
@@ -240,7 +251,8 @@
 					</div>
 				</div>
 			</div>
-	
+		</form>
+		
 			<div class="container-fluid pt-2 px-4">
 				<div class="row g-4">
 					<div class="col-sm-12 col-xl-6">
@@ -349,6 +361,8 @@
 					</div>
 				</div>
 			</div>
+		</div>
+	
 			<!-- 본문 끝 (body end) -->
 
 
