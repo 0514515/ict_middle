@@ -33,6 +33,7 @@
 				<value>com.middle.hr.parkjinuk.common.vo.Administrator</value>
 				<!-- parksuji -->
 				<!-- parkeunbyeol -->
+				<value>com.middle.hr.parkeunbyeol.attendance.vo.Attendance</value>
 			</list>
 		</property>
 	</bean>

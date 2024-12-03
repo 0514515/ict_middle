@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AttendanceRepository">
+
+	<!-- 출근 기록 등록 -->
+	<insert id="insertStartAt" parameterType="Attendance" >
+		INSERT INTO WORKING_HISTORY (ID, STARTED_AT, ENDED_AT, WORKING_STATUS, CREATED_AT, UPDATED_AT, STAFF_ID)
+		VALUES(SEQ_WORKING_HISTORY_ID.nextval, sysdate, sysdate, 1, sysdate, sysdate, #{staff_id})
+	</insert>
+
+	<select id="selectStartAt" parameterType="Attendance" resultType="Attendance" >
+		SELECT STARTED_AT 
+		FROM WORKING_HISTORY
+		WHERE STAFF_ID = 24;	
+	</select>
+
+
+
+</mapper>
