@@ -6,33 +6,46 @@
 
 <head>
     <meta charset="utf-8">
-    <title>DASHMIN - Bootstrap Admin Template</title>
+    <title>임시보관함 _ 임시 저장 문서</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
 
-    <!-- Favicon -->
-    <link href="/resources/template/img/favicon.ico" rel="icon">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
 
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
-    
-    <!-- Icon Font Stylesheet -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+<!-- Favicon -->
+<link href="/resources/template/img/favicon.ico" rel="icon">
 
-    <!-- Libraries Stylesheet -->
-    <link href="/resources/template/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="/resources/template/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+<!-- Google Web Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+	href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap"
+	rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap"
+	rel="stylesheet">
 
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="/resources/template/css/bootstrap.min.css" rel="stylesheet">
+<!-- Icon Font Stylesheet -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
-    <!-- Template Stylesheet -->
-    <link href="/resources/template/css/style.css" rel="stylesheet">
+<!-- Libraries Stylesheet -->
+<link
+	href="/resources/template/lib/owlcarousel/assets/owl.carousel.min.css"
+	rel="stylesheet">
+<link href="/resources/template/css/tempusdominus-bootstrap-4.min.css"
+	rel="stylesheet" />
+
+<!-- Customized Bootstrap Stylesheet -->
+<link href="/resources/template/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Template Stylesheet -->
+<link href="/resources/template/css/style.css" rel="stylesheet">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script	src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
     
     <!-- 공통 커스텀 스타일 -->
     <style> 
@@ -166,8 +179,72 @@
     		background-color:#fff;
     		color:#14A4FF;
     		font-weight:500;
-    
     	}
+    	    	.form_preview {
+		border: 1px solid #191C24;
+		height: 300px;
+		}
+	
+		iframe {
+			width: 25vw;
+			height: 58.5vh;
+			border: none;
+		}
+		
+		.form_ch_name span {
+			color: #191C24;
+		}
+		
+		.form_subtitle {
+			font-size: 20px;
+			color: #191C24;
+			font-weight: 500;
+		}
+		
+		.frame_div {
+			text-align: center;
+		}
+		
+		.tree_div {
+			border: 1px solid #191C24;
+			height: 400px;
+		}
+		
+		.table_div{
+			height:50%;
+			align-content:center;
+		}
+		
+		.btn_group{
+			text-align:center;
+			height:100%;
+		}
+		
+		.btn_group div{
+			align-content:center;
+			height:50%;
+		}
+		
+		.btn_group .btn{
+			border: 1px solid #14A4FF;
+			background-color: #fff;
+			color: #14A4FF;
+			font-weight: 500;
+		}
+		
+		/* 결재선 모달 내부 테이블 높이값 및 overflow 지정 */
+		.table_height{
+			height:168px;
+			border: 1px solid #ccc;
+			overflow-y:scroll;
+		}
+		
+		/* 본문 테이블 높이값 및 overflow 지정 */
+		.body_table_height{
+		height:144px;
+		border: 1px solid #ccc;
+		overflow-y:scroll;
+		}
     	
     	
     </style>
@@ -175,6 +252,196 @@
 </head>
 
 <body>
+
+<!-- 결재양식 선택 Modal -->
+	<div class="modal fade" id="formModal" tabindex="-1"
+		aria-labelledby="formModalLabel" aria-hidden="true">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="formModalLabel">결재 양식 선택 및 미리보기</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+
+					<div class="row">
+
+						<div class="col-md-4 ms-auto ps-5">
+							<p class="mt-4 mb-4 form_subtitle">결재 양식 선택</p>
+							<div class="mx-3 mt-2 mb-2 form_ch_name">
+								<input class="form-check-input me-2" type="checkbox" name="formCheck" value="1" 
+								    id="flexCheckChecked"> 
+								<span>기안서</span>
+							</div>
+							<div class="mx-3 mt-2 mb-2 form_ch_name">
+								<input class="form-check-input me-2" type="checkbox" name="formCheck" value="2"
+									id="flexCheckChecked"> <span>지출결의서</span>
+							</div>
+							<div class="mx-3 mt-2 mb-2 form_ch_name">
+								<input class="form-check-input me-2" type="checkbox" name="formCheck" value="3"
+									id="flexCheckChecked"> <span>품의서</span>
+							</div>
+							<div class="mx-3 mt-2 mb-2 form_ch_name">
+								<input class="form-check-input me-2" type="checkbox" name="formCheck" value="4"
+									id="flexCheckChecked"> <span>출장보고서</span>
+							</div>
+							<div class="mx-3 mt-2 mb-2 form_ch_name">
+								<input class="form-check-input me-2" type="checkbox" name="formCheck" value="5"
+									id="flexCheckChecked"> <span>사직서</span>
+							</div>
+						</div>
+						<div class="col-md-8 ms-auto frame_div">
+							<div>
+								<!-- 툴바 숨기기 : 확장자명 뒤에 #toolbar=0&navpanes=0&scrollbar=0 추가 -->
+								<iframe
+									src="/resources/approval/img/sample.pdf#toolbar=0&navpanes=0&scrollbar=0"></iframe>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">취소</button>
+					<button type="button" class="btn btn-primary" id="formSelectBtn">적용</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+<!-- 결재선 선택 Modal -->
+	<div class="modal fade" id="lineModal" tabindex="-1"
+		aria-labelledby="formModalLabel" aria-hidden="true">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="formModalLabel">결재선 지정</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+
+					<div class="row g-2">
+						<div class="col-md-4">
+							<input type="text" class="form-control" id="search_input" value="" placeholder="이름 또는 부서 검색" onkeypress="show_name(event)">
+						</div>
+						<div class="col-md-8">
+							<button type="button" id="search_btn" class="btn btn-primary mb-3">선택</button>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-5 ms-auto">
+						
+						<!-- 트리구조 조직도 -->
+							<div class="tree_div overflow-scroll">
+							<div id="jstree">
+								<ul>
+									<li id="root">무한상사
+										<ul>
+											<li class="group" id="groupA">대표이사
+												<ul>
+													<li id="child1">유재석</li>
+												</ul>
+											</li>
+											<li class="group" id="groupB">경영지원부
+												<ul>
+													<li id="child2">홍진경 사원</li>
+													<li id="child3">남창희 사원</li>
+													<li id="child4">조세호 대리</li>
+													<li id="child5">이동욱 과장</li>
+													<li id="child6">황정민 부장</li>
+													
+												</ul>
+											</li>
+											<li class="group" id="groupC">디자인부
+												<ul>
+													<li id="child7">양세찬 사원</li>
+													<li id="child8">이광수 사원</li>
+													<li id="child9">지예은 사원</li>
+													<li id="child10">송지효 대리</li>
+													<li id="child11">김종국 과장</li>
+													<li id="child12">지석진 부장</li>
+												</ul>
+											</li>
+											<li class="group" id="groupD">영업부 
+												<ul>
+													<li id="child13">하동훈 사원</li>
+													<li id="child14">노홍철 사원</li>
+													<li id="child15">정형돈 대리</li>
+													<li id="child16">정준하 과장</li>
+													<li id="child17">박명수 부장</li>
+												</ul>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</div>
+							
+							</div>
+						</div>
+						<div class="col-md-2 ms-auto">
+							<div class="btn_group">
+								<!-- 버튼 -->
+								<div>
+									<button type="button" id="line_plus" class="btn btn-primary mb-3">결재 추가<i class="bi bi-caret-right-fill"></i></button>
+								</div>
+								<div>
+									<button type="button" id="ref_plus" class="btn btn-primary mb-3">참조 추가<i class="bi bi-caret-right-fill"></i></button>
+								</div>
+								
+							</div>
+						</div>
+						<div class="col-md-5 ms-auto">
+						  <div class="table_div">
+						  	<div class="table_height">
+							<table class="table modal_table line_table">
+								<thead>
+									<tr>
+										<th colspan=2>결재자</th>
+									</tr>
+								</thead>
+								<tbody>
+									<!-- 동적 테이블 추가 -->	
+								</tbody>
+							</table>
+							</div>
+						  </div>
+						  
+						  <div class="table_div">
+						  <div class="table_height">
+							<table class="table ref_table">
+								<thead>
+									<tr>
+										<th colspan=2>참조자</th>
+									</tr>
+								</thead>
+								<tbody>
+									<!-- 동적 테이블 추가 -->	
+								</tbody>
+							</table>
+							</div>
+						   </div>
+							
+						</div>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">취소</button>
+					<button type="button" id="line_complete" class="btn btn-primary">적용</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
     <div class="container-fluid position-relative bg-white d-flex p-0">
     
         <!-- Spinner Start -->
@@ -211,7 +478,7 @@
 		     <div class="col-sm-6 col-md-4 justify-content-md-start">
 				  <!-- 페이지 타이틀 -->
 				  <div class="mx-4 mt-4">	
-					<h4>임시보관함</h4>
+					<h4>임시보관함 _ 임시 저장 문서</h4>
 				  </div>
 		     </div>
 			 <div class="col-sm-6 col-md-8 "> 
@@ -244,74 +511,66 @@
 				  </div>
 			  </div>
 			  
-			<!-- 결재양식 -->
-			  <div class="mb-3">
-				  <label for="approvalForm" class="form-label">결재양식</label>
-				  <div class="row g-2">
-				  	<div class="col-md-9">
-				  		<input type="text" class="form-control" id="approval_form" value="" aria-label="Disabled input example" disabled>
-				  	</div>
-				  	<div class="col-md-3">
-				  		<button type="button" class="btn btn-primary mb-3">선택</button>
-				  	</div>
-				  </div>
-			  </div>
+				<!-- 결재양식 -->
+				<div class="mb-3">
+					<label for="approvalForm" class="form-label">결재양식</label>
+					<div class="row g-2">
+						<div class="col-md-9">
+							<input type="text" class="form-control" id="approval_form"
+								value="" aria-label="Disabled input example" readonly>
+						</div>
+						<div class="col-md-3">
+							<button type="button" class="btn btn-primary mb-3"
+								data-bs-toggle="modal" data-bs-target="#formModal">선택</button>
+						</div>
+					</div>
+				</div>
 			  
-			  <!-- 결재선 -->
-			  <div class="mb-3">
-				  <label for="approvalLine" class="form-label">결재선</label>
-				  <div class="row g-2">
-				  	<div class="col-md-9">
-				  		<input type="text" class="form-control" id="approval_line" value="" aria-label="Disabled input example" disabled>
-				  	</div>
-				  	<div class="col-md-3">
-				  		<button type="button" class="btn btn-primary mb-3">선택</button>
-				  	</div>
-				  </div>
-			  </div>
+				<!-- 결재선 -->
+				<div class="mb-3">
+					<label for="approvalLine" class="form-label">결재선</label>
+					<div class="row g-2">
+						<div class="col-md-9">
+							<input type="text" class="form-control" id="approval_line"
+								value="" aria-label="Disabled input example" disabled>
+						</div>
+						<div class="col-md-3">
+							<button type="button" class="btn btn-primary mb-3"
+								data-bs-toggle="modal" data-bs-target="#lineModal">선택</button>
+						</div>
+					</div>
+				</div>
 			  
-			  <!-- 결재자 -->
-			  <div class="mb-3">
-				  <label for="inputTitle" class="form-label">결재자</label>
-				  <table class="table">
-					  <tbody>
-					    <tr>
-					      <td colspan=2>[디자인팀] 양세찬 사원</td>
-					    </tr>
-					    <tr>
-					      <td class="first_cell">[디자인팀] 지석진 과장</td>
-					      <td>
-					      	<div>
-					      		<button type="button" class="btn-close" aria-label="Close"></button>
-					      	</div>
-					      </td>
-					    </tr>
-					  </tbody>
-				   </table>
-			  </div>
-			  
-			  <!-- 참조자 -->
-			  <div class="mb-3">
-				  <label for="inputTitle" class="form-label">참조자</label>
-				  <table class="table">
-					  <tbody>
-					    <td class="first_cell">[경영지원부] 조세호 대리</td>
-					      <td>
-					      	<div>
-					      		<button type="button" class="btn-close" aria-label="Close"></button>
-					      	</div>
-					      </td>
-					    <tr>
-					      <td class="first_cell">[디자인팀] 송지효 대리</td>
-					      <td>
-					      	<div>
-					      		<button type="button" class="btn-close" aria-label="Close"></button>
-					      	</div>
-					      </td>
-					    </tr>
-					  </tbody>
-				   </table>
-			  </div>
+					<!-- 결재자 -->
+					<div class="mb-3">
+						<label for="inputTitle" class="form-label">결재자</label>
+						<div class="body_table_height">
+						<table id="body_line_table" class="table">
+							<tbody>
+								<tr>
+									<td colspan=2>[디자인팀] 양세찬 사원</td>
+								</tr>
+								
+								<!-- 동적 테이블 생성 -->
+								
+							</tbody>
+						</table>
+						</div>
+					</div>
+
+					<!-- 참조자 -->
+					<div class="mb-3">
+						<label for="inputTitle" class="form-label">참조자</label>
+						<div class="body_table_height">
+						<table id="body_ref_table" class="table">
+							<tbody>
+							
+								<!-- 동적 테이블 생성 -->
+							
+							</tbody>
+						</table>
+						</div>
+					</div>
 			  
 			  
 			</div> <!-- end 그레이 박스선 -->
@@ -323,33 +582,35 @@
 				<h5>결재 내용</h5>
 			</div>
 			
-			<!-- 결재 내용 본문 박스 -->
-			<div class="form_box mx-4 my-4 px-4 py-4">
-				
-			  <!-- 제목 영역 -->
-			  <div class="mb-3">
-				  <label for="inputTitle" class="form-label">제목</label>
-				  <input type="text" class="form-control" id="inputTitle">
-			  </div>	
-		
-				
-			<!-- SmartEditor2  -->
-				<div class="jsx-2303464893 editor">
-					<div class="fr-box fr-basic fr-top" role="application">
-						<div class="fr-wrapper show-placeholder" dir="auto" >  <!-- style="overflow: scroll;" 제외 -->
-							<textarea name="notice_content" id="smartEditor"
-								style="width: 100%; height: 412px;"></textarea>
+				<!-- 결재 내용 본문 박스 -->
+				<div class="form_box mx-4 my-4 px-4 py-4">
+
+					<form id="writeDraftForm" action="/save" method="post">
+						<!-- 제목 영역 -->
+						<div class="mb-3">
+							<label for="inputTitle" class="form-label">제목</label>
+							<input type="text" class="form-control" id="inputTitle" name="draftTitle">
+						</div>		
+									
+						<!-- SmartEditor2  -->
+						<div class="jsx-2303464893 editor">
+							<div class="fr-box fr-basic fr-top" role="application">
+								<div class="fr-wrapper show-placeholder" dir="auto">
+									<!-- style="overflow: scroll;" 제외 -->
+									<textarea name="notice_content" id="smartEditor" 
+											  style="width: 100%; height: 560px;">${htmlContent}</textarea>  <!-- 엑셀 변환 HTML -->
+								</div>
+							</div>
 						</div>
-					</div>
+					</form>	
+
 				</div>
 
-			</div>	
-			
 			</div>
+
+		</div>
 			
-			</div>	
-			
-			<!-- 버튼 -->
+			<!-- 버튼 (form 외부에 위치) -->
 			<div class="mx-4 my-4">
 				<div class="row g-0">
 					<div class="col-sm-6 col-md-6 justify-content-md-start">
@@ -358,13 +619,11 @@
 					<div class="col-6 col-md-6 d-md-flex justify-content-md-end">
 						<div class="gap-2" >
 							<button class="btn choice_save me-2" type="button">저장</button>
-					 		<button class="btn choice_send" type="button">결재 상신</button>
+					 		<button class="btn choice_send" type="submit">재기안</button>
 					 	</div>
 					</div>
 				</div>	
 			</div>
-			
-			
 			
 		</div> <!-- end of class = container-->
 			
@@ -387,25 +646,133 @@
     </div>
 
     <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/resources/template/lib/chart/chart.min.js"></script>
-    <script src="/resources/template/lib/easing/easing.min.js"></script>
-    <script src="/resources/template/lib/waypoints/waypoints.min.js"></script>
-    <script src="/resources/template/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="/resources/template/lib/tempusdominus/js/moment.min.js"></script>
-    <script src="/resources/template/lib/tempusdominus/js/moment-timezone.min.js"></script>
-    <script src="/resources/template/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+	<!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="/resources/template/lib/chart/chart.min.js"></script>
+	<script src="/resources/template/lib/easing/easing.min.js"></script>
+	<script src="/resources/template/lib/waypoints/waypoints.min.js"></script>
+	<script src="/resources/template/lib/owlcarousel/owl.carousel.min.js"></script>
+	<script src="/resources/template/lib/tempusdominus/js/moment.min.js"></script>
+	<script src="/resources/template/lib/tempusdominus/js/moment-timezone.min.js"></script>
+	<script src="/resources/template/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
     
-    <!-- SmartEditor2 라이브러리  --> 
-	<script type="text/javascript" src="/resources/se2/js/HuskyEZCreator.js" charset="utf-8"></script>
-	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <!-- modal Javascript -->
+	<script type="text/javascript" src="/resources/approval/js/approvalFormSelect.js"></script>
 
-    <!-- Template Javascript -->
-    <script src="/resources/template/js/main.js"></script>
-    
-    <!-- SmartEditor2 -->
-	<script type="text/javascript" src = "/resources/template/js/notice-write.js"></script>
+	<!-- SmartEditor2 라이브러리  -->
+	<script type="text/javascript" src="/resources/se2/js/HuskyEZCreator.js" charset="utf-8"></script>
+
+	<!-- Template Javascript -->
+	<script src="/resources/template/js/main.js"></script>
+
+	<!-- SmartEditor2 -->
+	<script type="text/javascript" src="/resources/template/js/notice-write.js"></script>
+		
+	<!-- jstree js -->
+	<script type="text/javascript" src="/resources/approval/js/jstreeCustom.js"></script>
+
+		<script>
+		$(function(){
+			
+			// 양식 선택 체크박스 중복 적용 안 되도록  
+			$('input[type="checkbox"][name="formCheck"]').click(function(){
+				if($(this).prop('checked')){
+					$('input[type="checkbox"][name="formCheck"]').prop('checked', false);
+					$(this).prop('checked', true);
+				}
+			})
+			
+			// 양식 선택 모달창에서 양식 선택 후 '적용' 버튼 클릭시 
+			$('#formSelectBtn').click(function(){
+				// 모달창 닫기 
+				$('#formModal').modal('hide');
+				// 텍스트 필드 값 초기화 
+				var textField = $('#approval_form');
+				textField.val('');
+				
+				// input 옆에 있는 span의 값(양식 이름 text)을 spanTxt 변수에 저장 후 텍스트필드의 값으로 해당 값 출력 
+				var spanTxt = $('.form_ch_name input[name="formCheck"]:checked').next('span').text(); 
+				textField.val(spanTxt);
+					
+			})
+			
+			
+			// '적용' 버튼 클릭 시 '결재자' mainTable에 데이터 추가
+			   $('#line_complete').click(function() {
+			       // 모달에서 추가된 행들을 가져오기
+			       $('.line_table tbody tr').each(function() {
+			           // 행의 데이터를 가져옴
+			           var name = $(this).find('td').eq(0).text();
+			           // var position = $(this).find('td').eq(1).text();
+			
+			           // 새로운 행을 mainTable에 추가
+			           var newRow = '<tr><td>' + name + '</td><td>' + '<div><button type="button" class="btn-close" aria-label="Close"></button></div>' + '</td></tr>';
+			           $('#body_line_table tbody').append(newRow);
+			       });
+			
+			       // 모달 닫기
+			       $('#lineModal').modal('hide');
+			
+			       // 모달 내용 비우기
+			       $('.line_table tbody').empty();
+			       
+			    // 추가된 버튼에 클릭 이벤트를 바인딩
+				    $('.btn-close').click(function() {
+				        // 클릭된 버튼이 속한 행을 삭제
+				        $(this).closest('tr').remove(); 
+				    });
+			       
+			   });
+
+			// '적용' 버튼 클릭 시 '참조자' mainTable에 데이터 추가
+			   $('#line_complete').click(function() {
+			       // 모달에서 추가된 행들을 가져오기
+			       $('.ref_table tbody tr').each(function() {
+			           // 행의 데이터를 가져옴
+			           var name = $(this).find('td').eq(0).text();
+			           // var position = $(this).find('td').eq(1).text();
+			
+			           // 새로운 행을 mainTable에 추가
+			           var newRow = '<tr><td>' + name + '</td><td>' + '<div><button type="button" class="btn-close" aria-label="Close"></button></div>' + '</td></tr>';
+			           $('#body_ref_table tbody').append(newRow);
+			       });
+			
+			       // 모달 닫기
+			       $('#lineModal').modal('hide');
+			
+			       // 모달 내용 비우기
+			       $('.ref_table tbody').empty();
+			       
+			    // 추가된 버튼에 클릭 이벤트를 바인딩
+				    $('.btn-close').click(function() {
+				        // 클릭된 버튼이 속한 행을 삭제
+				        $(this).closest('tr').remove(); 
+				    });
+			       
+			   });
+			
+			
+			   			
+			// 재기안 버튼 클릭시 실행될 함수 
+			$('.choice_send').click(function(){
+			    // SmartEditor에서 textarea에 내용 업데이트
+			    oEditors.getById["smartEditor"].exec("UPDATE_CONTENTS_FIELD", []); // 이 명령이 `textarea`의 값을 업데이트함
+				
+			    var htmlContent = document.getElementsByName("notice_content")[0].value;
+			    console.log(htmlContent);  // 콘솔에서 HTML 값 확인
+			    
+				// 폼 제출 (textarea 값은 자동으로 폼에 포함됨)
+			    $('#writeDraftForm').submit(); // form 제출 
+			})
+			
+			// 취소 버튼 클릭시 페이지 리로드  
+			$('.choice_cancel').click(function(){
+				// 페이지 새로고침
+				location.reload();  	
+			})
+				
+		})
+	</script>
 
     
 </body>

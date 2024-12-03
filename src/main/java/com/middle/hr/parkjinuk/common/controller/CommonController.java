@@ -102,7 +102,7 @@ public class CommonController {
 	public String createCompanyAdministrator(Administrator administrator) {
 
 		System.out.println(administrator);
-		
+
 		// 실제 회사 실행
 		Integer result = commonService.createCompanyAdministrator(administrator);
 

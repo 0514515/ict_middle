@@ -183,62 +183,75 @@
     
     	}
     	
-    		.form_preview {
+    	.form_preview {
 		border: 1px solid #191C24;
 		height: 300px;
-	}
+		}
 	
-	iframe {
-		width: 25vw;
-		height: 58.5vh;
-		border: none;
-	}
-	
-	.form_ch_name span {
-		color: #191C24;
-	}
-	
-	.form_subtitle {
-		font-size: 20px;
-		color: #191C24;
-		font-weight: 500;
-	}
-	
-	.frame_div {
-		text-align: center;
-	}
-	
-	.tree_div {
-		border: 1px solid #191C24;
-		height: 400px;
-	}
-	
-	.table_div{
-		height:50%;
-		align-content:center;
-	}
-	
-	.btn_group{
-		text-align:center;
-		height:100%;
-	}
-	
-	.btn_group div{
-		align-content:center;
-		height:50%;
-	}
-	
-	.btn_group .btn{
-		border: 1px solid #14A4FF;
-		background-color: #fff;
-		color: #14A4FF;
-		font-weight: 500;
-	}
-	
-    	
-    	
-    </style>
-    
+		iframe {
+			width: 25vw;
+			height: 58.5vh;
+			border: none;
+		}
+		
+		.form_ch_name span {
+			color: #191C24;
+		}
+		
+		.form_subtitle {
+			font-size: 20px;
+			color: #191C24;
+			font-weight: 500;
+		}
+		
+		.frame_div {
+			text-align: center;
+		}
+		
+		.tree_div {
+			border: 1px solid #191C24;
+			height: 400px;
+		}
+		
+		.table_div{
+			height:50%;
+			align-content:center;
+		}
+		
+		.btn_group{
+			text-align:center;
+			height:100%;
+		}
+		
+		.btn_group div{
+			align-content:center;
+			height:50%;
+		}
+		
+		.btn_group .btn{
+			border: 1px solid #14A4FF;
+			background-color: #fff;
+			color: #14A4FF;
+			font-weight: 500;
+		}
+		
+		/* 결재선 모달 내부 테이블 높이값 및 overflow 지정 */
+		.table_height{
+			height:168px;
+			border: 1px solid #ccc;
+			overflow-y:scroll;
+		}
+		
+		/* 본문 테이블 높이값 및 overflow 지정 */
+		.body_table_height{
+		height:144px;
+		border: 1px solid #ccc;
+		overflow-y:scroll;
+		}
+	    	
+	    	
+	    </style>
+	    
 </head>
 
 <body>
@@ -388,6 +401,7 @@
 						</div>
 						<div class="col-md-5 ms-auto">
 						  <div class="table_div">
+						  	<div class="table_height">
 							<table class="table modal_table line_table">
 								<thead>
 									<tr>
@@ -398,9 +412,11 @@
 									<!-- 동적 테이블 추가 -->	
 								</tbody>
 							</table>
+							</div>
 						  </div>
 						  
 						  <div class="table_div">
+						  <div class="table_height">
 							<table class="table ref_table">
 								<thead>
 									<tr>
@@ -411,6 +427,7 @@
 									<!-- 동적 테이블 추가 -->	
 								</tbody>
 							</table>
+							</div>
 						   </div>
 							
 						</div>
@@ -529,6 +546,7 @@
 					<!-- 결재자 -->
 					<div class="mb-3">
 						<label for="inputTitle" class="form-label">결재자</label>
+						<div class="body_table_height">
 						<table id="body_line_table" class="table">
 							<tbody>
 								<tr>
@@ -539,11 +557,13 @@
 								
 							</tbody>
 						</table>
+						</div>
 					</div>
 
 					<!-- 참조자 -->
 					<div class="mb-3">
 						<label for="inputTitle" class="form-label">참조자</label>
+						<div class="body_table_height">
 						<table id="body_ref_table" class="table">
 							<tbody>
 							
@@ -551,6 +571,7 @@
 							
 							</tbody>
 						</table>
+						</div>
 					</div>
 			  
 			  
@@ -579,7 +600,7 @@
 								<div class="fr-wrapper show-placeholder" dir="auto">
 									<!-- style="overflow: scroll;" 제외 -->
 									<textarea name="notice_content" id="smartEditor" 
-											  style="width: 100%; height: 412px;">${htmlContent}</textarea>  <!-- 엑셀 변환 HTML -->
+											  style="width: 100%; height: 560px;">${htmlContent}</textarea>  <!-- 엑셀 변환 HTML -->
 								</div>
 							</div>
 						</div>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="FormRepository">
+
+<insert id="insertForm" parameterType="Forms">
+	INSERT INTO DOCUMENT_FORM (
+		ID, PATH, TITLE, CREATED_AT, UPDATED_AT, DOCUMENT_TYPE, COMPANY_ID, STAFF_ID
+		)
+	VALUES (
+		SEQ_DOCUMENT_FORM_ID.nextval, #{path}, #{title}, sysdate, sysdate, #{document_type},'2','24')
+		<!-- #{ } 사용시 vo(Forms.java) 와 이름 동일하게 쓰기  -->
+
+</insert>
+
+<select id="getFormList" resultType="Forms">
+	SELECT DOC.ID ID, DOC.PATH PATH, DOC.TITLE TITLE, DOC.CREATED_AT CREATED_AT, DOC.UPDATED_AT UPDATED_AT, DOC.DOCUMENT_TYPE DOCUMENT_TYPE, DOC.COMPANY_ID COMPANY_ID, SF.NAME NAME 
+	FROM DOCUMENT_FORM DOC
+	INNER JOIN STAFF SF
+	ON DOC.STAFF_ID = SF.ID 
+	ORDER BY DOC.ID DESC
+</select>
+
+
+</mapper>
