@@ -734,7 +734,7 @@
 
 
 	<script src="/resources/template/js/main.js" type="text/javascript"></script>
-	<script src="/resources/attendence/js/holiday.js" type="text/javascript"></script>
+	<script src="/resources/attendance/js/holiday.js" type="text/javascript"></script>
 	
 
 </body>

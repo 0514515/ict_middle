@@ -225,7 +225,7 @@
 						<div class="col-6 col-md-4">
 							<div class="card">
 								<div class="d-grid gap-2 col-12 mx-auto">
-									<button class="btn btn_start btn-primary" type="button">출근</button>										
+									<button href="record" class="btn btn_start btn-primary" type="button">출근</button>										
 								</div>
 								<div class="card-body">
 									<h5 class="card-title">출근 시간</h5>
@@ -380,7 +380,7 @@
 
     <!-- Template Javascript -->
     <script src="/resources/template/js/main.js" type="text/javascript"></script>
-	<script src="/resources/attendence/js/main.js" type="text/javascript"></script>
+	<script src="/resources/attendance/js/main.js" type="text/javascript"></script>
 </body>
 
 </html>

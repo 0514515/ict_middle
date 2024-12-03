@@ -423,7 +423,7 @@
 
     <!-- Template Javascript -->
     <script src="/resources/template/js/main.js" type="text/javascript"></script>
-    <script src="/resources/attendence/js/worksystem.js" type="text/javascript"></script>
+    <script src="/resources/attendance/js/worksystem.js" type="text/javascript"></script>
 </body>
 
 </html>
