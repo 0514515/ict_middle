@@ -1,5 +1,7 @@
 package com.middle.hr.parkeunbyeol.attendance.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,12 +10,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.middle.hr.parkeunbyeol.attendance.service.AttendanceService;
 import com.middle.hr.parkeunbyeol.attendance.vo.Attendance;
+import com.middle.hr.parkjinuk.staff.service.StaffService;
 
 @Controller
 public class AttendanceController {
 	
 	@Autowired
 	AttendanceService attendanceService;
+	
+	@Autowired
+	StaffService staffService;
 	
 	// 근태 관리 _ 나의 근태 현황 메인 페이지
 	@GetMapping("attendance")
@@ -25,13 +31,22 @@ public class AttendanceController {
 	// 출근 시간 db에 입력하기
 	@GetMapping("recode")
 	@ResponseBody
-	public String insertStartAt(Attendance attendance) {
+	public String insertStartAt(HttpSession httpSession) {
 		// 출근 시간 잘 넘어가는지 확인
-		System.out.println("출근 시간 입력 확인:" + attendance.toString());
+		System.out.println("출근 시간 입력 확인:" );
 		
-		attendanceService.insertStartAt(attendance);
+		String loginId = (String)httpSession.getAttribute("loginId");
+		
+		System.out.println(loginId);
+		
+		// 로그인 아이디로 staff의 기본키 id값 받아오기
+		
+		System.out.println(staff_id);
+		
+		attendanceService.insertStartAt(staff_id);
+		
+		
 		 // 서비스 단으로 인자 보냄
-		
 		return "ok"; // js파일의 ajax의 result로 넘어감
 	}
 

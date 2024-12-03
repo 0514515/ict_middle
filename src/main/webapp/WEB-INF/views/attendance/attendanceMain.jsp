@@ -204,7 +204,7 @@
 			
 			
 			<!-- 본문 작성 (body start) -->
-	       <form> 
+	       <form a> 
 			<div class="container container-fluid pt-5 px-4">
 				
 				<div class="mx-4 my-4">
@@ -237,7 +237,7 @@
 							<div class="card">
 								<div class="d-grid gap-2 col-12 mx-auto">
 									<input type='hidden' name='staff_id' id='staff_id' value=24>
-									<button type='button' class="btn btn_start btn-primary" value="출근">출근</button>										
+									<button type='button' class="btn btn_start btn-primary" data-staff-id="${staff_id}" value="출근">출근</button>										
 								</div>
 								<div class="row card-body">
 									<h5 class="col-5 start_title">출근 시간</h5><p id="start_body" class="col-7 start_body">${attendance.start_at}</p>

@@ -18,6 +18,6 @@ public class Attendance {
 	private String 	end_at;			// 퇴근 이력
 	private Integer	working_status; 	// 출퇴근 상태
 	private Integer	company_id;		// 회사id
-	private Integer staff_id;		// 사원id
+	private String staff_id;		// 사원id
 	
 }

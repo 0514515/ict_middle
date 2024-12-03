@@ -14,14 +14,14 @@ public class AttendanceServiceImpl implements AttendanceService {
 	@Autowired
 	AttendanceRepository attendanceRepository;
 	
-	// 출근 기록 입력
+	// 로그인 된 id로 출근 기록 입력
 	@Override
-	public void insertStartAt(Attendance attendance) {
+	public void insertStartAt(Integer staff_id) {
 		
-		attendanceRepository.insertStartAt(attendance);
+		attendanceRepository.insertStartAt(staff_id); 
 		
 	}
-	
+	 
 	public void selectStartAt(Integer staff_id) {
 	
 		attendanceRepository.selectStartAt(staff_id);

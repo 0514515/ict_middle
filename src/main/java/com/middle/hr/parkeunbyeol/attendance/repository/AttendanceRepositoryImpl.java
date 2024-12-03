@@ -15,17 +15,16 @@ public class AttendanceRepositoryImpl implements AttendanceRepository {
 	private SqlSessionTemplate mybatis;
 	
 	
-	// 출근 기록 등록
+	// 출근 기록 등록 
 	@Override
-	public void insertStartAt(Attendance attendance) {
+	public Integer insertStartAt(Integer loginId) {
 		System.out.println("==> insertStartAt() 호출");
 		
-		mybatis.insert("AttendanceRepository.insertStartAt", attendance);
-		
-		return;
-		
+		return mybatis.insert("AttendanceRepository.insertStartAt", loginId);
+			 
 	}
 
+	
 	// 출근 기록 출력
 	public void selectStartAt(Integer staff_id) {
 		System.out.println("==> selectStartAt() 호출");
