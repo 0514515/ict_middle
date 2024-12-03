@@ -34,57 +34,78 @@
 		</where>
 	</select>
 
+	<!-- 관리자 등록 -->
+	<insert id="insertCompanyAdministrator"
+		parameterType="Administrator">
+		INSERT INTO
+		STAFF(id, login_id, password, name,
+		phone_number, rank, email, hired_date, hiring_status, created_at,
+		updated_at, max_leave, leave_count, authority, department_id)
+		VALUES
+		(seq_staff_id.nextval, #{loginId},#{password}, #{staffName},
+		#{phoneNumber},
+		'관리자',#{email},sysdate,1,sysdate,sysdate,0,0,9999,#{companyId})
+	</insert>
+
 	<!-- 관리자 조회 -->
-	<select id="selectCompanyAdministratorList" resultType="Administrator">
-    SELECT s.id AS staff_id,
-           c.id AS company_id,
-           c.name AS company_name,
-           s.name AS staff_name,
-           TO_CHAR(s.created_at, 'YYYY-MM-DD') AS created_at
-    FROM staff s
-    INNER JOIN department d ON s.department_id = d.id
-    INNER JOIN company c ON c.id = d.company_id
-    <where>
-        <if test="searchOption != null and searchOption != ''">
-            <choose>
-                <when test="searchOption == 'id'">
-                    AND s.id LIKE '%' || #{searchKeyword} || '%'
-                </when>
-                <when test="searchOption == 'name'">
-                    AND s.name LIKE '%' || #{searchKeyword} || '%'
-                </when>
-                <when test="searchOption == 'phone_number'">
-                    AND s.phone_number LIKE '%' || #{searchKeyword} || '%'
-                </when>
-            </choose>
-        </if>
-        AND s.authority >= 9999
-    </where>
-</select>
+	<select id="selectCompanyAdministratorList"
+		resultType="Administrator">
+		SELECT s.id AS staff_id,
+		c.id AS company_id,
+		c.name AS company_name,
+		s.name AS staff_name,
+		TO_CHAR(s.created_at, 'YYYY-MM-DD') AS created_at
+		FROM staff s
+		INNER JOIN department d ON s.department_id = d.id
+		INNER
+		JOIN company c ON c.id = d.company_id
+		<where>
+			<!-- 넘어온 searchOption의 값에 따라 검색 옵션을 바꾼다. -->
+			<if test="searchOption != null and searchOption != ''">
+				<choose>
+					<when test="searchOption == 'staff_id'">
+						AND s.id LIKE '%' || #{searchKeyword} || '%'
+					</when>
+					<when test="searchOption == 'staff_name'">
+						AND s.name LIKE '%' || #{searchKeyword} || '%'
+					</when>
+					<when test="searchOption == 'company_id'">
+						AND c.id LIKE '%' || #{searchKeyword} || '%'
+					</when>
+					<when test="searchOption == 'company_name'">
+						AND c.name LIKE '%' || #{searchKeyword} || '%'
+					</when>
+				</choose>
+			</if>
+			AND s.authority >= 9999
+		</where>
+	</select>
 
 	<!-- 페이지네이션용 페이지 수 조회 (관리자) -->
 	<select id="selectCompanyAdministratorCount" resultType="int">
-    SELECT count(*)
-    FROM staff s
-    INNER JOIN department d ON s.department_id = d.id
-    INNER JOIN company c ON c.id = d.company_id
-    <where>
-        <if test="searchOption != null and searchOption != ''">
-            <choose>
-                <when test="searchOption == 'id'">
-                    AND s.id LIKE '%' || #{searchKeyword} || '%'
-                </when>
-                <when test="searchOption == 'name'">
-                    AND s.name LIKE '%' || #{searchKeyword} || '%'
-                </when>
-                <when test="searchOption == 'phone_number'">
-                    AND s.phone_number LIKE '%' || #{searchKeyword} || '%'
-                </when>
-            </choose>
-        </if>
-        AND s.authority >= 9999
-    </where>
-</select>
+		SELECT count(*)
+		FROM staff s
+		INNER JOIN department d ON s.department_id
+		= d.id
+		INNER JOIN company c ON c.id = d.company_id
+		<where>
+			<if test="searchOption != null and searchOption != ''">
+				<choose>
+					<when test="searchOption == 'id'">
+						AND s.id LIKE '%' || #{searchKeyword} || '%'
+					</when>
+					<when test="searchOption == 'name'">
+						AND s.name LIKE '%' || #{searchKeyword} || '%'
+					</when>
+					<when test="searchOption == 'phone_number'">
+						AND s.phone_number LIKE '%' || #{searchKeyword} ||
+						'%'
+					</when>
+				</choose>
+			</if>
+			AND s.authority >= 9999
+		</where>
+	</select>
 
 
 </mapper>

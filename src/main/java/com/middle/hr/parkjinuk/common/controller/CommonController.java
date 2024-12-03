@@ -1,7 +1,5 @@
 package com.middle.hr.parkjinuk.common.controller;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.middle.hr.parkjinuk.common.service.CommonService;
 import com.middle.hr.parkjinuk.common.vo.Administrator;
@@ -54,6 +50,20 @@ public class CommonController {
 		return "common/companyRegistrationForm";
 	}
 
+	// 회사 등록 URI
+	@PostMapping("super/company/new")
+	public String createCompany(Company company) {
+
+		// 실제 회사 실행
+		Integer result = commonService.createCompany(company);
+
+		if (result == 1) {
+			System.out.println("@@@ 등록 성공 @@@");
+		}
+
+		return "redirect:/super/company";
+	}
+
 	// 회사 관리자 목록 페이지
 	@GetMapping("super/administrator")
 	public String getCompanyAdmisitratorList(String searchOption, String searchKeyword, Integer pageNum, Model model) {
@@ -67,9 +77,10 @@ public class CommonController {
 			pageNum = 1;
 
 		// 검색 옵션과 키워드로 페이지네이션 검색 (관리자 검색)
-		Map<String, Object> result = commonService.searchCompanyAdministratorList(searchOption, searchKeyword, pageNum, 10);
+		Map<String, Object> result = commonService.searchCompanyAdministratorList(searchOption, searchKeyword, pageNum,
+				10);
 
-		model.addAttribute("companyList", result.get("companyList")); // 회사 목록
+		model.addAttribute("administratorList", result.get("administratorList")); // 회사 목록
 		model.addAttribute("totalPage", result.get("totalPages")); // 최대 페이지
 		model.addAttribute("pageNum", pageNum + ""); // 현재 페이지
 
@@ -86,17 +97,19 @@ public class CommonController {
 		return "common/companyAdministratorRegistrationForm";
 	}
 
-	// 회사 등록 URI
-	@PostMapping("super/company/new")
-	public String createCompany(com.middle.hr.parkjinuk.common.vo.Company company) {
+	// 관리자 등록 URI
+	@PostMapping("super/administrator/new")
+	public String createCompanyAdministrator(Administrator administrator) {
 
+		System.out.println(administrator);
+		
 		// 실제 회사 실행
-		Integer result = commonService.createCompany(company);
+		Integer result = commonService.createCompanyAdministrator(administrator);
 
 		if (result == 1) {
 			System.out.println("@@@ 등록 성공 @@@");
 		}
 
-		return "redirect:/super/company";
+		return "redirect:/super/administrator";
 	}
 }

@@ -105,7 +105,7 @@ body {
 
 
 			<!-- 본문 작성 (body start) -->
-			<form>
+			<form action="/super/administrator/new" method="post">
 				<div class="container pt-4 px-4">
 					<div class="d-flex align-items-center justify-content-between mb-4">
 						<h4>관리자 계정 추가</h4>
@@ -119,18 +119,18 @@ body {
 						</div>
 						<div class="bg-light rounded min-vh-100 p-4">
 
-							<!-- 회사 등록 요청 작업 / action, method, name -->
+							<!-- 관리자 등록 요청 작업 / action, method, name -->
 
-							<label for="name" class="form-label">회사 이름</label>
+							<label for="name" class="form-label">회사 번호</label>
 							<div class="d-flex mb-3">
-								<input type="text" class="form-control" name="name" id="name"
-									disabled>
-								<button type="button" class="btn btn-primary ms-2 px-4 text-nowrap">찾기</button>
+								<input type="text" class="form-control" name="companyId" id="companyId"
+									>
+								<!-- <button type="button" class="btn btn-primary ms-2 px-4 text-nowrap">찾기</button> -->
 							</div>
 
 							<div class="mb-3">
 								<label for="name" class="form-label">관리자 이름</label> <input
-									type="text" class="form-control" name="name" id="name">
+									type="text" class="form-control" name="staffName" id="staffNname">
 							</div>
 
 							<div class="mb-3">
@@ -152,7 +152,7 @@ body {
 
 							<div class="mb-3">
 								<label for="phoneNumber" class="form-label">전화번호</label> <input
-									type="text" class="form-control" id="phoneNumber">
+									type="text" class="form-control" id="phoneNumber" name="phoneNumber">
 							</div>
 
 							<div class="mb-3">

@@ -71,6 +71,10 @@ body {
 .ms-4 {
 	margin-top: 1rem;
 }
+
+#tableContainer {
+	height: 510px;
+}
 </style>
 
 </head>
@@ -115,17 +119,23 @@ body {
 						<!-- 검색 도구 start -->
 						<form action="/super/administrator" method="GET">
 							<div class="d-flex align-items-center justify-content-start">
-								<div class="d-flex justify-content-start w-50">
+								<div class="d-flex justify-content-start w-75">
 									<!-- 이전 검색 도구의 값을 유지 -->
 									<select class="form-select w-100" name="searchOption"
 										id="searchOption">
-										<option value="id"
-											${"id".equals(searchOption) ? "selected" : ""}>회사 번호</option>
-										<option value="name"
-											${"name".equals(searchOption) ? "selected" : ""}>회사
+										<option value="staff_id"
+											${"staff_id".equals(searchOption) ? "selected" : ""}>관리자
+											번호</option>
+										<option value="staff_name"
+											${"staff_name".equals(searchOption) ? "selected" : ""}>관리자
 											이름</option>
-										<option value="phone_number"
-											${"phone_number".equals(searchOption) ? "selected" : ""}>전화번호</option>
+										<option value="company_id"
+											${"company_id".equals(searchOption) ? "selected" : ""}>회사
+											번호</option>
+										<option value="company_name"
+											${"company_name".equals(searchOption) ? "selected" : ""}>회사
+											이름</option>
+										
 									</select>
 								</div>
 								<input type="text" class="form-control ms-2"
@@ -143,53 +153,83 @@ body {
 
 
 					<!-- table column start -->
-					<div class="bg-light rounded min-vh-100 p-4">
-						<!-- 테이블 start -->
-						<table class="table table table-hover">
-							<thead>
-								<tr>
-									<th scope="col">관리자 번호</th>
-									<th scope="col">회사 번호</th>
-									<th scope="col">회사 이름</th>
-									<th scope="col">관리자 이름</th>
-									<th scope="col">관리자 생성일</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<th scope="row">1</th>
-									<td>3</td>
-									<td>회사1</td>
-									<td>Doe</td>
-									<td>2020-01-01</td>
-								</tr>
-								<tr>
-									<th scope="row">2</th>
-									<td>4</td>
-									<td>회사2</td>
-									<td>Otto</td>
-									<td>2020-01-01</td>
-								</tr>
-							</tbody>
-						</table>
-						<!-- 테이블 end -->
+					<div class="col">
+						<div id="tableContainer" class="bg-light rounded p-4">
+							<!-- 테이블 start -->
+							<table class="table table table-hover">
+								<thead>
+									<tr>
+										<th scope="col">관리자 번호</th>
+										<th scope="col">회사 번호</th>
+										<th scope="col">회사 이름</th>
+										<th scope="col">관리자 이름</th>
+										<th scope="col">관리자 생성일</th>
+									</tr>
+								</thead>
+								<tbody id="tableBody">
+									<c:forEach var="administrator" items="${administratorList}">
+										<tr>
+											<th scope="row">${administrator.staffId}</th>
+											<td>${administrator.companyId}</td>
+											<td>${administrator.companyName}</td>
+											<td>${administrator.staffName}</td>
+											<td>${administrator.createdAt}</td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+							<!-- 테이블 end -->
+						</div>
 					</div>
 					<!-- table column end -->
 				</div>
 			</div>
+
+			<!-- pagination start -->
 			<div class="d-flex align-items-center justify-content-center">
 				<nav aria-label="Page navigation">
 					<ul class="pagination pt-3 pr-3">
-						<li class="page-item"><a class="page-link" href="#">이전</a></li>
-						<li class="page-item"><a class="page-link" href="#">1</a></li>
-						<li class="page-item"><a class="page-link" href="#">2</a></li>
-						<li class="page-item active"><a class="page-link" href="#">3</a></li>
-						<li class="page-item"><a class="page-link" href="#">4</a></li>
-						<li class="page-item"><a class="page-link" href="#">5</a></li>
-						<li class="page-item"><a class="page-link" href="#">다음</a></li>
+						<!-- 현재 페이지가 1페이지일 경우 "이전" 버튼 없음 -->
+						<c:if test="${pageNum != 1}">
+							<li class="page-item"><a class="page-link"
+								href="/super/administrator?searchOption=${searchOption}&searchKeyword=${searchKeyword}&pageNum=${pageNum-1}">이전</a></li>
+						</c:if>
+
+						<!-- pageNum-2가 0보다 작으면 1로 설정 -->
+						<!-- 파라미터 pageNum을 받아와서 로컬 pageNum으로 만들기 -->
+						<c:set var="pageNum"
+							value="${param.pageNum != null ? param.pageNum : 1 }" />
+
+						<!-- pageNum-2가 1보다 작으면 1로 설정 -->
+						<!-- begin 선언 -->
+						<c:set var="begin" value="${pageNum-2}" />
+						<c:if test="${begin<1 }">
+							<c:set var="begin" value="1" />
+						</c:if>
+
+						<!-- pageNum이 총 페이지 수를 넘지 않도록 설정 -->
+						<c:set var="end" value="${pageNum + 2}" />
+						<c:if test="${end > totalPage}">
+							<c:set var="end" value="${totalPage}" />
+						</c:if>
+
+						<!-- 페이지 번호 출력 -->
+						<c:forEach var="i" begin="${begin}" end="${end}" step="1">
+							<li class="page-item ${i == pageNum ? 'active' : ''}"><a
+								class="page-link"
+								href="/super/administrator?searchOption=${searchOption}&searchKeyword=${searchKeyword}&pageNum=${i}">${i}</a>
+							</li>
+						</c:forEach>
+
+						<!-- 현재 페이지가 마지막 페이지일 경우 "다음" 버튼 없음 -->
+						<c:if test="${pageNum != totalPage}">
+							<li class="page-item"><a class="page-link"
+								href="/super/administrator?searchOption=${searchOption}&searchKeyword=${searchKeyword}&pageNum=${pageNum+1}">다음</a></li>
+						</c:if>
 					</ul>
 				</nav>
 			</div>
+			<!-- pagination end -->
 			<!-- 본문 끝 (body end) -->
 
 
