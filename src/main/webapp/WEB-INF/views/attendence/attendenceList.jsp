@@ -308,28 +308,28 @@
 	                    <th class="table-light">진행상태</th>
 	                 </tr>
 	                 <tr>
-	                    <th>연차</th>
+	                    <td>연차</td>
 	                    <td>2024-11-20</td>
 	                    <td>2024-11-20</td>
 	                    <td>이동욱</td>
 	                    <td><span class="badge bg-warning text-dark">결재대기</span></td>
 	                 </tr>
 	                 <tr>
-	                    <th>반차</th>
+	                    <td>반차</td>
 	                    <td>2024-08-13</td>
 	                    <td>-</td>
 	                    <td>이동욱</td>
 	                    <td><span class="badge bg-danger">반려</span></td>
 	                 </tr> 
 	                 <tr>
-	                    <th>반반차</th>
+	                    <td>반반차</td>
 	                    <td>2024-07-28</td>
 	                    <td>2024-07-28</td>
 	                    <td>이동욱</td>
 	                    <td><span class="badge bg-info">승인완료</span></td>
 	                 </tr>
 	                 <tr>
-	                 	<th>반반차</th>
+	                 	<td>반반차</td>
 	                    <td>2024-07-11</td>
 	                    <td>-</td>
 	                    <td>이동욱</td>
