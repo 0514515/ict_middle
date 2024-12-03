@@ -230,7 +230,7 @@
 			    
 			    <label for="inputTitle" class="col-sm-2 col-form-label">문서 구분</label>
 			    <div class="col-sm-10 title_txt">
-			       ${forms.document_type}
+			       ${forms.documentType}
 			      <!-- <input type="text" class="form-control" id="inputTitle">  -->
 			    </div>
 			  </div>
@@ -238,7 +238,7 @@
 			  <!-- html 출력 -->	
 			  <div class="html_view">
 			  	<div id="pdf_view">
-			  		${forms.form_content}
+			  		${forms.formContent}
 			  	</div>
 			  </div>
 
