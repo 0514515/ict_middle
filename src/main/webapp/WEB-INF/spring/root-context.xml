@@ -19,10 +19,17 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="mapperLocations"
 			value="classpath:*/**/mappers/*Mapper.xml"></property>
+		<property name="configuration">
+			<bean class="org.apache.ibatis.session.Configuration">
+				<!-- 예시: mapUnderscoreToCamelCase 설정 -->
+				<property name="mapUnderscoreToCamelCase" value="true" />
+			</bean>
+		</property>
 		<property name="typeAliases">
 			<list>
 				<!-- parkjinuk -->
 				<value>com.middle.hr.parkjinuk.common.vo.Company</value>
+				<value>com.middle.hr.parkjinuk.common.vo.Administrator</value>
 				<!-- parksuji -->
 				<!-- parkeunbyeol -->
 			</list>

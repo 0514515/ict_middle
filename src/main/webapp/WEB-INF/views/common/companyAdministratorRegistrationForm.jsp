@@ -6,7 +6,7 @@
 
 <head>
 <meta charset="utf-8">
-<title>관리자 추가 : 피플윙</title>
+<title>관리자 계정 추가 : 피플윙</title>
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 <meta content="" name="keywords">
 <meta content="" name="description">
@@ -108,7 +108,7 @@ body {
 			<form>
 				<div class="container pt-4 px-4">
 					<div class="d-flex align-items-center justify-content-between mb-4">
-						<h4>관리자 등록</h4>
+						<h4>관리자 계정 추가</h4>
 
 					</div>
 					<div class="col p-4">

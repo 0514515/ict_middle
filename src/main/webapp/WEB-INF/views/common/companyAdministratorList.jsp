@@ -113,26 +113,35 @@ body {
 				<div class="col p-4">
 					<div class="d-flex align-items-center justify-content-between mb-4">
 						<!-- 검색 도구 start -->
-						<div class="d-flex align-items-center justify-content-start">
-							<div class="d-flex justify-content-start w-50">
-								<select class="form-select w-100"
-									aria-label="Default select example">
-									<option value="1" selected>One</option>
-									<option value="2">Two</option>
-									<option value="3">Three</option>
-								</select>
+						<form action="/super/administrator" method="GET">
+							<div class="d-flex align-items-center justify-content-start">
+								<div class="d-flex justify-content-start w-50">
+									<!-- 이전 검색 도구의 값을 유지 -->
+									<select class="form-select w-100" name="searchOption"
+										id="searchOption">
+										<option value="id"
+											${"id".equals(searchOption) ? "selected" : ""}>회사 번호</option>
+										<option value="name"
+											${"name".equals(searchOption) ? "selected" : ""}>회사
+											이름</option>
+										<option value="phone_number"
+											${"phone_number".equals(searchOption) ? "selected" : ""}>전화번호</option>
+									</select>
+								</div>
+								<input type="text" class="form-control ms-2"
+									value="${searchKeyword != null ? searchKeyword : ''}"
+									name="searchKeyword" id="searchKeyword">
+								<button type="submit" id="searchButton"
+									class="btn btn-primary ms-2 px-4 text-nowrap">검색</button>
 							</div>
-							<input type="text" class="form-control ms-2" name="name"
-								id="name">
-							<button type="button"
-								class="btn btn-primary ms-2 px-4 text-nowrap">검색</button>
-						</div>
+						</form>
 						<!-- 검색 도구 end -->
-						<button onClick="location.href='/super/administrator/new'" type="button" class="btn btn-primary">관리자 추가</button>
+						<button onClick="location.href='/super/administrator/new'"
+							type="button" class="btn btn-primary">관리자 추가</button>
 
 					</div>
-					
-					
+
+
 					<!-- table column start -->
 					<div class="bg-light rounded min-vh-100 p-4">
 						<!-- 테이블 start -->

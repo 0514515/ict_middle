@@ -72,8 +72,8 @@ body {
 	margin-top: 1rem;
 }
 
-#tableContainer{
-	height:510px;
+#tableContainer {
+	height: 510px;
 }
 </style>
 
@@ -116,29 +116,40 @@ body {
 					<h4>회사 목록</h4>
 
 				</div>
-				
+
 				<!-- search, button bar start -->
 				<div class="col pt-4 px-4">
 					<div class="d-flex align-items-center justify-content-between mb-4">
 						<!-- 검색 도구 start -->
-						<div class="d-flex align-items-center justify-content-start">
-							<div class="d-flex justify-content-start w-50">
-								<select class="form-select w-100" name="search_option" id="searchOption">
-									<option value="id">회사 번호</option>
-									<option value="name" selected>회사 이름</option>
-									<option value="phone_number">전화번호</option>
-								</select>
+						<form action="/super/company" method="GET">
+							<div class="d-flex align-items-center justify-content-start">
+								<div class="d-flex justify-content-start w-50">
+									<!-- 이전 검색 도구의 값을 유지 -->
+									<select class="form-select w-100" name="searchOption"
+										id="searchOption">
+										<option value="id"
+											${"id".equals(searchOption) ? "selected" : ""}>회사 번호</option>
+										<option value="name"
+											${"name".equals(searchOption) ? "selected" : ""}>회사
+											이름</option>
+										<option value="phone_number"
+											${"phone_number".equals(searchOption) ? "selected" : ""}>전화번호</option>
+									</select>
+								</div>
+								<input type="text" class="form-control ms-2"
+									value="${searchKeyword != null ? searchKeyword : ''}"
+									name="searchKeyword" id="searchKeyword">
+								<button type="submit" id="searchButton"
+									class="btn btn-primary ms-2 px-4 text-nowrap">검색</button>
 							</div>
-							<input type="text" class="form-control ms-2" name="searchKeyword"
-								id="searchKeyword">
-							<button type="button" id="searchButton" class="btn btn-primary ms-2 px-4 text-nowrap">검색</button>
-						</div>
+						</form>
 						<!-- 검색 도구 end -->
-						<button onClick="location.href='/super/company/new'" type="button" class="btn btn-primary text-nowrap">회사 추가</button>
+						<button onClick="location.href='/super/company/new'" type="button"
+							class="btn btn-primary text-nowrap">회사 추가</button>
 					</div>
 				</div>
 				<!-- search, button bar end -->
-				
+
 				<!-- table column start -->
 				<div class="col">
 					<div id="tableContainer" class="bg-light rounded p-4 mx-4">
@@ -153,18 +164,14 @@ body {
 								</tr>
 							</thead>
 							<tbody id="tableBody">
-								<tr>
-									<th scope="row">1</th>
-									<td>John</td>
-									<td>Doe</td>
-									<td>jhon@email.com</td>
-								</tr>
-								<tr>
-									<th scope="row">2</th>
-									<td>Mark</td>
-									<td>Otto</td>
-									<td>mark@email.com</td>
-								</tr>
+								<c:forEach var="company" items="${companyList}">
+									<tr>
+										<th scope="row">${company.id}</th>
+										<td>${company.name}</td>
+										<td>${company.phoneNumber}</td>
+										<td>${company.foundedAt}</td>
+									</tr>
+								</c:forEach>
 							</tbody>
 						</table>
 
@@ -172,18 +179,48 @@ body {
 				</div>
 				<!-- table column end -->
 			</div>
-			
+
 			<!-- pagination start -->
 			<div class="d-flex align-items-center justify-content-center">
 				<nav aria-label="Page navigation">
 					<ul class="pagination pt-3 pr-3">
-						<li class="page-item"><a class="page-link" href="#">이전</a></li>
-						<li class="page-item"><a class="page-link" href="#">1</a></li>
-						<li class="page-item"><a class="page-link" href="#">2</a></li>
-						<li class="page-item active"><a class="page-link" href="#">3</a></li>
-						<li class="page-item"><a class="page-link" href="#">4</a></li>
-						<li class="page-item"><a class="page-link" href="#">5</a></li>
-						<li class="page-item"><a class="page-link" href="#">다음</a></li>
+						<!-- 현재 페이지가 1페이지일 경우 "이전" 버튼 없음 -->
+						<c:if test="${pageNum != 1}">
+							<li class="page-item"><a class="page-link"
+								href="/super/company?searchOption=${searchOption}&searchKeyword=${searchKeyword}&pageNum=${pageNum-1}">이전</a></li>
+						</c:if>
+
+						<!-- pageNum-2가 0보다 작으면 1로 설정 -->
+						<!-- 파라미터 pageNum을 받아와서 로컬 pageNum으로 만들기 -->
+						<c:set var="pageNum"
+							value="${param.pageNum != null ? param.pageNum : 1 }" />
+
+						<!-- pageNum-2가 1보다 작으면 1로 설정 -->
+						<!-- begin 선언 -->
+						<c:set var="begin" value="${pageNum-2}" />
+						<c:if test="${begin<1 }">
+							<c:set var="begin" value="1" />
+						</c:if>
+
+						<!-- pageNum이 총 페이지 수를 넘지 않도록 설정 -->
+						<c:set var="end" value="${pageNum + 2}" />
+						<c:if test="${end > totalPage}">
+							<c:set var="end" value="${totalPage}" />
+						</c:if>
+
+						<!-- 페이지 번호 출력 -->
+						<c:forEach var="i" begin="${begin}" end="${end}" step="1">
+							<li class="page-item ${i == pageNum ? 'active' : ''}"><a
+								class="page-link"
+								href="/super/company?searchOption=${searchOption}&searchKeyword=${searchKeyword}&pageNum=${i}">${i}</a>
+							</li>
+						</c:forEach>
+
+						<!-- 현재 페이지가 마지막 페이지일 경우 "다음" 버튼 없음 -->
+						<c:if test="${pageNum != totalPage}">
+							<li class="page-item"><a class="page-link"
+								href="/super/company?searchOption=${searchOption}&searchKeyword=${searchKeyword}&pageNum=${pageNum+1}">다음</a></li>
+						</c:if>
 					</ul>
 				</nav>
 			</div>
@@ -206,7 +243,7 @@ body {
 	</div>
 
 	<!-- JavaScript Libraries -->
-	
+
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="/resources/template/lib/chart/chart.min.js"></script>
