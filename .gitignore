@@ -130,3 +130,6 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/windows
+.idea/uiDesigner.xml
+.idea/workspace.xml
+.idea/dataSources/f7a10c88-9783-4bda-a57a-485635f7e8c2.xml
