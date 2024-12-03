@@ -106,7 +106,7 @@ body {
 
 			<!-- 본문 작성 (body start) -->
 			<!-- 회사 등록 요청 작업 / action, method, name -->
-			<form>
+			<form action="/member/new" method="POST">
 				<!-- 필수 입력 정보 패널 -->
 				<div class="container pt-4 px-4">
 					<div class="d-flex align-items-center justify-content-between mb-4">
@@ -120,10 +120,15 @@ body {
 						</div>
 						<div class="bg-light rounded h-100 p-4">
 
+							<input type="hidden" name="companyId" id="companyId" value="${companyId}">
 
 							<div class="mb-3">
-								<label for="name" class="form-label">사원 이름</label> <input
-									type="text" class="form-control" name="name" id="name">
+								<label for="departmentId" class="form-label">부서 번호</label> <input
+									type="text" class="form-control" name="departmentId" id="departmentId">
+							</div>
+							<div class="mb-3">
+								<label for="staffName" class="form-label">사원 이름</label> <input
+									type="text" class="form-control" name="staffName" id="staffName">
 							</div>
 
 							<div class="mb-3">
@@ -145,7 +150,7 @@ body {
 
 							<div class="mb-3">
 								<label for="phoneNumber" class="form-label">전화번호</label> <input
-									type="text" class="form-control" id="phoneNumber">
+									type="text" class="form-control" id="phoneNumber" name="phoneNumber">
 							</div>
 
 							<div class="mb-3">
@@ -166,9 +171,9 @@ body {
 						</div>
 						<div class="bg-light rounded h-100 p-4">
 							<div class="mb-3">
-								<label for="memberPhoto" class="form-label">사진</label> <input
+								<label for="picture" class="form-label">사진</label> <input
 									accept="image/*" type="file" class="form-control"
-									name="memberPhoto" id="memberPhoto">
+									name="picture" id="picture">
 							</div>
 
 
@@ -189,17 +194,9 @@ body {
 
 							<div class="mb-3">
 								<label for="birthdate" class="form-label">생년월일</label> <input
-									type="text" class="form-control" name="birthdate"
+									type="date" class="form-control" name="birthdate"
 									id="birthdate">
 							</div>
-
-
-
-							<div class="mb-3">
-								<label for="email" class="form-label">이메일</label> <input
-									type="text" class="form-control" id="email" name="email">
-							</div>
-
 						</div>
 
 					</div>

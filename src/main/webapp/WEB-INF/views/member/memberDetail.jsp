@@ -116,6 +116,7 @@ body {
 					</div>
 					<div class="rounded min-vh-100 p-4">
 						<div class="row justify-content-center">
+						<!-- 왼쪽 컬럼 start -->
 							<div class="col col-sm-5 bg-white">
 								<div class="row mb-3 justify-content-center">
 									<label for="inputEmail3" class="col-sm-3 h5">이름</label>
@@ -168,59 +169,30 @@ body {
 									</div>
 								</div>
 							</div>
+							<!-- 왼쪽 컬럼 end -->
 
+							<!-- 오른쪽 컬럼 start -->
 							<div class="col col-sm-5 bg-white">
+								<!-- 사원 사진 start -->
 								<div class="row mb-3 justify-content-center">
-									<h5 class="col-sm-3">이름</h5>
+									<h5 class="col-sm-3">사진</h5>
 									<div class="col-sm-6">
-										<label for="inputEmail3" class="col-form-label">홍길동</label>
+										<img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgKm1v1NZfQDYxjXhOJZxdGMzff1-pRVIojAUTzdapA4FySgjo0mcLaLhJ4fL1Q5BQmgp2_KDhbkx11TaNY3ijlMPkTbXnoWqfO6EzJzL6xnsuv8xYLXCe1NjUGccOIBO53FxX_HXXOkCM/s800/character_boy_normal.png" class="img-thumbnail">
 									</div>
 								</div>
+								<!-- 사원 사진 end -->
+								
+								<!-- 사원 도장 start -->
 								<div class="row mb-3 justify-content-center">
-									<label for="inputEmail3" class="col-sm-3 col-form-label">전화번호</label>
+									<h5 class="col-sm-3">도장</h5>
 									<div class="col-sm-6">
-										<label for="inputEmail3" class="col-form-label">010-0000-0000</label>
+										<img src="https://t1.daumcdn.net/thumb/R720x0/?fname=http://t1.daumcdn.net/brunch/service/user/5lSD/image/UDF5Zbg4Joe84NQHijQrfVFfaNg.png" class="img-thumbnail">
 									</div>
 								</div>
-								<div class="row mb-3 justify-content-center">
-									<label for="inputEmail3" class="col-sm-3 col-form-label">직급</label>
-									<div class="col-sm-6">
-										<label for="inputEmail3" class="col-form-label">사원</label>
-									</div>
-								</div>
-								<div class="row mb-3 justify-content-center">
-									<label for="inputEmail3" class="col-sm-3 col-form-label">주소</label>
-									<div class="col-sm-6">
-										<label for="inputEmail3" class="col-form-label">서울특별시
-											XX구 XX동 ㅁㅁ빌딩 000동 000호</label>
-									</div>
-								</div>
-								<div class="row mb-3 justify-content-center">
-									<label for="inputEmail3" class="col-sm-3 col-form-label">성별</label>
-									<div class="col-sm-6">
-										<label for="inputEmail3" class="col-form-label">남성</label>
-									</div>
-								</div>
-								<div class="row mb-3 justify-content-center">
-									<label for="inputEmail3" class="col-sm-3 col-form-label">생년월일</label>
-									<div class="col-sm-6">
-										<label for="inputEmail3" class="col-form-label">1997년
-											8월 31일</label>
-									</div>
-								</div>
-								<div class="row mb-3 justify-content-center">
-									<label for="inputEmail3" class="col-sm-3 col-form-label">이메일</label>
-									<div class="col-sm-6">
-										<label for="inputEmail3" class="col-form-label">example@example.com</label>
-									</div>
-								</div>
-								<div class="row mb-3 justify-content-center">
-									<label for="inputEmail3" class="col-sm-3 col-form-label">입사일</label>
-									<div class="col-sm-6">
-										<label for="inputEmail3" class="col-form-label">2024-08-27</label>
-									</div>
-								</div>
+								<!-- 사원 도장 end -->
+								
 							</div>
+							<!-- 오른쪽 컬럼 end -->
 						</div>
 					</div>
 				</div>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="StaffRepository">
+
+    <!-- 회사 등록 -->
+    <insert id="insertStaff" parameterType="Staff">
+        INSERT INTO STAFF(id, name, login_id, password, phone_number, email, picture, sign, address, gender, birthdate,
+                          department_id, company_id)
+        VALUES (seq_staff_id.nextval, #{staffName}, #{loginId}, #{password}, #{phoneNumber}, #{email}, #{picture},
+                #{sign}, #{address}, #{gender}, #{birthdate}, #{departmentId}, #{companyId})
+    </insert>
+
+    <select id="selectCompanyIdByLoginId" parameterType="String" resultType="int">
+        SELECT company_id
+        FROM staff
+        WHERE login_id = #{loginId}
+    </select>
+
+    <!-- 사원 조회 -->
+    <select id="selectStaffList" parameterType="String" resultType="Staff">
+        SELECT d.name departmentName, s.name staffName, s.rank rank, s.phone_number phoneNumber, s.email email,
+        TO_CHAR(s.hired_date, 'YYYY-MM-DD') hiredDate
+        FROM staff s INNER JOIN department d ON s.department_id = d.id
+        <where>
+            s.company_id = (SELECT s.company_id
+            FROM staff s
+            WHERE s.login_id=#{loginId})
+            <if test="searchOption != null and searchOption != ''">
+                <choose>
+                    <when test="searchOption == 'departmentName'">
+                        AND d.name LIKE '%' || #{searchKeyword} || '%'
+                    </when>
+                    <when test="searchOption == 'staffName'">
+                        AND s.name LIKE '%' || #{searchKeyword} || '%'
+                    </when>
+                    <when test="searchOption == 'rank'">
+                        AND s.rank LIKE '%' || #{searchKeyword} || '%'
+                    </when>
+                    <when test="searchOption == 'phone_number'">
+                        AND s.phone_number LIKE '%' || #{searchKeyword} || '%'
+                    </when>
+                    <when test="searchOption == 'email'">
+                        AND s.email LIKE '%' || #{searchKeyword} || '%'
+                    </when>
+                </choose>
+
+            </if>
+        </where>
+    </select>
+
+    <!-- 페이지네이션용 페이지 수 조회 () -->
+    <select id="selectStaffCount" resultType="int">
+        SELECT COUNT(*)
+        FROM staff s INNER JOIN department d ON s.department_id = d.id
+        <where>
+            s.company_id = (SELECT s.company_id
+            FROM staff s
+            WHERE s.login_id=#{loginId})
+            <if test="searchOption != null and searchOption != ''">
+                <choose>
+                    <when test="searchOption == 'departmentName'">
+                        AND d.name LIKE '%' || #{searchKeyword} || '%'
+                    </when>
+                    <when test="searchOption == 'staffName'">
+                        AND s.name LIKE '%' || #{searchKeyword} || '%'
+                    </when>
+                    <when test="searchOption == 'rank'">
+                        AND s.rank LIKE '%' || #{searchKeyword} || '%'
+                    </when>
+                    <when test="searchOption == 'phone_number'">
+                        AND s.phone_number LIKE '%' || #{searchKeyword} || '%'
+                    </when>
+                    <when test="searchOption == 'email'">
+                        AND s.email LIKE '%' || #{searchKeyword} || '%'
+                    </when>
+                </choose>
+            </if>
+        </where>
+    </select>
+    
+    <!-- 로그인, 아이디와 비밀번호로 로그인 -->
+    <select id="login" parameterType="Login" resultType="String">
+    	SELECT login_id
+    	FROM staff
+    	WHERE login_id = #{loginId} AND password=#{password}
+    </select>
+
+</mapper>

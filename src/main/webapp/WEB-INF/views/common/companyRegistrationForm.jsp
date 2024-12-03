@@ -144,8 +144,8 @@ body {
 							</div>
 
 							<div class="mb-3">
-								<label for="foundedDate" class="form-label">창립일</label> <input
-									type="date" class="form-control" name="foundedDate" id="foundedDate">
+								<label for="foundedAt" class="form-label">창립일</label> <input
+									type="date" class="form-control" name="foundedAt" id="foundedAt">
 							</div>
 
 

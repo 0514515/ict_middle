@@ -53,6 +53,13 @@ public class CommonRepositoryImpl implements CommonRepository {
 	    return result;
 	}
 
+	// 관리자 생성
+	@Override
+	public Integer insertCompanyAdministrator(Administrator administrator) {
+		
+		return mybatis.insert("CommonRepository.insertCompanyAdministrator", administrator);
+	}
+	
 	// 관리자 목록 페이지네이션 조회
 	@Override
 	public Map<String, Object> selectCompanyAdministratorList(String searchOption, String searchKeyword,
@@ -70,7 +77,7 @@ public class CommonRepositoryImpl implements CommonRepository {
 	    // RowBounds를 사용하여 페이지네이션 적용
 	    RowBounds rowBounds = new RowBounds((pageNum - 1) * pageSize, pageSize);
 
-	    // 회사 조회
+	    // 관리자 조회
 	    List<Administrator> administratorList = mybatis.selectList("CommonRepository.selectCompanyAdministratorList", params, rowBounds);
 
 	    // 결과를 맵으로 반환
@@ -81,6 +88,8 @@ public class CommonRepositoryImpl implements CommonRepository {
 
 	    return result;
 	}
+
+	
 
 
 }
