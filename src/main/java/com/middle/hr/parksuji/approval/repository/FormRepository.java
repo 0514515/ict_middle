@@ -10,7 +10,7 @@ public interface FormRepository {
 	
 	public void updateForm(Forms forms);
 	
-	public void deleteForm(Forms forms);
+	void deleteById(Integer formId);
 	
 	public Forms getForm(Forms forms);
 	

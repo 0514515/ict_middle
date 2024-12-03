@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.middle.hr.parkjinuk.staff.service.StaffService;
 import com.middle.hr.parksuji.approval.service.FormService;
 import com.middle.hr.parksuji.approval.vo.Forms;
 import com.middle.hr.parksuji.approval.vo.writeDraftFormVO;
@@ -26,6 +27,9 @@ public class ApprovalController {
 	
 	@Autowired
 	private FormService formService;  // FormService에서 DB 처리
+	
+	@Autowired
+	private StaffService staffService;
 
 	// 전자결재 홈 
 	@GetMapping("approval")
@@ -97,16 +101,26 @@ public class ApprovalController {
 	}
 	
 	
-	// 결재양식관리 - 양식 목록 
+	// 양식관리 - 양식 목록 
 	@GetMapping("approval/approvalForm")
 	public void getFormList(Model model) {
 		List<Forms> list = formService.getFormList();
 		model.addAttribute("formList", list);
 	}
 	
+	// 양식관리 - 삭제 
+	@PostMapping("approval/approvalForm")
+	public String deleteForm(@RequestParam("formIds") List<Integer> formIds) {  // 서버에서 formIds[] 배열을 받을 수 있도록 @RequestParam을 설정
+		System.out.println("Received content: " + formIds);  // html이 제대로 넘어오는지 확인 
+		// 선택된 양식 ID들로 삭제 처리 
+		if(formIds !=null && !formIds.isEmpty()) {
+			formService.deleteForm(formIds);
+		}
+		return "redirect:approval/approvalForm";  // 삭제 후 목록 페이지로 리다이렉트 
+	}
 	
 	
-	// 결재양식관리 - 양식 생성하기
+	// 양식관리 - 양식 생성하기
 	@GetMapping("approval/approvalForm/CreateForm")
 	public String createApprovalForm(Forms forms) {
 		return "/approval/createApprovalForm";
@@ -162,13 +176,13 @@ public class ApprovalController {
 	}  */
 	
 	
-	// 기안 작성시 html 입력 내용 저장하기 ( 공유 네트워크에 저장시 사용하는 방법 )
+	// 양식 생성시 html 입력 내용 저장하기 ( 공유 네트워크에 저장시 사용하는 방법 )
 	// 저장 후 양식 생성 완료 화면 출력 
 	@PostMapping("/form_save")  // form action값 기입 
 	public String saveCreateForm(@RequestParam("title") String title,  // input name값 가져오기 
 									@RequestParam("documentType") String documentType,  // input name값 가져오기
 									@RequestParam("formContent") String formContent,  // input name값 가져오기
-									Model model, HttpServletRequest request) throws IOException {
+									Model model, HttpSession session) throws IOException {
 		
 		System.out.println("Received content: " + title);  // html이 제대로 넘어오는지 확인 
 		System.out.println("Received content: " + documentType);  // html이 제대로 넘어오는지 확인 
@@ -199,14 +213,26 @@ public class ApprovalController {
 		forms.setFormContent(formContent); // html 콘텐츠
 		forms.setPath(uploadDirectory + "/" + fileName); // 파일 경로 
 		
+		//세션에서 로그인 아이디 받아오기
+		String loginId = session.getAttribute("loginId").toString();
+		
+		//로그인 아이디로 회사 번호 가져오기
+		Integer companyId = staffService.searchCompanyIdByLoginId(loginId);
+		
+		//로그인 아이디로 사번 가져오기
+		Integer staffId = staffService.searchStaffIdByLoginId(loginId);
+		
+		//회사 번호와 사번을 forms에 set
+		forms.setCompanyId(companyId);
+		forms.setStaffId(staffId);
+		
 		// FormService를 통해 DB에 저장
-		formService.insertForm(forms); 
+		formService.insertForm(forms);
 		
 		// 모델에 forms 객체 추가 
 		model.addAttribute("forms", forms);
 		
 		// 세션에 데이터 저장 
-		HttpSession session = request.getSession();
 	    session.setAttribute("forms", forms);  // 세션에 forms 객체 저장
 		
 		// 양식 생성 완료 페이지로 이동
@@ -215,7 +241,7 @@ public class ApprovalController {
 	}
 	
 	
-	// 결재양식관리 - 양식 생성 완료 화면  
+	// 양식관리 - 양식 생성 완료 화면  
 	@GetMapping("/approval/completionCreateForm")
 	public String completionCreateForm(HttpSession session, Model model) {
 		

@@ -15,7 +15,7 @@ public interface FormService {
 	void updateForm(Forms forms);
 	
 	// 폼 양식 삭제 
-	void deleteForm(Forms forms);
+	void deleteForm(List<Integer> formIds);
 	
 	// 폼 양식 조회 
 	Forms getForm(Forms forms);

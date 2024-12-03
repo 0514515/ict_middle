@@ -17,8 +17,17 @@
 	SELECT DOC.ID ID, DOC.PATH PATH, DOC.TITLE TITLE, DOC.CREATED_AT CREATEDAT, DOC.UPDATED_AT UPDATEDAT, DOC.DOCUMENT_TYPE DOCUMENTTYPE, DOC.COMPANY_ID COMPANYID, SF.NAME NAME 
 	FROM DOCUMENT_FORM DOC
 	INNER JOIN STAFF SF
-	ON DOC.STAFF_ID STAFFID = SF.ID ID 
+	ON DOC.STAFF_ID = SF.ID
 	ORDER BY DOC.ID DESC
 </select>
+
+<delete id="deleteForm" parameterType="java.util.List">
+	DELETE FROM DOCUMENT_FORM
+	WHERE ID IN
+	<foreach collection="list" item="formId" open="(" separator="," close=")">
+		#{ID}
+	</foreach>
+
+</delete>
 
 </mapper>

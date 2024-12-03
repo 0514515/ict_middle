@@ -234,9 +234,9 @@ table {
 						</tr>
 						<c:forEach items="${formList}" var="forms">
 							<tr>
-								<td>
+								<td>  <!-- 체크박스에 양식 ID를 value로 설정 -->
 									<div class="form-check">
-										<input class="form-check-input each_check" type="checkbox" value="" id="flexCheckChecked">
+										<input class="form-check-input each_check" type="checkbox" value="${forms.id}" id="flexCheckChecked">
 									</div>
 								</td>
 								<td>${forms.id}</td>
@@ -341,12 +341,50 @@ table {
 			$('.each_check').click(function(){
 				if($(this).prop('checked')){
 					$(this).prop('checked', true);
-					
 				}else{
 					$(this).prop('checked', false);
 				}
 				
 			})
+			
+			// 선택 삭제 버튼 클릭시 
+			$('.choice_del').click(function(){
+				var selectedIds = []; 
+				
+				// 선택된 체크박스의 id를 selectedIds 배열에 저장 
+				$('.each_check').each(function(){
+					selectedIds.push($(this).val());  // 체크한 행의 양식 id값	
+				});
+				
+				console.log(selectedIds); // 최종 선택된 id들이 출력
+				
+				// 선택된 id가 하나라도 있으면 삭제 요청 
+				if(selectedIds.length > 0){
+					// 선택된 문서 ID들을 서버로 전송 
+					$.ajax({
+						url: '/approval/approvalForm', // 삭제 요청을 받을 URL
+						type: 'POST',
+						data:{
+							formIds:selectedIds
+						},
+						success:function(response){
+							alert('선택한 양식이 삭제되었습니다.');
+							location.reload();
+						},
+						error:function(xhr, status, error){
+							alert('삭제 실패하였습니다. 다시 시도해주세요.');
+							console.error('Error:', xhr.responseText);
+						}
+					});
+					
+				}else{
+					alert('삭제할 양식을 선택해주세요.');
+				}
+				
+			})
+			
+			
+			
 		
 	</script>
 

@@ -27,9 +27,11 @@ public class FormServiceImpl implements FormService {
 	}
 
 	@Override
-	public void deleteForm(Forms forms) {
-		// TODO Auto-generated method stub
-		
+	public void deleteForm(List<Integer> formIds) {
+		for (Integer formId : formIds) {
+			System.out.println("Deleting form with ID: " + formId); // 삭제하는 ID 로그 찍기
+			formRepository.deleteById(formId); // formRepository의 deleteById 메서드를 이용해 삭제
+		}
 	}
 
 	@Override

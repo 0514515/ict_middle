@@ -28,9 +28,9 @@ public class FormRepositoryImpl implements FormRepository{
 	}
 
 	@Override
-	public void deleteForm(Forms forms) {
-		// TODO Auto-generated method stub
-		
+	public void deleteById(Integer formId) {
+		System.out.println("===> Mybatis deleteById() 호출");
+		mybatis.delete("FormRepository.deleteForm", formId);
 	}
 
 	@Override
