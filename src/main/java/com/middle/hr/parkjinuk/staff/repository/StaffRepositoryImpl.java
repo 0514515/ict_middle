@@ -52,6 +52,12 @@ public class StaffRepositoryImpl implements StaffRepository{
     public Integer selectCompanyIdByLoginId(String loginId) {
         return mybatis.selectOne("StaffRepository.selectCompanyIdByLoginId", loginId);
     }
+    
+    // 로그인 아이디로 사원 기본키 id 조회
+    @Override
+ 	public Integer selectStaffIdByLoginId(String loginId) {
+    	return mybatis.selectOne("StaffRepository.selectStaffIdByLoginId",loginId);
+    }
 
     // 사원 생성
     @Override

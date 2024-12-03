@@ -25,6 +25,12 @@ public class StaffServiceImpl implements StaffService {
     public Integer searchCompanyIdByLoginId(String loginId) {
         return staffRepository.selectCompanyIdByLoginId(loginId);
     }
+    
+    // 로그인 아이디로 사원 기본키 id 조회
+    @Override
+    public Integer searchStaffIdByLoginId(String loginId) {
+    	return staffRepository.selectStaffIdByLoginId(loginId);
+    }
 
     // 사원 생성
     @Override

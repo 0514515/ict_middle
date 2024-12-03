@@ -11,10 +11,18 @@
                 #{sign}, #{address}, #{gender}, #{birthdate}, #{departmentId}, #{companyId})
     </insert>
 
+	<!-- 로그인 아이디로 회사 조회 -->
     <select id="selectCompanyIdByLoginId" parameterType="String" resultType="int">
         SELECT company_id
         FROM staff
         WHERE login_id = #{loginId}
+    </select>
+    
+    <!-- 로그인 아이디로 사번 조회 -->
+    <select id="selectStaffIdByLoginId" parameterType="String" resultType="int">
+    	SELECT id
+    	FROM staff
+    	WHERE login_id = #{loginId}
     </select>
 
     <!-- 사원 조회 -->
