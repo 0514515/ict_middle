@@ -50,8 +50,7 @@ body {
 
 .fa-hashtag:before {
 	display: none;
-}	
-
+}
 </style>
 
 
@@ -110,6 +109,11 @@ body {
 							</div>
 							<button type="submit" class="btn btn-primary py-3 w-100 mb-4">
 								로그인</button>
+
+							<!-- 오류 메시지 표시 -->
+							<c:if test="${not empty errorMessage}">
+								<div class="text-danger mb-3">${errorMessage}</div>
+							</c:if>
 						</form>
 						<!-- form end -->
 					</div>
