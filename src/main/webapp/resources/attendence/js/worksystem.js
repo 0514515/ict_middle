@@ -1,11 +1,9 @@
 
 $(function(){
 	
-// 휴가 관리 및 신청_ 나의 일정 페이지 js
+// 관리자_근무제 변경 메인 js
 
-
-	// 휴가 관리 및 신청_나의 일정 페이지에서 휴가 생성 버튼을 눌렀을 때 휴가 생성 모달창 띄우기
-	$('.fc-toolbar .btn ').click(function(e){
+	$('.list_btn').click(function(e){
 
 		//alert("휴가 신청");
 
@@ -20,7 +18,7 @@ $(function(){
 		e.preventDefault();
 		$('#modal').modal("hide");
 
-		alert("휴가 신청이 완료되었습니다.");
+		alert("승인이 완료되었습니다.");
 	});
 	
 });

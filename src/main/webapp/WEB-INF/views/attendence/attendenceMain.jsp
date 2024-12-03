@@ -36,7 +36,6 @@
     
     <!-- 커스텀 스타일 -->
     <style> 
-    
         
   	 	body{
  			font-family: "Noto Sans KR", sans-serif;	   	
@@ -112,15 +111,15 @@
    			color : #6C757D;
     	}
     	
-		.btn-primary{
+		.btn_start, .btn_modify {
 		    font-size: 20px;
 		}
+
     
     	.mb-0{
     		color : #009CFF;
     	}
     	
-
 
     	/* 휴가 신청 내역, 최근 출/퇴근 기록과 표 사이 마진 */
     	.mb-2 {
@@ -148,6 +147,21 @@
           background-color:#CFF4FC !important;
           color:#055160;
        }
+    
+    	/* 프로그래스 바 커스텀 시작 */
+
+		.progress-bar {
+		  position: relative;  /* 내부 텍스트 위치를 상대적으로 설정 */
+		  height: 100%;
+		  background-color: #009CFF;  /* 프로그레스 바의 색 */
+		}
+		
+		.progress-text {
+		  color: #fff;
+		  font-size: 15px;  /* 텍스트 크기 조정 */
+		}
+		
+		/* 프로그래스 바 커스텀 끝  */
     
     </style>
     
@@ -182,13 +196,19 @@
 			
 			
 			<!-- 본문 작성 (body start) -->
-
+	         
 			<div class="container container-fluid pt-4 px-4">
+				<div class="mx-4 my-4">
+					<h4>나의 근태 현황</h4>
+				</div>
 				<div class="bg-light text-center rounded p-4">
 					<div class="row g-0">
 						<div class="col-sm-6 col-md-8">
-							<div class="progress">
-							  <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+							<div class="progress" style="position: relative; height:25px">
+							  <div class="progress-bar" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"> 
+							  										<!-- aira-valuenow=현재 진행률, width=진행된 프로그래스 바의 길이(파란색), aria-valuemax=최대값 -->
+							  <span class="progress-text" style="position: absolute; top: auto; left: 50%; transform: translateX(-50%);">70%</span> <!-- 70% 프로그래스바 위에 나타나는 수치 -->
+							  </div>
 							</div>
 							<div class="main_total_context_div">
 								<div class="main_total_time_div">
@@ -205,7 +225,7 @@
 						<div class="col-6 col-md-4">
 							<div class="card">
 								<div class="d-grid gap-2 col-12 mx-auto">
-									<button class="btn btn-primary" type="button">출근</button>
+									<button class="btn btn_start btn-primary" type="button">출근</button>										
 								</div>
 								<div class="card-body">
 									<h5 class="card-title">출근 시간</h5>
@@ -213,14 +233,14 @@
 									<p class="card-text"></p>
 								</div>
 								<div class="d-grid gap-2 col-12 mx-auto">
-									<a href="#" class="btn btn-primary">출/퇴근 관리</a>
+									<a href="#" class="btn btn_modify btn-primary">출/퇴근 관리</a>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			
+	
 			<div class="container-fluid pt-2 px-4">
 				<div class="row g-4">
 					<div class="col-sm-12 col-xl-6">
@@ -241,31 +261,31 @@
 	                                </thead>
 	                                <tbody>
 	                                    <tr>
-	                                        <th scope="row">1</th>
+	                                        <td>1</td>
 	                                        <td>연차</td>
 	                                        <td>2024-11-19</td>
 	                                        <td><span class="badge bg-warning text-dark">결재대기</span></td>
 	                                    </tr>
 	                                    <tr>
-	                                        <th scope="row">2</th>
+	                                        <td>2</td>
 	                                        <td>연차</td>
 	                                        <td>2024-10-02</td>
 	                                        <td><span class="badge bg-danger">반려</span></td>
 	                                    </tr>
 	                                    <tr>
-	                                        <th scope="row">3</th>
+	                                        <td>3</td>
 	                                        <td>반차</td>
 	                                        <td>2024-07-21</td>
 	                                        <td><span class="badge bg-info">승인완료</span></td>
 	                                    </tr>
 	                                    <tr>
-	                                        <th scope="row">4</th>
+	                                        <td>4</td>
 	                                        <td>반차</td>
 	                                        <td>2024-06-01</td>
 	                                        <td><span class="badge bg-info">승인완료</span></td>
 	                                    </tr>
 	                                    <tr>
-	                                        <th scope="row">5</th>
+	                                        <td>5</td>
 	                                        <td>반반차</td>
 	                                        <td>2024-05-09</td>
 	                                        <td><span class="badge bg-info">승인완료</span></td>
@@ -293,31 +313,31 @@
 	                                </thead>
 	                                <tbody>
 	                                    <tr>
-	                                        <th scope="row">2024-11-19</th>
+	                                        <td>2024-11-19</td>
 	                                        <td>08:51:11</td>
 	                                        <td>18:12:45</td>
 	                                        <td></td>
 	                                    </tr>
 	                                    <tr>
-	                                        <th scope="row">2024-11-18</th>
+	                                        <td>2024-11-18</td>
 	                                        <td>10:55:27</td>
 	                                        <td>18:01:14</td>
 	                                        <td><span class="badge bg-danger">근태이상</span></td>
 	                                    </tr>
 	                                    <tr>
-	                                        <th scope="row">2024-11-17</th>
+	                                        <td>2024-11-17</td>
 	                                        <td>09:00:00</td>
 	                                        <td>18:00:00</td>
 	                                        <td><span class="badge bg-info">승인완료</span></td>
 	                                    </tr>
 	                                    <tr>
-	                                        <th scope="row">2024-11-16</th>
+	                                        <td>2024-11-16</td>
 	                                        <td>09:00:00</td>
 	                                        <td>18:00:00</td>
 	                                        <td><span class="badge bg-info">승인완료</span></td>
 	                                    </tr>
 	                                    <tr>
-	                                        <th scope="row">2024-11-15</th>
+	                                        <td>2024-11-15</td>
 	                                        <td>08:55:12</td>
 	                                        <td>18:21:47</td>
 	                                        <td></td>
@@ -359,7 +379,8 @@
     <script src="/resources/template/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
     <!-- Template Javascript -->
-    <script src="/resources/template/js/main.js"></script>
+    <script src="/resources/template/js/main.js" type="text/javascript"></script>
+	<script src="/resources/attendence/js/main.js" type="text/javascript"></script>
 </body>
 
 </html>

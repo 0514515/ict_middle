@@ -124,30 +124,31 @@
 		    color: #191C24;
 		}
 		
-		/* 모달 커스텀 */
-		#modal {
+		/* 정정 요청 모달 커스텀 */
+		#modal_modify {
 			text-align : center;
 			position: fixed;
 			left: 50%;
 			top: 55%;
 			transform: translate(-50%, -50%);
-		}
+		}		
+		
 
-		.modal-title {
+		.modal-title_modify {
 			color :  #009CFF;
 		}
 		
-		.modal table {
+		#modal_modify table {
 			color: #191C24;
        
        }
        
 		
-		.modal-body {
+		.modal-body_modify {
 		    padding: 2rem;
 		}
 		
-		.modal-dialog {
+		.modal-dialog_modify {
 			display : inline-block;
 			text-align : left;
 			font-size : 0.9em;
@@ -158,7 +159,7 @@
 			padding : 0;
 		}
 		
-		.modal-content {
+		.modal-content_modify {
 			heigh : auto;
 			min-height : 100%;
 			border-radius : 10px;
@@ -166,55 +167,207 @@
 		}
 		
 		@media screen and (min-width: 78px) {
-			#modal : before {
+			#modal_modify : before {
 				display : inline-block;
 				vertical-align : middle;
 				content: " ";
 				height: 50%;
 			}
 		}
+			
 		
-		.modal-footer {
+		.modal-footer_modify {
 		    justify-content: center;
 		} 
 
 
-		.modal-body tr th {
+		.modal-body_modify tr th {
 		 	width:40%;
 		 	padding: .3rem .3rem;
 		}
 		
-		.modal-body tr td {
+		.modal-body_modify tr td {
 		 	padding: .3rem .3rem;
 		}
 
 		/* 요청 후 출퇴근 시간 간격 */
-		.modal-body .d-flex {
+		.modal-body_modify .d-flex {
 			border: 1px solid rgba(0, 0, 0, 0.2);
     		padding: 15px;
 		}
 		
-		.form-control{
+		.form-control_modify {
 			margin-bottom: 1rem;		
 		}
 		
-		.modal-body table:nth-child(3) td input {
+		.modal-body_modify table:nth-child(3) td input {
 			border: 1px solid #000;
 		    padding: 0px 15px;
 		}
 		
-		.cs-form .form-control{
-			padding : 0px;
-			margin-bottom : 0px;
+/* 정정요청 모달 커스텀 끝 */
+
+/* 휴가신청 모달 커스텀 시작 */
+
+	#modal_holiday {
+		text-align : center;
+		position: fixed;
+		left: 50%;
+		top: 55%;
+		transform: translate(-50%, -50%);
+	}
+
+	.modal-title_holiday {
+		color :  #009CFF;
+	}
+	
+	.modal_holiday table {
+		color: #191C24;
+      
+      }
+      
+	
+	.modal-body_holiday {
+	    padding: 2rem;
+	}
+	
+	.modal-dialog_holiday {
+		display : inline-block;
+		text-align : left;
+		font-size : 0.9em;
+		vertical-align : middle;
+		width : 80%;
+		height : auto;
+		margin : 0;
+		padding : 0;
+	}
+	
+	.modal-content_holiday {
+		heigh : auto;
+		min-height : 100%;
+		border-radius : 10px;
+		border: 2px solid #009CFF;
+	}
+	
+	@media screen and (min-width: 78px) {
+		#modal_holiday : before {
+			display : inline-block;
+			vertical-align : middle;
+			content: " ";
+			height: 50%;
 		}
-		
-		label {
-		    display: inline-block;
-		    font-size: 15px;
-		    font-weight: 600;
-		    color: #191C24;
-		}
-		
+	}
+	
+	.modal-footer_holiday {
+	    justify-content: center;
+	} 
+
+
+	.modal-body_holiday tr th {
+	 	width:40%;
+	 	padding: .3rem .3rem;
+	}
+	
+	.modal-body_holiday tr td {
+	 	padding: .3rem .3rem;
+	}
+
+	/* 요청 후 출퇴근 시간 간격 */
+
+	
+	.form-control_holiday {
+		margin-bottom: 1rem;		
+	}
+	
+	.modal-body_holiday table:nth-child(3) td input {
+		border: 1px solid #000;
+	    padding: 0px 15px;
+	}
+	
+	.cs-form .form-control_holiday {
+		padding : 0px;
+		margin-bottom : 0px;
+	}
+
+	
+	.btn-group {
+		padding-right : 200px;
+	}
+	
+	.btn-group>.btn {
+	    position: relative;
+	    flex: 1 1 auto;
+	    font-weight: 500;
+	}
+
+	.modal-body_holiday p {
+	    margin-top: 0;
+	    font-size: large;
+	    font-weight: bold;
+	    color: #191C24;
+	}
+	
+	/* <p> 사용일자 */
+	.modal-body_holiday div:nth-child(3) p {
+		    width: 300px;
+	}
+	
+	.table_holiday {
+		margin-bottom : 3.0rem;
+	}
+	
+	/* 셀렉트 박스 시작 */
+
+	
+/* 	.form-select {
+		color : #009CFF;
+		width: 150px;
+    	text-align: center;
+	}	
+	
+	select option {
+		color : #757575;
+	}
+ */
+/* 	
+	.datepicker_div{
+	    margin-right: 2px;
+	 } */
+	
+	
+	/* 셀렉트 박스 끝 */
+	
+	.form-control[id='datePicker_start']{
+		margin-bottom: 0rem;
+		height: 31px;
+    	width: 150px;
+    	padding: .25rem;
+    	text-align: center;
+    	color: #009CFF;
+	}
+	
+	.form-control[id='datePicker_end']{
+		margin-bottom: 0rem;
+		height: 31px;
+    	width: 150px;
+    	padding: .25rem;
+    	text-align: center;
+    	color: #009CFF;
+	}
+
+	
+	 
+/* 	.form-control[type='time'] {
+		height: 31px;
+   		width: 150px;
+   		color: #009CFF;
+   		text-align : center;
+  
+	} */
+	/* 모달 끝 */	
+
+
+
     </style>
     
 </head>
@@ -249,17 +402,19 @@
          
    <!-- 본문 작성 (body start) -->
          
+         
+         
          <!-- 정정 요청 모달 팝업 시작 -->
-	     <div class="modal" id="modal" tabindex="-1">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-			        	<h5 class="modal-title">출/퇴근 정정요청서</h5>
+	     <div class="modal modal_modify" id="modal_modify" tabindex="-1">
+			<div class="modal-dialog modal-dialog_modify">
+				<div class="modal-content modal-content_modify">
+					<div class="modal-header modal-header_modify">
+			        	<h5 class="modal-title modal-title_modify">출/퇴근 정정요청서</h5>
 			       		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			     	</div>
-			      	<div class="modal-body">
+			      	<div class="modal-body modal-body_modify">
 				      	<h6>요청자 정보</h6>
-			          	  <table class="table table-bordered">
+			          	  <table class="table table_modify table-bordered">
 			          	  		<tr>
 			          	  			<th>요청자</th><td>정준하 과장</td>
 			          	  		</tr>
@@ -268,7 +423,7 @@
 			          	  		</tr>
 						  </table>
 						  <h6>요청 전</h6>
-			          	  <table class="table table-bordered md-3">
+			          	  <table class="table table_modify table-bordered md-3">
 			          	  		<tr>
 			          	  			<th>출근 시간</th><td>10:55:27</td>
 			          	  		</tr>
@@ -277,7 +432,7 @@
 			          	  		</tr>
 						  </table>
 						 <h6>요청 후</h6>
-			          	 <table class="table table-bordered md-3">
+			          	 <table class="table table_modify table-bordered md-3">
 			          	 	<tr>
 			          	  		<th>출근 시간</th><td>기안자의선택시간</td>
 			          	  	</tr>
@@ -286,38 +441,122 @@
 			          	  		</tr>
 						 </table>	       	          	  
 						 <h6>승인자 정보</h6>
-			          	 <table class="table table-bordered">
+			          	 <table class="table table_modify table-bordered">
 			          	 	<tr>
 	          	  				<th>승인권자</th><td>이동욱 인사 담당자</td>
 			          	  	</tr>	          	  			
 						 </table>
-						 <div>
-						 	<h6>사유</h6>
-			          	 		<table class="table table-bordered md-3">
-			          	  			<tr>
-			          	  				<th>내용</th><td>기안자가 작성한 내용</td>
-			          	  			</tr>
-						  		</table>	
-		    	  		 </div>
+						  <div>
+		    	  			<h6>사유</h6>
+		    	  			<textarea class="form-control form-control_modify" id="text_area" style="height: 50px;" readonly></textarea>
+		    	  		  </div>
 		    	  		 <div>
 		    	  		 <h6>증빙 서류</h6>
-			    	  		 <table class="table table-bordered md-3">
+			    	  		 <table class="table table_modify table-bordered md-3">
 			    	  		 	<tr>
 					          		<th>파일</th><td>기안자가 올린 파일</td>
 					          	</tr>
 							 </table>
 						 </div>
 			     	</div> <!--  end of modal body -->
-			      	<div class="modal-footer">
-			        	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-			        	<button type="button" class="btn btn-primary">승인</button>
+			      	<div class="modal-footer modal-footer_modify">
+			        	<button type="button" class="btn btn_modify btn-secondary" data-bs-dismiss="modal">닫기</button>
+			        	<button type="button" class="btn btn_modify btn-primary">승인</button>
 			      	</div>
 			    </div>
 			 </div>
 		 </div>
 
          <!-- 모달 팝업 끝-->
-         
+            
+            
+            
+            
+            
+	<!-- 휴가 승인 모달 팝업 시작 -->
+      
+			     <div class="modal modal_holiday" id="modal_holiday" tabindex="-1">
+					<div class="modal-dialog modal-dialog_hoilday">
+						<div class="modal-content modal-content_holiday">
+							<div class="modal-header modal-header_holiday">
+					        	<h5 class="modal-title modal-title_holiday">휴가 신청</h5>
+					       		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					     	</div>
+					      	<div class="modal-body modal-body_holiday">
+					      		<div class="table_holiday">
+					          	  <table class="table table-bordered">
+					          	  		<tr>
+					          	  			<th>신청자</th><td>정준하 과장</td>
+					          	  		</tr>
+										 <tr>
+					          	  			<th>승인자</th><td>이동욱 과장</td>
+					          	  		</tr>
+								  </table>
+								 </div>
+									 <div class="row d-flex align-items-center mb-3"> 
+						          		<div class="col-3">
+						          		<p>휴가 구분</p>
+						          		</div>
+						          		<div class="col-9 holiday_selcect">
+											<input class="form-control form-control_holiday" readonly>
+										</div>
+									 </div>
+									  
+									  
+									 <div class="row d-flex align-items-center mb-3"> 
+						          		<div class="col-3">
+						          			<p>사용 일자</p>
+										</div>
+										<!-- 시작시 기본 날짜 설정은 value를 이용 -->
+										<div class="col-9 d-flex align-items-center">	
+											<input class="form-control  form-control_holiday" readonly >
+											<label class="mx-2"> ~ </label>
+											<input class="form-control  form-control_holiday" readonly>
+									 	</div>
+									 </div> 
+									 
+									 <!-- timepicker start -->
+									 <div class="row timepicker_holiday d-flex align-items-center justify-content-between mb-3">
+						          	  <div class="col-3">
+						          	  	<p>시간 선택</p>
+						          	  </div>		
+						          	  		<div class="col-9 d-flex align-items-center">
+							          	  		
+												<input class="form-control  form-control_holiday" readonly/>
+													
+						          	  			<label class="mx-2">~</label>
+							          	  		
+												<input class="form-control  form-control_holiday" readonly/>
+											    
+										    </div>
+									  </div>	       	          	 
+									<!--   timepicker end -->
+	
+									  <div class="row d-flex justify-content-between mb-2">
+					    	  			<p class="col-2 mb-3">사유</p>
+					    	  			<div>
+					    	  			<textarea class="form-control  form-control_holiday" placeholder="필수 입력 사항입니다." id="text_area" style="height: 100px;" readonly></textarea>
+					    	  		  	</div>
+					    	  		  </div>
+
+					     	</div> 
+					     	
+					     	<!-- end of modal body -->
+					     	
+					     	<!-- start of modal footer -->
+					     	
+					      	<div class="modal-footer modal-footer_holiday">
+					        	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+					        	<button type="button" class="btn btn-primary">휴가요청</button>
+					      	</div>
+					      	
+					      	<!-- end of modal footer -->
+					      	
+					    </div>
+					 </div>
+				 </div>
+			
+			       <!-- 모달 팝업 끝 -->
          
 		<!-- 본문 여백 -->
          <div class="container container-fluid pt-4 px-4">
@@ -374,63 +613,63 @@
                     <th class="table-light">진행상태</th>
                  </tr>
                  <tr>
-                    <th>근태 정정</th>
+                    <td>근태 정정</td>
                     <td>2024-11-20</td>
                     <td>2024-11-20</td>
                     <td>정준하</td>
                     <td><span class="badge bg-warning">결재대기</span></td>
                  </tr>
                  <tr>
-                    <th>근태 정정</th>
+                    <td>근태 정정</td>
                     <td>2024-08-13</td>
                     <td>-</td>
                     <td>박명수</td>
                     <td><span class="badge bg-danger">반려</span></td>
                  </tr> 
                  <tr>
-                    <th>휴가 신청</th>
+                    <td>휴가 신청</td>
                     <td>2024-07-28</td>
                     <td>2024-07-28</td>
                     <td>남창희</td>
                     <td><span class="badge bg-warning">결재대기</span></td>
                  </tr>
                  <tr>
-                    <th>휴가 신청</th>
+                    <td>휴가 신청</td>
                     <td>2024-07-11</td>
                     <td>-</td>
                     <td>조세호</td>
                     <td><span class="badge bg-danger">반려</span></td>
                  </tr>
                  <tr>
-                    <th>근태 정정</th>
+                    <td>근태 정정</td>
                     <td>2024-06-24</td>
                     <td>2024-06-24</td>
                     <td>홍진경</td>
                     <td><span class="badge bg-info">승인완료</span></td>
                  </tr>
                  <tr>
-                    <th>휴가 신청</th>
+                    <td>휴가 신청</td>
                     <td>2024-05-05</td>
                     <td>2024-05-05</td>
                     <td>양세찬</td>
                     <td><span class="badge bg-info">승인완료</span></td>
                  </tr>
                  <tr>
-                    <th>test</th>
                     <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                 </tr>
-                 <tr>
-                    <th>test</th>
                     <td>test</td>
                     <td>test</td>
                     <td>test</td>
                     <td>test</td>
                  </tr>
                  <tr>
-                    <th>test</th>
+                    <td>test</td>
+                    <td>test</td>
+                    <td>test</td>
+                    <td>test</td>
+                    <td>test</td>
+                 </tr>
+                 <tr>
+                    <td>test</td>
                     <td>test</td>
                     <td>test</td>
                     <td>test</td>

@@ -1,12 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix='c' uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+	<!-- Template Javascript -->
+
 <meta charset="utf-8">
-<title>나의 근태 현황</title>
+<title>휴가 신청 및 관리</title>
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 <meta content="" name="keywords">
 <meta content="" name="description">
@@ -28,12 +31,9 @@
 <!-- Google Web Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link
-	href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap"
-	rel="stylesheet">
-<link
-	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap"
-	rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+
 
 <!-- Icon Font Stylesheet 달력 -->
 <link
@@ -55,6 +55,9 @@
 
 <!-- Template Stylesheet -->
 <link href="/resources/template/css/style.css" rel="stylesheet">
+
+<!-- datepicker Stylesheet -->
+<link href="/resources/datepicker_template/css/datepicker.css" rel="stylesheet">
 
 	<!-- 공통 커스텀 스타일 -->
 	<style>
@@ -280,13 +283,7 @@
 		padding : 0px;
 		margin-bottom : 0px;
 	}
-	
-	label {
-	    display: inline-block;
-	    font-size: 15px;
-	    font-weight: 600;
-	    color: #191C24;
-	}
+
 	
 	.btn-group {
 		padding-right : 200px;
@@ -298,7 +295,7 @@
 	    font-weight: 500;
 	}
 
-	p {
+	.modal-body p {
 	    margin-top: 0;
 	    margin-bottom: 0rem;
 	    font-size: large;
@@ -306,14 +303,65 @@
 	    color: #191C24;
 	}
 	
-	.modal-body .d-flex:nth-of-type(1) {
-	    margin-right: 35px;
+	/* <p> 사용일자 */
+	.modal-body div:nth-child(3) p {
+		    width: 300px;
 	}
 	
+	.table_div {
+		margin-bottom : 3.0rem;
+	}
+	
+	/* 셀렉트 박스 시작 */
+	.holiday_selcect {
+		margin-left : 35px;
+	}
+	
+	.form-select {
+		color : #009CFF;
+		width: 150px;
+    	text-align: center;
+	}	
+	
+	select option {
+		color : #757575;
+	}
 
 	
+/* 	.datepicker_div{
+	    margin-right: 2px;
+	 }
+	 */
 	
-		/* 모달 끝 */	
+	/* 셀렉트 박스 끝 */
+	
+	#datePicker_start, #datePicker_end {
+		background-image : url('/resources/datepicker_template/img/icon.png');
+		background-repeat : no-repeat;
+		background-size : 20px;
+	    background-position: 122px center;
+   		margin-bottom: 0rem;
+		height: 31px;
+    	width: 150px;
+    	padding-left: 20px;
+    	color: #009CFF;
+    	cursor : pointer;	
+	}
+	
+	.datepicker_div, .timepicker_div {
+	    margin-right: 2px;
+	 }
+	 
+	 
+	.form-control[type='time'] {
+		height: 31px;
+   		width: 150px;
+   		color: #009CFF;
+   		text-align : center;
+   		cursor : pointer;	
+  
+	}
+	/* 모달 끝 */	
 	
 </style>
 
@@ -323,30 +371,29 @@
 	<div class="container-fluid position-relative bg-white d-flex p-0">
 
 		<!-- Spinner Start -->
-		<div id="spinner"
-			class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-			<div class="spinner-border text-primary"
-				style="width: 3rem; height: 3rem;" role="status">
-				<span class="sr-only">Loading...</span>
-			</div>
-		</div>
-		<!-- Spinner End -->
+        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <!-- Spinner End -->
 
 
-		<!-- @@@ Menu Tab Include @@@ -->
-		<jsp:include page="../../../common_layout/menu_tab.jsp">
-			<jsp:param name="menu_tab" value="menu_tab" />
-		</jsp:include>
-		<!-- @@@@@@@@@@@@@@@@@@@@@@@@ -->
+      <!-- @@@ Menu Tab Include @@@ -->
+        <jsp:include page="../../../common_layout/menu_tab.jsp">
+           <jsp:param name="menu_tab" value="menu_tab"/>
+        </jsp:include>
+      <!-- @@@@@@@@@@@@@@@@@@@@@@@@ -->
 
-		<!-- Content Start -->
-		<div class="content">
-
-			<!-- @@@ Navigation Bar Include @@@ -->
-			<jsp:include page="../../../common_layout/nav_bar.jsp">
-				<jsp:param name="nav_bar" value="nav_bar" />
-			</jsp:include>
-			<!-- @@@@@@@@@@@@@@@@@@@@@@@@ -->
+        <!-- Content Start -->
+        <div class="content">
+            
+         <!-- @@@ Navigation Bar Include @@@ -->
+           <jsp:include page="../../../common_layout/nav_bar.jsp">
+              <jsp:param name="nav_bar" value="nav_bar"/>
+           </jsp:include>
+         <!-- @@@@@@@@@@@@@@@@@@@@@@@@ -->
+         
 
 
 		<!-- 본문 작성 (body start) -->
@@ -361,7 +408,7 @@
 					       		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					     	</div>
 					      	<div class="modal-body">
-					      		<div>
+					      		<div class="table_div">
 					          	  <table class="table table-bordered">
 					          	  		<tr>
 					          	  			<th>신청자</th><td>정준하 과장</td>
@@ -371,38 +418,51 @@
 					          	  		</tr>
 								  </table>
 								 </div>
-								 <div class="d-flex align-items-center mb-3"> 
-					          		<p>휴가 구분</p>
-					          		<div>
-										<select class="form-select form-select-sm" aria-label=".form-select-sm example">
-										  <option selected>Open this select menu</option>
-										  <option value="1">One</option>
-										  <option value="2">Two</option>
-										  <option value="3">Three</option>
-										</select>
-									</div>
-								 </div>
-								  
-								 <div> 
-					          		<p>사용 일자</p>
-								 </div> 
-								 <!-- timepicker start -->
-								 <div class="d-flex align-items-center justify-content-between mb-3">
-					          	  	<p>시간 선택</p>
-				          	  		<div class="cs-form">
-										<input type="time" class="form-control"/>
-									</div>	
-			          	  			<label>~</label>
-				          	  		<div class="cs-form">
-										<input type="time" class="form-control"/>
-								     </div>
-								  </div>	       	          	 
-								  <!-- timepicker end -->
+									 <div class="d-flex align-items-center mb-3"> 
+						          		<p>휴가 구분</p>
+						          		<div class="holiday_selcect">
+											<select class="form-select form-select-sm" aria-label=".form-select-sm example">
+											  <option selected>휴가 구분</option>
+											  <option value="1">연차</option>
+											  <option value="2">반차</option>
+											  <option value="3">반반차</option>
+											</select>
+										</div>
+									 </div>
+									  
+									  
+									 <div class="d-flex align-items-center mb-3"> 
+						          		<p>사용 일자</p>
+										<!-- 시작시 기본 날짜 설정은 value를 이용 -->
+										<div class="datepicker_div d-flex align-items-center">	
+											<input type="text" id="datePicker_start" class="form-control" >
+											<label class="mx-2"> ~ </label>
+											<input type="text" id="datePicker_end" class="form-control">
+									 	</div>
+									 </div> 
+									 
+									 <!-- timepicker start -->
+									 <div class="timepicker_div d-flex align-items-center justify-content-between mb-5">
+						          	  	<p>시간 선택</p>
+						          	  		<div class="d-flex align-items-center justify-content-between">
+							          	  		<div class="cs-form">
+													<input type="time" class="form-control"/>
+												</div>	
+						          	  			<label class="mx-2">~</label>
+							          	  		<div class="cs-form">
+													<input type="time" class="form-control"/>
+											     </div>
+										    </div>
+									  </div>	       	          	 
+									  <!-- timepicker end -->
+	
+									  <div class=" row d-flex justify-content-between mb-2">
+					    	  			<p class="mb-3">사유</p>
+					    	  			<div>
+					    	  			<textarea class="form-control" placeholder="필수 입력 사항입니다." id="text_area" style="height: 100px;"></textarea>
+					    	  		  	</div>
+					    	  		  </div>
 
-								  <div>
-				    	  			<h6>사유</h6>
-				    	  			<textarea class="form-control" placeholder="필수 입력 사항입니다." id="text_area" style="height: 50px;"></textarea>
-				    	  		  </div>
 					     	</div> 
 					     	
 					     	<!-- end of modal body -->
@@ -518,7 +578,7 @@
 						</div>
 					</div>
 						
-					<table class="table table-striped">
+					<table class="table">
 						<tr>
 							<th class="table-light">번호</th>
 							<th class="table-light">휴가종류</th>
@@ -526,49 +586,49 @@
 							<th class="table-light">진행상태</th>
 						</tr>
 						<tr>
-							<th>1</th>						
+							<td>1</td>						
 							<td>2024-11-19</td>
 							<td>08:51:11</td>
 							<td></td>
 						</tr>
 						<tr>
-							<th>2</th>
+							<td>2</td>
 							<td>2024-11-18</td>
 							<td>10:55:27</td>
 							<td><span class="badge bg-danger">근태이상</span></td>
 						</tr>
 						<tr>
-							<th>3</th>
+							<td>3</td>
 							<td>2024-11-17</td>
 							<td>09:00:00</td>
 							<td><span class="badge bg-info">승인완료</span></td>
 						</tr>
 						<tr>
-							<th>4</th>
+							<td>4</td>
 							<td>2024-11-16</td>
 							<td>08:54:12</td>
 							<td></td>
 						</tr>
 						<tr>
-							<th>5</th>
+							<td>5</td>
 							<td>2024-11-16</td>
 							<td></td>
 							<td></td>
 						</tr>						
 						<tr>
-							<th>6</th>
+							<td>6</td>
 							<td>2024-11-16</td>
 							<td></td>
 							<td></td>
 						</tr>	
 						<tr>
-							<th>7</th>
+							<td>7</td>
 							<td>2024-11-16</td>
 							<td></td>
 							<td></td>
 						</tr>							
 						<tr>
-							<th>8</th>
+							<td>8</td>
 							<td>2024-11-16</td>
 							<td></td>
 							<td></td>
@@ -633,31 +693,27 @@
 
 
 		<!-- Back to Top -->
-		<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i
-			class="bi bi-arrow-up"></i></a>
-	</div>
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
 
 	<!-- JavaScript Libraries -->
-	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="/resources/template/lib/chart/chart.min.js"></script>
-	<script src="/resources/template/lib/easing/easing.min.js"></script>
-	<script src="/resources/template/lib/waypoints/waypoints.min.js"></script>
-	<script src="/resources/template/lib/owlcarousel/owl.carousel.min.js"></script>
-	<script src="/resources/template/lib/tempusdominus/js/moment.min.js"></script>
-	<script
-		src="/resources/template/lib/tempusdominus/js/moment-timezone.min.js"></script>
-	<script
-		src="/resources/template/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/resources/template/lib/chart/chart.min.js"></script>
+    <script src="/resources/template/lib/easing/easing.min.js"></script>
+    <script src="/resources/template/lib/waypoints/waypoints.min.js"></script>
+    <script src="/resources/template/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="/resources/template/lib/tempusdominus/js/moment.min.js"></script>
+    <script src="/resources/template/lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="/resources/template/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
-	<!-- Template Javascript -->
-	<script src="/resources/template/js/main.js"></script>
-	<script src="/resources/attendence/js/holiday.js"></script>
 
 	<!-- Calendar -->
-	<script
-		src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js'></script>
+<!-- 	<script
+		src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js'></script> -->
+<!-- js 충돌-->		
+		
 	<script
 		src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.2.0/main.min.js'></script>
 	<script
@@ -671,10 +727,15 @@
 		
 	<script src='/resources/calendar_template/js/script.js'></script>
 	
+	<!-- datepicker-->
+	<script src="/resources/datepicker_template/js/bootstrap-datepicker.min.js"></script> 
+	<script src="/resources/datepicker_template/js/datepicker.js"></script>
+
+
+
+	<script src="/resources/template/js/main.js" type="text/javascript"></script>
+	<script src="/resources/attendence/js/holiday.js" type="text/javascript"></script>
 	
-	<!-- dropdown  Bootstrap JS (최소한 Popper.js 포함)  -->
-	<script src="/static/js/bootstrap.bundle.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 
 </body>
 
