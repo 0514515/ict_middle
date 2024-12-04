@@ -33,6 +33,7 @@
 				<value>com.middle.hr.parkjinuk.common.vo.Administrator</value>
 				<value>com.middle.hr.parkjinuk.staff.vo.Staff</value>
 				<value>com.middle.hr.parkjinuk.staff.vo.Login</value>
+				<value>com.middle.hr.parkjinuk.staff.vo.Department</value>
 				<!-- parksuji -->
 				<value>com.middle.hr.parksuji.approval.vo.Forms</value>
 				<!-- parkeunbyeol -->

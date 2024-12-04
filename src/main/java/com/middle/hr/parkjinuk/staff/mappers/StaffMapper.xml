@@ -17,6 +17,14 @@
 		#{birthdate}, #{departmentId}, #{companyId})
 	</insert>
 
+	<!-- 회사 번호로 부서 조회 -->
+	<select id="selectDepartmentByCompanyId" parameterType="int" resultType="Department">
+		SELECT
+		d.id id, d.name name
+		FROM DEPARTMENT d
+		WHERE d.company_id = #{companyId}
+	</select>
+
 	<!-- 로그인 아이디로 회사 조회 -->
 	<select id="selectCompanyIdByLoginId" parameterType="String"
 		resultType="int">
@@ -102,9 +110,73 @@
 	<!-- 사원 권한 업데이트 -->
 	<update id="updateStaffAuthority" parameterType="Staff">
 		UPDATE staff
-		SET authority = #{authority}
+		SET
+		authority = #{authority}
 		WHERE id = #{staffId}
 	</update>
+
+	<!-- 로그인 아이디로 사원 정보, 사원 부서 조회 -->
+	<select id="selectStaffWithDepartmentByLoginId"
+		parameterType="String" resultType="Staff">
+		SELECT s.RANK rank, s.id id, s.name staffName, d.ID departmentId,
+		d.name departmentName
+		FROM STAFF s INNER JOIN DEPARTMENT d ON
+		s.DEPARTMENT_ID = d.ID
+		<where>
+			s.company_id = (SELECT company_id
+			FROM STAFF
+			WHERE
+			login_id=#{loginId})
+		</where>
+		<if test="searchOption != null and searchOption != ''">
+			<choose>
+				<when test="searchOption == 'departmentName'">
+					AND d.name LIKE '%' || #{searchKeyword} || '%'
+				</when>
+				<when test="searchOption == 'staffName'">
+					AND s.name LIKE '%' || #{searchKeyword} || '%'
+				</when>
+				<when test="searchOption == 'rank'">
+					AND s.rank LIKE '%' || #{searchKeyword} || '%'
+				</when>
+			</choose>
+		</if>
+	</select>
+
+	<!-- 사원 부서 업데이트 -->
+	<update id="updateStaffDepartment" parameterType="Staff">
+		UPDATE staff
+		SET
+		department_id = #{departmentId}
+		WHERE id = #{staffId}
+	</update>
+
+	<!-- 페이지네이션용 페이지 수 조회 () -->
+	<select id="selectStaffWithDepartmentCountByLoginId"
+		parameterType="String" resultType="int">
+		SELECT COUNT(*)
+		FROM STAFF s INNER JOIN DEPARTMENT d ON s.DEPARTMENT_ID
+		= d.ID
+		<where>
+			s.company_id = (SELECT company_id
+			FROM STAFF
+			WHERE
+			login_id=#{loginId})
+		</where>
+		<if test="searchOption != null and searchOption != ''">
+			<choose>
+				<when test="searchOption == 'departmentName'">
+					AND d.name LIKE '%' || #{searchKeyword} || '%'
+				</when>
+				<when test="searchOption == 'staffName'">
+					AND s.name LIKE '%' || #{searchKeyword} || '%'
+				</when>
+				<when test="searchOption == 'rank'">
+					AND s.rank LIKE '%' || #{searchKeyword} || '%'
+				</when>
+			</choose>
+		</if>
+	</select>
 
 	<!-- 사원 조회 -->
 	<select id="selectStaffList" parameterType="String"

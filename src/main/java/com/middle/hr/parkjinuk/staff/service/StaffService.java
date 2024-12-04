@@ -3,6 +3,7 @@ package com.middle.hr.parkjinuk.staff.service;
 import java.util.List;
 import java.util.Map;
 
+import com.middle.hr.parkjinuk.staff.vo.Department;
 import com.middle.hr.parkjinuk.staff.vo.Login;
 import com.middle.hr.parkjinuk.staff.vo.Staff;
 
@@ -27,7 +28,14 @@ public interface StaffService {
 
 	// 사원들 권한 업데이트
 	Integer updateStaffAuthority(List<Staff> staffList);
-	
+
+	// 로그인 아이디로 사원 정보, 사원 부서 조회
+	Map<String, Object> searchStaffWithDepartmentByLoginId(String loginId, String searchOption, String searchKeyword,
+			Integer pageNum, Integer pageSize);
+
+	// 부서 검색
+	List<Department> searchDepartmentByCompanyId(Integer companyId);
+
 	// 사원 생성
 	Integer createStaff(Staff staff);
 

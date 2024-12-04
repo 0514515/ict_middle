@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.middle.hr.parkjinuk.staff.service.StaffService;
+import com.middle.hr.parkjinuk.staff.vo.Department;
 import com.middle.hr.parkjinuk.staff.vo.Login;
 import com.middle.hr.parkjinuk.staff.vo.Staff;
 
@@ -134,6 +135,41 @@ public class StaffController {
 		model.addAttribute("staff", staff);
 
 		return "/member/memberDetail";
+	}
+	
+	// 사원 부서 관리 페이지
+	@GetMapping("member/department")
+	public String getMemberDepartmentManagement(String searchOption, String searchKeyword, Integer pageNum, Model model,
+			HttpSession httpSession) {
+		// 기본값 (첫 페이지 로딩 시 searchOption, searchKeyword가 null임)
+		if (searchOption == null)
+			searchOption = "name";
+		if (searchKeyword == null)
+			searchKeyword = "";
+		if (pageNum == null || pageNum < 0)
+			pageNum = 1;
+
+		String loginId = httpSession.getAttribute("loginId").toString();
+
+		// 검색 옵션과 키워드로 페이지네이션 검색 (사원 검색)
+		Map<String, Object> result = staffService.searchStaffWithDepartmentByLoginId(loginId, searchOption, searchKeyword, pageNum, 10);
+		
+		// 부서 검색
+		// 로그인 아이디로 회사 번호 조회
+		Integer companyId = staffService.searchCompanyIdByLoginId(loginId);
+		// 회사 번호로 부서 전체 조회
+		List<Department> departmentList = staffService.searchDepartmentByCompanyId(companyId); 
+		
+		model.addAttribute("staffList", result.get("staffList")); // 사원 목록
+		model.addAttribute("departmentList", departmentList);	// 부서 목록
+		model.addAttribute("totalPage", result.get("totalPages")); // 최대 페이지
+		model.addAttribute("pageNum", pageNum + ""); // 현재 페이지
+
+		// 검색 도구 값 유지용
+		model.addAttribute("searchOption", searchOption);
+		model.addAttribute("searchKeyword", searchKeyword);
+
+		return "/member/memberDepartmentList";
 	}
 
 	// 로그인

@@ -6,7 +6,7 @@
 
 <head>
 <meta charset="utf-8">
-<title>사원 권한 목록 : 피플윙</title>
+<title>사원 부서 관리 : 피플윙</title>
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 <meta content="" name="keywords">
 <meta content="" name="description">
@@ -71,9 +71,10 @@ body {
 .ms-4 {
 	margin-top: 1rem;
 }
+
 #tableContainer {
-            height: 650px;
-        }
+	height: 650px;
+}
 </style>
 
 </head>
@@ -110,12 +111,12 @@ body {
 			<!-- 본문 작성 (body start) -->
 			<div class="container pt-4 px-4">
 				<div class="d-flex align-items-center justify-content-between mb-4">
-					<h4>사원 권한 목록</h4>
+					<h4>사원 부서 관리</h4>
 				</div>
 				<div class="col p-4">
 					<div class="d-flex align-items-center justify-content-end mb-4">
 						<!-- 검색 도구 start -->
-						<form action="/member/permission" method="GET">
+						<form action="/member/department" method="GET">
 							<div class="d-flex align-items-center justify-content-start">
 								<div class="d-flex justify-content-start w-75">
 									<!-- 이전 검색 도구의 값을 유지 -->
@@ -149,30 +150,32 @@ body {
 								<tr>
 									<th><input type="checkbox" class="form-check-input"
 										id="allCheck"></th>
-									<th scope="col">부서명</th>
-									<th scope="col">사원 이름</th>
 									<th scope="col">직급</th>
-									<th scope="col">권한 등급</th>
+									<th scope="col">사원 이름</th>
+									<th scope="col">부서명</th>
 								</tr>
 							</thead>
 							<tbody id="tableBody">
 								<c:forEach var="staff" items="${staffList}">
 									<tr class="align-middle">
-										<input type="hidden" value="${staff.staffId}" id="staffId" name="staffId">
+										<input type="hidden" value="${staff.staffId}" id="staffId"
+											name="staffId">
 										<td><input type="checkbox" class="form-check-input"
 											id="checked"></td>
-										<td>${staff.departmentName}</td>
-										<td>${staff.staffName}</td>
 										<td>${staff.rank}</td>
-										<td><input class="form-control w-50" type="text" id="authority" name="authority"
-											placeholder="등급" value="${staff.authority}"></td>
+										<td>${staff.staffName}</td>
+										<td><select class="form-select w-100"
+											name="departmentName" id="departmentName">
+												<c:forEach var="department" items="${departmentList}">
+													<option value="departmentName"
+														${staff.departmentId.equals(department.id) ? "selected" : ""}>${department.name}
+													</option>
+												</c:forEach>
+										</select></td>
 									</tr>
 								</c:forEach>
 							</tbody>
 						</table>
-
-
-
 					</div>
 				</div>
 
@@ -183,7 +186,7 @@ body {
 							<!-- 현재 페이지가 1페이지일 경우 "이전" 버튼 없음 -->
 							<c:if test="${pageNum != 1}">
 								<li class="page-item"><a class="page-link"
-									href="/member/permission?searchOption=${searchOption}&searchKeyword=${searchKeyword}&pageNum=${pageNum-1}">이전</a>
+									href="/member/department?searchOption=${searchOption}&searchKeyword=${searchKeyword}&pageNum=${pageNum-1}">이전</a>
 								</li>
 							</c:if>
 
@@ -209,14 +212,14 @@ body {
 							<c:forEach var="i" begin="${begin}" end="${end}" step="1">
 								<li class="page-item ${i == pageNum ? 'active' : ''}"><a
 									class="page-link"
-									href="/member/permission?searchOption=${searchOption}&searchKeyword=${searchKeyword}&pageNum=${i}">${i}</a>
+									href="/member/department?searchOption=${searchOption}&searchKeyword=${searchKeyword}&pageNum=${i}">${i}</a>
 								</li>
 							</c:forEach>
 
 							<!-- 현재 페이지가 마지막 페이지일 경우 "다음" 버튼 없음 -->
 							<c:if test="${pageNum != totalPage}">
 								<li class="page-item"><a class="page-link"
-									href="/member/permission?searchOption=${searchOption}&searchKeyword=${searchKeyword}&pageNum=${pageNum+1}">다음</a>
+									href="/member/department?searchOption=${searchOption}&searchKeyword=${searchKeyword}&pageNum=${pageNum+1}">다음</a>
 								</li>
 							</c:if>
 						</ul>
@@ -224,7 +227,8 @@ body {
 				</div>
 				<!-- pagination end -->
 				<div class="d-grid gap-2 d-md-flex justify-content-center mx-4 mt-2">
-					<button class="btn btn-primary px-5" type="button" id="modifyButton">선택 수정</button>
+					<button class="btn btn-primary px-5" type="button"
+						id="modifyButton">선택 수정</button>
 				</div>
 			</div>
 

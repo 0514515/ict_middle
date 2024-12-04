@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.middle.hr.parkjinuk.staff.repository.StaffRepository;
+import com.middle.hr.parkjinuk.staff.vo.Department;
 import com.middle.hr.parkjinuk.staff.vo.Login;
 import com.middle.hr.parkjinuk.staff.vo.Staff;
 
@@ -53,6 +54,19 @@ public class StaffServiceImpl implements StaffService {
     public Staff searchStaffInformationByLoginId(String loginId) {
     	return staffRepository.selectStaffInformationByLoginId(loginId);
     }
+    
+    // 로그인 아이디로 사원 정보, 사원 부서 목록 조회
+	@Override
+	public Map<String, Object> searchStaffWithDepartmentByLoginId(String loginId, String searchOption,
+			String searchKeyword, Integer pageNum, Integer pageSize) {
+		return staffRepository.selectStaffWithDepartmentByLoginId(loginId, searchOption, searchKeyword, pageNum, pageSize);
+	}
+	
+	// 회사 id로 부서 전체 조회
+	@Override
+	public List<Department> searchDepartmentByCompanyId(Integer companyId) {
+		return staffRepository.selectDepartmentByCompanyId(companyId);
+	}
 
     // 사원 생성
     @Override
@@ -66,7 +80,6 @@ public class StaffServiceImpl implements StaffService {
 		return staffRepository.login(login);
 	}
 
-
-
 	
+
 }
