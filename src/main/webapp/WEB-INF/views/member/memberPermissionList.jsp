@@ -71,6 +71,9 @@ body {
 .ms-4 {
 	margin-top: 1rem;
 }
+#tableContainer {
+            height: 635px;
+        }
 </style>
 
 </head>
@@ -111,52 +114,60 @@ body {
 				</div>
 				<div class="col p-4">
 					<div class="d-flex align-items-center justify-content-end mb-4">
-						<div class="d-flex w-25 justify-content-end">
-							<select class="form-select ms-2 w-50"
-								aria-label="Default select example">
-								<option value="1" selected>One</option>
-								<option value="2">Two</option>
-								<option value="3">Three</option>
-							</select>
-						</div>
-						<input type="text" class="form-control ms-2 w-25" name="name"
-							id="name" disabled>
-						<button type="button" class="btn btn-primary ms-2 px-4 text-nowrap">검색</button>
+						<!-- 검색 도구 start -->
+						<form action="/member/permission" method="GET">
+							<div class="d-flex align-items-center justify-content-start">
+								<div class="d-flex justify-content-start w-75">
+									<!-- 이전 검색 도구의 값을 유지 -->
+									<select class="form-select w-100" name="searchOption"
+										id="searchOption">
+										<option value="departmentName"
+											${"departmentName".equals(searchOption) ? "selected" : ""}>부서명
+										</option>
+										<option value="staffName"
+											${"staffName".equals(searchOption) ? "selected" : ""}>사원
+											이름</option>
+										<option value="rank"
+											${"rank".equals(searchOption) ? "selected" : ""}>직급
+										</option>
+									</select>
+								</div>
+								<input type="text" class="form-control ms-2"
+									value="${searchKeyword != null ? searchKeyword : ''}"
+									name="searchKeyword" id="searchKeyword">
+								<button type="submit" id="searchButton"
+									class="btn btn-primary ms-2 px-4 text-nowrap">검색</button>
+							</div>
+						</form>
+						<!-- 검색 도구 end -->
 					</div>
-					<div class="bg-light rounded min-vh-100 p-4">
+					<div id="tableContainer" class="bg-light rounded p-4">
 
 						<!-- 이 테이블에 데이터 뿌리기, 없으면 목록이 없다는 라벨 하나 보여줘야 함 -->
 						<table class="table table table-hover">
 							<thead>
 								<tr>
 									<th><input type="checkbox" class="form-check-input"
-										id="exampleCheck1"></th>
+										id="allCheck"></th>
 									<th scope="col">부서명</th>
 									<th scope="col">사원 이름</th>
 									<th scope="col">직급</th>
 									<th scope="col">권한 등급</th>
 								</tr>
 							</thead>
-							<tbody>
-								<tr class="align-middle">
-									<td><input type="checkbox" class="form-check-input"
-										id="exampleCheck1"></td>
-									<td>부서 1</td>
-									<td>사원 1</td>
-									<td>직급 1</td>
-									<td><input class="form-control w-50" type="text"
-										placeholder="등급"></td>
-
-								</tr>
-								<tr class="align-middle">
-									<td><input type="checkbox" class="form-check-input"
-										id="exampleCheck1"></td>
-									<td>부서 2</td>
-									<td>사원 2</td>
-									<td>직급 2</td>
-									<td><input class="form-control w-50" type="text"
-										placeholder="등급"></td>
-								</tr>
+							<tbody id="tableBody">
+								<c:forEach var="staff" items="${staffList}">
+									<tr class="align-middle">
+										<input type="hidden" value="${staff.staffId}" id="staffId" name="staffId">
+										<td><input type="checkbox" class="form-check-input"
+											id="checked"></td>
+										<td>${staff.departmentName}</td>
+										<td>${staff.staffName}</td>
+										<td>${staff.rank}</td>
+										<td><input class="form-control w-50" type="text" id="authority" name="authority"
+											placeholder="등급" value="${staff.authority}"></td>
+									</tr>
+								</c:forEach>
 							</tbody>
 						</table>
 
@@ -165,21 +176,55 @@ body {
 					</div>
 				</div>
 
+				<!-- pagination start -->
 				<div class="d-flex align-items-center justify-content-center">
 					<nav aria-label="Page navigation">
 						<ul class="pagination pt-3 pr-3">
-							<li class="page-item"><a class="page-link" href="#">이전</a></li>
-							<li class="page-item"><a class="page-link" href="#">1</a></li>
-							<li class="page-item"><a class="page-link" href="#">2</a></li>
-							<li class="page-item active"><a class="page-link" href="#">3</a></li>
-							<li class="page-item"><a class="page-link" href="#">4</a></li>
-							<li class="page-item"><a class="page-link" href="#">5</a></li>
-							<li class="page-item"><a class="page-link" href="#">다음</a></li>
+							<!-- 현재 페이지가 1페이지일 경우 "이전" 버튼 없음 -->
+							<c:if test="${pageNum != 1}">
+								<li class="page-item"><a class="page-link"
+									href="/member/permission?searchOption=${searchOption}&searchKeyword=${searchKeyword}&pageNum=${pageNum-1}">이전</a>
+								</li>
+							</c:if>
+
+							<!-- pageNum-2가 0보다 작으면 1로 설정 -->
+							<!-- 파라미터 pageNum을 받아와서 로컬 pageNum으로 만들기 -->
+							<c:set var="pageNum"
+								value="${param.pageNum != null ? param.pageNum : 1 }" />
+
+							<!-- pageNum-2가 1보다 작으면 1로 설정 -->
+							<!-- begin 선언 -->
+							<c:set var="begin" value="${pageNum-2}" />
+							<c:if test="${begin<1 }">
+								<c:set var="begin" value="1" />
+							</c:if>
+
+							<!-- pageNum이 총 페이지 수를 넘지 않도록 설정 -->
+							<c:set var="end" value="${pageNum + 2}" />
+							<c:if test="${end > totalPage}">
+								<c:set var="end" value="${totalPage}" />
+							</c:if>
+
+							<!-- 페이지 번호 출력 -->
+							<c:forEach var="i" begin="${begin}" end="${end}" step="1">
+								<li class="page-item ${i == pageNum ? 'active' : ''}"><a
+									class="page-link"
+									href="/member/permission?searchOption=${searchOption}&searchKeyword=${searchKeyword}&pageNum=${i}">${i}</a>
+								</li>
+							</c:forEach>
+
+							<!-- 현재 페이지가 마지막 페이지일 경우 "다음" 버튼 없음 -->
+							<c:if test="${pageNum != totalPage}">
+								<li class="page-item"><a class="page-link"
+									href="/member/permission?searchOption=${searchOption}&searchKeyword=${searchKeyword}&pageNum=${pageNum+1}">다음</a>
+								</li>
+							</c:if>
 						</ul>
 					</nav>
 				</div>
+				<!-- pagination end -->
 				<div class="d-grid gap-2 d-md-flex justify-content-center mx-4 mt-2">
-					<button class="btn btn-primary px-5" type="button">선택 수정</button>
+					<button class="btn btn-primary px-5" type="button" id="modifyButton">선택 수정</button>
 				</div>
 			</div>
 
@@ -218,6 +263,7 @@ body {
 
 	<!-- Template Javascript -->
 	<script src="/resources/template/js/main.js"></script>
+	<script src="/resources/member/js/memberPermissionList.js"></script>
 </body>
 
 </html>

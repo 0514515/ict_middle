@@ -1,5 +1,6 @@
 package com.middle.hr.parkjinuk.staff.repository;
 
+import java.util.List;
 import java.util.Map;
 
 import com.middle.hr.parkjinuk.staff.vo.Login;
@@ -16,6 +17,16 @@ public interface StaffRepository {
 
 	// 로그인 아이디로 사원 기본키 id 조회
 	Integer selectStaffIdByLoginId(String loginId);
+
+	// 로그인 아이디로 사원 정보 조회
+	Staff selectStaffInformationByLoginId(String loginId);
+
+	// 로그인 아이디로 사원 정보, 권한 목록 조회
+	Map<String, Object> selectStaffAndAuthorityByLoginId(String loginId, String searchOption, String searchKeyword,
+			Integer pageNum, Integer pageSize);
+	
+	// 사원 권한 업데이트
+	Integer updateStaffAuthority(List<Staff> staffList);
 
 	// 사원 생성
 	Integer insertStaff(Staff staff);

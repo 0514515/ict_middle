@@ -8,8 +8,8 @@ import lombok.*;
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class Administrator {
-	private String staffId;
-	private String companyId;
+	private Long staffId;
+	private Long companyId;
 	private String companyName;
 	private String staffName;
 	private String createdAt;

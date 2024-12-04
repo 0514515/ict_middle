@@ -1,12 +1,14 @@
 package com.middle.hr.parkjinuk.staff.service;
 
-import com.middle.hr.parkjinuk.staff.repository.StaffRepository;
-import com.middle.hr.parkjinuk.staff.vo.Login;
-import com.middle.hr.parkjinuk.staff.vo.Staff;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
+import com.middle.hr.parkjinuk.staff.repository.StaffRepository;
+import com.middle.hr.parkjinuk.staff.vo.Login;
+import com.middle.hr.parkjinuk.staff.vo.Staff;
 
 @Service
 public class StaffServiceImpl implements StaffService {
@@ -31,6 +33,26 @@ public class StaffServiceImpl implements StaffService {
     public Integer searchStaffIdByLoginId(String loginId) {
     	return staffRepository.selectStaffIdByLoginId(loginId);
     }
+    
+    // 로그인 아이디로 사원 정보, 권한 목록 조회
+    @Override
+	public Map<String, Object> searchStaffAndAuthorityByLoginId(String loginId, String searchOption,
+			String searchKeyword, Integer pageNum, Integer pageSize) {
+		return staffRepository.selectStaffAndAuthorityByLoginId(loginId, searchOption, searchKeyword, pageNum, pageSize);
+	}
+    
+    
+    // 사원 권한 업데이트
+	@Override
+	public Integer updateStaffAuthority(List<Staff> staffList) {
+		return staffRepository.updateStaffAuthority(staffList);
+	}
+    
+    // 로그인 아이디로 사원 정보 조회
+    @Override
+    public Staff searchStaffInformationByLoginId(String loginId) {
+    	return staffRepository.selectStaffInformationByLoginId(loginId);
+    }
 
     // 사원 생성
     @Override
@@ -43,4 +65,8 @@ public class StaffServiceImpl implements StaffService {
 	public String login(Login login) {
 		return staffRepository.login(login);
 	}
+
+
+
+	
 }

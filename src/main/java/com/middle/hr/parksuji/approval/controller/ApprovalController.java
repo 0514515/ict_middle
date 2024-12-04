@@ -235,6 +235,4 @@ public class ApprovalController {
 	public String approvalManagement() {
 		return "/approval/approvalManagement";
 	}
-	
-	
 }

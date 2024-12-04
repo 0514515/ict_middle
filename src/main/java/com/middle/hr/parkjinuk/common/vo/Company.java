@@ -8,7 +8,7 @@ import lombok.*;
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class Company {
-	private String id;
+	private Long id;
 	private String name;
 	private String address;
 	private String phoneNumber;

@@ -41,9 +41,9 @@ public class AttendanceController {
 		
 		// 로그인 아이디로 staff의 기본키 id값 받아오기
 		
-		System.out.println(staff_id);
+//		System.out.println(staff_id);
 		
-		attendanceService.insertStartAt(staff_id);
+//		attendanceService.insertStartAt(staff_id);
 		
 		
 		 // 서비스 단으로 인자 보냄

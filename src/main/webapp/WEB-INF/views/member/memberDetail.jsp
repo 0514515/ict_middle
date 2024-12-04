@@ -119,53 +119,51 @@ body {
 						<!-- 왼쪽 컬럼 start -->
 							<div class="col col-sm-5 bg-white">
 								<div class="row mb-3 justify-content-center">
-									<label for="inputEmail3" class="col-sm-3 h5">이름</label>
+									<label for="inputEmail3" class="col-sm-3 col-form-label h5">이름</label>
 									<div class="col-sm-6">
-										<label for="inputEmail3" class="col-form-label h5">${sessionScope.loginId}</label>
+										<label for="inputEmail3" class="col-form-label">${staff.staffName}</label>
 									</div>
 								</div>
 								<div class="row mb-3 justify-content-center">
-									<label for="inputEmail3" class="col-sm-3 col-form-label">전화번호</label>
+									<label for="inputEmail3" class="col-sm-3 col-form-label h5">전화번호</label>
 									<div class="col-sm-6">
-										<label for="inputEmail3" class="col-form-label">010-0000-0000</label>
+										<label for="inputEmail3" class="col-form-label">${staff.phoneNumber}</label>
 									</div>
 								</div>
 								<div class="row mb-3 justify-content-center">
-									<label for="inputEmail3" class="col-sm-3 col-form-label">직급</label>
+									<label for="inputEmail3" class="col-sm-3 col-form-label h5">직급</label>
 									<div class="col-sm-6">
-										<label for="inputEmail3" class="col-form-label">사원</label>
+										<label for="inputEmail3" class="col-form-label h5">${staff.rank}</label>
 									</div>
 								</div>
 								<div class="row mb-3 justify-content-center">
-									<label for="inputEmail3" class="col-sm-3 col-form-label">주소</label>
+									<label for="inputEmail3" class="col-sm-3 col-form-label h5">주소</label>
 									<div class="col-sm-6">
-										<label for="inputEmail3" class="col-form-label">서울특별시
-											XX구 XX동 ㅁㅁ빌딩 000동 000호</label>
+										<label for="inputEmail3" class="col-form-label h5">${staff.address}</label>
 									</div>
 								</div>
 								<div class="row mb-3 justify-content-center">
-									<label for="inputEmail3" class="col-sm-3 col-form-label">성별</label>
+									<label for="inputEmail3" class="col-sm-3 col-form-label h5">성별</label>
 									<div class="col-sm-6">
-										<label for="inputEmail3" class="col-form-label">남성</label>
+										<label for="inputEmail3" class="col-form-label">${staff.gender}</label>
 									</div>
 								</div>
 								<div class="row mb-3 justify-content-center">
-									<label for="inputEmail3" class="col-sm-3 col-form-label">생년월일</label>
+									<label for="inputEmail3" class="col-sm-3 col-form-label h5">생년월일</label>
 									<div class="col-sm-6">
-										<label for="inputEmail3" class="col-form-label">1997년
-											8월 31일</label>
+										<label for="inputEmail3" class="col-form-label">${staff.birthdate }</label>
 									</div>
 								</div>
 								<div class="row mb-3 justify-content-center">
-									<label for="inputEmail3" class="col-sm-3 col-form-label">이메일</label>
+									<label for="inputEmail3" class="col-sm-3 col-form-label h5">이메일</label>
 									<div class="col-sm-6">
-										<label for="inputEmail3" class="col-form-label">example@example.com</label>
+										<label for="inputEmail3" class="col-form-label">${staff.email}</label>
 									</div>
 								</div>
 								<div class="row mb-3 justify-content-center">
-									<label for="inputEmail3" class="col-sm-3 col-form-label">입사일</label>
+									<label for="inputEmail3" class="col-sm-3 col-form-label h5">입사일</label>
 									<div class="col-sm-6">
-										<label for="inputEmail3" class="col-form-label">2024-08-27</label>
+										<label for="inputEmail3" class="col-form-label">${staff.hiredDate}</label>
 									</div>
 								</div>
 							</div>
