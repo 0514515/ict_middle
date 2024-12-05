@@ -35,7 +35,14 @@ public interface StaffService {
 
 	// 부서 검색
 	List<Department> searchDepartmentByCompanyId(Integer companyId);
+
+	// 부서 목록 페이지네이션
+	Map<String, Object> searchDepartmentWithtotalStaffCountByLoginId(String loginId, String searchOption,
+			String searchKeyword, Integer pageNum, Integer pageSize);
 	
+	// 부서 생성
+	Integer createDepartment(Department department);
+
 	// 사원들 부서 업데이트
 	Integer updateStaffDepartment(List<Staff> staffList);
 

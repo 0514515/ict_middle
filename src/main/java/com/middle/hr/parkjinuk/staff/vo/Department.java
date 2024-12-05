@@ -15,4 +15,5 @@ public class Department {
 	private Long id;
 	private String name;
 	private Long companyId;
+	private Integer totalStaffCount;
 }

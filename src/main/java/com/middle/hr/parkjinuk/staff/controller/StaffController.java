@@ -67,8 +67,7 @@ public class StaffController {
 	// 사원 등록 URI (관리자)
 	@PostMapping("member/new")
 	public String createMember(Staff staff) {
-		System.out.println(staff);
-
+		
 		Integer result = staffService.createStaff(staff);
 
 		if (result == 1) {
@@ -76,6 +75,58 @@ public class StaffController {
 		}
 
 		return "redirect:/member";
+	}
+	
+	// 부서 목록 페이지
+	@GetMapping("department")
+	public String getDepartmentList(String searchOption, String searchKeyword, Integer pageNum, Model model,
+			HttpSession httpSession) {
+		// 기본값 (첫 페이지 로딩 시 searchOption, searchKeyword가 null임)
+		if (searchOption == null)
+			searchOption = "name";
+		if (searchKeyword == null)
+			searchKeyword = "";
+		if (pageNum == null || pageNum < 0)
+			pageNum = 1;
+
+		String loginId = httpSession.getAttribute("loginId").toString();
+
+		// 검색 옵션과 키워드로 페이지네이션 검색 (회사 검색)
+		Map<String, Object> result = staffService.searchDepartmentWithtotalStaffCountByLoginId(loginId, searchOption, searchKeyword, pageNum, 10);
+
+		model.addAttribute("departmentList", result.get("departmentList")); // 회사 목록
+		model.addAttribute("totalPage", result.get("totalPages")); // 최대 페이지
+		model.addAttribute("pageNum", pageNum + ""); // 현재 페이지
+
+		// 검색 도구 값 유지용
+		model.addAttribute("searchOption", searchOption);
+		model.addAttribute("searchKeyword", searchKeyword);
+
+		return "/member/departmentList";
+	}
+	
+	// 부서 등록 페이지
+	@GetMapping("department/new")
+	public String getDepartmentRegistrationForm(Model model, HttpSession httpSession) {
+
+		String loginId = httpSession.getAttribute("loginId").toString();
+		model.addAttribute("companyId", staffService.searchCompanyIdByLoginId(loginId));
+
+		return "member/departmentRegistrationForm";
+	}
+	
+	// 부서 등록 URI
+	@PostMapping("department/new")
+	public String createDepartment(Department department) {
+		
+		Integer result = staffService.createDepartment(department);
+
+		if (result == 1) {
+			System.out.println("@@@ 등록 성공 @@@");
+		}
+
+		return "redirect:/department";
+		
 	}
 
 	// 사원 수정 페이지

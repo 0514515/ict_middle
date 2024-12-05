@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="StaffRepository">
 
-	<!-- 회사 등록 -->
+	<!-- 사원 등록 -->
 	<insert id="insertStaff" parameterType="Staff">
 		INSERT INTO STAFF(id,
 		name, login_id, password, phone_number, email,
@@ -17,12 +17,22 @@
 		#{birthdate}, #{departmentId}, #{companyId})
 	</insert>
 
+	<!-- 부서 등록 -->
+	<insert id="insertDepartment" parameterType="Department">
+		INSERT INTO
+		DEPARTMENT(id, name,company_id)
+		VALUES (seq_department_id.nextval,
+		#{name}, #{companyId})
+	</insert>
+
 	<!-- 회사 번호로 부서 조회 -->
-	<select id="selectDepartmentByCompanyId" parameterType="int" resultType="Department">
+	<select id="selectDepartmentByCompanyId" parameterType="int"
+		resultType="Department">
 		SELECT
 		d.id id, d.name name
 		FROM DEPARTMENT d
-		WHERE d.company_id = #{companyId}
+		WHERE
+		d.company_id = #{companyId}
 	</select>
 
 	<!-- 로그인 아이디로 회사 조회 -->
@@ -256,5 +266,66 @@
 		FROM staff
 		WHERE login_id = #{loginId} AND password=#{password}
 	</select>
+
+	<!-- 부서 페이지네이션 조회 -->
+	<select id="selectDepartmentWithtotalStaffCountByLoginId"
+		parameterType="String" resultType="Department">
+		SELECT d.id, d.name,COUNT(s.id) totalStaffCount
+		FROM
+		department d
+		LEFT JOIN staff s ON
+		s.DEPARTMENT_ID = d.ID
+		AND s.company_id = d.company_id
+		<where>
+			d.company_id = (SELECT company_id
+			FROM staff s
+			WHERE
+			s.login_id=#{loginId})
+			<if test="searchOption != null and searchOption != ''">
+				<choose>
+					<when test="searchOption == 'departmentName'">
+						AND d.name LIKE '%' || #{searchKeyword} || '%'
+					</when>
+					<when test="searchOption == 'departmentId'">
+						AND d.id LIKE '%' || #{searchKeyword} || '%'
+					</when>
+				</choose>
+			</if>
+		</where>
+		GROUP BY d.id, d.name
+		order by d.id
+	</select>
+
+	<!-- 부서 페이지네이션 카운트 조회 -->
+	<select id="selectDepartmentWithtotalStaffCountListCount"
+		resultType="int">
+		SELECT COUNT(*)
+		FROM
+		(SELECT COUNT(*)
+		FROM
+		department d
+		LEFT JOIN staff s ON
+		s.DEPARTMENT_ID = d.ID
+		AND s.company_id = d.company_id
+		<where>
+			d.company_id = (SELECT s.company_id
+			FROM staff s
+			WHERE
+			s.login_id=#{loginId})
+			<if test="searchOption != null and searchOption != ''">
+				<choose>
+					<when test="searchOption == 'departmentName'">
+						AND d.name LIKE '%' || #{searchKeyword} || '%'
+					</when>
+					<when test="searchOption == 'departmentId'">
+						AND d.id LIKE '%' || #{searchKeyword} || '%'
+					</when>
+				</choose>
+			</if>
+		</where>
+		GROUP BY d.id, d.name)
+		
+	</select>
+
 
 </mapper>

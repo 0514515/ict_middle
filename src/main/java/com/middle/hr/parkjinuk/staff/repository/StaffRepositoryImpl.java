@@ -184,10 +184,52 @@ public class StaffRepositoryImpl implements StaffRepository {
 	public Integer insertStaff(Staff staff) {
 		return mybatis.insert("StaffRepository.insertStaff", staff);
 	}
+	
+	// 부서 생성
+	@Override
+	public Integer insertDepartment(Department department) {
+		return mybatis.insert("StaffRepository.insertDepartment",department);
+	}
 
 	// 로그인
 	@Override
 	public String login(Login login) {
 		return mybatis.selectOne("StaffRepository.login", login);
+	}
+
+	
+	//부서 목록 페이지네이션
+	@Override
+	public Map<String, Object> selectDepartmentWithtotalStaffCountByLoginId(String loginId, String searchOption,
+			String searchKeyword, Integer pageNum, Integer pageSize) {
+		// 검색 조건에 맞는 전체 레코드 수 조회
+		Map<String, Object> params = new HashMap<>();
+		params.put("searchOption", searchOption);
+		params.put("searchKeyword", searchKeyword);
+		params.put("loginId", loginId);
+
+		System.out.println(params);
+		
+		int totalCount = mybatis.selectOne("StaffRepository.selectDepartmentWithtotalStaffCountListCount", params);
+
+		// 전체 페이지 수 계산
+		int totalPages = (int) Math.ceil((double) totalCount / pageSize);
+
+		// RowBounds를 사용하여 페이지네이션 적용
+		RowBounds rowBounds = new RowBounds((pageNum - 1) * pageSize, pageSize);
+
+		// 사원 조회
+		List<Department> departmentList = mybatis.selectList("StaffRepository.selectDepartmentWithtotalStaffCountByLoginId", params,
+				rowBounds);
+		
+		System.out.println(departmentList);
+
+		// 결과를 맵으로 반환
+		Map<String, Object> result = new HashMap<>();
+		result.put("departmentList", departmentList); // 페이지네이션된 결과
+		result.put("totalCount", totalCount); // 전체 레코드 수
+		result.put("totalPages", totalPages); // 전체 페이지 수
+
+		return result;
 	}
 }
