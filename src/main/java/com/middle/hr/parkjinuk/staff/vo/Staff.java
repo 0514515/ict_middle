@@ -12,6 +12,8 @@ public class Staff {
 	private Long staffId;		//사원 id number
     private Long companyId;		//회사 id number
     private Long departmentId;	//부서 id number
+    private Long basicSalaryId;	//기본급 id number
+    private String basicSalaryName;	//기본급 이름
     private String departmentName;	//부서 이름
     private String staffName;		//사원 이름
     private String rank;			//직급

@@ -34,6 +34,7 @@
 				<value>com.middle.hr.parkjinuk.staff.vo.Staff</value>
 				<value>com.middle.hr.parkjinuk.staff.vo.Login</value>
 				<value>com.middle.hr.parkjinuk.staff.vo.Department</value>
+				<value>com.middle.hr.parkjinuk.salary.vo.Salary</value>
 				<!-- parksuji -->
 				<value>com.middle.hr.parksuji.approval.vo.Forms</value>
 				<!-- parkeunbyeol -->

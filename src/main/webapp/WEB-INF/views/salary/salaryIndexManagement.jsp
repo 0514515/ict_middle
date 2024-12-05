@@ -142,21 +142,21 @@ body {
 										<table class="table table-hover">
 											<thead>
 												<tr>
+													<th scope="col">기본급 번호</th>
 													<th scope="col">기본급 이름</th>
 													<th scope="col">금액 액수</th>
 												</tr>
 											</thead>
-											<tbody>
+											<tbody id="tableBody">
+												<c:forEach var="salary" items="${salaryList}">
+													<tr>
+														<td id="salaryId">${salary.id}</td>
+														<td id="salaryName">${salary.name}</td>
+														<td id="amount">${salary.amount}</td>
+														<input id="companyId" type="hidden" value="${salary.companyId}">
+													</tr>
 
-												<tr>
-													<th scope="row">1</th>
-													<td>John</td>
-												</tr>
-												<tr>
-													<th scope="row">2</th>
-													<td>Mark</td>
-												</tr>
-
+												</c:forEach>
 											</tbody>
 										</table>
 									</div>
@@ -164,31 +164,44 @@ body {
 							</div>
 							<div class="col">
 								<div class="bg-light rounded p-4 mb-2 justify-content-center">
-									<h5 class="mb-4 text-center">기본급 편집</h5>
+									<h5 class="mb-4 text-center">기본급 추가 / 편집</h5>
 									<div class="row mb-3">
-										<label for="inputEmail3"
+										<label for="name"
 											class="col-sm-3 col-form-label fw-bold">이름</label>
 										<div class="col-sm-9">
-											<input type="text" class="form-control" id="inputEmail3">
+											<input type="text" class="form-control" id="nameInput">
 										</div>
 									</div>
 									<div class="row mb-3">
-										<label for="inputEmail3"
+										<label for="amount"
 											class="col-sm-3 col-form-label fw-bold">금액 액수</label>
 										<div class="col-sm-9">
-											<input type="text" class="form-control" id="inputEmail3">
+											<input type="text" class="form-control" id="amountInput">
 										</div>
+									</div>
+
+									<div class="d-flex align-items-center justify-content-between">
+										<div class="form-check">
+											<input type="checkbox" class="form-check-input"
+												id="checked"> <label class="form-check-label"
+												for="checked">신규 추가</label>
+												
+												
+										</div>
+										<span
+												class="form-check-label" id="idLabel">선택 번호 : 없음</span>
 									</div>
 
 									<div class="row">
-										<div class="d-flex rounded h-100 mx-3 pt-3 justify-content-center">
-											<div class="d-flex pe-2 justify-content-end h-50 w-25">
-												<button type="button"
+										<div class="d-flex rounded h-100 mx-1 justify-content-center">
+
+											<div class="d-flex justify-content-center h-50 w-25">
+												<button type="button" id="saveButton"
 													class="btn btn-primary w-75 text-nowrap">저장</button>
 											</div>
 
-											<div class="d-flex ps-2 justify-content-start h-50 w-25">
-												<button type="button"
+											<div class="d-flex justify-content-center h-50 w-25">
+												<button type="button" id="deleteButton"
 													class="btn btn-outline-primary  w-75 text-nowrap">삭제</button>
 											</div>
 
@@ -271,6 +284,7 @@ body {
 
 		<!-- Template Javascript -->
 		<script src="/resources/template/js/main.js"></script>
+		<script src="/resources/salary/js/salaryIndexManagement.js"></script>
 </body>
 
 </html>
