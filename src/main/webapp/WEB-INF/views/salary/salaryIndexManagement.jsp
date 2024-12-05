@@ -137,15 +137,13 @@ body {
 						<div class="row">
 							<div class="col mb-3">
 								<div class="bg-light rounded p-4">
-									<h5 class="mb-4 text-center">선택 기본급 사원 목록</h5>
+									<h5 class="mb-4 text-center">기본급 목록</h5>
 									<div class="table-responsive" style="height: 550px">
 										<table class="table table-hover">
 											<thead>
 												<tr>
-													<th scope="col">#</th>
-													<th scope="col">First Name</th>
-													<th scope="col">Last Name</th>
-													<th scope="col">Email</th>
+													<th scope="col">기본급 이름</th>
+													<th scope="col">금액 액수</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -153,16 +151,12 @@ body {
 												<tr>
 													<th scope="row">1</th>
 													<td>John</td>
-													<td>Doe</td>
-													<td>jhon@email.com</td>
 												</tr>
 												<tr>
 													<th scope="row">2</th>
 													<td>Mark</td>
-													<td>Otto</td>
-													<td>mark@email.com</td>
 												</tr>
-												
+
 											</tbody>
 										</table>
 									</div>
@@ -170,47 +164,52 @@ body {
 							</div>
 							<div class="col">
 								<div class="bg-light rounded p-4 mb-2 justify-content-center">
-									<h5 class="mb-4 text-center">기본급 목록</h5>
+									<h5 class="mb-4 text-center">기본급 편집</h5>
 									<div class="row mb-3">
-										<label for="inputEmail3" class="col-sm-3 col-form-label fw-bold">이름</label>
+										<label for="inputEmail3"
+											class="col-sm-3 col-form-label fw-bold">이름</label>
 										<div class="col-sm-9">
 											<input type="text" class="form-control" id="inputEmail3">
 										</div>
 									</div>
 									<div class="row mb-3">
-										<label for="inputEmail3" class="col-sm-3 col-form-label fw-bold">금액 액수</label>
+										<label for="inputEmail3"
+											class="col-sm-3 col-form-label fw-bold">금액 액수</label>
 										<div class="col-sm-9">
 											<input type="text" class="form-control" id="inputEmail3">
 										</div>
 									</div>
-								</div>
-								
-								<div class="row">
-									<div
-										class="d-flex rounded h-100 m-3 justify-content-center">
-										<div class="d-flex pe-2 justify-content-end h-50 w-25">
-											<button type="button" class="btn btn-primary w-75 text-nowrap">저장 ↓</button>
-										</div>
 
-										<div class="d-flex ps-2 justify-content-start h-50 w-25">
-											<button type="button" class="btn btn-outline-primary  w-75 text-nowrap">삭제 ↑</button>
-										</div>
+									<div class="row">
+										<div class="d-flex rounded h-100 mx-3 pt-3 justify-content-center">
+											<div class="d-flex pe-2 justify-content-end h-50 w-25">
+												<button type="button"
+													class="btn btn-primary w-75 text-nowrap">저장</button>
+											</div>
 
+											<div class="d-flex ps-2 justify-content-start h-50 w-25">
+												<button type="button"
+													class="btn btn-outline-primary  w-75 text-nowrap">삭제</button>
+											</div>
+
+										</div>
 									</div>
 								</div>
+
+
 
 								<div class="row">
 									<div class="col">
 										<div class="bg-light rounded p-4 mt-2 justify-content-center">
-											<h5 class="mb-4 text-center">기본급 편집</h5>
+											<h5 class="mb-4 text-center">선택 기본급 사원 목록</h5>
 											<div class="table-responsive" style="height: 260px">
 												<table class="table table-hover">
 													<thead>
 														<tr>
-															<th scope="col">#</th>
-															<th scope="col">First Name</th>
-															<th scope="col">Last Name</th>
-															<th scope="col">Email</th>
+															<th scope="col">부서명</th>
+															<th scope="col">사원 이름</th>
+															<th scope="col">기본급 이름</th>
+															<th scope="col">금액</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -227,7 +226,7 @@ body {
 															<td>Otto</td>
 															<td>mark@email.com</td>
 														</tr>
-														
+
 													</tbody>
 												</table>
 											</div>
