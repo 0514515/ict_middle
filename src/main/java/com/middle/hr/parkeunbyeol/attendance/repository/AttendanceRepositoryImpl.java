@@ -52,9 +52,18 @@ public class AttendanceRepositoryImpl implements AttendanceRepository {
 
 	// 최초 로그인시 로그인 아이디로 working_history테이블에 해당 사원의 staffId 넣어주기
 	@Override
-	public Integer insertDefaultStaffIdByLoginId(Integer staffId) {
+	public void insertDefaultStaffIdByLoginId(Integer staffId) {
 		
-		return mybatis.selectOne("AttendanceRepository.insertDefaultStaffIdByLoginId", staffId);
+		System.out.println(" == > insertDefaultStaffIdByLoginId() 호출====> ");
+		
+		mybatis.selectOne("AttendanceRepository.insertDefaultStaffIdByLoginId", staffId);
+	}
+
+	// 최초 로그인시 로그인 아이디로 사원 정보 검색
+	@Override
+	public Attendance getStaffInfoDefault(Integer staffId) {
+		
+		return mybatis.selectOne("AttendanceRepository.selectStaffInfoDefault", staffId);
 	}
 	
 }

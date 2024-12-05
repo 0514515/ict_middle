@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -30,41 +31,64 @@ public class AttendanceController {
 		// 세션에서 workingStatus 값 받아오기
 		String workingStatus = (String) httpSession.getAttribute("workingStatus");
 
-		// 만약 세션에 workingStatus 값이 없다면
+		// 만약 세션에 workingStatus 값이 없다면?
 		if (workingStatus == null) {
-
+			
 			// 세션으로부터 로그인 id 얻어와서
 			String loginId = httpSession.getAttribute("loginId").toString();
-			System.out.println("아이디 받아옴?" + loginId);
+			System.out.println("아이디 받아옴? 세션에서 받아온 loginId : " + loginId);
 
 			// 세션에서 얻어온 로그인 아이디로 staffId 얻어온 다음에
 			Integer staffId = staffService.searchStaffIdByLoginId(loginId);
-			System.out.println("인자로 넘길 수 있음?" + staffId);
+			System.out.println("인자로 넘길 수 있음? staffId : " + staffId);
 
 			// (1) 위에서 얻어온 staffId를 인자로 넘겨서 db에 있는 그 해당 staffId의 workingStatus(상태)를 가져온다.
 			// 가져온 그 workingStatus를 dbworkingStatus이라 칭한다.
 			String dbworkingStatus = attendanceService.getWorkingStatusByLoginId(staffId);
 
-			System.out.println("getWorkingStatusByLoginId() " + dbworkingStatus);
+			System.out.println("getWorkingStatusByLoginId() db단의 초기 출근 상태 값: " + dbworkingStatus);
 			// (2) 위에서 얻어온 staffId를 인자로 넘겨서 db에 있는 그 해당 staffId를 통해 해당 사원의 정보를 가져온다.
 			/*
 			 * Attendance attendance = new Attendance(); attendance.setStaffId(staffId);
 			 * 
 			 * System.out.println("인자로 넘길 수 있음?" + attendance.toString());
 			 */
-
-			Attendance staffInfo = attendanceService.getStaffInfoByLoginId(staffId);
+			
+			 System.out.println("아이디 확인 : " + staffId);
+			 
+			Attendance defaultStaffInfo = attendanceService.getStaffInfoByLoginId(staffId);
+				System.out.println("defaultStaffInfo 첫번째 확인 : " + defaultStaffInfo);
+			
 			// System.out.println("StaffInfo => getStaffInfoByLoginId 값 확인: " +
 			// staffInfo.toString());
 
-			// 만약 working_history 테이블에 staffId가 없어서 null값 오류가 뜬다면
-
-			if (staffInfo == null) {
-				// 직접 해당 사원의 staffId값을 working_history 테이블에 넣어주기
+			// 만약 기본 사원 정보가 없다면 => 테이블에 staffId가 없어서 사원 정보 조회가 안된다면
+			if ( defaultStaffInfo == null) {
+				// 직접 해당 사원의 staffId 값을 working_history 테이블에 넣어주기
 				attendanceService.insertDefaultStaffIdByLoginId(staffId);
-				System.out.println("if문 안에서의 staffId : " + staffId);
+				
+				
+				// staffId를 넣어준 뒤 다시 사원 정보 출력하기
+				Attendance afterInsertStaffId = attendanceService.getStaffInfoDefault(staffId);
+				System.out.println("db에 staffId 입력 후 getStaffInfoByLoginId() 호출 :  " + afterInsertStaffId.toString() );
+			
+				httpSession.setAttribute("afterInsertStaffId", afterInsertStaffId); // 받아온 값들 세션에 저장하기
+				
+				model.addAttribute(afterInsertStaffId); // jsp 파일에 사용하기 위해 model에 저장
+				
+			
+				// 만약 기본 사원 정보가 있다면
+			} else if ( defaultStaffInfo != null ) {
+				// ( working_status에 staffId가 있어서 조회가 가능할 경우) 사원 정보 불러오기
+				Attendance getDefaultStaffInfo = attendanceService.getStaffInfoByLoginId(staffId); 		
+				System.out.println("insertDefaultStaffIdByLoginId이 not null 일 때 getStaffInfoByLoginId() 호출 :" + getDefaultStaffInfo.toString());
+				
+				httpSession.setAttribute("getDefaultStaffInfo", getDefaultStaffInfo); // 받아온 값을 세션에 저장하기
+				
+				model.addAttribute(getDefaultStaffInfo); //// jsp 파일에 사용하기 위해 model에 저장
+				
 			}
-
+ 
 			// 만약 db에서 가져온 workingStatus의 값인 dbworkingStatus가 null 값이라면? ( 다시말해 해당 사원의
 			// workingStatus의 값이 db에 없다면)
 			if (dbworkingStatus == null) {
@@ -76,14 +100,14 @@ public class AttendanceController {
 			System.out.println("세션에 저장된 workingStatus db에서 확인, null값이면 퇴근 찍힘:" + dbworkingStatus);
 
 			// 세션에 workingStautus 값을 저장 / 44행에서 가져온 값을 세션에 저장해줌
-			httpSession.setAttribute("workingStatus", dbworkingStatus);
+			httpSession.setAttribute("defaultWorkingStatus", dbworkingStatus);
 
 			// jsp에서 사용할 수 있도록 모델에 추가함
 			model.addAttribute("staffId", staffId);
 
 		} // end of first it{}
 
-		model.addAttribute("workingStatus", workingStatus); // --1
+		model.addAttribute("defaultWorkingStatus", workingStatus); // --1
 
 		return "attendance/attendanceMain"; // 이 jsp의 페이지로 리턴
 	}
@@ -106,9 +130,8 @@ public class AttendanceController {
 		Integer staff_id = staffService.searchStaffIdByLoginId(loginId);
 		// 스태프 아이디를 잘 받아왔는지 확인하기
 		System.out.println("스태프아이디:" + staff_id);
-
+	
 		//System.out.println(staff_id);
-
 		//attendanceService.insertStartAt(staff_id);
 
 		// workin_status 값 확인하기
@@ -145,11 +168,40 @@ public class AttendanceController {
 		Attendance attendanceStartAt = attendanceService.selectStartAt(attendance);
 		System.out.println("selectStartAt :" + attendanceStartAt.toString());
 
+		
+//		String timeOnlyStart = attendanceStartAt.getStartAt().substring(11,19);
+//		System.out.println("시간 substirng 확인 : " + timeOnlyStart);
+		
+		
+//		model.addAttribute("timeOnlyStart", timeOnlyStart);
 		model.addAttribute("attendanceStartAt", attendanceStartAt); // 여기의 attendanceStartAt는 뷰페이지의 이름이 됨
-
+		/* model.addAttribute("attendanceStartAt", timeOnlyStart); */
+	
 		return attendanceStartAt;
 	}
 
+	@PostMapping("sendData")
+	@ResponseBody
+	public Attendance getStaffInfo(HttpSession httpSession,@RequestParam("workingStatus") String workingStatus, @RequestParam("staff_id") String staffId) {
+		
+		// 세션에서 로그인 아이디 받아오기 String loginId =
+		String loginId = (String) httpSession.getAttribute("loginId");
+		
+		Integer staff_id = staffService.searchStaffIdByLoginId(loginId);
+		
+		Attendance staffInfo = attendanceService.getStaffInfoByLoginId(staff_id);
+		System.out.println("jsp에 보낼 StaffInfo 값 확인 : " + staffInfo.toString());
+		
+//		String timeOnlyStart = StaffInfo.getStartAt().substring(11, 19);
+//		System.out.println("페이지에 넘길 시간 확인 : " + timeOnlyStart);
+	
+		System.out.println(workingStatus);
+		System.out.println(staffId);
+		
+		return staffInfo;
+	}
+	
+	
 	// 휴가 관리 및 신청_나의 일정 메인
 	@GetMapping("attendance/holiday")
 	public String attendenceHoliday() {

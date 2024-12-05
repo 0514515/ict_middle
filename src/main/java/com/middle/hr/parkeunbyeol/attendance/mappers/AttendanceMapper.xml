@@ -22,7 +22,7 @@
                        WHERE wh2.STAFF_ID = wh.STAFF_ID)
 	</select>
 
-	
+	<!-- 출근 상태 조회하기 -->
 	<select id="selectWorkingStatusByLoginId" parameterType="Integer" resultType="String">	
 		SELECT wh.working_status
 		FROM working_history wh
@@ -31,6 +31,7 @@
 	</select>
 
 
+	<!-- 로그인 아이디로 사원 정보 조회 하기 -->
 	<select id="selectStaffInfoByLoginId" parameterType="Integer" resultType="Attendance">	
 		SELECT wh.STARTED_AT startAt, wh.ENDED_AT endAt, s.NAME name, s.RANK rank, d.NAME deptName, wh.WORKING_STATUS workingStatus 
 		FROM WORKING_HISTORY wh INNER JOIN STAFF s 
@@ -43,9 +44,31 @@
 	</select>	
 	
 	
-	<select id="insertDefaultStaffIdByLoginId" parameterType="Integer">
+	
+	<select id="selectStaffInfoDefault" parameterType="Integer" resultType="Attendance">	
+		SELECT * 
+		FROM (
+			    SELECT wh.STARTED_AT startAt, 
+			           wh.ENDED_AT endAt, 
+			           wh.CREATED_AT createdAt, 
+			           wh.UPDATED_AT updateAt, 
+			           s.NAME name, 
+			           s.RANK rank, 
+			           d.NAME deptName, 
+			           wh.WORKING_STATUS workingStatus 
+			    FROM WORKING_HISTORY wh
+			    INNER JOIN STAFF s ON wh.STAFF_ID = s.ID
+			    INNER JOIN DEPARTMENT d ON s.DEPARTMENT_ID = d.ID
+			    WHERE wh.STAFF_ID = #{staffId}
+			    ORDER BY wh.CREATED_AT DESC
+			)
+		WHERE ROWNUM = 1
+	</select>
+
+	
+	<insert id="insertDefaultStaffIdByLoginId" parameterType="Integer">
 		INSERT INTO WORKING_HISTORY (ID, CREATED_AT, UPDATED_AT, STAFF_ID)
 		VALUES (seq_WORKING_HISTORY_ID.nextval, sysdate, sysdate, #{staffId})
-	</select>
+	</insert>
 
 </mapper>

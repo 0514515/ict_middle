@@ -3,95 +3,329 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="StaffRepository">
 
-    <!-- 회사 등록 -->
-    <insert id="insertStaff" parameterType="Staff">
-        INSERT INTO STAFF(id, name, login_id, password, phone_number, email, picture, sign, address, gender, birthdate,
-                          department_id, company_id)
-        VALUES (seq_staff_id.nextval, #{staffName}, #{loginId}, #{password}, #{phoneNumber}, #{email}, #{picture},
-                #{sign}, #{address}, #{gender}, #{birthdate}, #{departmentId}, #{companyId})
-    </insert>
+	<!-- 사원 등록 -->
+	<insert id="insertStaff" parameterType="Staff">
+		INSERT INTO STAFF(id,
+		name, login_id, password, phone_number, email,
+		picture, sign, address,
+		gender, birthdate,
+		department_id, company_id)
+		VALUES
+		(seq_staff_id.nextval, #{staffName}, #{loginId}, #{password},
+		#{phoneNumber}, #{email}, #{picture},
+		#{sign}, #{address}, #{gender},
+		#{birthdate}, #{departmentId}, #{companyId})
+	</insert>
+
+	<!-- 부서 등록 -->
+	<insert id="insertDepartment" parameterType="Department">
+		INSERT INTO
+		DEPARTMENT(id, name,company_id)
+		VALUES (seq_department_id.nextval,
+		#{name}, #{companyId})
+	</insert>
+
+	<!-- 회사 번호로 부서 조회 -->
+	<select id="selectDepartmentByCompanyId" parameterType="int"
+		resultType="Department">
+		SELECT
+		d.id id, d.name name
+		FROM DEPARTMENT d
+		WHERE
+		d.company_id = #{companyId}
+	</select>
 
 	<!-- 로그인 아이디로 회사 조회 -->
-    <select id="selectCompanyIdByLoginId" parameterType="String" resultType="int">
-        SELECT company_id
-        FROM staff
-        WHERE login_id = #{loginId}
-    </select>
-    
-    <!-- 로그인 아이디로 사번 조회 -->
-    <select id="selectStaffIdByLoginId" parameterType="String" resultType="int">
-    	SELECT id
-    	FROM staff
-    	WHERE login_id = #{loginId}
-    </select>
+	<select id="selectCompanyIdByLoginId" parameterType="String"
+		resultType="int">
+		SELECT company_id
+		FROM staff
+		WHERE login_id = #{loginId}
+	</select>
 
-    <!-- 사원 조회 -->
-    <select id="selectStaffList" parameterType="String" resultType="Staff">
-        SELECT d.name departmentName, s.name staffName, s.rank rank, s.phone_number phoneNumber, s.email email,
-        TO_CHAR(s.hired_date, 'YYYY-MM-DD') hiredDate
-        FROM staff s INNER JOIN department d ON s.department_id = d.id
-        <where>
-            s.company_id = (SELECT s.company_id
-            FROM staff s
-            WHERE s.login_id=#{loginId})
-            <if test="searchOption != null and searchOption != ''">
-                <choose>
-                    <when test="searchOption == 'departmentName'">
-                        AND d.name LIKE '%' || #{searchKeyword} || '%'
-                    </when>
-                    <when test="searchOption == 'staffName'">
-                        AND s.name LIKE '%' || #{searchKeyword} || '%'
-                    </when>
-                    <when test="searchOption == 'rank'">
-                        AND s.rank LIKE '%' || #{searchKeyword} || '%'
-                    </when>
-                    <when test="searchOption == 'phone_number'">
-                        AND s.phone_number LIKE '%' || #{searchKeyword} || '%'
-                    </when>
-                    <when test="searchOption == 'email'">
-                        AND s.email LIKE '%' || #{searchKeyword} || '%'
-                    </when>
-                </choose>
+	<!-- 로그인 아이디로 사번 조회 -->
+	<select id="selectStaffIdByLoginId" parameterType="String"
+		resultType="int">
+		SELECT id
+		FROM staff
+		WHERE login_id = #{loginId}
+	</select>
 
-            </if>
-        </where>
-    </select>
+	<!-- 로그인 아이디로 사원 정보 조회 -->
+	<select id="selectStaffInformationByLoginId"
+		parameterType="String" resultType="Staff">
+		SELECT name staffName, phone_number,
+		RANK, address, gender, birthdate, email,
+		TO_CHAR(hired_date,
+		'YYYY-MM-DD') hired_date
+		FROM STAFF
+		WHERE login_id=#{loginId}
+	</select>
 
-    <!-- 페이지네이션용 페이지 수 조회 () -->
-    <select id="selectStaffCount" resultType="int">
-        SELECT COUNT(*)
-        FROM staff s INNER JOIN department d ON s.department_id = d.id
-        <where>
-            s.company_id = (SELECT s.company_id
-            FROM staff s
-            WHERE s.login_id=#{loginId})
-            <if test="searchOption != null and searchOption != ''">
-                <choose>
-                    <when test="searchOption == 'departmentName'">
-                        AND d.name LIKE '%' || #{searchKeyword} || '%'
-                    </when>
-                    <when test="searchOption == 'staffName'">
-                        AND s.name LIKE '%' || #{searchKeyword} || '%'
-                    </when>
-                    <when test="searchOption == 'rank'">
-                        AND s.rank LIKE '%' || #{searchKeyword} || '%'
-                    </when>
-                    <when test="searchOption == 'phone_number'">
-                        AND s.phone_number LIKE '%' || #{searchKeyword} || '%'
-                    </when>
-                    <when test="searchOption == 'email'">
-                        AND s.email LIKE '%' || #{searchKeyword} || '%'
-                    </when>
-                </choose>
-            </if>
-        </where>
-    </select>
-    
-    <!-- 로그인, 아이디와 비밀번호로 로그인 -->
-    <select id="login" parameterType="Login" resultType="String">
-    	SELECT login_id
-    	FROM staff
-    	WHERE login_id = #{loginId} AND password=#{password}
-    </select>
+	<!-- 로그인 아이디로 사원 정보, 권한 조회 -->
+	<select id="selectStaffAndAuthorityByLoginId"
+		parameterType="String" resultType="Staff">
+		SELECT s.ID staffId, d.NAME departmentName, s.NAME staffName, s.RANK
+		rank, s.AUTHORITY authority
+		FROM STAFF s INNER JOIN DEPARTMENT d ON
+		s.DEPARTMENT_ID = d.ID
+		<where>
+			s.company_id = (SELECT company_id
+			FROM STAFF
+			WHERE
+			login_id=#{loginId})
+		</where>
+		<if test="searchOption != null and searchOption != ''">
+			<choose>
+				<when test="searchOption == 'departmentName'">
+					AND d.name LIKE '%' || #{searchKeyword} || '%'
+				</when>
+				<when test="searchOption == 'staffName'">
+					AND s.name LIKE '%' || #{searchKeyword} || '%'
+				</when>
+				<when test="searchOption == 'rank'">
+					AND s.rank LIKE '%' || #{searchKeyword} || '%'
+				</when>
+			</choose>
+		</if>
+	</select>
+
+	<!-- 페이지네이션용 페이지 수 조회 () -->
+	<select id="selectStaffAndAuthorityCountByLoginId"
+		parameterType="String" resultType="int">
+		SELECT COUNT(*)
+		FROM STAFF s INNER JOIN DEPARTMENT d ON s.DEPARTMENT_ID
+		= d.ID
+		<where>
+			s.company_id = (SELECT company_id
+			FROM STAFF
+			WHERE
+			login_id=#{loginId})
+		</where>
+		<if test="searchOption != null and searchOption != ''">
+			<choose>
+				<when test="searchOption == 'departmentName'">
+					AND d.name LIKE '%' || #{searchKeyword} || '%'
+				</when>
+				<when test="searchOption == 'staffName'">
+					AND s.name LIKE '%' || #{searchKeyword} || '%'
+				</when>
+				<when test="searchOption == 'rank'">
+					AND s.rank LIKE '%' || #{searchKeyword} || '%'
+				</when>
+			</choose>
+		</if>
+	</select>
+
+	<!-- 사원 권한 업데이트 -->
+	<update id="updateStaffAuthority" parameterType="Staff">
+		UPDATE staff
+		SET
+		authority = #{authority}
+		WHERE id = #{staffId}
+	</update>
+
+	<!-- 로그인 아이디로 사원 정보, 사원 부서 조회 -->
+	<select id="selectStaffWithDepartmentByLoginId"
+		parameterType="String" resultType="Staff">
+		SELECT s.RANK rank, s.id staffId, s.name staffName, d.ID departmentId,
+		d.name departmentName
+		FROM STAFF s INNER JOIN DEPARTMENT d ON
+		s.DEPARTMENT_ID = d.ID
+		<where>
+			s.company_id = (SELECT company_id
+			FROM STAFF
+			WHERE
+			login_id=#{loginId})
+		</where>
+		<if test="searchOption != null and searchOption != ''">
+			<choose>
+				<when test="searchOption == 'departmentName'">
+					AND d.name LIKE '%' || #{searchKeyword} || '%'
+				</when>
+				<when test="searchOption == 'staffName'">
+					AND s.name LIKE '%' || #{searchKeyword} || '%'
+				</when>
+				<when test="searchOption == 'rank'">
+					AND s.rank LIKE '%' || #{searchKeyword} || '%'
+				</when>
+			</choose>
+		</if>
+	</select>
+
+	<!-- 사원 부서 업데이트 -->
+	<update id="updateStaffDepartment" parameterType="Staff">
+		UPDATE staff
+		SET
+		department_id = #{departmentId}
+		WHERE id = #{staffId}
+	</update>
+
+	<!-- 페이지네이션용 페이지 수 조회 () -->
+	<select id="selectStaffWithDepartmentCountByLoginId"
+		parameterType="String" resultType="int">
+		SELECT COUNT(*)
+		FROM STAFF s INNER JOIN DEPARTMENT d ON s.DEPARTMENT_ID
+		= d.ID
+		<where>
+			s.company_id = (SELECT company_id
+			FROM STAFF
+			WHERE
+			login_id=#{loginId})
+		</where>
+		<if test="searchOption != null and searchOption != ''">
+			<choose>
+				<when test="searchOption == 'departmentName'">
+					AND d.name LIKE '%' || #{searchKeyword} || '%'
+				</when>
+				<when test="searchOption == 'staffName'">
+					AND s.name LIKE '%' || #{searchKeyword} || '%'
+				</when>
+				<when test="searchOption == 'rank'">
+					AND s.rank LIKE '%' || #{searchKeyword} || '%'
+				</when>
+			</choose>
+		</if>
+	</select>
+
+	<!-- 사원 조회 -->
+	<select id="selectStaffList" parameterType="String"
+		resultType="Staff">
+		SELECT d.name departmentName, s.name staffName, s.rank rank,
+		s.phone_number phoneNumber, s.email email,
+		TO_CHAR(s.hired_date,
+		'YYYY-MM-DD') hiredDate
+		FROM staff s INNER JOIN department d ON
+		s.department_id = d.id
+		<where>
+			s.company_id = (SELECT s.company_id
+			FROM staff s
+			WHERE
+			s.login_id=#{loginId})
+			<if test="searchOption != null and searchOption != ''">
+				<choose>
+					<when test="searchOption == 'departmentName'">
+						AND d.name LIKE '%' || #{searchKeyword} || '%'
+					</when>
+					<when test="searchOption == 'staffName'">
+						AND s.name LIKE '%' || #{searchKeyword} || '%'
+					</when>
+					<when test="searchOption == 'rank'">
+						AND s.rank LIKE '%' || #{searchKeyword} || '%'
+					</when>
+					<when test="searchOption == 'phone_number'">
+						AND s.phone_number LIKE '%' || #{searchKeyword} ||
+						'%'
+					</when>
+					<when test="searchOption == 'email'">
+						AND s.email LIKE '%' || #{searchKeyword} || '%'
+					</when>
+				</choose>
+
+			</if>
+		</where>
+	</select>
+
+	<!-- 페이지네이션용 페이지 수 조회 () -->
+	<select id="selectStaffCount" resultType="int">
+		SELECT COUNT(*)
+		FROM staff s INNER JOIN department d ON s.department_id
+		= d.id
+		<where>
+			s.company_id = (SELECT s.company_id
+			FROM staff s
+			WHERE
+			s.login_id=#{loginId})
+			<if test="searchOption != null and searchOption != ''">
+				<choose>
+					<when test="searchOption == 'departmentName'">
+						AND d.name LIKE '%' || #{searchKeyword} || '%'
+					</when>
+					<when test="searchOption == 'staffName'">
+						AND s.name LIKE '%' || #{searchKeyword} || '%'
+					</when>
+					<when test="searchOption == 'rank'">
+						AND s.rank LIKE '%' || #{searchKeyword} || '%'
+					</when>
+					<when test="searchOption == 'phone_number'">
+						AND s.phone_number LIKE '%' || #{searchKeyword} ||
+						'%'
+					</when>
+					<when test="searchOption == 'email'">
+						AND s.email LIKE '%' || #{searchKeyword} || '%'
+					</when>
+				</choose>
+			</if>
+		</where>
+	</select>
+
+	<!-- 로그인, 아이디와 비밀번호로 로그인 -->
+	<select id="login" parameterType="Login" resultType="String">
+		SELECT
+		login_id
+		FROM staff
+		WHERE login_id = #{loginId} AND password=#{password}
+	</select>
+
+	<!-- 부서 페이지네이션 조회 -->
+	<select id="selectDepartmentWithtotalStaffCountByLoginId"
+		parameterType="String" resultType="Department">
+		SELECT d.id, d.name,COUNT(s.id) totalStaffCount
+		FROM
+		department d
+		LEFT JOIN staff s ON
+		s.DEPARTMENT_ID = d.ID
+		AND s.company_id = d.company_id
+		<where>
+			d.company_id = (SELECT company_id
+			FROM staff s
+			WHERE
+			s.login_id=#{loginId})
+			<if test="searchOption != null and searchOption != ''">
+				<choose>
+					<when test="searchOption == 'departmentName'">
+						AND d.name LIKE '%' || #{searchKeyword} || '%'
+					</when>
+					<when test="searchOption == 'departmentId'">
+						AND d.id LIKE '%' || #{searchKeyword} || '%'
+					</when>
+				</choose>
+			</if>
+		</where>
+		GROUP BY d.id, d.name
+		order by d.id
+	</select>
+
+	<!-- 부서 페이지네이션 카운트 조회 -->
+	<select id="selectDepartmentWithtotalStaffCountListCount"
+		resultType="int">
+		SELECT COUNT(*)
+		FROM
+		(SELECT COUNT(*)
+		FROM
+		department d
+		LEFT JOIN staff s ON
+		s.DEPARTMENT_ID = d.ID
+		AND s.company_id = d.company_id
+		<where>
+			d.company_id = (SELECT s.company_id
+			FROM staff s
+			WHERE
+			s.login_id=#{loginId})
+			<if test="searchOption != null and searchOption != ''">
+				<choose>
+					<when test="searchOption == 'departmentName'">
+						AND d.name LIKE '%' || #{searchKeyword} || '%'
+					</when>
+					<when test="searchOption == 'departmentId'">
+						AND d.id LIKE '%' || #{searchKeyword} || '%'
+					</when>
+				</choose>
+			</if>
+		</where>
+		GROUP BY d.id, d.name)
+		
+	</select>
+
 
 </mapper>

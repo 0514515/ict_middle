@@ -16,8 +16,11 @@ public interface AttendanceService {
 	// 로그인 아이디로 사원의 출근 상태 조회
 	String getWorkingStatusByLoginId(Integer staffId);
 	
-	// 로그인 아이디로 사원의 정보 조회
+	// 로그인 아이디로 사원의 정보 조회_첫번째
 	Attendance getStaffInfoByLoginId(Integer staffId);
+	
+	// 로그인 아이디로 사원 정보 검색_초기
+	Attendance getStaffInfoDefault(Integer staffId);
 	
 	// 최초 로그인시 로그인 아이디로 working_history테이블에 해당 사원의 staffId 넣어주기
 	void insertDefaultStaffIdByLoginId(Integer staffId);

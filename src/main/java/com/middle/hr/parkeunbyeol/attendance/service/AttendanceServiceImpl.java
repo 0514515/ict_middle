@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.middle.hr.parkeunbyeol.attendance.repository.AttendanceRepository;
 import com.middle.hr.parkeunbyeol.attendance.vo.Attendance;
@@ -35,10 +36,10 @@ public class AttendanceServiceImpl implements AttendanceService {
 	public String getWorkingStatusByLoginId(Integer staffId) {
 		 
 		return attendanceRepository.getWorkingStatusByLoginId(staffId);
-		
+		 
 	}
 
-	// 로그인 아이디로 사원의 정보 조회
+	// 로그인 아이디로 사원의 정보 조회 첫번째
 	@Override
 	public Attendance getStaffInfoByLoginId(Integer staffId) {
 		
@@ -50,6 +51,13 @@ public class AttendanceServiceImpl implements AttendanceService {
 	public void insertDefaultStaffIdByLoginId(Integer staffId) {
 		attendanceRepository.insertDefaultStaffIdByLoginId(staffId);  
 		
+	}
+
+	// 최초 로그인시 로그인 아이디로 사원 정보 검색 _ 초기
+	@Override
+	public Attendance getStaffInfoDefault(Integer staffId) {
+		
+		return attendanceRepository.getStaffInfoDefault(staffId);
 	}
 
 	

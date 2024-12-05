@@ -55,6 +55,8 @@ $(function(){
 		// 넘어온 데이터를 받아서 화면에 출력
 	function selectByrecode(result) {
 		
+
+		
 			$.ajax ({
 				url : "selectRecode"
 				, type : "get" // 넘어오는 거 많으면 post로 바꾸기
@@ -72,10 +74,12 @@ $(function(){
 						alert('1' + $(".btn_start").html());
 						
 						// 사원이름과 부서도 바꿔주기				
-						$(".main_work_type").html("[" + result.name + result.rank + "/" + result.deptName + "]");
+						//$(".main_work_type").html("[" + result.name + result.rank + "/" + result.deptName + "]");
 						
 						let timeOnlyStart = result.startAt.substring(11,19); // 11번째 자리부터 19번째 전까지의 문자를 추출한다. 즉 2024-12-04 16:20:11 이면 숫자만 빼옴
-						$("#start_body").html(timeOnlyStart);	
+						$("#start_body").html(timeOnlyStart);
+						
+						requestToController();
 					} 
 					
 					if ( result.workingStatus === "퇴근" ){ 
@@ -83,6 +87,8 @@ $(function(){
 						$(".btn_start").css({"background-color" : "#009CFF", "border-color" : "#009CFF"});
 						$(".btn_start").html("출근");
 						alert('2' + $(".btn_start").html());
+						
+						requestToController();
 					}
 					
 					
@@ -94,14 +100,31 @@ $(function(){
 				
 			}); // end of ajax
 		
+			
+			
+			
+			
 		} // end of function selectByrecode
 	
+	
+	function requestToController(result) {
 		
-	
+		$.ajax({
+			url : "sendData"
+			, type : "post"
+			, data : param
+			, success : function(result){
+				console.log(result);
+				alert("데이터 컨트롤러에 요청 성공");
+			}
+			, error : function(error){
+				alert("데이터 컨트롤러에 요청 실패");
+			}
+			
+			
+			
+		})// end of ajax
+		
+	} // end of sendDataToController
 	}); // end of click function
-	
-
-
-
-	
 });

@@ -19,7 +19,9 @@ public interface AttendanceRepository {
 	public Attendance getStaffInfoByLoginId(Integer staffId);
 	
 	// 최초 로그인시 로그인 아이디로 working_history 테이블에 해당 사원의 staff_Id 입력
-	public Integer insertDefaultStaffIdByLoginId(Integer staffId); 
-		
+	public void insertDefaultStaffIdByLoginId(Integer staffId); 
+	
+	// 로그인 아이디로 사원 정보 조회 최초값
+	public Attendance getStaffInfoDefault(Integer staffId);
 	 
 }
