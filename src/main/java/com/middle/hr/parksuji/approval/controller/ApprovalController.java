@@ -6,8 +6,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
@@ -33,6 +37,27 @@ public class ApprovalController {
 	@Autowired
 	private StaffService staffService;
 	
+	private void deleteFiles(List<Forms> FormList) {
+		if(FormList == null || FormList.size() == 0) {
+			return; 
+		}
+		System.out.println("delete formList =====>" + FormList);
+		
+		FormList.forEach(form -> {
+			try {
+			// 파일 경로 생성
+			//Path file = Paths.get(UPLOAD_DIRECTORY, form.getUploadPath(), form.getUuid() + "_" + form.getFileName());
+			// 파일이 존재하면 삭제 
+			//Files.deleteIfExists(file);
+			} catch(Exception e) {
+				System.err.println("[컨트롤러]파일삭제시 에러 : " + e.getMessage());
+			}
+			
+			
+		});
+		
+		
+	}
 
 	// 전자결재 홈 
 	@GetMapping("approval")
@@ -116,7 +141,7 @@ public class ApprovalController {
 	
 	// 양식관리 - 삭제 
 	@PostMapping("approval/approvalForm")
-	public String deleteForm(@RequestBody Map<String, List<Integer>> requestBody) {  // 서버에서 formIds[] 배열을 받을 수 있도록 @RequestParam을 설정
+	public String deleteForm(@RequestBody Map<String, List<Integer>> requestBody) {  // @RequestBody : json형식으로 데이터 전할 때 body에 데이터를 포함하여 전송 
 		List<Integer> formIds = requestBody.get("formIds");
 		System.out.println("Received content: " + formIds);  // 확인용 로그  
 		// 선택된 양식 ID들로 삭제 처리 
@@ -153,7 +178,8 @@ public class ApprovalController {
 	    String uploadDirectory = "\\\\DESKTOP-B94HRMS\\file\\approval\\uploads\\forms"; // 네트워크 공유 폴더 경로
 		
 		// 1. HTML 콘텐츠를 파일로 저장
-		String fileName = "form_" + System.currentTimeMillis() + ".html"; // 파일명 설정 
+		// String fileName = "form_" + System.currentTimeMillis() + ".html"; // 파일명, 날짜로 생성하는 방법
+		String fileName = "form_" + UUID.randomUUID().toString() + ".html"; // 파일명, uuid로 생성하는 방법  
 		File file = new File(uploadDirectory, fileName); // 실제 파일 객체 생성
 		
 		// 파일 경로 확인
