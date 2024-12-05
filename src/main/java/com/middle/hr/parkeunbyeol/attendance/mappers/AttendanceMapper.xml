@@ -2,19 +2,50 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="AttendanceRepository">
+    <!-- resultMap 정의 -->
 
 	<!-- 출근 기록 등록 -->
-	<insert id="insertStartAt" parameterType="Integer" >
+	<insert id="insertStartAt" parameterType="Attendance" >
 		INSERT INTO WORKING_HISTORY (ID, STARTED_AT, WORKING_STATUS, CREATED_AT, UPDATED_AT, STAFF_ID)
-		VALUES(SEQ_WORKING_HISTORY_ID.nextval, sysdate, 1, sysdate, sysdate, #{staff_id})
+		VALUES(SEQ_WORKING_HISTORY_ID.nextval, sysdate, #{workingStatus}, sysdate, sysdate, #{staffId})
 	</insert>
-
+	
+	<!-- 세션에 저장 된 아이디를 기준으로 staffId를 얻어 와서 입력된 db값 가져오기 -->
 	<select id="selectStartAt" parameterType="Attendance" resultType="Attendance" >
-		SELECT STARTED_AT 
-		FROM WORKING_HISTORY
-		WHERE STAFF_ID = 24	
+		SELECT wh.STARTED_AT start_at, wh.WORKING_STATUS workingStatus, s.NAME name, s."RANK" "RANK", d.NAME deptname
+		FROM WORKING_HISTORY wh INNER JOIN STAFF s 
+			ON wh.STAFF_ID = s.ID INNER JOIN DEPARTMENT d 
+			ON s.DEPARTMENT_ID = d.ID 
+		WHERE wh.STAFF_ID = #{staffId}
+		AND wh.STARTED_AT = (SELECT MAX(wh2.STARTED_AT)
+                       FROM WORKING_HISTORY wh2
+                       WHERE wh2.STAFF_ID = wh.STAFF_ID)
+	</select>
+
+	
+	<select id="selectWorkingStatusByLoginId" parameterType="Integer" resultType="String">	
+		SELECT wh.working_status
+		FROM working_history wh
+			INNER JOIN staff s ON wh.staff_id = s.id
+		WHERE s.id = #{staffId}
 	</select>
 
 
+	<select id="selectStaffInfoByLoginId" parameterType="Integer" resultType="Attendance">	
+		SELECT wh.STARTED_AT startAt, wh.ENDED_AT endAt, s.NAME name, s.RANK rank, d.NAME deptName, wh.WORKING_STATUS workingStatus 
+		FROM WORKING_HISTORY wh INNER JOIN STAFF s 
+			ON wh.STAFF_ID = s.ID INNER JOIN DEPARTMENT d 
+			ON s.DEPARTMENT_ID = d.ID 
+		WHERE wh.STAFF_ID = #{staffId}
+			AND wh.STARTED_AT = (SELECT MAX(wh2.STARTED_AT)
+			           FROM WORKING_HISTORY wh2
+			           WHERE wh2.STAFF_ID = wh.STAFF_ID)
+	</select>	
+	
+	
+	<select id="insertDefaultStaffIdByLoginId" parameterType="Integer">
+		INSERT INTO WORKING_HISTORY (ID, CREATED_AT, UPDATED_AT, STAFF_ID)
+		VALUES (seq_WORKING_HISTORY_ID.nextval, sysdate, sysdate, #{staffId})
+	</select>
 
 </mapper>

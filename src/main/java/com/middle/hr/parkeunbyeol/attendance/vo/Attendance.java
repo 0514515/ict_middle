@@ -13,11 +13,13 @@ import lombok.ToString;
 @AllArgsConstructor
 public class Attendance {
 	
-	private String 	history_id;		// 근무 이력 id
-	private String 	start_at;		// 출근 이력
-	private String 	end_at;			// 퇴근 이력
-	private Integer	working_status; 	// 출퇴근 상태
-	private Integer	company_id;		// 회사id
-	private String staff_id;		// 사원id
-	
+	private String 	historyId;		// 근무 이력 id
+	private String 	startAt;		// 출근 이력
+	private String 	endAt;			// 퇴근 이력
+	private String	workingStatus; 	// 출퇴근 상태
+	private Integer	companyId;		// 회사id
+	private Integer	staffId;		// 사원id
+	private String	rank;			// 직책
+	private String 	name;			// 사원이름
+	private String 	deptName; 		// 부서이름
 }

@@ -204,7 +204,7 @@
 			
 			
 			<!-- 본문 작성 (body start) -->
-	       <form a> 
+	       <form> 
 			<div class="container container-fluid pt-5 px-4">
 				
 				<div class="mx-4 my-4">
@@ -226,8 +226,9 @@
 									<h2>24시간 17분</h2>
 								</div>
 								<div class="main_work_type_div">
-									<h3 class="main_work_type">
-										정시 근무 시간 [ 정준하 과장 / 마케팅 팀] <br /> 09:00 ~ 18:00
+										<h3 class="main_work_type" name="main_work_type" value='attendanceStartAt.name'>
+										<span>정시 근무 시간</span>
+										<span class="staff_name"> </span> <br/><p> 09:00 ~ 18:00 </p>
 									</h3>
 								</div>
 								<h5>남은 근무 시간 : 15h 43m</h5>
@@ -236,12 +237,19 @@
 						<div class="col-6 col-md-4">
 							<div class="card">
 								<div class="d-grid gap-2 col-12 mx-auto">
-									<input type='hidden' name='staff_id' id='staff_id' value=24>
-									<button type='button' class="btn btn_start btn-primary" data-staff-id="${staff_id}" value="출근">출근</button>										
+									<input type="hidden" id="staffId" value="${staffId}">
+									<%-- [ ${workingStatus} ] [ ${workingStatus eq '퇴근'} ] --%> <!-- db에 출근 상태가 null이면 출근버튼 떠야함 확인용 -->
+									<c:if test ="${workingStatus eq '출근'}">
+										<button type='button' class="btn btn_start btn-danger"  value="퇴근">퇴근</button>
+									</c:if>
+									<c:if test ="${workingStatus eq '퇴근'}">
+										<button type='button' class="btn btn_start btn-primary"  value="출근">출근</button>
+									</c:if>
+																			
 								</div>
 								<div class="row card-body">
-									<h5 class="col-5 start_title">출근 시간</h5><p id="start_body" class="col-7 start_body">${attendance.start_at}</p>
-									<h5 class="col-5 end_title">퇴근 시간</h5><p id="end_body" class="col-7 end_body">${attendance.end_at}</p>
+									<h5 class="col-5 start_title">출근 시간</h5><p id="start_body" class="col-7 start_body"> </p>
+									<h5 class="col-5 end_title">퇴근 시간</h5><p id="end_body" class="col-7 end_body"> </p>
 								</div>
 								<div class="d-grid gap-2 col-12 mx-auto">
 									<a href="#" class="btn btn_modify btn-primary">출/퇴근 관리</a>
@@ -395,6 +403,7 @@
     <!-- Template Javascript -->
     <script src="/resources/template/js/main.js" type="text/javascript"></script>
 	<script src="/resources/attendance/js/main.js" type="text/javascript"></script>
+
 </body>
 
 </html>
