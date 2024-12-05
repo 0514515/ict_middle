@@ -33,11 +33,16 @@ public interface StaffRepository {
 	Map<String, Object> selectStaffWithDepartmentByLoginId(String loginId, String searchOption, String searchKeyword,
 			Integer pageNum, Integer pageSize);
 	
-	// 부서 검색
+	// 회사 번호로 모든 부서 검색
 	List<Department> selectDepartmentByCompanyId(Integer companyId);
 
+	// 사원의 부서 업데이트
+	Integer updateStaffDepartment(List<Staff> staffList);
+	
 	// 사원 생성
 	Integer insertStaff(Staff staff);
+	
+	//d
 
 	// 로그인
 	String login(Login login);

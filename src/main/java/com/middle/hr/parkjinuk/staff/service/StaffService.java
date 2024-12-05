@@ -35,6 +35,9 @@ public interface StaffService {
 
 	// 부서 검색
 	List<Department> searchDepartmentByCompanyId(Integer companyId);
+	
+	// 사원들 부서 업데이트
+	Integer updateStaffDepartment(List<Staff> staffList);
 
 	// 사원 생성
 	Integer createStaff(Staff staff);

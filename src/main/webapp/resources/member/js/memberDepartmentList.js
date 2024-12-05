@@ -1,12 +1,12 @@
 $(function(){
     // 행 클릭 시 체크/체크해제 이벤트 부여 (단, input text 필드는 제외)
-    $("#tableBody tr").on("click", function(event){
-        // input text 또는 체크박스 클릭을 제외하고 체크박스를 변경
-        if (!$(event.target).is('input[type="text"], input[type="checkbox"]')) {
-            let checkbox = $(this).find("input[type='checkbox']");
-            checkbox.prop("checked", !checkbox.prop("checked"));
-        }
-    });
+	$("#tableBody tr").on("click", function(event){
+	    // select 클릭을 제외하고 체크박스를 변경
+	    if (!$(event.target).is('input[type="checkbox"], select')) {
+	        let checkbox = $(this).find("input[type='checkbox']");
+	        checkbox.prop("checked", !checkbox.prop("checked"));
+	    }
+	});
     
     // 체크박스 클릭 시 체크/체크해제 이벤트 부여
     $("#tableBody input[type='checkbox']").on("click", function(event){
@@ -33,21 +33,24 @@ $(function(){
     	// 체크된 체크박스의 값 가져오기
     	$("#tableBody input[type='checkbox']:checked").each(function(){
     		
+    		//행 선택
     		let tr = $(this).closest("tr");
     		
     		//값 가져오기
     		let staffId = tr.find("input[name='staffId']").val();
-    		let authority = tr.find("input[name='authority']").val();
+    		let departmentId = tr.find("#department").val();
     		
     		param.push({
 			    staffId: staffId,   
-			    authority: authority
+			    departmentId: departmentId
 			});
     	});
     	
+    	console.log(param);
+    	
     	//서버 통신
     	$.ajax({
-    		url: "/member/permission",
+    		url: "/member/department",
     		type: "PATCH",
     		contentType: "application/json",
     		data: JSON.stringify(param),
@@ -58,7 +61,7 @@ $(function(){
     			let searchKeyword = $("#searchKeyword").val();
     			let pageNum = $("li.page-item.active a").text();
     			
-    			window.location.href = "/member/permission?searchOption=" + searchOption
+    			window.location.href = "/member/department?searchOption=" + searchOption
                 + "&searchKeyword=" + searchKeyword
                 + "&pageNum=" + pageNum;
     		},
@@ -68,7 +71,7 @@ $(function(){
     			let searchKeyword = $("#searchKeyword").val();
     			let pageNum = $("li.page-item.active a").text();
     			
-    			window.location.href = "/member/permission?searchOption=" + searchOption
+    			window.location.href = "/member/department?searchOption=" + searchOption
                 + "&searchKeyword=" + searchKeyword
                 + "&pageNum=" + pageNum;
     		}

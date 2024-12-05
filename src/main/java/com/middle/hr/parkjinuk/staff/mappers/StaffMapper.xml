@@ -118,7 +118,7 @@
 	<!-- 로그인 아이디로 사원 정보, 사원 부서 조회 -->
 	<select id="selectStaffWithDepartmentByLoginId"
 		parameterType="String" resultType="Staff">
-		SELECT s.RANK rank, s.id id, s.name staffName, d.ID departmentId,
+		SELECT s.RANK rank, s.id staffId, s.name staffName, d.ID departmentId,
 		d.name departmentName
 		FROM STAFF s INNER JOIN DEPARTMENT d ON
 		s.DEPARTMENT_ID = d.ID

@@ -67,6 +67,12 @@ public class StaffServiceImpl implements StaffService {
 	public List<Department> searchDepartmentByCompanyId(Integer companyId) {
 		return staffRepository.selectDepartmentByCompanyId(companyId);
 	}
+	
+	// 사원들 부서 업데이트
+	@Override
+	public Integer updateStaffDepartment(List<Staff> staffList) {
+		return staffRepository.updateStaffDepartment(staffList);
+	}
 
     // 사원 생성
     @Override
@@ -79,7 +85,5 @@ public class StaffServiceImpl implements StaffService {
 	public String login(Login login) {
 		return staffRepository.login(login);
 	}
-
-	
 
 }

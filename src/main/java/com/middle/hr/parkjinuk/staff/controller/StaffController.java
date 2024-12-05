@@ -171,7 +171,19 @@ public class StaffController {
 
 		return "/member/memberDepartmentList";
 	}
-
+	
+	//사원 부서 업데이트
+	@PatchMapping("member/department")
+	@ResponseBody
+	public String updateMemberDepartment(@RequestBody List<Staff> staffList) {
+		
+		System.out.println(staffList);
+		
+		staffService.updateStaffDepartment(staffList);
+		
+		return "redirect:/member/department";
+	}
+	
 	// 로그인
 	@PostMapping("login")
 	public String login(Login login, HttpSession session, RedirectAttributes redirectAttributes) {

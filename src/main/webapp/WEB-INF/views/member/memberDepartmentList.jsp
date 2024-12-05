@@ -165,9 +165,9 @@ body {
 										<td>${staff.rank}</td>
 										<td>${staff.staffName}</td>
 										<td><select class="form-select w-100"
-											name="departmentName" id="departmentName">
+											name="department" id="department">
 												<c:forEach var="department" items="${departmentList}">
-													<option value="departmentName"
+													<option value="${department.id}"
 														${staff.departmentId.equals(department.id) ? "selected" : ""}>${department.name}
 													</option>
 												</c:forEach>
@@ -267,7 +267,7 @@ body {
 
 	<!-- Template Javascript -->
 	<script src="/resources/template/js/main.js"></script>
-	<script src="/resources/member/js/memberPermissionList.js"></script>
+	<script src="/resources/member/js/memberDepartmentList.js"></script>
 </body>
 
 </html>
