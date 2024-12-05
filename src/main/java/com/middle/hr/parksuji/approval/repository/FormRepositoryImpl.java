@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.SystemEnvironmentPropertySource;
 import org.springframework.stereotype.Repository;
 
 import com.middle.hr.parksuji.approval.vo.Forms;
@@ -17,6 +18,7 @@ public class FormRepositoryImpl implements FormRepository{
 	@Override
 	public void insertForm(Forms forms) {
 		System.out.println("===> Mybatis insertForm() 호출");
+		System.out.println(forms.toString());
 		mybatis.insert("FormRepository.insertForm", forms);
 		
 	}
@@ -28,15 +30,23 @@ public class FormRepositoryImpl implements FormRepository{
 	}
 
 	@Override
-	public void deleteForm(Forms forms) {
-		// TODO Auto-generated method stub
-		
+	public void deleteById(List<Integer> formIds) {
+		System.out.println("===> Mybatis deleteById() 호출");
+		mybatis.delete("FormRepository.deleteForm", formIds);
 	}
 
 	@Override
-	public Forms getForm(Forms forms) {
-		// TODO Auto-generated method stub
-		return null;
+	public Forms getFormById(Integer id) {
+		System.out.println("===> Mybatis getFormById() 호출 [" + id + "]");
+		return mybatis.selectOne("FormRepository.getFormById", id);
+	}
+	
+	@Override
+	public Integer getRecentFormId(String loginId) {
+		System.out.println("===> Mybatis getRecentFormId() 호출 0 [" +  loginId + "]");
+		Integer result = mybatis.selectOne("FormRepository.getRecentFormId", loginId);
+		System.out.println("===> Mybatis getRecentFormId() 호출 1 [" +  result + "]");
+		return result;
 	}
 
 	@Override
@@ -49,5 +59,7 @@ public class FormRepositoryImpl implements FormRepository{
 		}
 		return result; 
 	}
+
+
 
 }

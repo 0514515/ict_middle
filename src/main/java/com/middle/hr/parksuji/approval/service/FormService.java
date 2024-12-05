@@ -15,10 +15,12 @@ public interface FormService {
 	void updateForm(Forms forms);
 	
 	// 폼 양식 삭제 
-	void deleteForm(Forms forms);
+	void deleteForm(List<Integer> formIds);
 	
 	// 폼 양식 조회 
-	Forms getForm(Forms forms);
+	Forms getFormById(Integer id);
+	
+	Integer getRecentFormId(String loginId); 
 	
 	// 폼 목록 조회 
 	List<Forms> getFormList();

@@ -27,20 +27,28 @@ public class FormServiceImpl implements FormService {
 	}
 
 	@Override
-	public void deleteForm(Forms forms) {
-		// TODO Auto-generated method stub
-		
+	public void deleteForm(List<Integer> formIds) {
+		if (formIds != null && !formIds.isEmpty()) {
+	        System.out.println("삭제할 아이디들: " + formIds); // 한 번에 삭제할 ID 로그
+	        formRepository.deleteById(formIds); // 리스트로 삭제
+		}
 	}
 
 	@Override
-	public Forms getForm(Forms forms) {
-		// TODO Auto-generated method stub
-		return null;
+	public Forms getFormById(Integer id) {
+		return formRepository.getFormById(id);
+	}
+	
+	@Override
+	public Integer getRecentFormId(String loginId) {
+		return formRepository.getRecentFormId(loginId); 
 	}
 
 	@Override
 	public List<Forms> getFormList() {
 		return formRepository.getFormList(); 
 	}
+
+
 
 }

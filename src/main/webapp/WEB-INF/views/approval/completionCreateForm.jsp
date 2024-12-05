@@ -6,7 +6,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>결재 양식 생성 완료</title>
+    <title>결재 양식 상세 보기</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -205,7 +205,7 @@
 		     <div class="col-sm-6 col-md-4">
 				  <!-- 페이지 타이틀 -->
 				  <div class="mx-4 mt-4">	
-					<h4>결재 양식 생성 완료</h4>
+					<h4>결재 양식 상세 보기</h4>
 				  </div>
 		     </div>
 			 <div class="col-sm-6 col-md-8"> 
@@ -238,7 +238,7 @@
 			  <!-- html 출력 -->	
 			  <div class="html_view">
 			  	<div id="pdf_view">
-			  		${forms.formContent}
+			  		${formContent}
 			  	</div>
 			  </div>
 
