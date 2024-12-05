@@ -19,6 +19,28 @@ $(function(){
 //		$(".btn_start").css({"background-color" : "#009CFF", "border-color" : "#009CFF"});
 //		$(".btn_start").html("출근");
 //	}
+	
+	// 버튼의 텍스트 값을 가져와서 buttonText에 넣는다.
+	let buttonText1 = $(".btn_start").html();		
+	// 세션에 있는 staffId 값 받아와서 확인
+	let staffId1 = $('#staffId').val();
+	//alert(staffId);
+	
+	// 서버로 보낼 파라메터 설정
+	let param = { staff_id : staffId1, workingStatus: buttonText1 }; // session에서 가져온 staff_id 사용
+	
+	$.ajax({
+		url : "sendData"
+		, type : "post"
+		, data : param
+		, success : function(result){
+			$("#start_body").text(result.startAt);
+			alert("데이터 컨트롤러에 요청 성공");
+		}
+		, error : function(error){
+			alert("데이터 컨트롤러에 요청 실패");
+		}
+	})// end of ajax
 
 	
 	
@@ -107,24 +129,20 @@ $(function(){
 		} // end of function selectByrecode
 	
 	
-	function requestToController(result) {
-		
-		$.ajax({
-			url : "sendData"
-			, type : "post"
-			, data : param
-			, success : function(result){
-				console.log(result);
-				alert("데이터 컨트롤러에 요청 성공");
-			}
-			, error : function(error){
-				alert("데이터 컨트롤러에 요청 실패");
-			}
+		function requestToController(result) {
 			
+			$.ajax({
+				url : "sendData"
+				, type : "post"
+				, data : param
+				, success : function(result){
+					alert("데이터 컨트롤러에 요청 성공");
+				}
+				, error : function(error){
+					alert("데이터 컨트롤러에 요청 실패");
+				}
+			})// end of ajax
 			
-			
-		})// end of ajax
-		
-	} // end of sendDataToController
+		} // end of sendDataToController
 	}); // end of click function
 });
