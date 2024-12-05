@@ -10,9 +10,11 @@ public interface FormRepository {
 	
 	public void updateForm(Forms forms);
 	
-	void deleteById(Integer formId);
+	public void deleteById(List<Integer> formIds);
 	
-	public Forms getForm(Forms forms);
+	public Forms getFormById(Integer id);
+	
+	public Integer getRecentFormId(String loginId);
 	
 	List<Forms> getFormList(); 
 	

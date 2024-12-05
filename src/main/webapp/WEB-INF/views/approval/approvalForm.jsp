@@ -7,7 +7,7 @@
 
 <head>
 <meta charset="utf-8">
-<title>DASHMIN - Bootstrap Admin Template</title>
+<title>결재 양식 관리</title>
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 <meta content="" name="keywords">
 <meta content="" name="description">
@@ -192,7 +192,7 @@ table {
 
 				<div class="mx-4 my-4">
 					<div class="row g-0">
-						<div class="col-sm-6 col-md-3">
+						<div class="col-sm-6 col-md-4">
 							<ul class="nav nav-pills nav-fill">
 								<li class="nav-item"><a class="nav-link active"
 									aria-current="page" href="#">전체</a></li>
@@ -202,7 +202,7 @@ table {
 								</li>
 							</ul>
 						</div>
-						<div class="col-6 col-md-9 search_form">
+						<div class="col-6 col-md-8 search_form">
 							<select class="form-select" aria-label="Default select example">
 								<option selected>선택</option>
 								<option value="1">양식명으로 검색</option>
@@ -233,7 +233,7 @@ table {
 							<th class="table-light">구분</th>
 						</tr>
 						<c:forEach items="${formList}" var="forms">
-							<tr>
+							<tr id="select_tr" data-id="${forms.id}">
 								<td>  <!-- 체크박스에 양식 ID를 value로 설정 -->
 									<div class="form-check">
 										<input class="form-check-input each_check" type="checkbox" value="${forms.id}" id="flexCheckChecked">
@@ -352,7 +352,7 @@ table {
 				var selectedIds = []; 
 				
 				// 선택된 체크박스의 id를 selectedIds 배열에 저장 
-				$('.each_check').each(function(){
+				$('.each_check:checked').each(function(){
 					selectedIds.push($(this).val());  // 체크한 행의 양식 id값	
 				});
 				
@@ -362,11 +362,12 @@ table {
 				if(selectedIds.length > 0){
 					// 선택된 문서 ID들을 서버로 전송 
 					$.ajax({
-						url: '/approval/approvalForm', // 삭제 요청을 받을 URL
+						url: '/approval/approvalForm', // 삭제 요청을 받을 서버의 URL
 						type: 'POST',
-						data:{
-							formIds:selectedIds
-						},
+						contentType: 'application/json',  // json 형식으로 데이터 전송 
+						data:JSON.stringify({
+							formIds:selectedIds // selectedIds 배열을 JSON 문자열로 변환
+						}),
 						success:function(response){
 							alert('선택한 양식이 삭제되었습니다.');
 							location.reload();
@@ -383,6 +384,20 @@ table {
 				
 			})
 			
+			
+			// 체크박스 클릭시 행 클릭 이벤트 막기 
+			$(document).on('click', 'input[type="checkbox"]', function(event){
+				event.stopPropagation(); // 체크박스를 클릭하면 이벤트가 전파되지 않도록 막음
+			})
+			
+			
+			// 행 선택시 상세 화면(완료화면)으로 전환 
+			$(document).on('click', '#select_tr', function(){
+				var id = $(this).data('id');  // 클릭한 행의 data-id 값을 가져옴 
+				console.log(id);
+				// 해당 trId를 가지고 상세화면으로 이동 
+				window.location.href = '/approval/approvalForm/detail?formId=' + id;  // trId를 쿼리 파라미터로 전달 
+			})
 			
 			
 		

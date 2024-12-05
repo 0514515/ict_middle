@@ -18,7 +18,9 @@ public interface FormService {
 	void deleteForm(List<Integer> formIds);
 	
 	// 폼 양식 조회 
-	Forms getForm(Forms forms);
+	Forms getFormById(Integer id);
+	
+	Integer getRecentFormId(String loginId); 
 	
 	// 폼 목록 조회 
 	List<Forms> getFormList();

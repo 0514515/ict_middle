@@ -6,7 +6,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>DASHMIN - Bootstrap Admin Template</title>
+    <title>결재 양식 관리 _ 새 양식 만들기</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -186,7 +186,7 @@
 		<div class="container container-fluid pt-4 px-4">
 			
 			<div class="mx-4 my-4">	
-				<h4>결재 양식 관리</h4>
+				<h4>새 양식 만들기</h4>
 			</div>
 			
 			<!-- 버튼 -->
@@ -286,11 +286,18 @@
 	    // SmartEditor에서 textarea에 내용 업데이트
 	    oEditors.getById["smartEditor"].exec("UPDATE_CONTENTS_FIELD", []); // 이 명령이 `textarea`의 값을 업데이트함
 		
-	    var htmlContent = document.getElementsByName("formContent")[0].value;
+	    let htmlContent = document.getElementsByName("formContent")[0].value;
 	    console.log(htmlContent);  // 콘솔에서 HTML 값 확인
 	    
 		// 폼 제출 (textarea 값은 자동으로 폼에 포함됨)
 	    $('#createForm').submit(); // form 제출 
+	    window.location.href = '/approval/approvalForm/detail?formId=' + id;
+	})
+	
+	// '목록' 버튼 클릭시 
+	$('.choice_list').click(function() {
+		// '새 양식 만들기' 페이지로 이동
+		window.location.href = '/approval/approvalForm';
 	})
 	
 	</script>

@@ -3,31 +3,52 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="FormRepository">
 
-<insert id="insertForm" parameterType="Forms">
-	INSERT INTO DOCUMENT_FORM (
+	<insert id="insertForm" parameterType="Forms">
+	
+		INSERT INTO DOCUMENT_FORM (
 		ID, PATH, TITLE, CREATED_AT, UPDATED_AT, DOCUMENT_TYPE, COMPANY_ID, STAFF_ID
 		)
-	VALUES (
+		VALUES (
 		SEQ_DOCUMENT_FORM_ID.nextval, #{path}, #{title}, sysdate, sysdate, #{documentType},#{companyId},#{staffId})
-		<!-- #{ } 사용시 vo(Forms.java) 와 이름 동일하게 쓰기  -->
+		<!-- #{ } 사용시 vo(Forms.java) 와 이름 동일하게 쓰기 -->
 
-</insert>
+	</insert>
+	
+	<!-- 목록 불러오기 -->
+	<select id="getFormList" resultType="Forms">
+		SELECT DOC.ID ID, DOC.PATH PATH, DOC.TITLE TITLE, DOC.CREATED_AT CREATEDAT,
+		DOC.UPDATED_AT UPDATEDAT, DOC.DOCUMENT_TYPE DOCUMENTTYPE,
+		DOC.COMPANY_ID COMPANYID, SF.NAME NAME
+		FROM DOCUMENT_FORM DOC
+		INNER JOIN STAFF SF
+		ON DOC.STAFF_ID = SF.ID
+		ORDER BY DOC.ID DESC
+	</select>
 
-<select id="getFormList" resultType="Forms">
-	SELECT DOC.ID ID, DOC.PATH PATH, DOC.TITLE TITLE, DOC.CREATED_AT CREATEDAT, DOC.UPDATED_AT UPDATEDAT, DOC.DOCUMENT_TYPE DOCUMENTTYPE, DOC.COMPANY_ID COMPANYID, SF.NAME NAME 
-	FROM DOCUMENT_FORM DOC
-	INNER JOIN STAFF SF
-	ON DOC.STAFF_ID = SF.ID
-	ORDER BY DOC.ID DESC
-</select>
+	<!-- 목록에서 삭제하기 -->
+	<delete id="deleteForm" parameterType="java.util.List">
+		DELETE FROM DOCUMENT_FORM
+		WHERE ID IN
+		<foreach collection="list" item="formId" open="("
+			separator="," close=")">
+			#{formId}
+		</foreach>
 
-<delete id="deleteForm" parameterType="java.util.List">
-	DELETE FROM DOCUMENT_FORM
-	WHERE ID IN
-	<foreach collection="list" item="formId" open="(" separator="," close=")">
-		#{ID}
-	</foreach>
+	</delete>
 
-</delete>
+	<!-- 최근에 만들어진 폼의 id값 불러오기 -->
+	<select id="getRecentFormId" parameterType="String" resultType="int">
+		SELECT MAX(id)
+		FROM document_form
+		WHERE company_id = (SELECT company_id FROM STAFF
+		WHERE login_id = #{loginId})
+	</select>
+
+	<select id="getFormById" parameterType="int" resultType="Forms">  <!-- 파라미터로 int id 값을 받아 입력하고 Forms에 담아 돌려 보내기 -->
+		SELECT * 
+		FROM DOCUMENT_FORM
+		WHERE id=#{id}
+	</select>
+
 
 </mapper>
