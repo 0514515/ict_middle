@@ -27,7 +27,8 @@
 		INNER JOIN DEPARTMENT d ON d.ID =
 		s.DEPARTMENT_ID
 		WHERE bs.company_id=#{companyId} AND bs.id=#{id}
-		ORDER BY bs.id
+		ORDER
+		BY bs.id
 	</select>
 
 	<!-- 기본급 추가 -->
@@ -52,7 +53,7 @@
 		DELETE FROM basic_salary
 		WHERE id=#{id} AND company_id=#{companyId}
 	</delete>
-	
+
 	<!-- 사원의 기본급 업데이트 -->
 	<update id="updateStaffBaseSalary" parameterType="Staff">
 		UPDATE staff
@@ -62,15 +63,18 @@
 	</update>
 
 	<!-- 사원 기본급 설정 페이지 용 / 기본급을 포함한 사원 정보 -->
-	<select id="selectStaffWithSalaryByLoginId" parameterType="String" resultType="Staff">
+	<select id="selectStaffWithSalaryByLoginId"
+		parameterType="String" resultType="Staff">
 		SELECT s.id staffId, s.name staffName, bs.id
-		basicSalaryId ,bs.amount basicSalaryAmount, bs.name basicSalaryName
-		FROM staff s INNER JOIN basic_salary bs ON s.SALARY_ID = bs.ID
+		basicSalaryId ,bs.amount
+		basicSalaryAmount, bs.name basicSalaryName
+		FROM staff s INNER JOIN
+		basic_salary bs ON s.SALARY_ID = bs.ID
 		<where>
-		s.company_id=(SELECT company_id
-		FROM staff
-		WHERE login_id=#{loginId})
-		<if test="searchOption != null and searchOption != ''">
+			s.company_id=(SELECT company_id
+			FROM staff
+			WHERE login_id=#{loginId})
+			<if test="searchOption != null and searchOption != ''">
 				<choose>
 					<when test="searchOption == 'staffName'">
 						AND s.name LIKE '%' || #{searchKeyword} || '%'
@@ -79,16 +83,18 @@
 			</if>
 		</where>
 	</select>
-	
+
 	<!-- 사원 기본급 설정 페이지 용 카운트 -->
-	<select id="selectStaffCountWithSalaryByLoginId" parameterType="String" resultType="int">
+	<select id="selectStaffCountWithSalaryByLoginId"
+		parameterType="String" resultType="int">
 		SELECT COUNT(*)
-		FROM staff s INNER JOIN basic_salary bs ON s.SALARY_ID = bs.ID
+		FROM staff s INNER JOIN basic_salary bs ON s.SALARY_ID
+		= bs.ID
 		<where>
-		s.company_id=(SELECT company_id
-		FROM staff
-		WHERE login_id=#{loginId})
-		<if test="searchOption != null and searchOption != ''">
+			s.company_id=(SELECT company_id
+			FROM staff
+			WHERE login_id=#{loginId})
+			<if test="searchOption != null and searchOption != ''">
 				<choose>
 					<when test="searchOption == 'staffName'">
 						AND s.name LIKE '%' || #{searchKeyword} || '%'
@@ -96,5 +102,16 @@
 				</choose>
 			</if>
 		</where>
+	</select>
+
+	<!-- 추가 수당 목록 전체 조회 -->
+	<select id="selectCommissionByLoginId" parameterType="String" resultType="Commission">
+		SELECT cm.id commissionId,
+		cm.name commissionName, cm.default_amount defaultAmount, cm.company_id
+		companyId
+		FROM COMMISSION cm
+		WHERE cm.company_id = (SELECT company_id
+		FROM staff s
+		WHERE s.login_id=#{loginId})
 	</select>
 </mapper>

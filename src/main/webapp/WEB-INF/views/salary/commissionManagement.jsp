@@ -183,10 +183,6 @@ body {
 												수정</button>
 										</div>
 
-										<div class="d-flex px-1 justify-content-start h-50 ">
-											<button type="button"
-												class="btn btn-outline-primary text-nowrap">선택 삭제</button>
-										</div>
 									</div>
 								</div>
 							</div>
