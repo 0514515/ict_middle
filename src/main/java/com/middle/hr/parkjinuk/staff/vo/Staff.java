@@ -28,4 +28,5 @@ public class Staff {
     private String gender;			//성별
     private String birthdate;		//생년월일
     private Long authority;			//권한
+    private Integer basicSalaryAmount;			//기본급 액수
 }

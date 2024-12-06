@@ -13,7 +13,7 @@ import lombok.ToString;
 @AllArgsConstructor
 public class Salary {
 	
-	private String id;
+	private Long id;
 	private String name;
 	private String amount;
 	private String companyId;

@@ -1,5 +1,5 @@
+let selected = undefined;
 $(function() {
-    let selected = undefined;
     
     // 기본급 목록 행 1개마다 클릭 했을 때 선택 기본급 사원 목록 조회 이벤트 주입
     $("#tableBody").on("click", "tr", function() {
@@ -24,6 +24,9 @@ $(function() {
 
         // 현재 클릭된 행을 selected로 지정
         selected = $(this);
+        
+        // 선택 기본급 사원 목록 갱신
+        refreshStaffTableBody(selected);
     });
 
     // 신규 추가 체크박스의 상태에 따라 선택번호와 삭제 활성화/비활성화 시키기
@@ -80,19 +83,48 @@ $(function() {
             contentType: "application/json",
             data: JSON.stringify(data),
             success: function(result) {
-            },
+	            // 목록 무조건 갱신
+		        refreshBaseSalaryList();
+		        $("#staffTableBody").empty();
+	            },
             error: function(result) {
+	            refreshBaseSalaryList();
+		        $("#staffTableBody").empty();
                 console.log(result);
             }
         });
-
-        // 목록 무조건 갱신
-        refreshBaseSalaryList();
+    });
+    
+    // 삭제 버튼 이벤트
+    $("#deleteButton").on("click",function(){
+    	let data = {
+    		id: selected.find("#salaryId").text(),
+    		companyId: $("#companyId").val()
+    	};
+    	
+    	// 서버에 AJAX 요청으로 데이터 전송
+        $.ajax({
+            url: "/salary/base/index", // 분기 처리된 URL로 요청
+            type: "DELETE",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            success: function(result) {
+		        // 목록 무조건 갱신
+		        refreshBaseSalaryList();
+		        $("#staffTableBody").empty();
+            },
+            error: function(result) {
+	            refreshBaseSalaryList();
+		        $("#staffTableBody").empty();
+	            console.log(result);
+            }
+        });
     });
 });
 
 // 저장(추가/수정), 삭제하면 목록 갱신할 용도
 let refreshBaseSalaryList = function() {
+
     // loginId(세션 자동으로 보내짐)으로 기본급 전체 조회
     $.ajax({
         url: "/salary/base/index/refresh",
@@ -108,7 +140,7 @@ let refreshBaseSalaryList = function() {
 
 // 목록을 넣어서 목록 테이블 body 리렌더링
 let rerenderTableBody = function(result) {
-    // 테이블 body를 비웁니다.
+    // tableBody 비우기
     $("#tableBody").empty();
 
     // 테이블에 데이터 추가
@@ -155,5 +187,60 @@ let bindRowClickEvent = function() {
 
         // 현재 클릭된 행을 selected로 지정
         selected = $(this);
+        
+        // 선택 기본급 사원 목록 갱신
+        refreshStaffTableBody();
     });
 };
+
+// 사원 목록 가져오기
+let refreshStaffTableBody = function(){
+	
+	let salaryId = selected.children("#salaryId").text();
+	let companyId = selected.children("#companyId").val();
+	
+	let data = {
+		id : salaryId,
+		companyId : companyId
+	};
+	
+	$.ajax({
+        url: "/salary/base/staff",
+        type: "GET",
+        data: data,
+        success: function(result) {
+            rerenderStaffTableBody(result); 
+        },
+        error: function(result) {
+            console.log(result);
+        }
+    });
+	
+}
+
+// 사원 목록 테이블 랜더링
+let rerenderStaffTableBody = function(result){
+	// tableBody 비우기
+    $("#staffTableBody").empty();
+    
+    salaryName = selected.children("#salaryName").text();
+    amount = selected.children("#amount").text()
+
+	
+    // 테이블에 데이터 추가
+    for (let staff of result) {
+        let tr = $("<tr/>");  // 빈 행 생성
+        let departmentName = $("<td/>").text(staff.departmentName);  // 부서 이름 td
+        let staffNameTd = $("<td/>").text(staff.staffName);  // 사원 이름 td
+        let salaryNameTd = $("<td/>").text(salaryName);
+        let amountTd = $("<td/>").text(amount);  // 기본급 금액 액수 td
+
+        tr.append(departmentName);
+        tr.append(staffNameTd);
+        tr.append(salaryNameTd);
+        tr.append(amountTd);
+
+        // 테이블 body에 행 추가
+        $("#staffTableBody").append(tr);
+    }
+}

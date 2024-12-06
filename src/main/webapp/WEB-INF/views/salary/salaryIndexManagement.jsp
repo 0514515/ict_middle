@@ -216,7 +216,7 @@ body {
 										<div class="bg-light rounded p-4 mt-2 justify-content-center">
 											<h5 class="mb-4 text-center">선택 기본급 사원 목록</h5>
 											<div class="table-responsive" style="height: 260px">
-												<table class="table table-hover">
+												<table  class="table table-hover">
 													<thead>
 														<tr>
 															<th scope="col">부서명</th>
@@ -225,21 +225,7 @@ body {
 															<th scope="col">금액</th>
 														</tr>
 													</thead>
-													<tbody>
-
-														<tr>
-															<th scope="row">1</th>
-															<td>John</td>
-															<td>Doe</td>
-															<td>jhon@email.com</td>
-														</tr>
-														<tr>
-															<th scope="row">2</th>
-															<td>Mark</td>
-															<td>Otto</td>
-															<td>mark@email.com</td>
-														</tr>
-
+													<tbody id="staffTableBody">
 													</tbody>
 												</table>
 											</div>

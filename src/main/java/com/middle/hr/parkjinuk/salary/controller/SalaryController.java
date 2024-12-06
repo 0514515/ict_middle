@@ -1,12 +1,14 @@
 package com.middle.hr.parkjinuk.salary.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.middle.hr.parkjinuk.salary.service.SalaryService;
 import com.middle.hr.parkjinuk.salary.vo.Salary;
+import com.middle.hr.parkjinuk.staff.service.StaffService;
+import com.middle.hr.parkjinuk.staff.vo.Department;
 import com.middle.hr.parkjinuk.staff.vo.Staff;
 
 @Controller
@@ -23,6 +27,9 @@ public class SalaryController {
 
 	@Autowired
 	SalaryService salaryService;
+
+	@Autowired
+	StaffService staffService;
 
 	// 기본급 항목 관리 페이지
 	@GetMapping("salary/base/index")
@@ -47,27 +54,71 @@ public class SalaryController {
 	}
 
 	// 기본급 항목 추가 ajax
-	@PostMapping("salary/base/index")
-	public void createBasaSalary(@RequestBody Salary salary, HttpSession session) {
-		System.out.println(salary);
+	@PostMapping("/salary/base/index")
+	public Integer createBaseSalary(@RequestBody Salary salary, HttpSession session) {
+		return salaryService.createSalary(salary);
 	}
 
 	// 기본급 항목 업데이트 ajax
-	@PatchMapping("salary/base/index")
-	public void updateBasaSalary(@RequestBody Salary salary) {
-		System.out.println(salary);
+	@PatchMapping("/salary/base/index")
+	public Integer updateBaseSalary(@RequestBody Salary salary) {
+		return salaryService.updateSalary(salary);
+	}
+
+	// 기본급 항목 삭제 ajax
+	@DeleteMapping("/salary/base/index")
+	public Integer deleteBaseSalary(@RequestBody Salary salary) {
+		return salaryService.deleteSalary(salary);
 	}
 
 	// 해당하는 기본급 항목을 받고 있는 직원 조회
 	@GetMapping("salary/base/staff")
+	@ResponseBody
 	public List<Staff> getStaffByBaseSalary(Salary salary) {
-		return salaryService.searchStaffByBaseSalary(salary);
+		List<Staff> result = salaryService.searchStaffByBaseSalary(salary);
+		return result;
 	}
 
 	// 사원 기본급 설정 페이지
 	@GetMapping("salary/base")
-	public String getSalarySettingList() {
+	public String getSalarySettingList(String searchOption, String searchKeyword, Integer pageNum, Model model,
+			HttpSession httpSession) {
+		// 기본값 (첫 페이지 로딩 시 searchOption, searchKeyword가 null임)
+		if (searchOption == null)
+			searchOption = "name";
+		if (searchKeyword == null)
+			searchKeyword = "";
+		if (pageNum == null || pageNum < 0)
+			pageNum = 1;
+
+		String loginId = httpSession.getAttribute("loginId").toString();
+
+		// 검색 옵션과 키워드로 페이지네이션 검색 (사원 검색)
+		Map<String, Object> result = salaryService.searchStaffWithSalaryByLoginId(loginId, searchOption, searchKeyword,
+				pageNum, 10);
+
+		// 회사 번호로 기본급 전체 조회
+		List<Salary> salaryList = salaryService.searchAllSalaryByLoginId(loginId);
+
+		model.addAttribute("staffList", result.get("staffList")); // 사원 목록
+		model.addAttribute("salaryList", salaryList); // 부서 목록
+		model.addAttribute("totalPage", result.get("totalPages")); // 최대 페이지
+		model.addAttribute("pageNum", pageNum + ""); // 현재 페이지
+
+		// 검색 도구 값 유지용
+		model.addAttribute("searchOption", searchOption);
+		model.addAttribute("searchKeyword", searchKeyword);
 		return "salary/salarySettingList";
+	}
+
+	// 사원 기본급 수정
+	@PatchMapping("salary/base")
+	@ResponseBody
+	public String updateStaffSalary(@RequestBody List<Staff> staffList) {
+
+		salaryService.updateStaffSalary(staffList);
+
+		return "redirect:/member/permission";
 	}
 
 	// 수당 관리 페이지

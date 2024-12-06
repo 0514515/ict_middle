@@ -1,3 +1,4 @@
+<%@page import="org.apache.ibatis.reflection.SystemMetaObject"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix='c' uri="http://java.sun.com/jsp/jstl/core"%>
@@ -71,6 +72,10 @@ body {
 .ms-4 {
 	margin-top: 1rem;
 }
+
+#tableContainer {
+	height: 650px;
+}
 </style>
 
 </head>
@@ -105,100 +110,125 @@ body {
 
 
 			<!-- 본문 작성 (body start) -->
-			<div class="container container-fluid pt-4 px-4">
+			<div class="container pt-4 px-4">
 				<div class="d-flex align-items-center justify-content-between mb-4">
 					<h4>사원 기본급 설정</h4>
 				</div>
-
 				<div class="col p-4">
 					<div class="d-flex align-items-center justify-content-end mb-4">
-						<div class="d-flex w-25 justify-content-end">
-							<select class="form-select ms-2 w-50"
-								aria-label="Default select example">
-								<option value="1" selected>One</option>
-								<option value="2">Two</option>
-								<option value="3">Three</option>
-							</select>
-						</div>
-						<input type="text" class="form-control ms-2 w-25" name="name"
-							id="name" disabled>
-						<button type="button" class="btn btn-primary ms-2 px-4 text-nowrap">검색</button>
+						<!-- 검색 도구 start -->
+						<form action="/salary/base" method="GET">
+							<div class="d-flex align-items-center justify-content-start">
+								<div class="d-flex justify-content-start w-75">
+									<!-- 이전 검색 도구의 값을 유지 -->
+									<select class="form-select w-100" name="searchOption"
+										id="searchOption">
+										<option value="staffName"
+											${"staffName".equals(searchOption) ? "selected" : ""}>사원
+											이름</option>
+									</select>
+								</div>
+								<input type="text" class="form-control ms-2"
+									value="${searchKeyword != null ? searchKeyword : ''}"
+									name="searchKeyword" id="searchKeyword">
+								<button type="submit" id="searchButton"
+									class="btn btn-primary ms-2 px-4 text-nowrap">검색</button>
+							</div>
+						</form>
+						<!-- 검색 도구 end -->
 					</div>
-					<div class="bg-light rounded min-vh-100 p-4">
+					<div id="tableContainer" class="bg-light rounded p-4">
 
-						<div class="col">
-							<!-- 이 테이블에 데이터 뿌리기, 없으면 목록이 없다는 라벨 하나 보여줘야 함 -->
-							<table class="table table table-hover">
-								<thead>
-									<tr>
-										<th><input type="checkbox" class="form-check-input"
-											id="exampleCheck1"></th>
-										<th scope="col">사원 이름</th>
-										<th scope="col">기본급 액수</th>
-										<th scope="col">기본급</th>
-									</tr>
-								</thead>
-								<tbody>
+						<!-- 이 테이블에 데이터 뿌리기, 없으면 목록이 없다는 라벨 하나 보여줘야 함 -->
+						<table class="table table table-hover">
+							<thead>
+								<tr>
+									<th><input type="checkbox" class="form-check-input"
+										id="allCheck"></th>
+									<th scope="col">사원 이름</th>
+									<th scope="col">기본급 이름</th>
+									<th scope="col">금액 액수</th>
+								</tr>
+							</thead>
+							<tbody id="tableBody">
+								<c:forEach var="staff" items="${staffList}">
 									<tr class="align-middle">
+										<input type="hidden" value="${staff.staffId}" id="staffId"
+											name="staffId">
 										<td><input type="checkbox" class="form-check-input"
-											id="exampleCheck1"></td>
-										<td>사원 1</td>
-										<td>2,300,000원</td>
-										<td><select class="form-select w-50"
-											aria-label="Default select example">
-												<option selected="">Open this select menu</option>
-												<option value="1">One</option>
-												<option value="2">Two</option>
-												<option value="3">Three</option>
+											id="checked"></td>
+										<td>${staff.staffName}</td>
+										<td>${staff.basicSalaryAmount}</td>
+										<td><select class="form-select w-100" name="salary"
+											id="salary">
+												<c:forEach var="salary" items="${salaryList}">
+													<option value="${salary.id}"
+														${staff.basicSalaryId.equals(salary.id) ? "selected" : ""}>${salary.name}
+													</option>
+												</c:forEach>
 										</select></td>
 									</tr>
-									<tr class="align-middle">
-										<td><input type="checkbox" class="form-check-input"
-											id="exampleCheck1"></td>
-										<td>사원 1</td>
-										<td>2,100,000원</td>
-										<td><select class="form-select w-50"
-											aria-label="Default select example">
-												<option selected="">Open this select menu</option>
-												<option value="1">One</option>
-												<option value="2">Two</option>
-												<option value="3">Three</option>
-										</select></td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
+								</c:forEach>
+							</tbody>
+						</table>
 					</div>
 				</div>
-			</div>
-			<div class="d-flex align-items-center justify-content-center">
-				<nav aria-label="Page navigation">
-					<ul class="pagination pt-3 pr-3">
-						<li class="page-item"><a class="page-link" href="#">이전</a></li>
-						<li class="page-item"><a class="page-link" href="#">1</a></li>
-						<li class="page-item"><a class="page-link" href="#">2</a></li>
-						<li class="page-item active"><a class="page-link" href="#">3</a></li>
-						<li class="page-item"><a class="page-link" href="#">4</a></li>
-						<li class="page-item"><a class="page-link" href="#">5</a></li>
-						<li class="page-item"><a class="page-link" href="#">다음</a></li>
-					</ul>
-				</nav>
-			</div>
 
-			<div class="row">
-				<div class="d-flex rounded h-100 m-3 justify-content-center">
-					<div class="d-flex pe-2 justify-content-end h-50 w-25">
-						<button type="button" class="btn btn-primary w-75 text-nowrap">저장
-						</button>
-					</div>
+				<!-- pagination start -->
+				<div class="d-flex align-items-center justify-content-center">
+					<nav aria-label="Page navigation">
+						<ul class="pagination pt-3 pr-3">
+							<!-- 현재 페이지가 1페이지일 경우 "이전" 버튼 없음 -->
+							<c:if test="${pageNum != 1}">
+								<li class="page-item"><a class="page-link"
+									href="/salary/base?searchOption=${searchOption}&searchKeyword=${searchKeyword}&pageNum=${pageNum-1}">이전</a>
+								</li>
+							</c:if>
 
-					<div class="d-flex ps-2 justify-content-start h-50 w-25">
-						<button type="button" class="btn btn-secondary  w-75 text-nowrap">선택
-							취소</button>
-					</div>
+							<!-- pageNum-2가 0보다 작으면 1로 설정 -->
+							<!-- 파라미터 pageNum을 받아와서 로컬 pageNum으로 만들기 -->
+							<c:set var="pageNum"
+								value="${param.pageNum != null ? param.pageNum : 1 }" />
 
+							<!-- pageNum-2가 1보다 작으면 1로 설정 -->
+							<!-- begin 선언 -->
+							<c:set var="begin" value="${pageNum-2}" />
+							<c:if test="${begin<1 }">
+								<c:set var="begin" value="1" />
+							</c:if>
+
+							<!-- pageNum이 총 페이지 수를 넘지 않도록 설정 -->
+							<c:set var="end" value="${pageNum + 2}" />
+							<c:if test="${end > totalPage}">
+								<c:set var="end" value="${totalPage}" />
+							</c:if>
+
+							<!-- 페이지 번호 출력 -->
+							<c:forEach var="i" begin="${begin}" end="${end}" step="1">
+								<li class="page-item ${i == pageNum ? 'active' : ''}"><a
+									class="page-link"
+									href="/salary/base?searchOption=${searchOption}&searchKeyword=${searchKeyword}&pageNum=${i}">${i}</a>
+								</li>
+							</c:forEach>
+
+							<!-- 현재 페이지가 마지막 페이지일 경우 "다음" 버튼 없음 -->
+							<c:if test="${pageNum != totalPage}">
+								<li class="page-item"><a class="page-link"
+									href="/salary/base?searchOption=${searchOption}&searchKeyword=${searchKeyword}&pageNum=${pageNum+1}">다음</a>
+								</li>
+							</c:if>
+						</ul>
+					</nav>
+				</div>
+				<!-- pagination end -->
+				<div class="d-grid gap-2 d-md-flex justify-content-center mx-4 mt-2">
+					<button class="btn btn-primary px-5" type="button"
+						id="modifyButton">변경 사항 저장</button>
 				</div>
 			</div>
+
+
+
 			<!-- 본문 끝 (body end) -->
 
 
@@ -232,6 +262,7 @@ body {
 
 	<!-- Template Javascript -->
 	<script src="/resources/template/js/main.js"></script>
+	<script src="/resources/salary/js/salarySettingList.js"></script>
 </body>
 
 </html>

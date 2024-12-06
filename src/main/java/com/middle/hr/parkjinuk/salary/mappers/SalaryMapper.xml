@@ -12,16 +12,89 @@
 		JOIN staff s ON
 		bs.company_id = s.company_id
 		WHERE s.login_id = #{loginId}
+		ORDER BY
+		bs.id DESC
 	</select>
 
 	<!-- 해당하는 기본급 항목을 받고있는 사원들 조회 -->
 	<select id="selectStaffInfoByBaseSalary" parameterType="Salary"
 		resultType="Staff">
-		SELECT d.name departmentName, s.name staffName, bs.name basicSalaryName,
+		SELECT d.name departmentName, s.name staffName, bs.name
+		basicSalaryName,
 		bs.amount amount
-		FROM staff s INNER JOIN BASIC_SALARY bs ON s.SALARY_ID = bs.id
-		INNER JOIN DEPARTMENT d ON d.ID = s.DEPARTMENT_ID
+		FROM staff s INNER JOIN BASIC_SALARY
+		bs ON s.SALARY_ID = bs.id
+		INNER JOIN DEPARTMENT d ON d.ID =
+		s.DEPARTMENT_ID
 		WHERE bs.company_id=#{companyId} AND bs.id=#{id}
+		ORDER BY bs.id
 	</select>
 
+	<!-- 기본급 추가 -->
+	<insert id="insertSalary" parameterType="Salary">
+		INSERT INTO
+		basic_salary(id, name, amount,company_id)
+		VALUES
+		(seq_basic_salary_id.nextval, #{name}, #{amount}, #{companyId})
+	</insert>
+
+	<!-- 기본급 업데이트 -->
+	<update id="updateSalary" parameterType="Salary">
+		UPDATE basic_salary
+		SET
+		name = #{name}, amount=#{amount}
+		WHERE id = #{id} AND company_id =
+		#{companyId}
+	</update>
+
+	<!-- 기본급 삭제 -->
+	<delete id="deleteSalary" parameterType="Salary">
+		DELETE FROM basic_salary
+		WHERE id=#{id} AND company_id=#{companyId}
+	</delete>
+	
+	<!-- 사원의 기본급 업데이트 -->
+	<update id="updateStaffBaseSalary" parameterType="Staff">
+		UPDATE staff
+		SET
+		salary_id = #{basicSalaryId}
+		WHERE id = #{staffId}
+	</update>
+
+	<!-- 사원 기본급 설정 페이지 용 / 기본급을 포함한 사원 정보 -->
+	<select id="selectStaffWithSalaryByLoginId" parameterType="String" resultType="Staff">
+		SELECT s.id staffId, s.name staffName, bs.id
+		basicSalaryId ,bs.amount basicSalaryAmount, bs.name basicSalaryName
+		FROM staff s INNER JOIN basic_salary bs ON s.SALARY_ID = bs.ID
+		<where>
+		s.company_id=(SELECT company_id
+		FROM staff
+		WHERE login_id=#{loginId})
+		<if test="searchOption != null and searchOption != ''">
+				<choose>
+					<when test="searchOption == 'staffName'">
+						AND s.name LIKE '%' || #{searchKeyword} || '%'
+					</when>
+				</choose>
+			</if>
+		</where>
+	</select>
+	
+	<!-- 사원 기본급 설정 페이지 용 카운트 -->
+	<select id="selectStaffCountWithSalaryByLoginId" parameterType="String" resultType="int">
+		SELECT COUNT(*)
+		FROM staff s INNER JOIN basic_salary bs ON s.SALARY_ID = bs.ID
+		<where>
+		s.company_id=(SELECT company_id
+		FROM staff
+		WHERE login_id=#{loginId})
+		<if test="searchOption != null and searchOption != ''">
+				<choose>
+					<when test="searchOption == 'staffName'">
+						AND s.name LIKE '%' || #{searchKeyword} || '%'
+					</when>
+				</choose>
+			</if>
+		</where>
+	</select>
 </mapper>
