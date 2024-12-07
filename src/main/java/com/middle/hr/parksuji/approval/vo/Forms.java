@@ -1,12 +1,12 @@
 package com.middle.hr.parksuji.approval.vo;
 
-import org.springframework.stereotype.Component;
-
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Forms {
 	
 	private Integer id; // 양식 id 자동 증가되는 Primary Key

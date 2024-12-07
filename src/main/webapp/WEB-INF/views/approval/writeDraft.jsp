@@ -191,10 +191,6 @@
 		font-weight: 500;
 	}
 	
-	.frame_div {
-		text-align: center;
-	}
-	
 	.tree_div {
 		border: 1px solid #191C24;
 		height: 400px;
@@ -236,7 +232,22 @@
 	overflow-y:scroll;
 	}
 	
+		
+	.frame_div {
+		height:577px;
+		overflow-y: scroll;
+	}
 	
+	#formContent{
+		transform:scale(0.7);
+		transform-origin: top left;
+		height:700px;
+	}
+	
+	#formCheckboxContainer{
+		height: 500px;
+    	overflow-y: scroll;
+	}
 	
 	</style>
 
@@ -259,35 +270,27 @@
 
 					<div class="row">
 
-						<div class="col-md-4 ms-auto ps-5">
+						<div class="col-md-4 ms-auto ps-4">
+							<!-- 모달 서브제목 -->
 							<p class="mt-4 mb-4 form_subtitle">결재 양식 선택</p>
-							<div class="mx-3 mt-2 mb-2 form_ch_name">
-								<input class="form-check-input me-2" type="checkbox" name="formCheck" value="1" 
-								    id="flexCheckChecked"> 
-								<span>기안서</span>
+							
+							<!-- 체크박스 리스트 -->
+							<div id="formCheckboxContainer">
+								<!-- 이곳에 Ajax로 받은 양식 목록 동적 추가 -->
 							</div>
-							<div class="mx-3 mt-2 mb-2 form_ch_name">
-								<input class="form-check-input me-2" type="checkbox" name="formCheck" value="2"
-									id="flexCheckChecked"> <span>지출결의서</span>
-							</div>
-							<div class="mx-3 mt-2 mb-2 form_ch_name">
-								<input class="form-check-input me-2" type="checkbox" name="formCheck" value="3"
-									id="flexCheckChecked"> <span>품의서</span>
-							</div>
-							<div class="mx-3 mt-2 mb-2 form_ch_name">
-								<input class="form-check-input me-2" type="checkbox" name="formCheck" value="4"
-									id="flexCheckChecked"> <span>출장보고서</span>
-							</div>
-							<div class="mx-3 mt-2 mb-2 form_ch_name">
-								<input class="form-check-input me-2" type="checkbox" name="formCheck" value="5"
-									id="flexCheckChecked"> <span>사직서</span>
-							</div>
+
+						
 						</div>
+						
+						
 						<div class="col-md-8 ms-auto frame_div">
-							<div>
-								<!-- 툴바 숨기기 : 확장자명 뒤에 #toolbar=0&navpanes=0&scrollbar=0 추가 -->
-								<iframe
-									src="/resources/approval/img/sample.pdf#toolbar=0&navpanes=0&scrollbar=0"></iframe>
+							<div id="formContent">
+								<!-- iframe pdf 사용시 툴바 숨기기 : 확장자명 뒤에 #toolbar=0&navpanes=0&scrollbar=0 추가 -->
+								<!-- <iframe
+									src="/resources/approval/img/sample.pdf#toolbar=0&navpanes=0&scrollbar=0"></iframe> -->
+								
+								<!-- 이곳에 ajax 통해 양식 html 렌더링 화면 출력 -->
+
 							</div>
 						</div>
 					</div>
@@ -489,8 +492,8 @@
 						<label for="draftDate" class="form-label">기안일자</label>
 						<div class="row g-2 mb-4">
 							<div>
-								<input type="text" class="form-control" id="draftDate"
-									value="sysdate" aria-label="Disabled input example" disabled>
+								<input type="text" class="form-control" id="draftDate" name="draftDate"
+									value="${sysdate}" aria-label="Disabled input example" disabled>
 							</div>
 						</div>
 					</div>
@@ -504,7 +507,7 @@
 									value="" aria-label="Disabled input example" readonly>
 							</div>
 							<div class="col-md-3">
-								<button type="button" class="btn btn-primary mb-3"
+								<button type="button" id="formModal" class="btn btn-primary mb-3"
 									data-bs-toggle="modal" data-bs-target="#formModal">선택</button>
 							</div>
 						</div>
@@ -570,7 +573,7 @@
 				<!-- 결재 내용 본문 박스 -->
 				<div class="form_box mx-4 my-4 px-4 py-4">
 
-					<form id="writeDraftForm" action="/form_save" method="post">
+					<form id="writeDraftForm" action="/draft_save" method="post">  <!-- 컨트롤러의 /draft_save 요청 -->
 						<!-- 제목 영역 -->
 						<div class="mb-3">
 							<label for="inputTitle" class="form-label">제목</label>
@@ -582,7 +585,7 @@
 							<div class="fr-box fr-basic fr-top" role="application">
 								<div class="fr-wrapper show-placeholder" dir="auto">
 									<!-- style="overflow: scroll;" 제외 -->
-									<textarea name="notice_content" id="smartEditor" 
+									<textarea name="noticeContent" id="smartEditor" 
 											  style="width: 100%; height: 560px;">${htmlContent}</textarea>  <!-- 엑셀 변환 HTML -->
 								</div>
 							</div>
@@ -663,13 +666,84 @@
 	<script>
 		$(function(){
 			
-			// 양식 선택 체크박스 중복 적용 안 되도록  
-			$('input[type="checkbox"][name="formCheck"]').click(function(){
-				if($(this).prop('checked')){
-					$('input[type="checkbox"][name="formCheck"]').prop('checked', false);
-					$(this).prop('checked', true);
+			// 모달이 열릴 떄마다 Ajax 요청을 보내 데이터 로드
+		 	$('#formModal').on('show.bs.modal', function(e){
+		 		$.ajax({
+		 			url: '/approval/getApprovalForm', // 양식 목록 불러오는 서버API
+		 			method: 'GET',  // get 방식으로 요청 
+		 			success: function(response){
+		 				console.log(response)
+		 				var formList = response; // 서버에서 받은 양식 목록
+		 				var checkboxContainer=$('#formCheckboxContainer');
+		 				checkboxContainer.empty(); // 기존 목록 초기화
+		 				
+		 				// 받은 양식 목록을 체크박스 형태로 생성
+		 				formList.forEach(function(forms){  // forms(각 양식 객체) => 넘어오는 값 적어주기 
+		 					
+		 					let checkboxHtml = $('<div/>', {
+							    class: 'mx-3 mt-2 mb-2 form_ch_name',
+							    html: $('<input/>', {
+							        class: 'form-check-input me-2',
+							        type: 'checkbox',
+							        name: 'formCheck',
+							        value: forms.id,
+							        id: 'flexCheckChecked-' + forms.id, 'data-html': forms.formContent
+							    }).prop('outerHTML') + '<span>' + forms.title + '</span>'
+							});
+		 					
+	                    checkboxContainer.append(checkboxHtml);
+	                    
+ 		 				});
+		 				
+		 				
+		 			},
+		 			error: function(xhr, status, error){
+		 				console.log('AJAX 요청 실패:', error);  // 오류 메시지 출력
+		 		        alert('양식 목록을 불러오는 데 실패했습니다.');
+		 			}
+		 		});
+		 	});
+			
+			// 체크박스 선택했을 때 HTML을 렌더링 
+			$(document).on('change', 'input[type="checkbox"][name="formCheck"]', function(){
+				var selectedForms = $('input[type="checkbox"][name="formCheck"]:checked');
+				var formHtml=''; 
+				
+				// 기존 HTML을 지우고, 새로 선택된 양식만 렌더링
+		        $('#formContent').empty(); 
+				
+				selectedForms.each(function(){
+					var html = $(this).data('html'); // 선택된 체크박스에 저장된 양식 HTML (data-html)
+					formHtml += html // 각 양식 HTML을 합쳐서 렌더링
+				})
+				
+				if(formHtml){
+					//새로운 html 삽입
+					$('#formContent').html(formHtml); 
+				}else{
+					// 만약 아무것도 선택되지 않았으면 빈 div 삽입
+					$('#formContent').html('<div>양식을 선택하세요 :</div>');
 				}
-			})
+				
+				
+				
+			});
+			
+			
+			// 양식 선택 체크박스 중복 적용 안 되도록
+			$(document).on('change', 'input[type="checkbox"][name="formCheck"]', function() {
+			    // 현재 체크된 상태가 아니면 다른 모든 체크박스 선택 해제
+			    if ($(this).prop('checked')) {
+				        // 다른 체크박스 선택 해제
+				        $('input[type="checkbox"][name="formCheck"]').prop('checked', false);
+				        // 현재 클릭된 체크박스만 체크
+				        $(this).prop('checked', true);
+			    } else {
+				        // 현재 체크박스가 해제되면 아무것도 선택되지 않도록
+				        $(this).prop('checked', false);
+			    }
+			});
+				
 			
 			// 양식 선택 모달창에서 양식 선택 후 '적용' 버튼 클릭시 
 			$('#formSelectBtn').click(function(){
@@ -748,7 +822,7 @@
 			    // SmartEditor에서 textarea에 내용 업데이트
 			    oEditors.getById["smartEditor"].exec("UPDATE_CONTENTS_FIELD", []); // 이 명령이 `textarea`의 값을 업데이트함
 				
-			    var htmlContent = document.getElementsByName("notice_content")[0].value;
+			    var htmlContent = document.getElementsByName("noticeContent")[0].value;
 			    console.log(htmlContent);  // 콘솔에서 HTML 값 확인
 			    
 				// 폼 제출 (textarea 값은 자동으로 폼에 포함됨)

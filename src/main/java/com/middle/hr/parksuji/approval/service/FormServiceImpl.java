@@ -1,6 +1,7 @@
 package com.middle.hr.parksuji.approval.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,16 +23,17 @@ public class FormServiceImpl implements FormService {
 
 	@Override
 	public void updateForm(Forms forms) {
-		// TODO Auto-generated method stub
+		formRepository.updateForm(forms);
 		
 	}
 
 	@Override
-	public void deleteForm(List<Integer> formIds) {
+	public List<Integer> deleteForm(List<Integer> formIds) {
 		if (formIds != null && !formIds.isEmpty()) {
 	        System.out.println("삭제할 아이디들: " + formIds); // 한 번에 삭제할 ID 로그
 	        formRepository.deleteById(formIds); // 리스트로 삭제
 		}
+		return formIds; 
 	}
 
 	@Override
@@ -45,10 +47,22 @@ public class FormServiceImpl implements FormService {
 	}
 
 	@Override
-	public List<Forms> getFormList() {
-		return formRepository.getFormList(); 
+	public Map<String, Object> getFormList(String loginId, String documentType,String searchOption, String searchKeyword, Integer pageNum,
+			Integer pageSize) {
+		return formRepository.getFormList(loginId, documentType, searchOption, searchKeyword, pageNum, pageSize);
 	}
 
+	@Override
+	public List<Forms> getApprovalForm() {
+		return formRepository.getApprovalForm(); 
+	}
 
+//	@Override
+//	public List<Forms> getFormList() {
+//		return formRepository.getFormList(); 
+//	}
+
+
+	
 
 }

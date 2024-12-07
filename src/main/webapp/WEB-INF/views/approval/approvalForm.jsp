@@ -143,6 +143,11 @@ table {
 .btn:hover {
 	color: #00539d;
 }
+
+table tr:hover {
+  cursor: pointer;
+}
+
 </style>
 
 </head>
@@ -195,27 +200,48 @@ table {
 						<div class="col-sm-6 col-md-4">
 							<ul class="nav nav-pills nav-fill">
 								<li class="nav-item"><a class="nav-link active"
-									aria-current="page" href="#">전체</a></li>
-								<li class="nav-item"><a class="nav-link" href="#">기안 문서</a>
+									aria-current="page" href="/approval/approvalForm">전체</a></li>
+								<li class="nav-item"><a class="nav-link" href="/approval/approvalForm?documentType=기안 문서">기안 문서</a>
 								</li>
-								<li class="nav-item"><a class="nav-link" href="#">인사 문서</a>
+								<li class="nav-item"><a class="nav-link" href="/approval/approvalForm?documentType=인사 문서"">인사 문서</a>
 								</li>
 							</ul>
 						</div>
-						<div class="col-6 col-md-8 search_form">
-							<select class="form-select" aria-label="Default select example">
-								<option selected>선택</option>
-								<option value="1">양식명으로 검색</option>
-								<option value="2">내용으로 검색</option>
-								<option value="3">양식명+내용으로 검색</option>
-							</select>
-							<form>
-								<input class="form-control border-0" type="search"
-									placeholder="Search">
+						<div class="col-6 col-md-2"></div>
+						
+						<!-- 검색 도구 start -->
+
+						<div class="col-6 col-md-6 d-flex justify-content-end">
+							<form action="/approval/approvalForm" method="GET" class="d-flex align-items-center">
+								<!-- 이전 검색 도구의 값을 유지 -->
+								<div class="d-flex align-items-center g-2">
+									<select class="form-select me-2 w-auto" name="searchOption"
+										id="searchOption">
+										<option selected>선택</option>
+										<option value="title"
+											${"title".equals(searchOption) ? "selected" : ""}>양식명</option>
+										<option value="staffId"
+											${"staffId".equals(searchOption) ? "selected" : ""}>작성자</option>
+									</select>
+
+									<input class="form-control me-2 w-auto" type="search"
+										value="${searchKeyword != null ? searchKeyword : ''}"
+										name="searchKeyword" id="searchKeyword" placeholder="Search">
+
+
+									<button type="submit" id="searchButton"
+										class="btn btn-primary w-100">검색</button>
+
+								</div>
 							</form>
 						</div>
+
+						<!-- 검색 도구 end -->
+					
 					</div>
 				</div>
+
+
 
 				<!-- 테이블 시작 -->
 				<div class="mx-4 my-4">
@@ -256,23 +282,56 @@ table {
 					</table>
 				</div>
 
-				<!-- 페이징 버튼 -->
-				<div class="d-flex align-items-center justify-content-center">
-					<nav aria-label="Page navigation">
-						<ul class="pagination pt-3 pr-3">
-							<li class="page-item"><a class="page-link" href="#">이전</a></li>
-							<li class="page-item active"><a class="page-link" href="#">1</a></li>
-							<li class="page-item"><a class="page-link" href="#">2</a></li>
-							<li class="page-item"><a class="page-link" href="#">3</a></li>
-							<li class="page-item"><a class="page-link" href="#">4</a></li>
-							<li class="page-item"><a class="page-link" href="#">5</a></li>
-							<li class="page-item"><a class="page-link" href="#">다음</a></li>
-						</ul>
-					</nav>
-				</div>
+        <!-- pagination start -->
+        <div class="d-flex align-items-center justify-content-center">
+            <nav aria-label="Page navigation">
+                <ul class="pagination pt-3 pr-3">
+                    <!-- 현재 페이지가 1페이지일 경우 "이전" 버튼 없음 -->
+                    <c:if test="${pageNum != 1}">
+                        <li class="page-item"><a class="page-link"
+                                                 href="/approval/approvalForm?searchOption=${searchOption}&searchKeyword=${searchKeyword}&pageNum=${pageNum-1}">이전</a>
+                        </li>
+                    </c:if>
+
+                    <!-- pageNum-2가 0보다 작으면 1로 설정 -->
+                    <!-- 파라미터 pageNum을 받아와서 로컬 pageNum으로 만들기 -->
+                    <c:set var="pageNum"
+                           value="${param.pageNum != null ? param.pageNum : 1 }"/>
+
+                    <!-- pageNum-2가 1보다 작으면 1로 설정 -->
+                    <!-- begin 선언 -->
+                    <c:set var="begin" value="${pageNum-2}"/>
+                    <c:if test="${begin<1 }">
+                        <c:set var="begin" value="1"/>
+                    </c:if>
+
+                    <!-- pageNum이 총 페이지 수를 넘지 않도록 설정 -->
+                    <c:set var="end" value="${pageNum + 2}"/>
+                    <c:if test="${end > totalPage}">
+                        <c:set var="end" value="${totalPage}"/>
+                    </c:if>
+
+                    <!-- 페이지 번호 출력 -->
+                    <c:forEach var="i" begin="${begin}" end="${end}" step="1">
+                        <li class="page-item ${i == pageNum ? 'active' : ''}"><a
+                                class="page-link"
+                                href="/approval/approvalForm?searchOption=${searchOption}&searchKeyword=${searchKeyword}&pageNum=${i}">${i}</a>
+                        </li>
+                    </c:forEach>
+
+                    <!-- 현재 페이지가 마지막 페이지일 경우 "다음" 버튼 없음 -->
+                    <c:if test="${pageNum != totalPage}">
+                        <li class="page-item"><a class="page-link"
+                                                 href="/approval/approvalForm?searchOption=${searchOption}&searchKeyword=${searchKeyword}&pageNum=${pageNum+1}">다음</a>
+                        </li>
+                    </c:if>
+                </ul>
+            </nav>
+        </div>
+        <!-- pagination end -->
 
 				<!-- 버튼 -->
-				<div class="d-grid gap-2 d-md-flex justify-content-md-end mx-4 my-4">
+				<div class="d-grid gap-2 d-md-flex justify-content-md-end mx-4 mt-3 mb-5">
 					<button class="btn choice_del" type="button">선택 삭제</button>
 					<button class="btn choice_plus" type="button">+ 새 양식 만들기</button>
 				</div>
@@ -399,7 +458,7 @@ table {
 				window.location.href = '/approval/approvalForm/detail?formId=' + id;  // trId를 쿼리 파라미터로 전달 
 			})
 			
-			
+		
 		
 	</script>
 
