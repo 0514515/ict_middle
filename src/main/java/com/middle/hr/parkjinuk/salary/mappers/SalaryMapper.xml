@@ -105,13 +105,50 @@
 	</select>
 
 	<!-- 추가 수당 목록 전체 조회 -->
-	<select id="selectCommissionByLoginId" parameterType="String" resultType="Commission">
-		SELECT cm.id commissionId,
-		cm.name commissionName, cm.default_amount defaultAmount, cm.company_id
+	<select id="selectAllCommissionByLoginId" parameterType="String"
+		resultType="Commission">
+		SELECT cm.id id,
+		cm.name name, cm.default_amount
+		defaultAmount, cm.company_id
 		companyId
 		FROM COMMISSION cm
-		WHERE cm.company_id = (SELECT company_id
+		WHERE
+		cm.company_id = (SELECT company_id
 		FROM staff s
-		WHERE s.login_id=#{loginId})
+		WHERE
+		s.login_id=#{loginId})
+	</select>
+
+	<!-- 추가 수당 항목 추가 -->
+	<insert id="insertCommission" parameterType="Commission">
+		INSERT INTO
+		commission(id,name,default_amount,company_id)
+		VALUES
+		(seq_commission_id.nextval,#{name},#{defaultAmount},#{companyId})
+	</insert>
+
+	<!-- 추가 수당 업데이트 -->
+	<update id="updateCommission" parameterType="Commission">
+		UPDATE commission
+		SET
+		default_amount = #{defaultAmount}
+		WHERE id = #{id} AND company_id =
+		#{companyId}
+	</update>
+
+	<!-- 추가 수당을 받는 사원 조회 -->
+	<select id="selectStaffCommission" resultType="StaffCommission">
+		SELECT sc.staff_id staffId, c.id commissionId, s.name staffName, c.name
+		commissionName,  sc.check_default_amount checkDefaultAmount,
+		CASE
+		WHEN sc.check_default_amount = 1 THEN c.default_amount
+		ELSE sc.amount
+		END amount
+		FROM STAFF_COMMISION sc INNER JOIN STAFF s ON sc.STAFF_ID = s.ID
+		INNER JOIN COMMISSION c ON sc.COMMISSION_ID = c.ID
+		WHERE sc.COMMISSION_ID IN 
+		<foreach collection="commissionList" item="commission" open="(" separator="," close=")">
+			#{commission.id}
+		</foreach>
 	</select>
 </mapper>

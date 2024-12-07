@@ -10,7 +10,7 @@
 			value="oracle.jdbc.driver.OracleDriver"></property>
 			<!-- DB서버 아이피 바뀌면 여기서 변경 -->
 		<property name="url"
-			value="jdbc:oracle:thin:@192.168.0.26:1521:xe"></property>
+			value="jdbc:oracle:thin:@192.168.0.7:1521:xe"></property>
 		<property name="username" value="pw"></property>
 		<property name="password" value="admin1234"></property>
 	</bean>
@@ -36,6 +36,7 @@
 				<value>com.middle.hr.parkjinuk.staff.vo.Department</value>
 				<value>com.middle.hr.parkjinuk.salary.vo.Salary</value>
 				<value>com.middle.hr.parkjinuk.salary.vo.Commission</value>
+				<value>com.middle.hr.parkjinuk.salary.vo.StaffCommission</value>
 				<!-- parksuji -->
 				<value>com.middle.hr.parksuji.approval.vo.Forms</value>
 				<!-- parkeunbyeol -->

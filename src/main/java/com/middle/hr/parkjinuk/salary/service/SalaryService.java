@@ -3,7 +3,9 @@ package com.middle.hr.parkjinuk.salary.service;
 import java.util.List;
 import java.util.Map;
 
+import com.middle.hr.parkjinuk.salary.vo.Commission;
 import com.middle.hr.parkjinuk.salary.vo.Salary;
+import com.middle.hr.parkjinuk.salary.vo.StaffCommission;
 import com.middle.hr.parkjinuk.staff.vo.Staff;
 
 public interface SalaryService {
@@ -29,4 +31,16 @@ public interface SalaryService {
 	// 기본급을 포함하여 사원 정보 조회
 	Map<String, Object> searchStaffWithSalaryByLoginId(String loginId, String searchOption, String searchKeyword,
 			Integer pageNum, Integer pageSize);
+
+	// 추가수당 항목 전체 조회
+	List<Commission> searchAllCommissionByLoginId(String loginId);
+
+	// 추가수당 항목 추가
+	Integer createCommission(Commission commission);
+
+	// 추가 수당 업데이트
+	Integer updateCommission(List<Commission> commission);
+
+	// 추가 수당을 받는 사원 조회
+	List<StaffCommission> searchStaffCommission(List<Commission> commissionList);
 }

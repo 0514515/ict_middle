@@ -145,28 +145,27 @@ body {
 													<thead>
 														<tr class="align-middle">
 															<th scope="col"><input type="checkbox"
-																class="form-check-input" id="exampleCheck1"></th>
+																class="form-check-input" id="allCheck"></th>
 															<th scope="col">추가수당 이름</th>
 															<th scope="col">기본 액수</th>
 														</tr>
 													</thead>
-													<tbody>
+													<tbody id="commissionListBody">
+														<c:forEach var="commission" items="${commissionList}">
 
-														<tr class="align-middle">
-															<th><input type="checkbox" class="form-check-input"
-																id="exampleCheck1"></th>
-															<td>John</td>
-															<td class="w-50"><input class="form-control"
-																type="text" placeholder="등급"></td>
-														</tr>
-														<tr class="align-middle">
-															<th><input type="checkbox" class="form-check-input"
-																id="exampleCheck1"></th>
-															<td>Mark</td>
-															<td class="w-50"><input class="form-control"
-																type="text" placeholder="등급"></td>
-														</tr>
-
+															<tr class="align-middle">
+																<input type="hidden" value="${commission.id}"
+																	id="commissionId" name="commissionId">
+																<th><input type="checkbox" class="form-check-input"
+																	id="checked"></th>
+																<td>${commission.name}</td>
+																<td class="w-50"><input class="form-control"
+																	type="text" id="defaultAmount" name="defaultAmount"
+																	value="${commission.defaultAmount}"></td>
+																<input type="hidden" value="${commission.companyId}"
+																	id="companyId">
+															</tr>
+														</c:forEach>
 													</tbody>
 												</table>
 											</div>
@@ -176,13 +175,49 @@ body {
 								<div class="row mb-3">
 									<div class="d-flex rounded h-100 mt-3 justify-content-center">
 										<div class="d-flex px-1 justify-content-end h-50">
-											<button type="button" class="btn btn-primary text-nowrap">추가</button>
+											<button type="button" class="btn btn-primary text-nowrap"
+												id="commissionAddButton">추가</button>
 										</div>
 										<div class="d-flex px-1 justify-content-end h-50">
-											<button type="button" class="btn btn-primary text-nowrap">선택
-												수정</button>
+											<button type="button" class="btn btn-primary text-nowrap"
+												id="commissionModifyButton">선택 변경 사항 저장</button>
 										</div>
 
+									</div>
+								</div>
+
+								<!-- 추가 버튼 모달 -->
+								<div class="modal fade" id="addAllowanceModal" tabindex="-1"
+									aria-labelledby="addAllowanceModalLabel" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title" id="addAllowanceModalLabel">추가
+													수당 입력</h5>
+												<button type="button" class="btn-close"
+													data-bs-dismiss="modal" aria-label="Close"></button>
+											</div>
+											<div class="modal-body">
+												<form id="addAllowanceForm">
+													<div class="mb-3">
+														<label for="allowanceName" class="form-label">추가
+															수당 이름</label> <input type="text" class="form-control"
+															id="allowanceName" placeholder="수당 이름을 입력하세요">
+													</div>
+													<div class="mb-3">
+														<label for="defaultAmount" class="form-label">기본
+															액수</label> <input type="number" class="form-control"
+															id="defaultAmountModalInput" placeholder="기본 액수를 입력하세요">
+													</div>
+												</form>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-primary"
+													id="saveAllowanceButton">추가</button>
+												<button type="button" class="btn btn-secondary"
+													data-bs-dismiss="modal">닫기</button>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -190,7 +225,7 @@ body {
 							<div
 								class="col-sm-1 d-flex align-items-center justify-contet-center">
 								<div class="col d-flex justify-content-center">
-									<button type="button" class="btn btn-primary">
+									<button type="button" class="btn btn-primary" id="searchButton">
 										조회<br> →
 									</button>
 								</div>
@@ -211,23 +246,7 @@ body {
 															<th scope="col">기본액수</th>
 														</tr>
 													</thead>
-													<tbody>
-
-														<tr class="align-middle">
-															<td>홍길동</td>
-															<td>식대</td>
-															<td>200,000원</td>
-															<td scope="col"><input type="checkbox"
-																class="form-check-input" id="exampleCheck1"></td>
-														</tr>
-														<tr class="align-middle">
-															<td>김길동</td>
-															<td>식대</td>
-															<td>200,000원</td>
-															<td scope="col"><input type="checkbox"
-																class="form-check-input" id="exampleCheck1"></td>
-														</tr>
-
+													<tbody id="staffCommissionListBody">
 													</tbody>
 												</table>
 											</div>
@@ -264,8 +283,8 @@ body {
 				<div class="modal-dialog modal-xl">
 					<div class="modal-content">
 						<div class="modal-header">
-								<h4 class="modal-title" id="exampleModalLabel">수당 지급 추가</h4>
-							
+							<h4 class="modal-title" id="exampleModalLabel">수당 지급 추가</h4>
+
 							<button type="button" class="btn-close" data-bs-dismiss="modal"
 								aria-label="Close"></button>
 						</div>
@@ -285,21 +304,6 @@ body {
 													</tr>
 												</thead>
 												<tbody>
-
-													<tr class="align-middle">
-														<th><input type="checkbox" class="form-check-input"
-															id="exampleCheck1"></th>
-														<td>John</td>
-														<td class="w-50"><input class="form-control"
-															type="text" placeholder="등급"></td>
-													</tr>
-													<tr class="align-middle">
-														<th><input type="checkbox" class="form-check-input"
-															id="exampleCheck1"></th>
-														<td>Mark</td>
-														<td class="w-50"><input class="form-control"
-															type="text" placeholder="등급"></td>
-													</tr>
 
 												</tbody>
 											</table>
@@ -386,6 +390,7 @@ body {
 
 		<!-- Template Javascript -->
 		<script src="/resources/template/js/main.js"></script>
+		<script src="/resources/salary/js/commissionManagement.js"></script>
 </body>
 
 </html>

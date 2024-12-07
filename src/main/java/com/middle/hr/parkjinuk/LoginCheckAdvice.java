@@ -18,7 +18,11 @@ public class LoginCheckAdvice {
 	public Object sessionCheck(ProceedingJoinPoint point) throws Throwable{
 		
 		String methodName = point.getSignature().getName();
-		System.out.println("[*************** 공통관심사 사전작업 >>>>> " + methodName);
+		String classPath = point.getSignature().getDeclaringTypeName();
+		String className = classPath.substring(classPath.lastIndexOf('.')+1);
+		
+		System.out.println("[*************** 호출한 클래스 >>>>> " + className);
+		System.out.println("[*************** 호출한 메소드 >>>>> " + methodName);
 		
 		//세션을 얻기 위해 로그인 메소드를 실행해야하므로 로그인 메소드는 세션 검사 제외
 		if(methodName.equals("login")) {

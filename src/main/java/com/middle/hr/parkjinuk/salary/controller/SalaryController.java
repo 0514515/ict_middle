@@ -13,13 +13,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.middle.hr.parkjinuk.salary.service.SalaryService;
+import com.middle.hr.parkjinuk.salary.vo.Commission;
 import com.middle.hr.parkjinuk.salary.vo.Salary;
+import com.middle.hr.parkjinuk.salary.vo.StaffCommission;
 import com.middle.hr.parkjinuk.staff.service.StaffService;
-import com.middle.hr.parkjinuk.staff.vo.Department;
 import com.middle.hr.parkjinuk.staff.vo.Staff;
 
 @Controller
@@ -123,8 +125,49 @@ public class SalaryController {
 
 	// 수당 관리 페이지
 	@GetMapping("salary/commission")
-	public String getCommissinManagement() {
+	public String getCommissionManagement(HttpSession session, Model model) {
+
+		String loginId = session.getAttribute("loginId").toString();
+
+		List<Commission> commissionList = salaryService.searchAllCommissionByLoginId(loginId);
+
+		model.addAttribute("commissionList", commissionList);
+
 		return "salary/commissionManagement";
+	}
+
+	// 추가 수당 추가
+	@PostMapping("salary/commission")
+	@ResponseBody
+	public Integer createCommission(@RequestBody Commission commission) {
+		return salaryService.createCommission(commission);
+	}
+
+	// 추가 수당 목록 refresh용 ajax
+	@GetMapping("salary/commission/list")
+	@ResponseBody
+	public List<Commission> getCommissionList(HttpSession session) {
+		String loginId = session.getAttribute("loginId").toString();
+
+		List<Commission> commissionList = salaryService.searchAllCommissionByLoginId(loginId);
+		
+		return commissionList;
+	}
+	
+	// 추가수당 일괄 업데이트용 ajax
+	@PatchMapping("/salary/commission")
+	@ResponseBody
+	public Integer updateCommissions(@RequestBody List<Commission> commissionList) {
+		return salaryService.updateCommission(commissionList);
+	}
+	
+	// 추가수당을 받고 있는 사원 refresh용 ajax
+	@PostMapping("salary/commission/staff/list")
+	@ResponseBody
+	public List<StaffCommission> getStaffCommissionList(@RequestBody List<Commission> commission){
+		List<StaffCommission> staffCommissionList = salaryService.searchStaffCommission(commission);
+		System.out.println(staffCommissionList);
+		return staffCommissionList;
 	}
 
 	// 급여 명세 페이지

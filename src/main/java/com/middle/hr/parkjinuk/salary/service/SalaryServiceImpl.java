@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.middle.hr.parkjinuk.salary.repository.SalaryRepository;
+import com.middle.hr.parkjinuk.salary.vo.Commission;
 import com.middle.hr.parkjinuk.salary.vo.Salary;
+import com.middle.hr.parkjinuk.salary.vo.StaffCommission;
 import com.middle.hr.parkjinuk.staff.vo.Staff;
 
 @Service
@@ -39,7 +41,7 @@ public class SalaryServiceImpl implements SalaryService {
 	public Integer updateSalary(Salary salary) {
 		return salaryRepository.updateSalary(salary);
 	}
-	
+
 	// 사원의 기본급 업데이트
 	@Override
 	public Integer updateStaffSalary(List<Staff> staff) {
@@ -58,4 +60,28 @@ public class SalaryServiceImpl implements SalaryService {
 			Integer pageNum, Integer pageSize) {
 		return salaryRepository.selectStaffWithSalaryByLoginId(loginId, searchOption, searchKeyword, pageNum, pageSize);
 	}
+
+	// 추가수당 항목 전체 조회
+	@Override
+	public List<Commission> searchAllCommissionByLoginId(String loginId) {
+		return salaryRepository.selectAllCommissionByLoginId(loginId);
+	}
+
+	// 추가수당 항목 추가
+	@Override
+	public Integer createCommission(Commission commission) {
+		return salaryRepository.insertCommission(commission);
+	}
+
+	// 추가 수당 업데이트
+	@Override
+	public Integer updateCommission(List<Commission> commission) {
+		return salaryRepository.updateCommission(commission);
+	}
+
+	// 추가 수당을 받는 사원 조회
+	@Override
+	public List<StaffCommission> searchStaffCommission(List<Commission> commissionList){
+		return salaryRepository.selectStaffCommission(commissionList);
+	};
 }
