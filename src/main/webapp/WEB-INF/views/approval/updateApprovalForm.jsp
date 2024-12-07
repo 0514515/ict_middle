@@ -6,7 +6,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>새 양식 만들기</title>
+    <title>양식 수정하기</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -67,9 +67,9 @@
     <style>
     
     	/* 본문 높이값 _ footer올라오는 현상 방지 */
-    	.container{
+/*     	.container{
     		height:83%;
-    	}
+    	} */
     	
     	table{
     		text-align:center; 
@@ -85,6 +85,10 @@
     	.bg-warning{
     		background-color:#FFF3CD !important;
     		color:#664D03;
+    	}
+    	
+    	.list_btn{
+    		text-align:right;
     	}
     	
     	.form-select{
@@ -130,9 +134,6 @@
     		font-weight:500;
     	}
     	
-    	.btn{
-    		width:9%;
-    	}
     	.btn:hover{
     		color: #00539d;
     	}
@@ -185,23 +186,35 @@
 		<!-- 본문 여백 -->
 		<div class="container container-fluid pt-4 px-4">
 			
-			<div class="mx-4 my-4">	
-				<h4>새 양식 만들기</h4>
-			</div>
+		<div class="row g-0">	
+		     <div class="col-sm-6 col-md-4 justify-content-md-start">
+				  <!-- 페이지 타이틀 -->
+				  <div class="mx-4 mt-4">	
+					<h4>양식 수정하기</h4>
+				  </div>
+		     </div>
+			 <div class="col-sm-6 col-md-8 "> 
+				<!-- 목록 버튼 -->
+	             <div class="mx-4 mt-4 list_btn">
+				 	 <button class="btn choice_list" type="button">목록</button>
+				 </div>
+		     </div>
+	     
+		</div>
+		<hr class="mx-4 mt-4"/>  <!-- 라인 삽입 -->
 			
-			<!-- 버튼 -->
-             <div class="d-grid gap-2 d-md-flex justify-content-md-end mx-4 my-4">
-			 	 <button class="btn choice_list" type="button">목록</button>
-			 </div>
 			
 			<!-- 본문박스 -->
 			
 			<div class="form_box mx-4 my-4 px-5 py-5">
-				<form id="createForm" action="/form_save" method="post">
+				<form id="createForm" action="/approval/approvalForm/completionEdit" method="post">
+					<!-- formId 추가 -->
+    				<input type="hidden" name="formId" value="${forms.id}">
+				
 				  <div class="mb-3 row">
 				    <label for="inputTitle" class="col-sm-2 col-form-label">결재 양식명</label>
 				    <div class="col-sm-10">
-				      <input type="text" class="form-control" id="inputTitle" name="title">  <!-- input name 필수기입 -->
+				      <input type="text" class="form-control" id="inputTitle" name="title" value="${forms.title}">  <!-- input name 필수기입 -->
 				    </div>
 				  </div>
 				  <div class="mb-3 row">
@@ -209,8 +222,8 @@
 				    <div class="col-sm-10">
 				      <select class="form-select" aria-label="Default select example" name="documentType">
 						  <option selected>선택</option>
-						  <option value="기안 문서">기안 문서</option>
-						  <option value="인사 문서">인사 문서</option>
+						  <option value="기안 문서" ${forms.documentType == '기안 문서' ? 'selected' : ''}>기안 문서</option>
+						  <option value="인사 문서" ${forms.documentType == '인사 문서' ? 'selected' : ''}>인사 문서</option>
 					  </select>
 				    </div>
 				  </div>
@@ -220,17 +233,17 @@
 					<div class="fr-box fr-basic fr-top" role="application">
 						<div class="fr-wrapper show-placeholder" dir="auto" >  <!-- style="overflow: scroll;" 제외 -->
 							<textarea name="formContent" id="smartEditor"
-								style="width: 100%; height: 412px;"></textarea>
+								style="width: 100%; height: 412px;">${forms.formContent}</textarea>
 						</div>
 					</div>
 				</div>
-
+				</form>
 			</div>	
      
              <!-- 버튼 -->
              <div class="d-grid gap-2 d-md-flex justify-content-md-center mx-4 my-4">
 			 	 <button class="btn choice_del" type="button">취소</button>
-			 	 <button class="btn choice_plus" type="button">생성</button>
+			 	 <button class="btn choice_plus" type="button">수정 완료</button>
 			 </div>
 				
 			
@@ -281,17 +294,17 @@
 
 	<script type="text/javascript">
 		
-	// 생성 버튼 클릭시 실행될 함수 
+	// '수정 완료' 버튼 클릭시 실행될 함수 
 	$('.choice_plus').click(function(){
 	    // SmartEditor에서 textarea에 내용 업데이트
 	    oEditors.getById["smartEditor"].exec("UPDATE_CONTENTS_FIELD", []); // 이 명령이 `textarea`의 값을 업데이트함
 		
 	    let htmlContent = document.getElementsByName("formContent")[0].value;
-	    console.log(htmlContent);  // 콘솔에서 HTML 값 확인
+	    // console.log(htmlContent);  // 콘솔에서 HTML 값 확인
 	    
 		// 폼 제출 (textarea 값은 자동으로 폼에 포함됨)
 	    $('#createForm').submit(); // form 제출 
-	    window.location.href = '/approval/approvalForm/detail?formId=' + id;
+	    /* window.location.href = '/approval/approvalForm/completionEdit ;  */
 	})
 	
 	// '목록' 버튼 클릭시 
@@ -299,6 +312,9 @@
 		// '새 양식 만들기' 페이지로 이동
 		window.location.href = '/approval/approvalForm';
 	})
+	
+	// '취소' 버튼 클릭시 
+	
 	
 	</script>
 

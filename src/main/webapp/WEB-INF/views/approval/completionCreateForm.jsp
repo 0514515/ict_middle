@@ -294,14 +294,25 @@
 	<script>
 	// '목록' 버튼 클릭시 
 	$('.choice_list').click(function() {
-		// '새 양식 만들기' 페이지로 이동
+		// '새 양식 만들기' 리스트 페이지로 이동
 		window.location.href = '/approval/approvalForm';
 	})
 	
 	$('.confirm_btn').click(function() {
-		// '새 양식 만들기' 페이지로 이동
+		// '새 양식 만들기' 페이지 리스트 페이지로 이동
 		window.location.href = '/approval/approvalForm';
 	})
+	
+	// '수정' 버튼 클릭시 
+	$('.modify_btn').click(function(){
+		// '양식 수정' 페이지로 이동
+		var urlParams = new URLSearchParams(window.location.search);
+		var formId = urlParams.get('formId'); // formId 파라미터 추출
+		// console.log(formId); 
+		window.location.href = '/approval/approvalForm/edit?formId=' + formId;
+		
+	})
+	
 	
 	</script>
     

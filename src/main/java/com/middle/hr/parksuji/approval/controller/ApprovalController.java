@@ -6,9 +6,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -22,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.middle.hr.parkjinuk.staff.service.StaffService;
 import com.middle.hr.parksuji.approval.service.FormService;
@@ -37,27 +35,6 @@ public class ApprovalController {
 	@Autowired
 	private StaffService staffService;
 	
-	private void deleteFiles(List<Forms> FormList) {
-		if(FormList == null || FormList.size() == 0) {
-			return; 
-		}
-		System.out.println("delete formList =====>" + FormList);
-		
-		FormList.forEach(form -> {
-			try {
-			// 파일 경로 생성
-			//Path file = Paths.get(UPLOAD_DIRECTORY, form.getUploadPath(), form.getUuid() + "_" + form.getFileName());
-			// 파일이 존재하면 삭제 
-			//Files.deleteIfExists(file);
-			} catch(Exception e) {
-				System.err.println("[컨트롤러]파일삭제시 에러 : " + e.getMessage());
-			}
-			
-			
-		});
-		
-		
-	}
 
 	// 전자결재 홈 
 	@GetMapping("approval")
@@ -67,11 +44,107 @@ public class ApprovalController {
 	
 	// 기안 작성하기 
 	@GetMapping("approval/writeDraft")
-	public String writeDraft() {
+	public String writeDraft() {		
 		return "/approval/writeDraft"; 
 	}
 	
-	// 기안 작성하기 _ 결재 상신 완료 
+	// 모달 - 결재 양식 db에서 불러오기  
+	@GetMapping("approval/getApprovalForm")
+	@ResponseBody  // ajax로 불러올 때 사용
+	public List<Forms> getApprovalForm() throws IOException {
+		List<Forms> formList = formService.getApprovalForm(); // getApprovalForm 통해서 forms 정보 가져와 담기 
+		System.out.println("===> [컨트롤러][approval/getApprovalForm]" + formList.toString());
+		
+		// 각 양식의 HTML 내용을 네트워크 공유 폴더에서 읽어와서 추가
+		for(Forms forms : formList) {
+			String filePath = forms.getPath();  // DB에 저장된 파일 경로
+			String formContent = readFileFromNetworkShare(filePath);  // 네트워크 공유 폴더에서 HTML 내용 읽기(아래 부분에 있음) 
+				   forms.setFormContent(formContent); 
+				   System.out.println("===> [컨트롤러][approval/getApprovalForm => forms]" + forms.toString());
+		}
+		
+		// 최종적으로 HTML 내용을 포함한 양식 목록을 반환하기 전에 확인
+	    System.out.println("===> [컨트롤러][getApprovalForm] 반환할 formList: " + formList);
+		
+		return formList;  // 최종적으로 HTML 내용을 포함한 양식 목록 반환
+	}
+	
+	
+	
+	
+	
+	
+	// 모달 - 결재선 db에서 불러오고 선택하기  
+	
+	// 기안 작성 후 결재상신 버튼 클릭시 폼 제출되며 불러오는 컨트롤러  
+//	@PostMapping("/draft_save")  // form action값 기입 
+//	public String saveWriteDraft(@RequestParam("draftDate") String draftedAt,  // 기안일자 input name값 가져오기 
+//									@RequestParam("documentType") String documentType,  // input name값 가져오기
+//									@RequestParam("formContent") String formContent,  // input name값 가져오기
+//									Model model, HttpSession session) throws IOException {
+//		
+//		// 결재상신 버튼 클릭하면 기안일자, 결재양식, 결재선, 기안서 제목, html 내용 담아서 완료 페이지로 보내기  
+//		
+//		
+//		 // 네트워크 공유 폴더의 경로 (절대 경로 사용)
+//	    String uploadDirectory = "\\\\DESKTOP-B94HRMS\\file\\approval\\uploads\\forms"; // 네트워크 공유 폴더 경로
+//		
+//		// 1. HTML 콘텐츠를 파일로 저장
+//		// String fileName = "form_" + System.currentTimeMillis() + ".html"; // 파일명, 날짜로 생성하는 방법
+//		String fileName = "form_" + UUID.randomUUID().toString() + ".html"; // 파일명, uuid로 생성하는 방법  
+//		File file = new File(uploadDirectory, fileName); // 실제 파일 객체 생성
+//		
+//		// 파일 경로 확인
+//	    System.out.println("Saving file to: " + file.getAbsolutePath());
+//		
+//		 // HTML 콘텐츠를 파일로 작성
+//	    try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+//	        writer.write(formContent);
+//	    } catch (IOException e) {
+//	        e.printStackTrace();
+//	        throw new IOException(" HTML content를 파일로 작성하는 데 실패했습니다.", e);
+//	    }
+//		
+//		// Forms 객체 생성하여 값 설정
+//		Forms forms = new Forms();  // vo 
+//		forms.setTitle(draftedAt); // 양식 제목 
+//		forms.setDocumentType(documentType); // 문서 구분
+//		forms.setFormContent(formContent); // html 콘텐츠
+//		forms.setPath(uploadDirectory + "\\" + fileName); // 파일 경로 
+//		
+//		//세션에서 로그인 아이디 받아오기
+//		String loginId = session.getAttribute("loginId").toString();
+//		
+//		//로그인 아이디로 회사 번호 가져오기
+//		Integer companyId = staffService.searchCompanyIdByLoginId(loginId);
+//		
+//		//로그인 아이디로 사번 가져오기
+//		Integer staffId = staffService.searchStaffIdByLoginId(loginId);
+//		
+//		//회사 번호와 사번을 forms에 set
+//		forms.setCompanyId(companyId);
+//		forms.setStaffId(staffId);
+//		
+//		// FormService를 통해 DB에 저장
+//		formService.insertForm(forms);
+//		
+//		// CURRVAL을 사용하여 방금 저장된 formId를 가져오기 (이미 생성된 ID를 가져옴)
+//		// FormService에서 formId를 가지고 forms 가져오는 코드
+//		Integer formId = formService.getRecentFormId(loginId);
+//		System.out.println(" ================> 컨트롤러 : " + formId);
+//	//	forms = new Forms();
+//	//	forms.setId(formId);
+//		
+//		// 모델에 forms 객체 추가 
+//		//model.addAttribute("formId", formId);
+//		
+//		// 양식 생성 완료 페이지로 이동
+//		return "redirect:approval/completionDraft?formId=" + formId; 
+//		
+//	}
+	
+	
+	// 기안 작성 후 결재 상신 완료 
 	@GetMapping("approval/writeDraft/completionDraft")
 	public String CompletionDraft() {
 		return "/approval/completionDraft"; 
@@ -129,38 +202,43 @@ public class ApprovalController {
 	}
 	
 	
-	// 양식관리 - 양식 목록 
+	// 양식 목록 페이지 
 	@GetMapping("approval/approvalForm")
-	public String getFormList(Model model) {
-		List<Forms> list = formService.getFormList();
-		model.addAttribute("formList", list);
+	public String getFormList(String documentType, String searchOption, String searchKeyword, Integer pageNum, Model model, HttpSession httpSession) {
+		
+		// 기본값 (첫 페이지 로딩 시 searchOption, searchKeyword가 null임)
+		if (searchOption == null)
+			searchOption = "title";
+		if (searchKeyword == null)
+			searchKeyword = "";
+		if (pageNum == null || pageNum < 0)
+			pageNum = 1;
+		
+		String loginId = httpSession.getAttribute("loginId").toString();
+		
+		// 검색 옵션과 키워드로 페이지네이션 검색 (회사 검색)
+		Map<String, Object> result = formService.getFormList(loginId, documentType, searchOption, searchKeyword, pageNum, 10);
+
+		model.addAttribute("formList", result.get("formList"));
+		model.addAttribute("totalPage", result.get("totalPages")); // 최대 페이지
+		model.addAttribute("pageNum", pageNum + ""); // 현재 페이지
+
+		// 검색 도구 값 유지용
+		model.addAttribute("documentType", documentType); 
+		model.addAttribute("searchOption", searchOption);
+		model.addAttribute("searchKeyword", searchKeyword);
+		
+		System.out.println("[컨트롤러 : approval/approvalForm]model====> " + model + toString());
+		
 		return "/approval/approvalForm";
 	}
 	
-
 	
-	// 양식관리 - 삭제 
-	@PostMapping("approval/approvalForm")
-	public String deleteForm(@RequestBody Map<String, List<Integer>> requestBody) {  // @RequestBody : json형식으로 데이터 전할 때 body에 데이터를 포함하여 전송 
-		List<Integer> formIds = requestBody.get("formIds");
-		System.out.println("Received content: " + formIds);  // 확인용 로그  
-		// 선택된 양식 ID들로 삭제 처리 
-		if(formIds != null && !formIds.isEmpty()) {
-			formService.deleteForm(formIds);
-		}
-		return "redirect:/approval/approvalForm";  // 삭제 후 목록 페이지로 리다이렉트 
-	}
-	
-	
-	// 양식관리 - 양식 생성하기
+	// 양식 생성하기
 	@GetMapping("approval/approvalForm/CreateForm")
 	public String createApprovalForm(Forms forms) {
 		return "/approval/createApprovalForm";
 	}
-	
-	
-
-	
 	
 	// 양식 생성시 html 입력 내용 저장하기 ( 공유 네트워크에 저장시 사용하는 방법 )
 	// 저장 후 양식 생성 완료 화면 출력 
@@ -232,17 +310,6 @@ public class ApprovalController {
 	}
 	
 	
-	
-	
-	// 양식관리 - 양식 생성 완료 화면  
-//	@GetMapping("approval/completionCreateForm")
-//	public String completionCreateForm(@RequestParam("formId") Integer formId, Model model) {
-//		// formId를 모델에 추가하여 양식 상세 정보를 보여줄 수 있도록 처리
-//	    model.addAttribute("formId", formId);
-//	    return "approval/completionCreateForm";
-//	}
-	
-	
 	// 양식관리 - 상세보기 페이지 
 	@GetMapping("approval/approvalForm/detail")
 	public String getFormById(Integer formId, Model model) throws IOException {
@@ -262,6 +329,7 @@ public class ApprovalController {
 		return "/approval/completionCreateForm"; 
 	} 
 	
+	// 네트워크 공유 폴더에서 HTML 내용 읽기
 	public String readFileFromNetworkShare(String filePath) throws IOException {
 	    StringBuilder content = new StringBuilder();
 
@@ -283,6 +351,109 @@ public class ApprovalController {
 	    return content.toString();
 	}
 	
+	
+	// 양식관리 - 삭제 
+	@PostMapping("approval/approvalForm")
+	public String deleteForm(@RequestBody Map<String, List<Integer>> requestBody) {  // @RequestBody : json형식으로 데이터 전할 때 body에 데이터를 포함하여 전송 
+		List<Integer> formIds = requestBody.get("formIds");
+		System.out.println("Received content: " + formIds);  // 확인용 로그  
+		// 선택된 양식 ID들로 삭제 처리 
+		if(formIds != null && !formIds.isEmpty()) {
+	        // DB에서의 양식 삭제 
+	        formService.deleteForm(formIds);
+			
+		}
+		
+		return "redirect:/approval/approvalForm";  // 삭제 후 목록 페이지로 리다이렉트 
+	}
+
+	// 양식관리 - 상세페이지에서 수정 버튼을 눌렀을 때 기존 데이터 가져오기 
+	@GetMapping("approval/approvalForm/edit")
+	public String getFormDetail(@RequestParam("formId") Integer formId, Model model,  HttpSession session) {
+		
+		//세션에서 로그인 아이디 받아오기
+		String loginId = session.getAttribute("loginId").toString();
+		
+		//로그인 아이디로 회사 번호 가져오기
+		Integer companyId = staffService.searchCompanyIdByLoginId(loginId);
+		
+		//로그인 아이디로 사번 가져오기
+		Integer staffId = staffService.searchStaffIdByLoginId(loginId);
+		
+		// formId로 수정할 양식 데이터를 DB에서 가져오기 
+		Forms forms = formService.getFormById(formId);
+		forms.setCompanyId(companyId);
+		forms.setStaffId(staffId);
+		
+		// formContent가 파일로 저장되어 있기 때문에, 해당 파일의 내용을 읽어온다.
+		if(forms.getPath() !=null) {
+			try {
+				// 파일 경로 읽기
+				File file = new File(forms.getPath());
+				StringBuilder contentBuilder = new StringBuilder();
+				try(BufferedReader reader = new BufferedReader(new FileReader(file))){
+					String line; 
+					while((line = reader.readLine()) != null) {
+						contentBuilder.append(line).append("\n");
+					}
+				}
+				// 파일 내용을 formContent에 설정
+				forms.setFormContent(contentBuilder.toString()); 
+			}catch(IOException e) {
+				e.printStackTrace(); // 파일 읽기 중 에러 처리 
+			}
+			
+		}
+		
+		// 가져온 양식 데이터를 모델에 추가
+		model.addAttribute("forms", forms);
+		
+		System.out.println("--->[컨트롤러]" + forms.toString());
+		
+		// 수정 페이지로 이동
+		return "/approval/updateApprovalForm"; 
+	}
+	
+	// 양식관리 - 수정 완료 버튼을 눌렀을 때 
+	@PostMapping("approval/approvalForm/completionEdit")
+	public String updateForm(@RequestParam("formId") Integer formId,
+				            @RequestParam("title") String title,
+				            @RequestParam("documentType") String documentType,
+				            @RequestParam("formContent") String formContent
+				           ) throws IOException {
+		
+		// html이 제대로 넘어오는지 확인
+		System.out.println("Received content: " + formId); 
+		System.out.println("Received content: " + title);   
+		System.out.println("Received content: " + documentType);   
+		System.out.println("Received content: " + formContent);   
+		
+		// 1. 수정할 양식 데이터를 DB에서 가져오기 
+		Forms existingForm = formService.getFormById(formId);
+		
+		// 2. 기존 파일 경로 가져오기 
+		String filePath = existingForm.getPath(); 
+		
+		// 3. formContent 파일로 덮어쓰기 (기존 파일 덮어쓰기) 
+		try(BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))){
+			writer.write(formContent); // 수정된 formContent를 파일에 덮어쓰기 
+		}catch(IOException e) {
+			e.printStackTrace();
+			throw new IOException("파일을 덮어쓰는 중 오류 발생", e); // 예외처리 
+		}
+		
+		// 4. 기존 데이터에 수정된 값 덮어쓰기 (파일 경로 포함)  
+		existingForm.setTitle(title);  // 제목 수정
+		existingForm.setDocumentType(documentType);  // 문서 구분 수정
+		existingForm.setFormContent(formContent);  // 양식 내용 수정(여기에서는 경로로만 사용) 
+		
+		
+		// 5. 수정된 폼(Forms 객체)을 DB에 저장
+		formService.updateForm(existingForm);
+			
+		// 수정 완료 후 해당 양식의 상세 페이지로 리다이렉트
+	    return "redirect:/approval/approvalForm/detail?formId=" + formId;   
+	}
 
 	// 관리자 - 전자결재 문서 통합 관리 
 	@GetMapping("management/approval")
