@@ -3,6 +3,51 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="StaffRepository">
 
+	<!-- 객체 매핑용 -->
+	<resultMap id="selectCompanyTree" type="Company">
+		<!-- company -->
+		<id property="id" column="company_id" />
+		<result property="name" column="company_name" />
+		
+		<!-- department -->
+		<collection property="departments" ofType="Department">
+			<id property="id" column="department_id" />
+			<result property="name" column="department_name" />
+			<result property="companyId" column="department_company_id" />
+
+			<!-- staff -->
+			<collection property="staffs" ofType="Staff">
+				<id property="staffId" column="staff_id" />
+				<result property="staffName" column="staff_name" />
+				<result property="departmentId" column="staff_department_id" />
+			</collection>
+		</collection>
+	</resultMap>
+
+	<!-- 회사 조직 트리구조 데이터 조회용 -->
+	<select id="selectCompanyTreeData" resultMap="selectCompanyTree">
+		SELECT
+			c.id company_id,
+			c.name company_name,
+			d.id department_id,
+			d.name department_name,
+			d.company_id department_company_id,
+			s.id staff_id,
+			s.department_id staff_department_id
+		FROM 
+			company c
+			INNER JOIN department d ON
+			c.id = d.company_id
+			INNER JOIN staff s ON
+			d.id = s.department_id
+		WHERE
+			c.id = (
+					SELECT s.company_id
+					FROM Staff s
+					WHERE login_id=#{login_id}
+					)
+	</select>
+
 	<!-- 사원 등록 -->
 	<insert id="insertStaff" parameterType="Staff">
 		INSERT INTO STAFF(id,
@@ -273,7 +318,8 @@
 		SELECT d.id, d.name,COUNT(s.id) totalStaffCount
 		FROM
 		department d
-		LEFT JOIN staff s ON
+		LEFT
+		JOIN staff s ON
 		s.DEPARTMENT_ID = d.ID
 		AND s.company_id = d.company_id
 		<where>
@@ -304,7 +350,8 @@
 		(SELECT COUNT(*)
 		FROM
 		department d
-		LEFT JOIN staff s ON
+		LEFT JOIN staff s
+		ON
 		s.DEPARTMENT_ID = d.ID
 		AND s.company_id = d.company_id
 		<where>
@@ -324,7 +371,7 @@
 			</if>
 		</where>
 		GROUP BY d.id, d.name)
-		
+
 	</select>
 
 

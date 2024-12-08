@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.middle.hr.parkjinuk.staff.repository.StaffRepository;
 import com.middle.hr.parkjinuk.staff.service.StaffService;
 import com.middle.hr.parkjinuk.staff.vo.Department;
 import com.middle.hr.parkjinuk.staff.vo.Login;
@@ -253,6 +254,8 @@ public class StaffController {
 
 		// 세션에 로그인 아이디 저장
 		session.setAttribute("loginId", loginId);
+		
+		System.out.println(staffService.searchCompanyTreeDataByLoginId(loginId));
 
 		// 로그인 아이디를 포함한 세션을 가지고 페이지 이동
 		return "redirect:/member/detail";

@@ -13,10 +13,15 @@ import lombok.ToString;
 @ToString
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class Department {
+public class Company {
 	private Long id;
 	private String name;
-	private Long companyId;
-	private Integer totalStaffCount;
-	private List<Staff> staffs;
+	private String address;
+	private String phoneNumber;
+	private String foundedAt;
+	private List<Department> departments;
+	
+	public List<Department> getDepartments() {
+	    return departments;
+	}
 }

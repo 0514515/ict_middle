@@ -11,6 +11,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.middle.hr.parkjinuk.staff.vo.Company;
 import com.middle.hr.parkjinuk.staff.vo.Department;
 import com.middle.hr.parkjinuk.staff.vo.Login;
 import com.middle.hr.parkjinuk.staff.vo.Staff;
@@ -231,5 +232,10 @@ public class StaffRepositoryImpl implements StaffRepository {
 		result.put("totalPages", totalPages); // 전체 페이지 수
 
 		return result;
+	}
+
+	// 회사 조직 트리구조 데이터 조회용
+	public Company selectCompanyTreeDataByLoginId(String loginId) {
+		return mybatis.selectOne("selectCompanyTreeData",loginId);
 	}
 }

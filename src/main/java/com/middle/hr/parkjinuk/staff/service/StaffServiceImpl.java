@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.middle.hr.parkjinuk.staff.repository.StaffRepository;
+import com.middle.hr.parkjinuk.staff.vo.Company;
 import com.middle.hr.parkjinuk.staff.vo.Department;
 import com.middle.hr.parkjinuk.staff.vo.Login;
 import com.middle.hr.parkjinuk.staff.vo.Staff;
@@ -100,6 +101,11 @@ public class StaffServiceImpl implements StaffService {
 			String searchKeyword, Integer pageNum, Integer pageSize) {
 		return staffRepository.selectDepartmentWithtotalStaffCountByLoginId(loginId, searchOption, searchKeyword,
 				pageNum, pageSize);
+	}
+
+	@Override
+	public Company searchCompanyTreeDataByLoginId(String loginId) {
+		return staffRepository.selectCompanyTreeDataByLoginId(loginId);
 	}
 
 }

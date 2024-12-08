@@ -14,6 +14,9 @@
 <!-- Favicon -->
 <link href="img/favicon.ico" rel="icon">
 
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+
 <!-- Google Web Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -257,12 +260,13 @@ body {
 									<div class="d-flex rounded h-100 mt-3 justify-content-center">
 										<div class="d-flex pe-2 justify-content-end h-50 w-25">
 											<button type="button" class="btn btn-primary text-nowrap"
-												data-bs-toggle="modal" data-bs-target="#exampleModal">수당
+												data-bs-toggle="modal" data-bs-target="#modal">수당
 												지급 추가</button>
 										</div>
 									</div>
 								</div>
 							</div>
+
 
 						</div>
 					</div>
@@ -277,91 +281,136 @@ body {
 				<!-- @@@@@@@@@@@@@@@@@@@@@@@@ -->
 			</div>
 
-			<!-- Modal -->
-			<div class="modal fade" id="exampleModal" tabindex="-1"
-				aria-labelledby="exampleModalLabel" aria-hidden="true">
-				<div class="modal-dialog modal-xl">
+			<div class="modal fade" id="modal" tabindex="-1"
+				aria-labelledby="formModalLabel" aria-hidden="true">
+				<div
+					class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h4 class="modal-title" id="exampleModalLabel">수당 지급 추가</h4>
-
+							<h5 class="modal-title" id="formModalLabel">수당 지급 추가</h5>
 							<button type="button" class="btn-close" data-bs-dismiss="modal"
 								aria-label="Close"></button>
 						</div>
 						<div class="modal-body">
-							<div class="row">
-								<div class="col">
-									<div class="bg-light rounded p-4">
-										<h5 class="mb-4 text-center">수당 목록</h5>
-										<div class="table-responsive" style="height: 550px">
-											<table class="table table-hover">
-												<thead>
-													<tr class="align-middle">
-														<th scope="col"><input type="checkbox"
-															class="form-check-input" id="exampleCheck1"></th>
-														<th scope="col">추가수당 이름</th>
-														<th scope="col">기본 액수</th>
-													</tr>
-												</thead>
-												<tbody>
 
-												</tbody>
-											</table>
+
+							<div class="row">
+								<div class="col-md-5 ms-auto">
+
+									<div class="row g-2">
+										<h5 class="mb-4 text-center">사원 목록</h5>
+										<div class="col-md-10">
+											<input type="text" class="form-control" id="search_input"
+												value="" placeholder="이름 또는 부서 검색"
+												onkeypress="show_name(event)">
+										</div>
+										<div class="col-md-2">
+											<button type="button" id="search_btn"
+												class="btn btn-primary mb-3">선택</button>
 										</div>
 									</div>
+
+									<!-- 트리구조 조직도 -->
+									<div class="tree_div overflow-scroll" style="height: 550px">
+										<div id="jstree">
+											<ul>
+												<li id="root">무한상사
+													<ul>
+														<li class="group" id="groupA">대표이사
+															<ul>
+																<li id="child1">유재석</li>
+															</ul>
+														</li>
+														<li class="group" id="groupB">경영지원부
+															<ul>
+																<li id="child2">홍진경 사원</li>
+																<li id="child3">남창희 사원</li>
+																<li id="child4">조세호 대리</li>
+																<li id="child5">이동욱 과장</li>
+																<li id="child6">황정민 부장</li>
+
+															</ul>
+														</li>
+														<li class="group" id="groupC">디자인부
+															<ul>
+																<li id="child7">양세찬 사원</li>
+																<li id="child8">이광수 사원</li>
+																<li id="child9">지예은 사원</li>
+																<li id="child10">송지효 대리</li>
+																<li id="child11">김종국 과장</li>
+																<li id="child12">지석진 부장</li>
+															</ul>
+														</li>
+														<li class="group" id="groupD">영업부
+															<ul>
+																<li id="child13">하동훈 사원</li>
+																<li id="child14">노홍철 사원</li>
+																<li id="child15">정형돈 대리</li>
+																<li id="child16">정준하 과장</li>
+																<li id="child17">박명수 부장</li>
+															</ul>
+														</li>
+													</ul>
+												</li>
+											</ul>
+										</div>
+
+									</div>
 								</div>
-								<div
-									class="col-sm-1 d-flex align-items-center justify-contet-center">
-									<div class="col d-flex justify-content-center">
-										<button type="button" class="btn btn-primary">
-											조회<br> →
+								<div class="col-md-2 ms-auto my-auto">
+									<div class="row justify-content-center">
+											<!-- 이전 검색 도구의 값을 유지 -->
+											<select class="form-select mb-3 w-75" name="searchOption"
+												id="searchOption">
+												<option value="staffName"
+													${"staffName".equals(searchOption) ? "selected" : ""}>사원
+													이름</option>
+											</select>
+									</div>
+
+									<!-- 추가 버튼 -->
+									<div class="row justify-content-center">
+										<button type="button" id="includeButton"
+											class="btn btn-primary mb-3 w-75">
+											대상 추가<i class="bi bi-caret-right-fill"></i>
+										</button>
+									</div>
+									
+									<!-- 제외 버튼 -->
+									<div class="row justify-content-center">
+										<button type="button" id="excludeButton"
+											class="btn btn-outline-primary mb-3 w-75">
+											<i class="bi bi-caret-left-fill"></i>대상 제외
 										</button>
 									</div>
 								</div>
-								<div class="col">
-									<div class="bg-light rounded p-4 justify-content-center">
-										<h5 class="mb-4 text-center">수당 지급 사원 목록</h5>
-										<div class="table-responsive" style="height: 550px">
-											<table class="table table-hover">
-												<thead>
-													<tr class="align-middle">
-														<th scope="col">사원 이름</th>
-														<th scope="col">추가수당 이름</th>
-														<th scope="col">금액</th>
-														<th scope="col">기본액수</th>
-													</tr>
-												</thead>
-												<tbody>
-
-													<tr class="align-middle">
-														<td>홍길동</td>
-														<td>식대</td>
-														<td>200,000원</td>
-														<td scope="col"><input type="checkbox"
-															class="form-check-input" id="exampleCheck1"></td>
-													</tr>
-													<tr class="align-middle">
-														<td>김길동</td>
-														<td>식대</td>
-														<td>200,000원</td>
-														<td scope="col"><input type="checkbox"
-															class="form-check-input" id="exampleCheck1"></td>
-													</tr>
-
-												</tbody>
-											</table>
-										</div>
+								<div class="col-md-5 ms-auto mr-2">
+									<h5 class="mb-4 text-center">신규 지급 대상 목록</h5>
+									<div class="table-responsive" style="height: 550px">
+										<table class="table table-hover">
+											<thead>
+												<tr class="align-middle">
+													<th scope="col"><input type="checkbox"
+																class="form-check-input" id="modalAllCheck"></th>
+													<th scope="col">이름</th>
+													<th scope="col">추가수당</th>
+													<th scope="col">금액</th>
+													<th scope="col">기본액수</th>
+												</tr>
+											</thead>
+											<tbody id="staffCommissionListBody">
+											</tbody>
+										</table>
 									</div>
+
 								</div>
 							</div>
-						</div>
 
+						</div>
 						<div class="modal-footer">
-							<div class="mx-auto">
-								<button type="button" class="btn btn-primary">저장</button>
-								<button type="button" class="btn btn-secondary"
-									data-bs-dismiss="modal">닫기</button>
-							</div>
+							<button type="button" class="btn btn-secondary"
+								data-bs-dismiss="modal">취소</button>
+							<button type="button" id="line_complete" class="btn btn-primary">적용</button>
 						</div>
 					</div>
 				</div>
@@ -391,6 +440,11 @@ body {
 		<!-- Template Javascript -->
 		<script src="/resources/template/js/main.js"></script>
 		<script src="/resources/salary/js/commissionManagement.js"></script>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+		<!-- jstree js -->
+		<script type="text/javascript"
+			src="/resources/salary/js/jstreeCustom.js"></script>
 </body>
 
 </html>
