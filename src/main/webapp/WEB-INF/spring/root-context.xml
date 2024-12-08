@@ -40,6 +40,7 @@
 				<value>com.middle.hr.parkjinuk.salary.vo.StaffCommission</value>
 				<!-- parksuji -->
 				<value>com.middle.hr.parksuji.approval.vo.Forms</value>
+				<value>com.middle.hr.parksuji.approval.vo.Approval</value>
 				<!-- parkeunbyeol -->
 				<value>com.middle.hr.parkeunbyeol.attendance.vo.Attendance</value>
 			</list>

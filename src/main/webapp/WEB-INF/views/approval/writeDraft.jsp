@@ -283,7 +283,7 @@
 						</div>
 						
 						
-						<div class="col-md-8 ms-auto frame_div">
+						<div id="frame_content" class="col-md-8 ms-auto frame_div">
 							<div id="formContent">
 								<!-- iframe pdf 사용시 툴바 숨기기 : 확장자명 뒤에 #toolbar=0&navpanes=0&scrollbar=0 추가 -->
 								<!-- <iframe
@@ -668,6 +668,7 @@
 			
 			// 모달이 열릴 떄마다 Ajax 요청을 보내 데이터 로드
 		 	$('#formModal').on('show.bs.modal', function(e){
+		 		
 		 		$.ajax({
 		 			url: '/approval/getApprovalForm', // 양식 목록 불러오는 서버API
 		 			method: 'GET',  // get 방식으로 요청 
@@ -693,71 +694,104 @@
 		 					
 	                    checkboxContainer.append(checkboxHtml);
 	                    
- 		 				});
-		 				
-		 				
+ 		 				});			
 		 			},
 		 			error: function(xhr, status, error){
 		 				console.log('AJAX 요청 실패:', error);  // 오류 메시지 출력
 		 		        alert('양식 목록을 불러오는 데 실패했습니다.');
 		 			}
 		 		});
-		 	});
-			
-			// 체크박스 선택했을 때 HTML을 렌더링 
-			$(document).on('change', 'input[type="checkbox"][name="formCheck"]', function(){
-				var selectedForms = $('input[type="checkbox"][name="formCheck"]:checked');
-				var formHtml=''; 
+		 		
+		 		
+				 // 양식 선택 체크박스 중복 적용 안 되도록
+				$(document).on('change', 'input[type="checkbox"][name="formCheck"]', function() {
+				    // 현재 체크된 상태가 아니면 다른 모든 체크박스 선택 해제
+				    if ($(this).prop('checked')) {
+					        // 다른 체크박스 선택 해제
+					        $('input[type="checkbox"][name="formCheck"]').prop('checked', false);
+					        // 현재 클릭된 체크박스만 체크
+					        $(this).prop('checked', true);
+				    } else {
+					        // 현재 체크박스가 해제되면 아무것도 선택되지 않도록
+					        $(this).prop('checked', false);
+				    }
+				});
 				
-				// 기존 HTML을 지우고, 새로 선택된 양식만 렌더링
-		        $('#formContent').empty(); 
-				
-				selectedForms.each(function(){
-					var html = $(this).data('html'); // 선택된 체크박스에 저장된 양식 HTML (data-html)
-					formHtml += html // 각 양식 HTML을 합쳐서 렌더링
-				})
-				
-				if(formHtml){
-					//새로운 html 삽입
-					$('#formContent').html(formHtml); 
-				}else{
-					// 만약 아무것도 선택되지 않았으면 빈 div 삽입
-					$('#formContent').html('<div>양식을 선택하세요 :</div>');
-				}
-				
-				
-				
-			});
-			
-			
-			// 양식 선택 체크박스 중복 적용 안 되도록
-			$(document).on('change', 'input[type="checkbox"][name="formCheck"]', function() {
-			    // 현재 체크된 상태가 아니면 다른 모든 체크박스 선택 해제
-			    if ($(this).prop('checked')) {
-				        // 다른 체크박스 선택 해제
-				        $('input[type="checkbox"][name="formCheck"]').prop('checked', false);
-				        // 현재 클릭된 체크박스만 체크
-				        $(this).prop('checked', true);
-			    } else {
-				        // 현재 체크박스가 해제되면 아무것도 선택되지 않도록
-				        $(this).prop('checked', false);
-			    }
-			});
-				
-			
-			// 양식 선택 모달창에서 양식 선택 후 '적용' 버튼 클릭시 
-			$('#formSelectBtn').click(function(){
-				// 모달창 닫기 
-				$('#formModal').modal('hide');
-				// 텍스트 필드 값 초기화 
-				var textField = $('#approval_form');
-				textField.val('');
-				
-				// input 옆에 있는 span의 값(양식 이름 text)을 spanTxt 변수에 저장 후 텍스트필드의 값으로 해당 값 출력 
-				var spanTxt = $('.form_ch_name input[name="formCheck"]:checked').next('span').text(); 
-				textField.val(spanTxt);
+				// 체크박스 선택했을 때 HTML을 렌더링 
+				$(document).on('change', 'input[type="checkbox"][name="formCheck"]', function(){
+					var selectedForms = $('input[type="checkbox"][name="formCheck"]:checked');
+					//var formHtml=''; 
 					
-			})
+					selectedForms.each(function(){
+						// 기존 HTML을 지우고, 새로 선택된 양식만 렌더링
+				        $('#formContent').empty(); 
+						var html = $(this).data('html'); // 선택된 체크박스에 저장된 양식 HTML (data-html)
+						var formHtml = $('#formContent').append(html); // 새로운 양식만 추가 
+						$('#frame_content').append(formHtml);
+					})
+					
+					//선택된 양식이 없다면 기본 메시지 출력
+					if(selectedForms.length === 0){
+						$('#formContent').html('<div>양식을 선택하세요.</div>')
+					}
+							
+					// 양식 선택 모달창에서 '적용' 버튼 클릭시
+				    $('#formSelectBtn').on('click', function(){
+				 		alert('모달창 적용버튼 클릭됨')
+						// 선택된 체크박스 가져오기 
+						//var selectedForms = $('input[type="checkbox"][name="formCheck"]:checked');
+						//var formHtml=''; 
+						
+// 						selectedForms.each(function(){
+// 							// 기존 HTML을 지우고, 새로 선택된 양식만 렌더링
+// 					        $('#formContent').empty(); 
+// 							var html = $(this).data('html'); // 선택된 체크박스에 저장된 양식 HTML (data-html)
+// 							var formHtml = $('#formContent').append(html); // 새로운 양식만 추가 
+// 							$('#frame_content').append(formHtml);
+// 						})
+						
+						// 스마트 에디터 textarea에 HTML 데이터 추가 
+						var smartEditor=$('#smartEditor');
+						smartEditor.val(formHtml); 
+						
+						// 모달창 닫기 
+						$('#formModal').modal('hide');
+						
+						// 텍스트 필드 값 초기화 
+						var textField = $('#approval_form');
+						textField.val('');
+						
+						// 텍스트 필드에 선택된 양식 이름 표시
+				        var selectedTitle = selectedForms.next('span').text(); // 체크박스 옆에 있는 span의 텍스트
+				        textField.val(selectedTitle || ''); // 선택된 양식 이름 없으면 빈 값 설정
+						
+						// input 옆에 있는 span의 값(양식 이름 text)을 spanTxt 변수에 저장 후 텍스트필드의 값으로 해당 값 출력 
+//							var spanTxt = $('.form_ch_name input[name="formCheck"]:checked').next('span').text(); 
+//							textField.val(spanTxt);
+				
+					})//   #formSelectBtn 클릭 end
+					
+					
+				})  // 체크박스 선택했을 때 end
+			 			
+				
+		 	});  // 양식선택 모달 end
+		 	
+			
+
+// 			// 양식 선택 모달창에서 양식 선택 후 '적용' 버튼 클릭시 
+// 			$('#formSelectBtn').click(function(){
+// 				// 모달창 닫기 
+// 				$('#formModal').modal('hide');
+// 				// 텍스트 필드 값 초기화 
+// 				var textField = $('#approval_form');
+// 				textField.val('');
+				
+// 				// input 옆에 있는 span의 값(양식 이름 text)을 spanTxt 변수에 저장 후 텍스트필드의 값으로 해당 값 출력 
+// 				var spanTxt = $('.form_ch_name input[name="formCheck"]:checked').next('span').text(); 
+// 				textField.val(spanTxt);
+						
+// 			})
 			
 			
 			// '적용' 버튼 클릭 시 '결재자' mainTable에 데이터 추가
