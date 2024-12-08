@@ -295,7 +295,7 @@ body {
 
 
 							<div class="row">
-								<div class="col-md-5 ms-auto">
+								<div class="col-md-4 ms-auto">
 
 									<div class="row g-2">
 										<h5 class="mb-4 text-center">사원 목록</h5>
@@ -314,42 +314,20 @@ body {
 									<div class="tree_div overflow-scroll" style="height: 550px">
 										<div id="jstree">
 											<ul>
-												<li id="root">무한상사
+												<!-- 회사 -->
+												<li id="root">${rootCompany.name}
 													<ul>
-														<li class="group" id="groupA">대표이사
-															<ul>
-																<li id="child1">유재석</li>
-															</ul>
-														</li>
-														<li class="group" id="groupB">경영지원부
-															<ul>
-																<li id="child2">홍진경 사원</li>
-																<li id="child3">남창희 사원</li>
-																<li id="child4">조세호 대리</li>
-																<li id="child5">이동욱 과장</li>
-																<li id="child6">황정민 부장</li>
-
-															</ul>
-														</li>
-														<li class="group" id="groupC">디자인부
-															<ul>
-																<li id="child7">양세찬 사원</li>
-																<li id="child8">이광수 사원</li>
-																<li id="child9">지예은 사원</li>
-																<li id="child10">송지효 대리</li>
-																<li id="child11">김종국 과장</li>
-																<li id="child12">지석진 부장</li>
-															</ul>
-														</li>
-														<li class="group" id="groupD">영업부
-															<ul>
-																<li id="child13">하동훈 사원</li>
-																<li id="child14">노홍철 사원</li>
-																<li id="child15">정형돈 대리</li>
-																<li id="child16">정준하 과장</li>
-																<li id="child17">박명수 부장</li>
-															</ul>
-														</li>
+														<!-- 부서 -->
+														<c:forEach var="department" items="${rootCompany.departments}">
+															<li class="group" id="group${department.id}">${department.name}
+																<ul>
+																	<!-- 직원 -->
+																	<c:forEach var="staff" items="${department.staffs}">
+																		<li staffId="${staff.staffId}" id="child${staff.staffId}">${staff.staffName}</li>
+																	</c:forEach>
+																</ul>
+															</li>
+														</c:forEach>
 													</ul>
 												</li>
 											</ul>
@@ -360,11 +338,12 @@ body {
 								<div class="col-md-2 ms-auto my-auto">
 									<div class="row justify-content-center">
 											<!-- 이전 검색 도구의 값을 유지 -->
-											<select class="form-select mb-3 w-75" name="searchOption"
-												id="searchOption">
-												<option value="staffName"
-													${"staffName".equals(searchOption) ? "selected" : ""}>사원
-													이름</option>
+											<select class="form-select mb-3 w-75"
+												id="commissionOption">
+												<c:forEach var="commission" items="${commissionList}">
+													<option value="${commission.id}"
+													defaultAmount="${commission.defaultAmount}">${commission.name}</option>
+												</c:forEach>
 											</select>
 									</div>
 
@@ -384,7 +363,7 @@ body {
 										</button>
 									</div>
 								</div>
-								<div class="col-md-5 ms-auto mr-2">
+								<div class="col-md-6 ms-auto mr-2">
 									<h5 class="mb-4 text-center">신규 지급 대상 목록</h5>
 									<div class="table-responsive" style="height: 550px">
 										<table class="table table-hover">
@@ -398,7 +377,7 @@ body {
 													<th scope="col">기본액수</th>
 												</tr>
 											</thead>
-											<tbody id="staffCommissionListBody">
+											<tbody id="staffCommissionListBodyModal">
 											</tbody>
 										</table>
 									</div>

@@ -22,6 +22,7 @@ import com.middle.hr.parkjinuk.salary.vo.Commission;
 import com.middle.hr.parkjinuk.salary.vo.Salary;
 import com.middle.hr.parkjinuk.salary.vo.StaffCommission;
 import com.middle.hr.parkjinuk.staff.service.StaffService;
+import com.middle.hr.parkjinuk.staff.vo.RootCompany;
 import com.middle.hr.parkjinuk.staff.vo.Staff;
 
 @Controller
@@ -131,6 +132,9 @@ public class SalaryController {
 
 		List<Commission> commissionList = salaryService.searchAllCommissionByLoginId(loginId);
 
+		RootCompany rootCompany = staffService.searchCompanyTreeDataByLoginId(loginId);
+		
+		model.addAttribute("rootCompany",rootCompany);
 		model.addAttribute("commissionList", commissionList);
 
 		return "salary/commissionManagement";
@@ -166,7 +170,6 @@ public class SalaryController {
 	@ResponseBody
 	public List<StaffCommission> getStaffCommissionList(@RequestBody List<Commission> commission){
 		List<StaffCommission> staffCommissionList = salaryService.searchStaffCommission(commission);
-		System.out.println(staffCommissionList);
 		return staffCommissionList;
 	}
 

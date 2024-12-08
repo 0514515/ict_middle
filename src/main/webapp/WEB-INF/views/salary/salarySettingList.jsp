@@ -146,8 +146,8 @@ body {
 									<th><input type="checkbox" class="form-check-input"
 										id="allCheck"></th>
 									<th scope="col">사원 이름</th>
-									<th scope="col">기본급 이름</th>
 									<th scope="col">금액 액수</th>
+									<th scope="col">기본급 이름</th>
 								</tr>
 							</thead>
 							<tbody id="tableBody">

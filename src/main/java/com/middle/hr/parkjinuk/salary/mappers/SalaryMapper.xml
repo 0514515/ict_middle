@@ -3,7 +3,7 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="SalaryRepository">
 
-	<!-- 기본급 항목 전체 조회 -->
+	<!-- 로그인 아이디로 기본급 항목 전체 조회 -->
 	<select id="selectBaseSalaryByLoginId" parameterType="String"
 		resultType="Salary">
 		SELECT bs.id id, bs.name name, bs.amount amount,
