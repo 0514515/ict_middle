@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.middle.hr.parkjinuk.staff.repository.StaffRepository;
 import com.middle.hr.parkjinuk.staff.service.StaffService;
 import com.middle.hr.parkjinuk.staff.vo.Department;
 import com.middle.hr.parkjinuk.staff.vo.Login;
+import com.middle.hr.parkjinuk.staff.vo.RootCompany;
 import com.middle.hr.parkjinuk.staff.vo.Staff;
 
 @Controller
@@ -234,6 +234,16 @@ public class StaffController {
 		staffService.updateStaffDepartment(staffList);
 		
 		return "redirect:/member/department";
+	}
+	
+	// 회사 조직 트리구조 데이터 조회용 ajax
+	@GetMapping("company/tree")
+	@ResponseBody
+	public RootCompany getCompanyTreeData(HttpSession session) {
+		
+		RootCompany rootCompany = staffService.searchCompanyTreeDataByLoginId(session.getAttribute("loginId").toString());
+		
+		return rootCompany;
 	}
 	
 	// 로그인

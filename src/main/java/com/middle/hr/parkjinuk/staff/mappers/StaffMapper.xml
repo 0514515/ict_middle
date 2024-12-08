@@ -4,7 +4,7 @@
 <mapper namespace="StaffRepository">
 
 	<!-- 객체 매핑용 -->
-	<resultMap id="selectCompanyTree" type="Company">
+	<resultMap id="selectCompanyTree" type="RootCompany">
 		<!-- company -->
 		<id property="id" column="company_id" />
 		<result property="name" column="company_name" />
@@ -33,7 +33,8 @@
 			d.name department_name,
 			d.company_id department_company_id,
 			s.id staff_id,
-			s.department_id staff_department_id
+			s.department_id staff_department_id,
+			s.name staff_name
 		FROM 
 			company c
 			INNER JOIN department d ON

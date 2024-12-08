@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.middle.hr.parkjinuk.staff.repository.StaffRepository;
-import com.middle.hr.parkjinuk.staff.vo.Company;
 import com.middle.hr.parkjinuk.staff.vo.Department;
 import com.middle.hr.parkjinuk.staff.vo.Login;
+import com.middle.hr.parkjinuk.staff.vo.RootCompany;
 import com.middle.hr.parkjinuk.staff.vo.Staff;
 
 @Service
@@ -104,7 +104,7 @@ public class StaffServiceImpl implements StaffService {
 	}
 
 	@Override
-	public Company searchCompanyTreeDataByLoginId(String loginId) {
+	public RootCompany searchCompanyTreeDataByLoginId(String loginId) {
 		return staffRepository.selectCompanyTreeDataByLoginId(loginId);
 	}
 

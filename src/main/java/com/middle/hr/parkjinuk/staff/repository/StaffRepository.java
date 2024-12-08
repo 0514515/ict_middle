@@ -3,9 +3,9 @@ package com.middle.hr.parkjinuk.staff.repository;
 import java.util.List;
 import java.util.Map;
 
-import com.middle.hr.parkjinuk.staff.vo.Company;
 import com.middle.hr.parkjinuk.staff.vo.Department;
 import com.middle.hr.parkjinuk.staff.vo.Login;
+import com.middle.hr.parkjinuk.staff.vo.RootCompany;
 import com.middle.hr.parkjinuk.staff.vo.Staff;
 
 public interface StaffRepository {
@@ -51,7 +51,7 @@ public interface StaffRepository {
 			String searchKeyword, Integer pageNum, Integer pageSize);
 
 	// 회사 조직 트리구조 데이터 조회용
-	Company selectCompanyTreeDataByLoginId(String loginId);
+	RootCompany selectCompanyTreeDataByLoginId(String loginId);
 	
 	// 로그인
 	String login(Login login);
