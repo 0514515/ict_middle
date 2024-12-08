@@ -23,8 +23,11 @@ $(function(){
             let staffName = node.text;
 
             // 중복 추가 방지
-            if ($(`#staffCommissionListBodyModal input[value="${staffId}"]`).length > 0) {
-                alert(`${staffName}은(는) 이미 추가되었습니다.`);
+            if (
+                $(`#staffCommissionListBodyModal input[name="staffId"][value="${staffId}"]`)
+                    .closest("tr")
+                    .find(`input[name="commissionId"][value="${commissionId}"]`).length > 0
+            ) {
                 return;
             }
 
@@ -33,25 +36,27 @@ $(function(){
             tr.append(
                 $("<input/>").attr({ type: "hidden", value: staffId, name: "staffId" }),
                 $("<input/>").attr({ type: "hidden", value: commissionId, name: "commissionId" }),
-                $("<th/>").append($("<input/>").attr({ type: "checkbox", class: "form-check-input" })),
+                $("<th/>").append(
+                    $("<input/>").attr({ type: "checkbox", class: "form-check-input row-checkbox" }) // 행별 체크박스 클래스 추가
+                ),
                 $("<td/>").text(staffName),
                 $("<td/>").text(commissionName),
                 $("<td/>").addClass("w-25").append(
-				    $("<div/>").addClass("row g-0").append(
-				        $("<div/>").addClass("col-auto").append(
-				            $("<input/>").attr({
-				                class: "form-control",
-				                type: "text",
-				                name: `amount_${staffId}`,
-				                value: defaultAmount
-				            })
-				        )
-				    )
-				),
+                    $("<div/>").addClass("row g-0").append(
+                        $("<div/>").addClass("col-auto").append(
+                            $("<input/>").attr({
+                                class: "form-control",
+                                type: "text",
+                                name: `amount_${staffId}_${commissionId}`,
+                                value: defaultAmount
+                            })
+                        )
+                    )
+                ),
                 $("<td/>").append(
                     $("<select/>").attr({
                         class: "form-select",
-                        name: `isDefaultAmount_${staffId}`
+                        name: `isDefaultAmount_${staffId}_${commissionId}`
                     }).append(
                         $("<option/>").attr({ value: "1" }).text("예"),
                         $("<option/>").attr({ value: "0" }).text("아니오")
@@ -64,11 +69,19 @@ $(function(){
         });
     });
 
-    // "대상 제외" 버튼 클릭 시 체크된 행 삭제
-    $("#excludeButton").on("click", function () {
-        $("#staffCommissionListBodyModal input[type='checkbox']:checked").each(function () {
-            $(this).closest("tr").remove();
-        });
+    // 개별 체크박스 클릭 이벤트
+    $("#staffCommissionListBodyModal").on("click", "input.row-checkbox", function (e) {
+        e.stopPropagation(); // 클릭 이벤트가 부모 요소로 전파되지 않도록 설정
+    });
+
+    // 행 클릭 시 체크박스 선택/해제
+    $("#staffCommissionListBodyModal").on("click", "tr", function (e) {
+        // 클릭한 대상이 input[type="text"]나 select, 체크박스라면 무시
+        if ($(e.target).is("input[type='text'], select, input[type='checkbox']")) {
+            return;
+        }
+        let checkbox = $(this).find("input[type='checkbox']");
+        checkbox.prop("checked", !checkbox.prop("checked"));
     });
 
     // 전체 선택/해제
@@ -77,14 +90,11 @@ $(function(){
         $("#staffCommissionListBodyModal input[type='checkbox']").prop("checked", isChecked);
     });
 
-    // 행 클릭 시 체크박스 선택/해제
-    $("#staffCommissionListBodyModal").on("click", "tr", function (e) {
-        // 클릭한 대상이 input[type="text"]나 select라면 무시
-        if ($(e.target).is("input[type='text'], select")) {
-            return;
-        }
-        let checkbox = $(this).find("input[type='checkbox']");
-        checkbox.prop("checked", !checkbox.prop("checked"));
+    // "대상 제외" 버튼 클릭 시 체크된 행 삭제
+    $("#excludeButton").on("click", function () {
+        $("#staffCommissionListBodyModal input[type='checkbox']:checked").each(function () {
+            $(this).closest("tr").remove();
+        });
     });
 			
 		// 엔터 클릭시 서치 
