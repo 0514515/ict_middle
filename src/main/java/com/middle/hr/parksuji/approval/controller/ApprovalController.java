@@ -44,7 +44,8 @@ public class ApprovalController {
 	
 	// 기안 작성하기 
 	@GetMapping("approval/writeDraft")
-	public String writeDraft() {		
+	public String writeDraft() {	
+		
 		return "/approval/writeDraft"; 
 	}
 	
@@ -52,6 +53,7 @@ public class ApprovalController {
 	@GetMapping("approval/getApprovalForm")
 	@ResponseBody  // ajax로 불러올 때 사용
 	public List<Forms> getApprovalForm() throws IOException {
+		System.out.println("여기****************");
 		List<Forms> formList = formService.getApprovalForm(); // getApprovalForm 통해서 forms 정보 가져와 담기 
 		System.out.println("===> [컨트롤러][approval/getApprovalForm]" + formList.toString());
 		
@@ -75,6 +77,9 @@ public class ApprovalController {
 	
 	
 	// 모달 - 결재선 db에서 불러오고 선택하기  
+	
+	
+	
 	
 	// 기안 작성 후 결재상신 버튼 클릭시 폼 제출되며 불러오는 컨트롤러  
 //	@PostMapping("/draft_save")  // form action값 기입 
