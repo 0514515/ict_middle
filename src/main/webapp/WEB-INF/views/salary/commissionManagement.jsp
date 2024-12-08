@@ -389,7 +389,7 @@ body {
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary"
 								data-bs-dismiss="modal">취소</button>
-							<button type="button" id="line_complete" class="btn btn-primary">적용</button>
+							<button type="button" id="addCommission" class="btn btn-primary">저장</button>
 						</div>
 					</div>
 				</div>

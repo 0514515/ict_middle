@@ -150,4 +150,25 @@ public class SalaryRepositoryImpl implements SalaryRepository {
 	    param.put("commissionList", commissionList);
 		return mybatis.selectList("SalaryRepository.selectStaffCommission",param);
 	}
+	
+	// 사원 추가 수당 지급
+	@Override
+	public Integer insertStaffCommission(List<StaffCommission> staffCommission) {
+		// 배치 처리용 세션 열기
+		SqlSession sqlSession = mybatis.getSqlSessionFactory().openSession(ExecutorType.BATCH, false);
+
+		try {
+			// 리스트의 각 staff에 대해 UPDATE 쿼리 실행
+			for (StaffCommission sc : staffCommission) {
+				sqlSession.update("SalaryRepository.insertStaffCommission", sc);
+			}
+
+			// 배치 후 커밋
+			sqlSession.commit();
+		} finally {
+			sqlSession.close();
+		}
+
+		return staffCommission.size();
+	};
 }

@@ -172,6 +172,13 @@ public class SalaryController {
 		List<StaffCommission> staffCommissionList = salaryService.searchStaffCommission(commission);
 		return staffCommissionList;
 	}
+	
+	// 추가 수당 지급
+	@PostMapping("salary/commission/staff")
+	@ResponseBody
+	public Integer addStaffCommission(@RequestBody List<StaffCommission> staffCommission) {
+		return salaryService.addStaffCommission(staffCommission);
+	}
 
 	// 급여 명세 페이지
 	@GetMapping("salary/specify")

@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.middle.hr.parkjinuk.salary.vo.StaffCommission;
 import com.middle.hr.parkjinuk.staff.repository.StaffRepository;
 import com.middle.hr.parkjinuk.staff.vo.Department;
 import com.middle.hr.parkjinuk.staff.vo.Login;
@@ -103,9 +104,9 @@ public class StaffServiceImpl implements StaffService {
 				pageNum, pageSize);
 	}
 
+	// 회사 조직 트리구조 데이터 조회용
 	@Override
 	public RootCompany searchCompanyTreeDataByLoginId(String loginId) {
 		return staffRepository.selectCompanyTreeDataByLoginId(loginId);
 	}
-
 }

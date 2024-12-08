@@ -11,6 +11,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.middle.hr.parkjinuk.salary.vo.StaffCommission;
 import com.middle.hr.parkjinuk.staff.vo.Department;
 import com.middle.hr.parkjinuk.staff.vo.Login;
 import com.middle.hr.parkjinuk.staff.vo.RootCompany;
@@ -238,4 +239,5 @@ public class StaffRepositoryImpl implements StaffRepository {
 	public RootCompany selectCompanyTreeDataByLoginId(String loginId) {
 		return mybatis.selectOne("selectCompanyTreeData",loginId);
 	}
+	
 }

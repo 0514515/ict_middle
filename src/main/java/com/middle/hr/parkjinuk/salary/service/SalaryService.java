@@ -43,4 +43,7 @@ public interface SalaryService {
 
 	// 추가 수당을 받는 사원 조회
 	List<StaffCommission> searchStaffCommission(List<Commission> commissionList);
+	
+	// 사원 추가 수당 지급
+	Integer addStaffCommission(List<StaffCommission> staffCommission);
 }

@@ -3,6 +3,7 @@ package com.middle.hr.parkjinuk.staff.repository;
 import java.util.List;
 import java.util.Map;
 
+import com.middle.hr.parkjinuk.salary.vo.StaffCommission;
 import com.middle.hr.parkjinuk.staff.vo.Department;
 import com.middle.hr.parkjinuk.staff.vo.Login;
 import com.middle.hr.parkjinuk.staff.vo.RootCompany;

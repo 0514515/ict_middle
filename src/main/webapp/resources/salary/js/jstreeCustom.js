@@ -1,12 +1,29 @@
 $(function(){
-	
-	// jstree 초기화
+    // jstree 초기화
     $('#jstree').jstree({
         'plugins': ['checkbox', 'search'],
         'checkbox': {
-            'three_state': false
+            'three_state': true // 부모-자식 관계를 자동으로 처리
         }
     }).jstree('open_all');
+
+    // 부모 노드 체크 시 자식 노드 동작
+    $('#jstree').on('check_node.jstree', function (e, data) {
+        if (data.node.children_d) {
+            data.node.children_d.forEach(function (childId) {
+                $('#jstree').jstree('check_node', childId);
+            });
+        }
+    });
+
+    // 부모 노드 체크 해제 시 자식 노드 동작
+    $('#jstree').on('uncheck_node.jstree', function (e, data) {
+        if (data.node.children_d) {
+            data.node.children_d.forEach(function (childId) {
+                $('#jstree').jstree('uncheck_node', childId);
+            });
+        }
+    });
 
     // "대상 추가" 버튼 클릭
     $("#includeButton").on("click", function () {
@@ -21,6 +38,11 @@ $(function(){
         checkedNodes.forEach(function (node) {
             let staffId = $("#" + node.id).attr("staffId");
             let staffName = node.text;
+
+            // staffId가 없는 경우 회사/부서 노드이므로 추가하지 않음
+            if (!staffId) {
+                return;
+            }
 
             // 중복 추가 방지
             if (
@@ -37,21 +59,17 @@ $(function(){
                 $("<input/>").attr({ type: "hidden", value: staffId, name: "staffId" }),
                 $("<input/>").attr({ type: "hidden", value: commissionId, name: "commissionId" }),
                 $("<th/>").append(
-                    $("<input/>").attr({ type: "checkbox", class: "form-check-input row-checkbox" }) // 행별 체크박스 클래스 추가
+                    $("<input/>").attr({ type: "checkbox", class: "form-check-input row-checkbox" })
                 ),
                 $("<td/>").text(staffName),
                 $("<td/>").text(commissionName),
                 $("<td/>").addClass("w-25").append(
-                    $("<div/>").addClass("row g-0").append(
-                        $("<div/>").addClass("col-auto").append(
-                            $("<input/>").attr({
-                                class: "form-control",
-                                type: "text",
-                                name: `amount_${staffId}_${commissionId}`,
-                                value: defaultAmount
-                            })
-                        )
-                    )
+                    $("<input/>").attr({
+                        class: "form-control",
+                        type: "text",
+                        name: `amount_${staffId}_${commissionId}`,
+                        value: defaultAmount
+                    })
                 ),
                 $("<td/>").append(
                     $("<select/>").attr({
@@ -96,53 +114,52 @@ $(function(){
             $(this).closest("tr").remove();
         });
     });
-			
-		// 엔터 클릭시 서치 
-		function show_name(e){
-	           
-           var searchTxt = document.getElementById("search_input").value;
-           var code = e.code;
-
-           if(code == 'Enter'){ 
-        	   $('#jstree').jstree(true).search(searchTxt);
-           }
-           
+    
+    // "적용" 버튼 클릭
+    $("#addCommission").on("click", function () {
+        // 사용자 확인
+        if (!confirm("신규 지급 하겠습니까?")) {
+            return; // 취소 시 함수 종료
         }
-		
-		// 검색 버튼 클릭시 서치 
-		$('#search_btn').click(function(){
-			 var searchTxt = document.getElementById("search_input").value;
-			 $('#jstree').jstree(true).search(searchTxt);
-		})
-		
-		// 엔터 키 이벤트 리스너 추가
-	    document.getElementById("search_input").addEventListener("keydown", show_name);
-		
-		$('#jstree').jstree(true).search(text);
-		// $("#jstree").jstree("search", searchString);
-		
-		// changed.jstree 이벤트 핸들링
-		$('#jstree').on('changed.jstree', function(e, data) {
-			console.log('변경된 노드 ID:', data.selected);
-		});
 
-		// open_node.jstree 이벤트 핸들링
-		$('#jstree').on('open_node.jstree', function(e, data) {
-			console.log('노드가 열렸습니다:', data.node.text);
-		});
+        // 신규 지급 대상 목록 테이블 데이터 수집
+        let data = [];
+        $("#staffCommissionListBodyModal tr").each(function () {
+            let staffId = $(this).find("input[name='staffId']").val();
+            let commissionId = $(this).find("input[name='commissionId']").val();
+            let amount = $(this).find("input[name^='amount']").val();
+            let isDefaultAmount = $(this).find("select[name^='isDefaultAmount']").val();
 
-		// close_node.jstree 이벤트 핸들링
-		$('#jstree').on('close_node.jstree', function(e, data) {
-			console.log('노드가 닫혔습니다:', data.node.text);
-		});
+            // 데이터 객체 생성
+            let row = {
+                staffId: staffId,
+                commissionId: commissionId,
+                amount: amount,
+                checkDefaultAmount: isDefaultAmount
+            };
 
-		// select_node.jstree 이벤트 핸들링
-		$('#jstree').on('select_node.jstree', function(e, data) {
-			console.log('노드가 선택되었습니다:', data.node.text);
-		});
+            // 배열에 추가
+            data.push(row);
+        });
 
-		// deselect_node.jstree 이벤트 핸들링
-		$('#jstree').on('deselect_node.jstree', function(e, data) {
-			console.log('노드 선택이 해제되었습니다:', data.node.text);
-		});
-})
+        // 서버로 AJAX 요청 보내기
+        $.ajax({
+            url: "/salary/commission/staff", // 서버 API 엔드포인트
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(data), // 데이터를 JSON 문자열로 변환하여 전송
+            success: function (response) {
+                // 성공 시 처리
+                alert("신규 지급이 완료되었습니다.");
+                // 모달 닫기 및 테이블 초기화
+                $("#staffCommissionListBodyModal").empty();
+                $("#modal").modal("hide");
+            },
+            error: function (xhr, status, error) {
+                // 실패 시 처리
+                alert("신규 지급 처리 중 오류가 발생했습니다. 다시 시도해주세요.");
+                console.error("오류 내용:", error);
+            }
+        });
+    });
+});

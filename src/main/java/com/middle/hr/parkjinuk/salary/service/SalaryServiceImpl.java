@@ -81,7 +81,13 @@ public class SalaryServiceImpl implements SalaryService {
 
 	// 추가 수당을 받는 사원 조회
 	@Override
-	public List<StaffCommission> searchStaffCommission(List<Commission> commissionList){
+	public List<StaffCommission> searchStaffCommission(List<Commission> commissionList) {
 		return salaryRepository.selectStaffCommission(commissionList);
+	};
+
+	// 사원 추가 수당 지급
+	@Override
+	public Integer addStaffCommission(List<StaffCommission> staffCommission) {
+		return salaryRepository.insertStaffCommission(staffCommission);
 	};
 }

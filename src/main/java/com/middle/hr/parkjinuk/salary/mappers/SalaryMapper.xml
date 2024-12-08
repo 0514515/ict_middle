@@ -151,4 +151,10 @@
 			#{commission.id}
 		</foreach>
 	</select>
+	
+	<!-- 사원의 추가수당 추가 -->
+	<insert id="insertStaffCommission" parameterType="StaffCommission">
+		INSERT INTO staff_commision(commission_id, staff_id, check_default_amount, amount)
+		VALUES(${commissionId},${staffId},${checkDefaultAmount},${amount})
+	</insert>
 </mapper>
