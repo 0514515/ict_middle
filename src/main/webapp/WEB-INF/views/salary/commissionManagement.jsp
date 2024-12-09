@@ -243,6 +243,8 @@ body {
 												<table class="table table-hover">
 													<thead>
 														<tr class="align-middle">
+															<th scope="col"><input type="checkbox"
+																class="form-check-input" id="allCheck2"></th>
 															<th scope="col">사원 이름</th>
 															<th scope="col">추가수당 이름</th>
 															<th scope="col">금액</th>
@@ -262,6 +264,11 @@ body {
 											<button type="button" class="btn btn-primary text-nowrap"
 												data-bs-toggle="modal" data-bs-target="#modal">수당
 												지급 추가</button>
+										</div>
+										<div class="d-flex px-1 justify-content-end h-50">
+											<button type="button"
+												class="btn btn-outline-primary text-nowrap"
+												id="commissionDeleteButton">수당 지급 삭제</button>
 										</div>
 									</div>
 								</div>
@@ -318,12 +325,14 @@ body {
 												<li id="root">${rootCompany.name}
 													<ul>
 														<!-- 부서 -->
-														<c:forEach var="department" items="${rootCompany.departments}">
+														<c:forEach var="department"
+															items="${rootCompany.departments}">
 															<li class="group" id="group${department.id}">${department.name}
 																<ul>
 																	<!-- 직원 -->
 																	<c:forEach var="staff" items="${department.staffs}">
-																		<li staffId="${staff.staffId}" id="child${staff.staffId}">${staff.staffName}</li>
+																		<li staffId="${staff.staffId}"
+																			id="child${staff.staffId}">${staff.staffName}</li>
 																	</c:forEach>
 																</ul>
 															</li>
@@ -337,14 +346,13 @@ body {
 								</div>
 								<div class="col-md-2 ms-auto my-auto">
 									<div class="row justify-content-center">
-											<!-- 이전 검색 도구의 값을 유지 -->
-											<select class="form-select mb-3 w-75"
-												id="commissionOption">
-												<c:forEach var="commission" items="${commissionList}">
-													<option value="${commission.id}"
+										<!-- 이전 검색 도구의 값을 유지 -->
+										<select class="form-select mb-3 w-75" id="commissionOption">
+											<c:forEach var="commission" items="${commissionList}">
+												<option value="${commission.id}"
 													defaultAmount="${commission.defaultAmount}">${commission.name}</option>
-												</c:forEach>
-											</select>
+											</c:forEach>
+										</select>
 									</div>
 
 									<!-- 추가 버튼 -->
@@ -354,7 +362,7 @@ body {
 											대상 추가<i class="bi bi-caret-right-fill"></i>
 										</button>
 									</div>
-									
+
 									<!-- 제외 버튼 -->
 									<div class="row justify-content-center">
 										<button type="button" id="excludeButton"
@@ -370,7 +378,7 @@ body {
 											<thead>
 												<tr class="align-middle">
 													<th scope="col"><input type="checkbox"
-																class="form-check-input" id="modalAllCheck"></th>
+														class="form-check-input" id="modalAllCheck"></th>
 													<th scope="col">이름</th>
 													<th scope="col">추가수당</th>
 													<th scope="col">금액</th>

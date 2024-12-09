@@ -111,6 +111,11 @@ $(function() {
         let isChecked = $(this).prop('checked');
         $('#commissionListBody input[type="checkbox"]').prop('checked', isChecked);
     });
+    
+    // 수당 지급 삭제 버튼 클릭 시 수당 지급 사원 목록에서 체크된 수당 지급 삭제
+    $("#commissionDeleteButton").on("click",function(){
+    	
+    });
 });
 
 // 테이블 새로고침 함수
@@ -189,7 +194,12 @@ let refreshCommissionStaffList = function(param){
             for(let staffCommission of result){
             	let tr = $("<tr/>");
             	
-            	
+            	let selectCheckboxTd = $("<th/>").append(
+					$("<input/>").attr({
+						type:"checkbox",
+						class:"form-check-input"
+					})
+				);
             	let staffNameTd = $("<td/>").text(staffCommission.staffName);
             	let commissionNameTd = $("<td/>").text(staffCommission.commissionName);
             	let amountTd = $("<td/>").text(staffCommission.amount);
@@ -201,6 +211,7 @@ let refreshCommissionStaffList = function(param){
             			})
             	);
             	
+            	tr.append(selectCheckboxTd);
         	    tr.append(staffNameTd);
 			    tr.append(commissionNameTd);
 			    tr.append(amountTd);
