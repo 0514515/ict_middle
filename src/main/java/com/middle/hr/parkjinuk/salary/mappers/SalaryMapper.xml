@@ -177,6 +177,7 @@
 		type="Staff">
 		<id property="staffId" column="staffId" />
 		<result property="staffName" column="staffName" />
+		<result property="companyId" column="companyId"/>
 		<result property="basicSalaryAmount" column="basicSalaryAmount" />
 		<collection property="staffCommissionList"
 			ofType="StaffCommission">
@@ -189,29 +190,25 @@
 		</collection>
 	</resultMap>
 
-	<!-- 급여 명세 : 한 사원이 받는 수당들 조회 -->
 	<select id="selectStaffWithBasicSalaryAndStaffCommissions"
 		resultMap="StaffWithStaffCommissionsResultMap">
 		SELECT
+		s.company_id AS companyId,
 		s.id AS staffId,
 		s.name AS staffName,
-		bs.amount AS
-		basicSalaryAmount,
-		sc.commission_id AS commissionId,
-		c.name AS
-		commissionName,
-		sc.staff_id AS staffId,
+		bs.amount AS basicSalaryAmount,
+		c.id AS commissionId,
+		c.name AS commissionName,
 		NVL(sc.amount, 0) AS commissionAmount,
-		sc.check_default_amount AS checkDefaultAmount
+		NVL(sc.check_default_amount, 0) AS checkDefaultAmount
 		FROM
 		staff s
 		INNER JOIN
 		basic_salary bs ON bs.id = s.salary_id
+		CROSS JOIN
+		commission c
 		LEFT JOIN
-		staff_commision sc ON
-		s.id = sc.staff_id
-		LEFT JOIN
-		commission c ON sc.commission_id = c.id
+		staff_commision sc ON s.id = sc.staff_id AND c.id = sc.commission_id
 		WHERE
 		s.id IN
 		<foreach collection="list" item="staff" open="(" separator=","
@@ -219,4 +216,5 @@
 			#{staff.staffId}
 		</foreach>
 	</select>
+
 </mapper>

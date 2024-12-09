@@ -40,7 +40,7 @@
 		INSERT INTO
 		STAFF(id, login_id, password, name,
 		phone_number, rank, email, hired_date, hiring_status, created_at,
-		updated_at, max_leave, leave_count, authority, department_id)
+		updated_at, max_leave, leave_count, authority, company_id)
 		VALUES
 		(seq_staff_id.nextval, #{loginId},#{password}, #{staffName},
 		#{phoneNumber},

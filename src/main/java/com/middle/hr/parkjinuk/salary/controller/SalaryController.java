@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import com.middle.hr.parkjinuk.salary.service.SalaryService;
 import com.middle.hr.parkjinuk.salary.vo.Commission;
 import com.middle.hr.parkjinuk.salary.vo.Salary;
+import com.middle.hr.parkjinuk.salary.vo.SalaryHistory;
 import com.middle.hr.parkjinuk.salary.vo.StaffCommission;
 import com.middle.hr.parkjinuk.staff.service.StaffService;
 import com.middle.hr.parkjinuk.staff.vo.RootCompany;
@@ -208,6 +209,14 @@ public class SalaryController {
 	@ResponseBody
 	public List<Staff> getStaffSalaryCommissionList(@RequestBody List<Staff> staff){
 		return salaryService.searchStaffWithBasicSalaryAndStaffCommissions(staff);
+	}
+	
+	// 급여 명세
+	@PostMapping("salary/specify")
+	@ResponseBody
+	public Integer specify(@RequestBody List<SalaryHistory> salaryHistory) {
+		System.out.println(salaryHistory);
+		return 1;
 	}
 
 	// 급여 명세 리스트

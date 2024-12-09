@@ -150,7 +150,7 @@ body {
 								data-bs-target="#modal">사원 추가</button>
 						</div>
 						<div class="d-flex ps-1 justify-content-start h-50 ">
-							<button type="button" class="btn btn-outline-primary text-nowrap">선택
+							<button type="button" class="btn btn-outline-primary text-nowrap" id="deleteButton">선택
 								삭제</button>
 						</div>
 					</div>
@@ -168,30 +168,14 @@ body {
 										<th scope="col">사원 번호</th>
 										<th scope="col">사원 이름</th>
 										<th scope="col">합계</th>
+										<th scope="col">기본급</th>
 										<c:forEach var="commission" items="${commissionList}">
 											<th scope="col" id="commission_${commission.id}">${commission.name}</th>
 										</c:forEach>
 									</tr>
 								</thead>
 								<tbody id="tableBody">	
-									<tr class="align-middle">
-										<td><input type="checkbox" class="form-check-input"
-											id="exampleCheck1"></td>
-										<td>1</td>
-										<td>사원 1</td>
-										<td>2,100,000</td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-
-									</tr>
+								
 								</tbody>
 							</table>
 
@@ -200,7 +184,7 @@ body {
 					</div>
 				</div>
 				<div class="d-grid gap-2 d-md-flex justify-content-center mx-4 my-4">
-					<button class="btn btn-primary px-5" type="button">발급</button>
+					<button class="btn btn-primary px-5" type="button" id="specifyButton">발급</button>
 				</div>
 			</div>
 
