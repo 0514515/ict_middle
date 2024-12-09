@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.middle.hr.parkjinuk.salary.vo.Commission;
+import com.middle.hr.parkjinuk.salary.vo.DetailCommission;
 import com.middle.hr.parkjinuk.salary.vo.Salary;
+import com.middle.hr.parkjinuk.salary.vo.SalaryHistory;
 import com.middle.hr.parkjinuk.salary.vo.StaffCommission;
 import com.middle.hr.parkjinuk.staff.vo.Staff;
 
@@ -191,10 +193,36 @@ public class SalaryRepositoryImpl implements SalaryRepository {
 		}
 		return staffCommission.size();
 	}
-	
+
 	// 급여 명세 : 사원의 기본급과 수당들 조회
 	@Override
-	public List<Staff> selectStaffWithBasicSalaryAndStaffCommissions(List<Staff> staff){
-		return mybatis.selectList("SalaryRepository.selectStaffWithBasicSalaryAndStaffCommissions",staff);
+	public List<Staff> selectStaffWithBasicSalaryAndStaffCommissions(List<Staff> staff) {
+		return mybatis.selectList("SalaryRepository.selectStaffWithBasicSalaryAndStaffCommissions", staff);
 	};
+
+	// 급여 명세
+	@Override
+	public Integer specify(List<SalaryHistory> salaryHistoryList) {
+		SqlSession sqlSession = mybatis.getSqlSessionFactory().openSession(ExecutorType.BATCH, false);
+
+		try {
+			for (SalaryHistory sh : salaryHistoryList) {
+				sqlSession.insert("SalaryRepository.insertSalaryHistory", sh);
+
+				// detail_commission 삽입
+				for (DetailCommission commission : sh.getDetailCommissions()) {
+					commission.setSalaryHistoryId(sh.getId()); // salary_history의 ID 설정
+					sqlSession.insert("SalaryRepository.insertDetailCommission", commission);
+				}
+			}
+			sqlSession.commit();
+		} catch (Exception e) {
+			sqlSession.rollback();
+			e.printStackTrace();
+		} finally {
+			sqlSession.close();
+		}
+		return salaryHistoryList.size();
+	}
+
 }

@@ -216,7 +216,7 @@ public class SalaryController {
 	@ResponseBody
 	public Integer specify(@RequestBody List<SalaryHistory> salaryHistory) {
 		System.out.println(salaryHistory);
-		return 1;
+		return salaryService.specify(salaryHistory);
 	}
 
 	// 급여 명세 리스트

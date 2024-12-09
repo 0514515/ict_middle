@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.middle.hr.parkjinuk.salary.repository.SalaryRepository;
 import com.middle.hr.parkjinuk.salary.vo.Commission;
 import com.middle.hr.parkjinuk.salary.vo.Salary;
+import com.middle.hr.parkjinuk.salary.vo.SalaryHistory;
 import com.middle.hr.parkjinuk.salary.vo.StaffCommission;
 import com.middle.hr.parkjinuk.staff.vo.Staff;
 
@@ -96,10 +97,16 @@ public class SalaryServiceImpl implements SalaryService {
 	public Integer deleteStaffCommission(List<StaffCommission> staffCommission) {
 		return salaryRepository.deleteStaffCommission(staffCommission);
 	};
-	
+
 	// 급여 명세 : 사원의 기본급과 수당들 조회
 	@Override
-	public List<Staff> searchStaffWithBasicSalaryAndStaffCommissions(List<Staff> staff){
+	public List<Staff> searchStaffWithBasicSalaryAndStaffCommissions(List<Staff> staff) {
 		return salaryRepository.selectStaffWithBasicSalaryAndStaffCommissions(staff);
+	};
+
+	// 급여 명세
+	@Override
+	public Integer specify(List<SalaryHistory> salaryHistory) {
+		return salaryRepository.specify(salaryHistory);
 	};
 }

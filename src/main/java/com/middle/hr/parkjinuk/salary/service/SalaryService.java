@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.middle.hr.parkjinuk.salary.vo.Commission;
 import com.middle.hr.parkjinuk.salary.vo.Salary;
+import com.middle.hr.parkjinuk.salary.vo.SalaryHistory;
 import com.middle.hr.parkjinuk.salary.vo.StaffCommission;
 import com.middle.hr.parkjinuk.staff.vo.Staff;
 
@@ -52,4 +53,7 @@ public interface SalaryService {
 
 	// 급여 명세 : 사원의 기본급과 수당들 조회
 	List<Staff> searchStaffWithBasicSalaryAndStaffCommissions(List<Staff> staff);
+	
+	// 급여 명세
+	Integer specify(List<SalaryHistory> salaryHistory);
 }

@@ -177,7 +177,7 @@
 		type="Staff">
 		<id property="staffId" column="staffId" />
 		<result property="staffName" column="staffName" />
-		<result property="companyId" column="companyId"/>
+		<result property="companyId" column="companyId" />
 		<result property="basicSalaryAmount" column="basicSalaryAmount" />
 		<collection property="staffCommissionList"
 			ofType="StaffCommission">
@@ -198,17 +198,21 @@
 		s.name AS staffName,
 		bs.amount AS basicSalaryAmount,
 		c.id AS commissionId,
-		c.name AS commissionName,
+		c.name AS
+		commissionName,
 		NVL(sc.amount, 0) AS commissionAmount,
 		NVL(sc.check_default_amount, 0) AS checkDefaultAmount
 		FROM
 		staff s
-		INNER JOIN
+		INNER
+		JOIN
 		basic_salary bs ON bs.id = s.salary_id
 		CROSS JOIN
 		commission c
-		LEFT JOIN
-		staff_commision sc ON s.id = sc.staff_id AND c.id = sc.commission_id
+		LEFT
+		JOIN
+		staff_commision sc ON s.id = sc.staff_id AND c.id =
+		sc.commission_id
 		WHERE
 		s.id IN
 		<foreach collection="list" item="staff" open="(" separator=","
@@ -216,5 +220,33 @@
 			#{staff.staffId}
 		</foreach>
 	</select>
+
+	<!-- 급여 명세 -->
+	<!-- salary_history 테이블에 데이터 삽입 -->
+	<insert id="insertSalaryHistory" parameterType="SalaryHistory">
+		<selectKey keyProperty="id" resultType="Long" order="BEFORE">
+			SELECT seq_salary_history_id.nextval FROM dual
+		</selectKey>
+
+		INSERT INTO salary_history (
+		id, name, total_amount, company_id,
+		staff_id, basic_salary_amount
+		) VALUES (
+		#{id}, TO_CHAR(SYSDATE, 'FMMM') || '월 명세',
+		#{totalAmount}, #{companyId},
+		#{staffId}, #{basicSalaryAmount}
+		)
+	</insert>
+
+	<!-- detail_commission 테이블에 데이터 삽입 -->
+	<insert id="insertDetailCommission"
+		parameterType="DetailCommission">
+		INSERT INTO detail_commission (
+		id, name, amount, salary_history_id
+		) VALUES (
+		seq_detail_commission_id.nextval,
+		#{name}, #{amount}, #{salaryHistoryId}
+		)
+	</insert>
 
 </mapper>

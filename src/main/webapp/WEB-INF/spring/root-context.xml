@@ -38,6 +38,8 @@
 				<value>com.middle.hr.parkjinuk.salary.vo.Salary</value>
 				<value>com.middle.hr.parkjinuk.salary.vo.Commission</value>
 				<value>com.middle.hr.parkjinuk.salary.vo.StaffCommission</value>
+				<value>com.middle.hr.parkjinuk.salary.vo.SalaryHistory</value>
+				<value>com.middle.hr.parkjinuk.salary.vo.DetailCommission</value>
 				<!-- parksuji -->
 				<value>com.middle.hr.parksuji.approval.vo.Forms</value>
 				<!-- parkeunbyeol -->
