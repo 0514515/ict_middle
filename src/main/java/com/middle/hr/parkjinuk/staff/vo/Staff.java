@@ -1,6 +1,14 @@
 package com.middle.hr.parkjinuk.staff.vo;
 
-import lombok.*;
+import java.util.List;
+
+import com.middle.hr.parkjinuk.salary.vo.StaffCommission;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
@@ -29,4 +37,5 @@ public class Staff {
     private String birthdate;		//생년월일
     private Long authority;			//권한
     private Integer basicSalaryAmount;			//기본급 액수
+    private List<StaffCommission> staffCommissionList; // 수당 목록
 }

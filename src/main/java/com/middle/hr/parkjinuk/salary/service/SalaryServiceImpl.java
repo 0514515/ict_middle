@@ -90,4 +90,9 @@ public class SalaryServiceImpl implements SalaryService {
 	public Integer addStaffCommission(List<StaffCommission> staffCommission) {
 		return salaryRepository.insertStaffCommission(staffCommission);
 	};
+
+	// 추가 수당 지급 삭제
+	public Integer deleteStaffCommission(List<StaffCommission> staffCommission) {
+		return salaryRepository.deleteStaffCommission(staffCommission);
+	};
 }

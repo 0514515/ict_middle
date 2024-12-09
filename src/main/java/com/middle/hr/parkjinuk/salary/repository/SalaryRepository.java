@@ -48,4 +48,10 @@ public interface SalaryRepository {
 	
 	// 사원 추가 수당 지급
 	Integer insertStaffCommission(List<StaffCommission> staffCommission);
+	
+	// 추가 수당 지급 삭제
+	Integer deleteStaffCommission(List<StaffCommission> staffCommission);
+	
+	// 급여 명세 : 사원의 기본급 조회
+	List<Staff> selectStaffBasicSalary(List<Staff> staff);
 }

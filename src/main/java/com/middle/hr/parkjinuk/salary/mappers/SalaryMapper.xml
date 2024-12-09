@@ -138,23 +138,89 @@
 
 	<!-- 추가 수당을 받는 사원 조회 -->
 	<select id="selectStaffCommission" resultType="StaffCommission">
-		SELECT sc.staff_id staffId, c.id commissionId, s.name staffName, c.name
-		commissionName,  sc.check_default_amount checkDefaultAmount,
+		SELECT sc.staff_id staffId, c.id commissionId, s.name staffName,
+		c.name
+		commissionName, sc.check_default_amount checkDefaultAmount,
 		CASE
 		WHEN sc.check_default_amount = 1 THEN c.default_amount
 		ELSE sc.amount
 		END amount
-		FROM STAFF_COMMISION sc INNER JOIN STAFF s ON sc.STAFF_ID = s.ID
+		FROM STAFF_COMMISION sc INNER JOIN STAFF s ON sc.STAFF_ID =
+		s.ID
 		INNER JOIN COMMISSION c ON sc.COMMISSION_ID = c.ID
-		WHERE sc.COMMISSION_ID IN 
-		<foreach collection="commissionList" item="commission" open="(" separator="," close=")">
+		WHERE
+		sc.COMMISSION_ID IN
+		<foreach collection="commissionList" item="commission"
+			open="(" separator="," close=")">
 			#{commission.id}
 		</foreach>
 	</select>
-	
+
+	<!-- 사원의 추가 수당 지급 삭제 -->
+	<delete id="deleteStaffCommission"
+		parameterType="StaffCommission">
+		DELETE FROM staff_commision
+		WHERE commission_id =
+		#{commissionId} AND staff_id = #{staffId}
+	</delete>
+
 	<!-- 사원의 추가수당 추가 -->
-	<insert id="insertStaffCommission" parameterType="StaffCommission">
-		INSERT INTO staff_commision(commission_id, staff_id, check_default_amount, amount)
+	<insert id="insertStaffCommission"
+		parameterType="StaffCommission">
+		INSERT INTO staff_commision(commission_id, staff_id,
+		check_default_amount, amount)
 		VALUES(${commissionId},${staffId},${checkDefaultAmount},${amount})
 	</insert>
+
+	<!-- 급여 명세 : 기본급 조회 -->
+	<select id="selectStaffWithBasicSalary" resultType="Staff">
+		SELECT s.id
+		staffId, s.name staffName, bs.AMOUNT basicSalaryAmount
+		FROM
+		staff s 
+		INNER JOIN 
+		BASIC_SALARY bs ON bs.ID =s.SALARY_ID
+		WHERE
+			s.id IN
+		<foreach collection="staffList" item="staff" open="("
+			separator="," close=")">
+			#{staff.staffId}
+		</foreach>
+	</select>
+
+	<!-- 급여 명세 : 한 사원이 받는 수당들 조회 -->
+	<resultMap id="StaffResultMap" type="Staff">
+		<id property="staffId" column="staffId" />
+		<result property="staffName" column="name" />
+		<collection property="staffCommissionList"
+			ofType="StaffCommission">
+			<id property="commissionId" column="commissionId" />
+			<result property="commissionName" column="commissionName" />
+			<result property="amount" column="amount" />
+		</collection>
+	</resultMap>
+
+	<!-- 급여 명세 : 한 사원이 받는 수당들 조회 -->
+	<select id="selectStaffCommission" resultMap="StaffResultMap">
+		SELECT
+		s.staff_id AS staffId,
+		s.staff_name AS staffName,
+		sc.commission_id AS commissionId,
+		c.name AS commissionName,
+		sc.amount AS amount
+		FROM
+		staff s
+		LEFT JOIN
+		staff_commission sc ON s.staff_id = sc.staff_id
+		LEFT JOIN
+		commission c ON sc.commission_id = c.id
+		WHERE
+		s.staff_id IN
+		<foreach item="id" collection="staffIds" open="("
+			separator="," close=")">
+			#{id}
+		</foreach>
+		ORDER BY
+		s.staff_id;
+	</select>
 </mapper>

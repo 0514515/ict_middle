@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
@@ -171,6 +170,13 @@ public class SalaryController {
 	public List<StaffCommission> getStaffCommissionList(@RequestBody List<Commission> commission){
 		List<StaffCommission> staffCommissionList = salaryService.searchStaffCommission(commission);
 		return staffCommissionList;
+	}
+	
+	// 추가수당을 받고 있는 사원 refresh용 ajax
+	@DeleteMapping("salary/commission/staff/list")
+	@ResponseBody
+	public Integer deleteStaffCommission(@RequestBody List<StaffCommission> staffCommission){
+		return salaryService.deleteStaffCommission(staffCommission);
 	}
 	
 	// 추가 수당 지급

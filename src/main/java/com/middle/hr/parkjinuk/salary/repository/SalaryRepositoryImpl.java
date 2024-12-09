@@ -141,16 +141,16 @@ public class SalaryRepositoryImpl implements SalaryRepository {
 
 	// 추가 수당을 받는 사원 조회
 	@Override
-	public List<StaffCommission> selectStaffCommission(List<Commission> commissionList){
-		if(commissionList == null || commissionList.isEmpty()) {
+	public List<StaffCommission> selectStaffCommission(List<Commission> commissionList) {
+		if (commissionList == null || commissionList.isEmpty()) {
 			return new ArrayList<>();
 		}
-		
-	    Map<String, Object> param = new HashMap<>();
-	    param.put("commissionList", commissionList);
-		return mybatis.selectList("SalaryRepository.selectStaffCommission",param);
+
+		Map<String, Object> param = new HashMap<>();
+		param.put("commissionList", commissionList);
+		return mybatis.selectList("SalaryRepository.selectStaffCommission", param);
 	}
-	
+
 	// 사원 추가 수당 지급
 	@Override
 	public Integer insertStaffCommission(List<StaffCommission> staffCommission) {
@@ -170,5 +170,31 @@ public class SalaryRepositoryImpl implements SalaryRepository {
 		}
 
 		return staffCommission.size();
+	};
+
+	// 추가 수당 지급 삭제
+	@Override
+	public Integer deleteStaffCommission(List<StaffCommission> staffCommission) {
+		// 배치 처리용 세션 열기
+		SqlSession sqlSession = mybatis.getSqlSessionFactory().openSession(ExecutorType.BATCH, false);
+
+		try {
+			// 리스트의 각 staff에 대해 UPDATE 쿼리 실행
+			for (StaffCommission sc : staffCommission) {
+				sqlSession.update("SalaryRepository.deleteStaffCommission", sc);
+			}
+
+			// 배치 후 커밋
+			sqlSession.commit();
+		} finally {
+			sqlSession.close();
+		}
+		return staffCommission.size();
+	}
+	
+	// 급여 명세 : 사원의 기본급 조회
+	@Override
+	public List<Staff> selectStaffBasicSalary(List<Staff> staff){
+		return mybatis.selectList("SalaryRepository.selectStaffWithBasicSalary",staff);
 	};
 }
