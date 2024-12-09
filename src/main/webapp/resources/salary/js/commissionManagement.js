@@ -97,13 +97,18 @@ $(function() {
 	
     // 행 클릭 시 체크박스 상태 변경
     $('#commissionListBody').on('click', 'tr', function (e) {
-        // 클릭한 대상이 input[type="text"]인 경우 이벤트 무시
-        if ($(e.target).is('input[type="text"]')) {
+        // 클릭한 대상이 input[type="text"]나 개별 체크박스인 경우 이벤트 무시
+        if ($(e.target).is('input[type="text"], input[type="checkbox"]')) {
             return;
         }
         // 현재 행의 체크박스
         let $checkbox = $(this).find('input[type="checkbox"]');
         $checkbox.prop('checked', !$checkbox.prop('checked'));
+    });
+    
+    // 개별 체크박스 클릭 이벤트
+    $('#commissionListBody').on('click', 'input[type="checkbox"]', function (e) {
+        e.stopPropagation(); // 이벤트 전파 방지
     });
 
     // 전체 선택 체크박스 클릭 시 모든 행의 체크박스 상태 변경

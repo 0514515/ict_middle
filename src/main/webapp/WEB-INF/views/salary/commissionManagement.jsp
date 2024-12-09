@@ -245,8 +245,8 @@ body {
 														<tr class="align-middle">
 															<th scope="col"><input type="checkbox"
 																class="form-check-input" id="allCheck2"></th>
-															<th scope="col">사원 이름</th>
-															<th scope="col">추가수당 이름</th>
+															<th scope="col">사원</th>
+															<th scope="col">추가수당</th>
 															<th scope="col">금액</th>
 															<th scope="col">기본액수</th>
 														</tr>
