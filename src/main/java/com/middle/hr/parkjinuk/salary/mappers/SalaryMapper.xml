@@ -172,55 +172,51 @@
 		VALUES(${commissionId},${staffId},${checkDefaultAmount},${amount})
 	</insert>
 
-	<!-- 급여 명세 : 기본급 조회 -->
-	<select id="selectStaffWithBasicSalary" resultType="Staff">
-		SELECT s.id
-		staffId, s.name staffName, bs.AMOUNT basicSalaryAmount
-		FROM
-		staff s 
-		INNER JOIN 
-		BASIC_SALARY bs ON bs.ID =s.SALARY_ID
-		WHERE
-			s.id IN
-		<foreach collection="staffList" item="staff" open="("
-			separator="," close=")">
-			#{staff.staffId}
-		</foreach>
-	</select>
-
 	<!-- 급여 명세 : 한 사원이 받는 수당들 조회 -->
-	<resultMap id="StaffResultMap" type="Staff">
+	<resultMap id="StaffWithStaffCommissionsResultMap"
+		type="Staff">
 		<id property="staffId" column="staffId" />
-		<result property="staffName" column="name" />
+		<result property="staffName" column="staffName" />
+		<result property="basicSalaryAmount" column="basicSalaryAmount" />
 		<collection property="staffCommissionList"
 			ofType="StaffCommission">
 			<id property="commissionId" column="commissionId" />
 			<result property="commissionName" column="commissionName" />
-			<result property="amount" column="amount" />
+			<result property="staffId" column="staffId" />
+			<result property="amount" column="commissionAmount" />
+			<result property="checkDefaultAmount"
+				column="checkDefaultAmount" />
 		</collection>
 	</resultMap>
 
 	<!-- 급여 명세 : 한 사원이 받는 수당들 조회 -->
-	<select id="selectStaffCommission" resultMap="StaffResultMap">
+	<select id="selectStaffWithBasicSalaryAndStaffCommissions"
+		resultMap="StaffWithStaffCommissionsResultMap">
 		SELECT
-		s.staff_id AS staffId,
-		s.staff_name AS staffName,
+		s.id AS staffId,
+		s.name AS staffName,
+		bs.amount AS
+		basicSalaryAmount,
 		sc.commission_id AS commissionId,
-		c.name AS commissionName,
-		sc.amount AS amount
+		c.name AS
+		commissionName,
+		sc.staff_id AS staffId,
+		NVL(sc.amount, 0) AS commissionAmount,
+		sc.check_default_amount AS checkDefaultAmount
 		FROM
 		staff s
+		INNER JOIN
+		basic_salary bs ON bs.id = s.salary_id
 		LEFT JOIN
-		staff_commission sc ON s.staff_id = sc.staff_id
+		staff_commision sc ON
+		s.id = sc.staff_id
 		LEFT JOIN
 		commission c ON sc.commission_id = c.id
 		WHERE
-		s.staff_id IN
-		<foreach item="id" collection="staffIds" open="("
-			separator="," close=")">
-			#{id}
+		s.id IN
+		<foreach collection="list" item="staff" open="(" separator=","
+			close=")">
+			#{staff.staffId}
 		</foreach>
-		ORDER BY
-		s.staff_id;
 	</select>
 </mapper>

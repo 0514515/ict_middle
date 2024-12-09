@@ -192,9 +192,9 @@ public class SalaryRepositoryImpl implements SalaryRepository {
 		return staffCommission.size();
 	}
 	
-	// 급여 명세 : 사원의 기본급 조회
+	// 급여 명세 : 사원의 기본급과 수당들 조회
 	@Override
-	public List<Staff> selectStaffBasicSalary(List<Staff> staff){
-		return mybatis.selectList("SalaryRepository.selectStaffWithBasicSalary",staff);
+	public List<Staff> selectStaffWithBasicSalaryAndStaffCommissions(List<Staff> staff){
+		return mybatis.selectList("SalaryRepository.selectStaffWithBasicSalaryAndStaffCommissions",staff);
 	};
 }

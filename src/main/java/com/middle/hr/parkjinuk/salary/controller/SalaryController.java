@@ -132,8 +132,8 @@ public class SalaryController {
 		List<Commission> commissionList = salaryService.searchAllCommissionByLoginId(loginId);
 
 		RootCompany rootCompany = staffService.searchCompanyTreeDataByLoginId(loginId);
-		
-		model.addAttribute("rootCompany",rootCompany);
+
+		model.addAttribute("rootCompany", rootCompany);
 		model.addAttribute("commissionList", commissionList);
 
 		return "salary/commissionManagement";
@@ -153,32 +153,32 @@ public class SalaryController {
 		String loginId = session.getAttribute("loginId").toString();
 
 		List<Commission> commissionList = salaryService.searchAllCommissionByLoginId(loginId);
-		
+
 		return commissionList;
 	}
-	
+
 	// 추가수당 일괄 업데이트용 ajax
 	@PatchMapping("/salary/commission")
 	@ResponseBody
 	public Integer updateCommissions(@RequestBody List<Commission> commissionList) {
 		return salaryService.updateCommission(commissionList);
 	}
-	
+
 	// 추가수당을 받고 있는 사원 refresh용 ajax
 	@PostMapping("salary/commission/staff/list")
 	@ResponseBody
-	public List<StaffCommission> getStaffCommissionList(@RequestBody List<Commission> commission){
+	public List<StaffCommission> getStaffCommissionList(@RequestBody List<Commission> commission) {
 		List<StaffCommission> staffCommissionList = salaryService.searchStaffCommission(commission);
 		return staffCommissionList;
 	}
-	
+
 	// 추가수당을 받고 있는 사원 refresh용 ajax
 	@DeleteMapping("salary/commission/staff/list")
 	@ResponseBody
-	public Integer deleteStaffCommission(@RequestBody List<StaffCommission> staffCommission){
+	public Integer deleteStaffCommission(@RequestBody List<StaffCommission> staffCommission) {
 		return salaryService.deleteStaffCommission(staffCommission);
 	}
-	
+
 	// 추가 수당 지급
 	@PostMapping("salary/commission/staff")
 	@ResponseBody
@@ -188,8 +188,26 @@ public class SalaryController {
 
 	// 급여 명세 페이지
 	@GetMapping("salary/specify")
-	public String getSalarySpecifyingForm() {
+	public String getSalarySpecifyingForm(HttpSession session, Model model) {
+
+		String loginId = session.getAttribute("loginId").toString();
+		
+		RootCompany rootCompany = staffService.searchCompanyTreeDataByLoginId(loginId);
+		List<Commission> commissionList = salaryService.searchAllCommissionByLoginId(loginId);
+		
+		System.out.println(commissionList);
+		
+		model.addAttribute("rootCompany", rootCompany);
+		model.addAttribute("commissionList", commissionList);
+
 		return "salary/salarySpecifyingForm";
+	}
+	
+	// 급여 명세 페이지, 사원 추가 모달에서 사원 정보를 받고 사원의 기본급, 수당을 조회
+	@PostMapping("salary/specify/list")
+	@ResponseBody
+	public List<Staff> getStaffSalaryCommissionList(@RequestBody List<Staff> staff){
+		return salaryService.searchStaffWithBasicSalaryAndStaffCommissions(staff);
 	}
 
 	// 급여 명세 리스트
