@@ -48,6 +48,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script	src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
 
+
 	<!-- 공통 커스텀 스타일 -->
 	<style>
 	body {
@@ -334,46 +335,28 @@
 						<!-- 트리구조 조직도 -->
 							<div class="tree_div overflow-scroll">
 							<div id="jstree">
-								<ul>
-									<li id="root">무한상사
-										<ul>
-											<li class="group" id="groupA">대표이사
-												<ul>
-													<li id="child1">유재석</li>
-												</ul>
-											</li>
-											<li class="group" id="groupB">경영지원부
-												<ul>
-													<li id="child2">홍진경 사원</li>
-													<li id="child3">남창희 사원</li>
-													<li id="child4">조세호 대리</li>
-													<li id="child5">이동욱 과장</li>
-													<li id="child6">황정민 부장</li>
-													
-												</ul>
-											</li>
-											<li class="group" id="groupC">디자인부
-												<ul>
-													<li id="child7">양세찬 사원</li>
-													<li id="child8">이광수 사원</li>
-													<li id="child9">지예은 사원</li>
-													<li id="child10">송지효 대리</li>
-													<li id="child11">김종국 과장</li>
-													<li id="child12">지석진 부장</li>
-												</ul>
-											</li>
-											<li class="group" id="groupD">영업부 
-												<ul>
-													<li id="child13">하동훈 사원</li>
-													<li id="child14">노홍철 사원</li>
-													<li id="child15">정형돈 대리</li>
-													<li id="child16">정준하 과장</li>
-													<li id="child17">박명수 부장</li>
-												</ul>
-											</li>
-										</ul>
-									</li>
-								</ul>
+							<%-- <ul>
+									<!-- 회사 -->
+									<li id="root">${rootCompany.name}
+                                       <ul>
+                                          <!-- 부서 -->
+                                          
+                                          <!-- 동적으로 생성 -->
+                                          
+                                           <c:forEach var="department" items="${rootCompany.departments}">
+                                             <li class="group" id="group${department.id}">${department.name}
+                                                <ul>
+                                                   <!-- 직원 -->
+                                                   <c:forEach var="staff" items="${department.staffs}">
+                                                      <li id="child${staff.staffId}">${staff.staffName}</li>
+                                                   </c:forEach>
+                                                </ul>
+                                             </li>
+                                          </c:forEach> 
+                                       </ul>
+                                    </li>
+																	
+								</ul>--%>
 							</div>
 							
 							</div>
@@ -493,7 +476,7 @@
 						<div class="row g-2 mb-4">
 							<div>
 								<input type="text" class="form-control" id="draftDate" name="draftDate"
-									value="${sysdate}" aria-label="Disabled input example" disabled>
+									   aria-label="Disabled input example" disabled>
 							</div>
 						</div>
 					</div>
@@ -535,7 +518,7 @@
 						<table id="body_line_table" class="table">
 							<tbody>
 								<tr>
-									<td colspan=2>[디자인팀] 양세찬 사원</td>
+									<td colspan=2>[${departmentName}] ${name} ${rank}</td>
 								</tr>
 								
 								<!-- 동적 테이블 생성 -->
@@ -583,7 +566,7 @@
 						<!-- SmartEditor2  -->
 						<div class="jsx-2303464893 editor">
 							<div class="fr-box fr-basic fr-top" role="application">
-								<div class="fr-wrapper show-placeholder" dir="auto">
+								<div id="smartEditor_wrapper" class="fr-wrapper show-placeholder" dir="auto">
 									<!-- style="overflow: scroll;" 제외 -->
 									<textarea name="noticeContent" id="smartEditor" 
 											  style="width: 100%; height: 560px;">${htmlContent}</textarea>  <!-- 엑셀 변환 HTML -->
@@ -666,9 +649,34 @@
 	<script>
 		$(function(){
 			
-			// 모달이 열릴 떄마다 Ajax 요청을 보내 데이터 로드
+			// 페이지 열리면 "기안일자" => 오늘 날짜로 바로 들어가도록 구현 
+			window.onload = function(){
+				var today = new Date(); 
+				var dd = String(today.getDate()).padStart(2,'0');  // padStart => 문자열의 앞부분에 '0'을 채워서 최소 2자리로 만들기 
+				var mm = String(today.getMonth()+1).padStart(2,'0');
+				var yyyy = today.getFullYear(); 
+				today = yyyy + '-' + mm + '-' + dd; 
+				
+				// "#draftDate" 필드에 오늘 날짜 설정 
+				document.getElementById("draftDate").value = today;
+				
+				// 'draftDate'값을 숨겨진 필드로 추가해서 writeDraftForm에 붙이기 
+				const draftDateInput = document.createElement("input");
+				draftDateInput.type = "hidden";
+				draftDateInput.name = "draftedAt";   // Approval vo와 같게 맞춰줌 
+				draftDateInput.value = "today";  // draftDate의 값으로 설정
+				document.getElementById("writeDraftForm").appendChild(draftDateInput); // 폼에 숨겨진 필드 추가
+				
+			}
+			
+			
+			// 양식 선택 모달이 열릴 떄마다 Ajax 요청을 보내 데이터 로드
 		 	$('#formModal').on('show.bs.modal', function(e){
-		 		
+		 		$('#formContent').empty();  // 양식 내용 비우기
+		 	    $('#approval_form').val('');  // 텍스트 필드 값 초기화
+		 	    $('input[type="checkbox"][name="formCheck"]').prop('checked', false);  // 체크박스 초기화
+		 	    oEditors.getById["smartEditor"].exec("SET_IR", [""]); // 스마트에디터 내용초기화
+		 	    
 		 		$.ajax({
 		 			url: '/approval/getApprovalForm', // 양식 목록 불러오는 서버API
 		 			method: 'GET',  // get 방식으로 요청 
@@ -720,14 +728,14 @@
 				// 체크박스 선택했을 때 HTML을 렌더링 
 				$(document).on('change', 'input[type="checkbox"][name="formCheck"]', function(){
 					var selectedForms = $('input[type="checkbox"][name="formCheck"]:checked');
-					//var formHtml=''; 
 					
 					selectedForms.each(function(){
 						// 기존 HTML을 지우고, 새로 선택된 양식만 렌더링
 				        $('#formContent').empty(); 
 						var html = $(this).data('html'); // 선택된 체크박스에 저장된 양식 HTML (data-html)
-						var formHtml = $('#formContent').append(html); // 새로운 양식만 추가 
-						$('#frame_content').append(formHtml);
+						$('#formContent').append(html); // 새로운 양식만 추가 
+						console.log(html)
+						
 					})
 					
 					//선택된 양식이 없다면 기본 메시지 출력
@@ -735,26 +743,23 @@
 						$('#formContent').html('<div>양식을 선택하세요.</div>')
 					}
 							
-					// 양식 선택 모달창에서 '적용' 버튼 클릭시
-				    $('#formSelectBtn').on('click', function(){
-				 		alert('모달창 적용버튼 클릭됨')
-						// 선택된 체크박스 가져오기 
-						//var selectedForms = $('input[type="checkbox"][name="formCheck"]:checked');
-						//var formHtml=''; 
-						
-// 						selectedForms.each(function(){
-// 							// 기존 HTML을 지우고, 새로 선택된 양식만 렌더링
-// 					        $('#formContent').empty(); 
-// 							var html = $(this).data('html'); // 선택된 체크박스에 저장된 양식 HTML (data-html)
-// 							var formHtml = $('#formContent').append(html); // 새로운 양식만 추가 
-// 							$('#frame_content').append(formHtml);
-// 						})
-						
-						// 스마트 에디터 textarea에 HTML 데이터 추가 
-						var smartEditor=$('#smartEditor');
-						smartEditor.val(formHtml); 
-						
-						// 모달창 닫기 
+					
+					
+					// 양식 선택 모달창에서 '적용' 버튼 클릭시, 본문 스마트에디터에 양식 삽입 
+				    $('#formSelectBtn').off('click').on('click', function(){
+				    	
+						 if (typeof oEditors !== 'undefined' && oEditors.getById["smartEditor"]) {
+			            	console.log("smartEditor 객체 있음");
+			            	var htmlContent = $('#formContent').html();
+				            console.log("htmlContent==> " + htmlContent); // HTML 내용이 제대로 출력되는지 확인
+				           
+			                oEditors.getById["smartEditor"].exec("PASTE_HTML", [htmlContent]); // 스마트에디터에 HTML 데이터를 업데이트
+			          
+			            } else {
+			                console.log("스마트에디터가 준비되지 않았습니다.");
+			            }
+				 		
+				 	// 모달창 닫기 
 						$('#formModal').modal('hide');
 						
 						// 텍스트 필드 값 초기화 
@@ -763,12 +768,9 @@
 						
 						// 텍스트 필드에 선택된 양식 이름 표시
 				        var selectedTitle = selectedForms.next('span').text(); // 체크박스 옆에 있는 span의 텍스트
-				        textField.val(selectedTitle || ''); // 선택된 양식 이름 없으면 빈 값 설정
+				        textField.val(selectedTitle || ''); // 선택된 양식 이름 없으면 빈 값 설정	
+				     
 						
-						// input 옆에 있는 span의 값(양식 이름 text)을 spanTxt 변수에 저장 후 텍스트필드의 값으로 해당 값 출력 
-//							var spanTxt = $('.form_ch_name input[name="formCheck"]:checked').next('span').text(); 
-//							textField.val(spanTxt);
-				
 					})//   #formSelectBtn 클릭 end
 					
 					
@@ -776,23 +778,97 @@
 			 			
 				
 		 	});  // 양식선택 모달 end
+			
+			
 		 	
 			
+		 	// 결재선 선택 모달이 열릴 떄마다 Ajax 요청을 보내 데이터 로드
+		 	$('#lineModal').on('show.bs.modal', function(e){
+		 		
+		 		$.ajax({
+		 			url: '/approval/company/tree', // 양식 목록 불러오는 서버API
+		 			method: 'GET',  // get 방식으로 요청 
+		 			success: function(response){
+		 				console.log(response);
+		 				
+		 			   // jstree 파괴 및 초기화
+		 	            if ($.jstree.reference('#jstree')) {
+		 	                $('#jstree').jstree('destroy').empty();
+		 	            }
+		 				
+		 				var rootCompany = response; // 서버에서 받은 사원 목록 데이터
+		 			
+		 				
+		 				// #jstree감싸고 있는 <ul> 생성
+		 				let jstreeWrapper = $('<ul/>');
+		 				
+		 				// 루트 회사 정보 
+		 				let rootHtml = $('<li/>', {
+		 					id:'root',
+		 					text:rootCompany.name
+		 				})
+		 				
+		 				// 부서 목록 생성 (부서들을 감싸는 <ul>)
+		 				let departmentsHtml = $('<ul/>');
+		 				
+		 				rootCompany.departments.forEach(function(department){
+		 					// 각 부서를 위한 <li> 요소 생성	
+		 					let departmentHtml = $('<li/>', {
+		 						class:'group',
+		 						id: 'group'+department.id,
+		 						html: department.name // 부서 이름 설정 
+		 					});	
+		 					
+		 					// 부서 내부의 <ul> 생성 
+		 					let staffListHtml = $('<ul/>');
+		 					
+		 					//부서에 속한 직원들 순회 
+		 					department.staffs.forEach(function(staff){
+		 						// 각 직원을 위한 <li/> 요소 생성
+		 						let staffHtml=$('<li/>', {
+		 							id:'child'+staff.staffId,
+		 							text:staff.staffName + ' ' +staff.rank // 직원 이름, 직책 설정
+		 						});
+		 					// 직원<li> 요소를 <ul>에 추가 
+		 						staffListHtml.append(staffHtml);
+		 					});
+		 					
+		 					// <ul>을 부서의 내부 <li>에 추가 
+		 					departmentHtml.append(staffListHtml);
+		 					
+		 					// 부서<li> 요소를 부서 목록 <ul>에 추가 
+		 					departmentsHtml.append(departmentHtml); 
+		 					
+		 				});
+		 				
+			 				// 루트 회사의 부서 목록을 <ul>로 감싸고 <li>에 추가
+		 	            	rootHtml.append(departmentsHtml);
 
-// 			// 양식 선택 모달창에서 양식 선택 후 '적용' 버튼 클릭시 
-// 			$('#formSelectBtn').click(function(){
-// 				// 모달창 닫기 
-// 				$('#formModal').modal('hide');
-// 				// 텍스트 필드 값 초기화 
-// 				var textField = $('#approval_form');
-// 				textField.val('');
-				
-// 				// input 옆에 있는 span의 값(양식 이름 text)을 spanTxt 변수에 저장 후 텍스트필드의 값으로 해당 값 출력 
-// 				var spanTxt = $('.form_ch_name input[name="formCheck"]:checked').next('span').text(); 
-// 				textField.val(spanTxt);
-						
-// 			})
+		 	    	       // 전체 회사 및 부서 트리를 #jstree에 추가
+		 	         	  jstreeWrapper.append(rootHtml);
+		 	           
+		 	     	 	   // 트리 구조를 #jstree에 삽입
+		 	          	   $('#jstree').append(jstreeWrapper);
+		 	          	
+		 	          	// jstree 초기화
+		 	              $('#jstree').jstree({
+		 	                  'plugins': ['checkbox', 'search'],
+		 	                  'checkbox': {
+		 	                      'three_state': false
+		 	                  }
+		 	              }).jstree('open_all');
+		 	     	 	   
+			 			},
+			 			error: function(xhr, status, error){
+			 				console.log('AJAX 요청 실패:', error);  // 오류 메시지 출력
+			 		        alert('사원목록을 불러오는 데 실패했습니다.');
+			 			}
+			 		});  // $ . ajax end
 			
+		 		}) // #lineModal end
+		 	
+		 	
+
 			
 			// '적용' 버튼 클릭 시 '결재자' mainTable에 데이터 추가
 			   $('#line_complete').click(function() {
@@ -848,20 +924,90 @@
 			       
 			   });
 			
+			  
+			// writeDraftForm 폼에 submit 이벤트가 일어날 때, 
+			document.getElementById("writeDraftForm").addEventListener("submit", function(event){
+				
+				// 결재선, 참조선 동적테이블 담아서 데이터 추출 
+				const allApprovalLines = [];
+			    const tableIds = ["body_line_table", "body_ref_table"]; // 여러 테이블 ID
+
+			    tableIds.forEach(tableId => {
+			        const approvalLines = extractApprovalLines(tableId);
+			        allApprovalLines.push(...approvalLines); // 결과를 통합
+			    });
+				
+			 	// 결과 확인
+			    console.log(allApprovalLines);
+			 	    
+				
+				// 결재라인 _ 숨겨진 필드로 추가 
+				const LinesHiddenInput = document.createElement("input");
+				LinesHiddenInput.type = "hidden";
+				LinesHiddenInput.name = "approvalLines";
+				LinesHiddenInput.value = JSON.stringify(approvalLines); // JSON 형태로 변환
+				this.appendChild(LinesHiddenInput); // "writeDraftForm" 폼에 숨겨진 폼 붙이기 
+				
+				
+				
+				// 결재양식 input 박스 _ 숨겨진 필드로 추가 
+				const formInput = document.querySelector("#approval_form"); // "#approval_form"값 가져오기 
+				if(formInput){
+					const hiddenInput = document.createElement("input");
+					hiddenInput.type = "hidden";
+					hiddenInput.name = "approval_form";  // input의 id를 name으로 설정
+					hiddenInput.value = "formInput.value"; // input의 값
+					this.appendChild(hiddenInput); 
+				}
+				
+					
+			});
 			
-			   
+			// 본문 결재선, 참조선 동적 테이블의 데이터를 수집,  "[부서] 유재석 부장" => 이 구조에서 내용 추출  
+			function extractApprovalLines(tableId){
+				
+				const approvalLines = []; 
+				document.querySelectorAll(`#${tableId} tbody tr`).forEach(row => {
+					const fullText = row.querySelector("td:nth-child(1)").innerText.trim(); // 전체 텍스트
+				    const matches = fullText.match(/\[([^\]]+)\]\s+(.+)\s+(.+)/); // 정규식으로 부서, 이름, 직책 추출
+				    
+				    if(matches){
+				    	const department = matches[1]; // [부서]
+				    	const name = matches[2];  // 유재석
+				    	const rank = matches[3]; // 부장 
+				  		
+				    	approvalLines.push({
+				    		departmentName,  // List<StaffInfo> 클래스 필드 이름과 동일하게 해야함  
+				    		name,
+				    		rank
+				    	});
+				    } 
+				   
+				});
+				return approvalLines; 
+				
+			}
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			
 			// 결재 상신 버튼 클릭시 실행될 함수 
-			$('.choice_send').click(function(){
+ 			$('.choice_send').click(function(){
 			    // SmartEditor에서 textarea에 내용 업데이트
 			    oEditors.getById["smartEditor"].exec("UPDATE_CONTENTS_FIELD", []); // 이 명령이 `textarea`의 값을 업데이트함
 				
 			    var htmlContent = document.getElementsByName("noticeContent")[0].value;
-			    console.log(htmlContent);  // 콘솔에서 HTML 값 확인
+			    // console.log(htmlContent);  // 콘솔에서 HTML 값 확인
 			    
 				// 폼 제출 (textarea 값은 자동으로 폼에 포함됨)
-			    $('#writeDraftForm').submit(); // form 제출 
-			})
+			    $('#writeDraftForm').submit(); // form 제출 (action 요청 실행)
+			}) 
 			
 			// 취소 버튼 클릭시 페이지 리로드  
 			$('.choice_cancel').click(function(){

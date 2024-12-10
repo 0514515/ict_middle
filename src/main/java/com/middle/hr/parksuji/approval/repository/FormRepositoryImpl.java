@@ -13,8 +13,12 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.middle.hr.parkjinuk.staff.vo.RootCompany;
 import com.middle.hr.parkjinuk.staff.vo.Staff;
+import com.middle.hr.parksuji.approval.vo.Approval;
+import com.middle.hr.parksuji.approval.vo.ApprovalLine;
 import com.middle.hr.parksuji.approval.vo.Forms;
+import com.middle.hr.parksuji.approval.vo.StaffInfo;
 
 @Repository
 public class FormRepositoryImpl implements FormRepository{
@@ -135,6 +139,33 @@ public class FormRepositoryImpl implements FormRepository{
 		List<Forms> result = mybatis.selectList("FormRepository.getApprovalForm");
 		return result;
 	}
+
+	@Override
+	public RootCompany selectCompanyTreeDataByLoginId(String loginId) {
+		return mybatis.selectOne("FormRepository.selectCompanyTreeDataById", loginId);
+	}
+
+	// 로그인 아이디로 사원 정보 조회 
+	@Override
+	public StaffInfo getStaffByLoginId(String loginId) {
+		return mybatis.selectOne("FormRepository.getStaffByLoginId", loginId);
+	}
+
+	public void save(Approval approval) {
+		System.out.println("===> save() 호출");
+		System.out.println(approval.toString());
+		mybatis.insert("FormRepository.save", approval);
+		
+	}
+	
+	public void saveAll(List<ApprovalLine> approvalLineList) {
+		System.out.println("===> save() 호출");
+		System.out.println(approvalLineList.toString());
+		mybatis.insert("FormRepository.saveAll", approvalLineList);
+		
+	}
+
+	
 
 
 }
