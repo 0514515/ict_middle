@@ -433,7 +433,7 @@ let refreshCommissionStaffList = function(param){
                     });
                     let staffNameTd = $("<td/>").text(staffCommission.staffName);
                     let commissionNameTd = $("<td/>").text(staffCommission.commissionName);
-                    let amountTd = $("<td/>").text(staffCommission.amount);
+                    let amountTd = $("<td/>").text(formatAmount(staffCommission.amount));
                     let checkboxTd = $("<td/>").append(
                         $("<input/>", {
                             type: "checkbox",
@@ -459,3 +459,20 @@ let refreshCommissionStaffList = function(param){
         }
     });
 };
+
+// 숫자를 쉼표 포함 금액 형식으로 변환하는 함수
+function formatAmount(amount) {
+    // 값이 undefined, null, 숫자 0일 경우 처리
+    if (amount === undefined || amount === null || amount === '') return "0";
+
+    // 숫자인 경우 그대로 처리
+    if (typeof amount === "number") {
+        return amount.toLocaleString('en-US');
+    }
+
+    // 문자열인 경우 쉼표 제거 후 숫자로 변환하여 처리
+    const number = parseFloat(amount.toString().replace(/,/g, ''));
+    if (isNaN(number)) return "0"; // 변환 실패 시 기본값 반환
+
+    return number.toLocaleString('en-US');
+}

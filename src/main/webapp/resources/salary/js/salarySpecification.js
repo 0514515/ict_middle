@@ -1,5 +1,14 @@
 $(function(){
 	
+    $('#tableBody tr').each(function () {
+        const $totalAmountElement = $(this).find('#totalAmount'); // 현재 tr 내의 totalAmount 셀 선택
+        const amount = parseFloat($totalAmountElement.text().trim()); // 텍스트 값 가져오기 및 숫자로 변환
+        
+        if (!isNaN(amount)) {
+            $totalAmountElement.text(amount.toLocaleString('en-US')); // 포맷된 숫자 업데이트
+        }
+    });
+	
 	$("#tableBody tr").on("click",function(){
 		let salaryHistoryId = $(this).find("#salaryHistoryId").text();
 		let title = $(this).find("#salaryHistoryName").text();

@@ -1,6 +1,16 @@
 let selected = undefined;
 $(function() {
     
+    // 기본급 목록 테이블의 금액 포맷 적용
+    $("#tableBody tr").each(function () {
+	    let $amountElement = $(this).find("#amount"); // 금액 셀 선택
+	    let amount = $amountElement.text().trim(); // 현재 텍스트 가져오기
+	
+	    if (amount) {
+	        $amountElement.text(formatAmount(amount)); // 포맷 적용
+	    }
+    });
+    
     // 기본급 목록 행 1개마다 클릭 했을 때 선택 기본급 사원 목록 조회 이벤트 주입
     $("#tableBody").on("click", "tr", function() {
         // 클릭했을 때 해당 행의 정보 가져옴
@@ -9,9 +19,12 @@ $(function() {
         let companyId = $(this).children("#companyId").val();
         let amount = $(this).children("#amount").text();
 
+	    // 쉼표 제거하여 숫자 형태로 변환
+    	let rawAmount = amount.replace(/,/g, '');
+
         // 이름, 금액 액수 입력란에 값 반영
         $("#nameInput").val(salaryName);
-        $("#amountInput").val(amount);
+        $("#amountInput").val(rawAmount);
         $("#idLabel").text("선택번호 : " + salaryId);
 
         // 선택된 행이 있으면 배경 색 원래대로 돌리기
@@ -148,7 +161,7 @@ let rerenderTableBody = function(result) {
         let tr = $("<tr/>");  // 빈 행 생성
         let salaryIdTd = $("<td/>").attr("id", "salaryId").text(baseSalary.id);  // 기본급 번호 td
         let salaryNameTd = $("<td/>").attr("id", "salaryName").text(baseSalary.name);  // 기본급 이름 td
-        let amountTd = $("<td/>").attr("id", "amount").text(baseSalary.amount);  // 기본급 금액 액수 td
+        let amountTd = $("<td/>").attr("id", "amount").text(formatAmount(baseSalary.amount));  // 기본급 금액 액수 td
         let companyIdInput = $("<input/>").attr("id", "companyId").attr("type", "hidden").attr("value", baseSalary.companyId);  // 회사 id hidden input
 
         tr.append(salaryIdTd);
@@ -224,7 +237,7 @@ let rerenderStaffTableBody = function(result){
     $("#staffTableBody").empty();
     
     salaryName = selected.children("#salaryName").text();
-    amount = selected.children("#amount").text()
+    amount = formatAmount(selected.children("#amount").text());
 
 	
     // 테이블에 데이터 추가
@@ -243,4 +256,10 @@ let rerenderStaffTableBody = function(result){
         // 테이블 body에 행 추가
         $("#staffTableBody").append(tr);
     }
+}
+
+// 숫자를 금액 포맷으로 변환하는 함수
+function formatAmount(amount) {
+    // 금액 데이터를 쉼표 포함 포맷으로 변환
+    return parseFloat(amount.replace(/,/g, '')).toLocaleString('en-US');
 }

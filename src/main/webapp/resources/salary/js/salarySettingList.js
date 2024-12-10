@@ -1,4 +1,20 @@
 $(function(){
+
+    // 금액 액수 포맷 적용
+	$("#tableBody tr").each(function() {
+	    const $amountElement = $(this).find("td:nth-child(4)"); // 금액 액수가 있는 셀 선택 (3번째 열)
+	    console.log($amountElement.text()); // 현재 셀의 텍스트 값 출력
+	    const amount = parseFloat($amountElement.text().trim()); // 숫자로 변환
+	
+	    console.log(amount); // 변환된 숫자 확인
+	
+	    if (!isNaN(amount)) {
+	        $amountElement.text(amount.toLocaleString('en-US')); // 포맷된 값으로 업데이트
+	    } else {
+	        console.warn("금액 데이터가 올바르지 않음:", $amountElement.text());
+	    }
+	});
+
     // 행 클릭 시 체크/체크해제 이벤트 부여 (단, input text 필드는 제외)
 	$("#tableBody tr").on("click", function(event){
 	    // select 클릭을 제외하고 체크박스를 변경
