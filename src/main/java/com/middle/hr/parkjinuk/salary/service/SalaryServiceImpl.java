@@ -109,4 +109,16 @@ public class SalaryServiceImpl implements SalaryService {
 	public Integer specify(List<SalaryHistory> salaryHistory) {
 		return salaryRepository.specify(salaryHistory);
 	};
+
+	// 급여 페이지네이션 조회
+	@Override
+	public Map<String, Object> searchSalaryHistory(String loginId, String searchOption, String searchKeyword,
+			Integer pageNum, Integer pageSize) {
+		return salaryRepository.selectSalaryHistory(loginId, searchOption, searchKeyword, pageNum, pageSize);
+	}
+	
+	// 급여 상세 조회
+	public SalaryHistory searchDetailSalaryHistory(Long id) {
+		return salaryRepository.selectDetailSalaryHistory(id);
+	};
 }

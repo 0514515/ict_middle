@@ -58,4 +58,12 @@ public interface SalaryRepository {
 	
 	// 급여 명세
 	Integer specify(List<SalaryHistory> salaryHistoryList);
+	
+	// 급여 페이지네이션 조회
+	Map<String, Object> selectSalaryHistory(String loginId, String searchOption, String searchKeyword,
+	Integer pageNum, Integer pageSize);
+	
+	// 급여 상세 조회
+	SalaryHistory selectDetailSalaryHistory(Long id);
+
 }

@@ -225,15 +225,18 @@
 	<!-- salary_history 테이블에 데이터 삽입 -->
 	<insert id="insertSalaryHistory" parameterType="SalaryHistory">
 		<selectKey keyProperty="id" resultType="Long" order="BEFORE">
-			SELECT seq_salary_history_id.nextval FROM dual
+			SELECT
+			seq_salary_history_id.nextval FROM dual
 		</selectKey>
 
 		INSERT INTO salary_history (
 		id, name, total_amount, company_id,
 		staff_id, basic_salary_amount
 		) VALUES (
-		#{id}, TO_CHAR(SYSDATE, 'FMMM') || '월 명세',
-		#{totalAmount}, #{companyId},
+		#{id}, TO_CHAR(SYSDATE, 'YYYY')
+		|| '년 ' || TO_CHAR(SYSDATE, 'FMMM') || '월 명세',
+		#{totalAmount},
+		#{companyId},
 		#{staffId}, #{basicSalaryAmount}
 		)
 	</insert>
@@ -242,11 +245,92 @@
 	<insert id="insertDetailCommission"
 		parameterType="DetailCommission">
 		INSERT INTO detail_commission (
-		id, name, amount, salary_history_id
+		id, name, amount,
+		salary_history_id
 		) VALUES (
 		seq_detail_commission_id.nextval,
-		#{name}, #{amount}, #{salaryHistoryId}
+		#{name},
+		#{amount}, #{salaryHistoryId}
 		)
 	</insert>
+
+	<!-- 급여 명세 이력 페이지네이션 -->
+	<select id="selectSalaryHistory" parameterType="String"
+		resultType="SalaryHistory">
+		SELECT sh.id id, sh.name name, sh.TOTAL_AMOUNT totalAmount,
+		TO_CHAR(sh.SPECIFIED_AT ,'YYYY-MM-DD') specifiedAt
+		FROM SALARY_HISTORY
+		sh INNER JOIN staff s ON s.id = sh.STAFF_ID
+		<where>
+			sh.staff_id = (SELECT id FROM staff WHERE login_id=#{loginId})
+			<if test="searchOption != null and searchOption != ''">
+				<choose>
+					<when test="searchOption == 'year'">
+						AND TO_CHAR(SPECIFIED_AT,'YYYY') = #{searchKeyword}
+					</when>
+				</choose>
+			</if>
+		</where>
+	</select>
+
+	<!-- 급여 명세 이력 페이지네이션 -->
+	<select id="selectSalaryHistoryCount" parameterType="String"
+		resultType="int">
+		SELECT COUNT(*)
+		FROM SALARY_HISTORY
+		sh INNER JOIN staff s ON s.id =
+		sh.STAFF_ID
+		<where>
+			sh.staff_id = (SELECT id FROM staff WHERE login_id=#{loginId})
+			<if test="searchOption != null and searchOption != ''">
+				<choose>
+					<when test="searchOption == 'year'">
+						AND TO_CHAR(SPECIFIED_AT,'YYYY') = #{searchKeyword}
+					</when>
+				</choose>
+			</if>
+		</where>
+	</select>
+
+	<!-- salaryhistory, detailcommission 매핑 -->
+	<resultMap id="SalaryHistoryMap" type="SalaryHistory">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="totalAmount" column="total_amount" />
+		<result property="specifiedAt" column="specified_at" />
+		<result property="companyId" column="company_id" />
+		<result property="staffId" column="staff_id" />
+		<result property="basicSalaryAmount"
+			column="basic_salary_amount" />
+
+		<collection property="detailCommissions"
+			ofType="DetailCommission">
+			<id property="id" column="dc_id" />
+			<result property="name" column="dc_name" />
+			<result property="amount" column="dc_amount" />
+			<result property="salaryHistoryId" column="salary_history_id" />
+		</collection>
+	</resultMap>
+
+	<!-- 급여 이력 1개 상세 조회 -->
+	<select id="selectDetailSalaryHistory" parameterType="Long" resultMap="SalaryHistoryMap">
+		SELECT sh.id,
+		sh.name,
+		TO_CHAR(sh.total_amount,'FM999,999,999,999') total_amount,
+		sh.specified_at,
+		sh.company_id,
+		sh.staff_id,
+		TO_CHAR(sh.basic_salary_amount,'FM999,999,999,999') basic_salary_amount,
+		dc.id AS dc_id,
+		dc.name AS dc_name,
+		TO_CHAR(dc.amount,'FM999,999,999,999') dc_amount,
+		dc.salary_history_id
+		FROM salary_history sh
+		INNER JOIN detail_commission dc
+		ON sh.id =
+		dc.salary_history_id
+		WHERE sh.id=#{id}
+	</select>
+
 
 </mapper>

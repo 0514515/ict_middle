@@ -225,4 +225,41 @@ public class SalaryRepositoryImpl implements SalaryRepository {
 		return salaryHistoryList.size();
 	}
 
+	// 급여 페이지네이션 조회
+	@Override
+	public Map<String, Object> selectSalaryHistory(String loginId, String searchOption, String searchKeyword,
+			Integer pageNum, Integer pageSize) {
+		// 검색 조건에 맞는 전체 레코드 수 조회
+		Map<String, Object> params = new HashMap<>();
+		params.put("searchOption", searchOption);
+		params.put("searchKeyword", searchKeyword);
+		params.put("loginId", loginId);
+
+		int totalCount = mybatis.selectOne("SalaryRepository.selectSalaryHistoryCount", params);
+
+		// 전체 페이지 수 계산
+		int totalPages = (int) Math.ceil((double) totalCount / pageSize);
+
+		// RowBounds를 사용하여 페이지네이션 적용
+		RowBounds rowBounds = new RowBounds((pageNum - 1) * pageSize, pageSize);
+
+		// 사원 조회
+		List<SalaryHistory> salaryHistoryList = mybatis.selectList("SalaryRepository.selectSalaryHistory", params,
+				rowBounds);
+
+		// 결과를 맵으로 반환
+		Map<String, Object> result = new HashMap<>();
+		result.put("salaryHistoryList", salaryHistoryList); // 페이지네이션된 결과
+		result.put("totalCount", totalCount); // 전체 레코드 수
+		result.put("totalPages", totalPages); // 전체 페이지 수
+		
+		return result;
+	};
+
+	
+	// 급여 상세 조회
+	@Override
+	public SalaryHistory selectDetailSalaryHistory(Long id) {
+		return mybatis.selectOne("SalaryRepository.selectDetailSalaryHistory",id);
+	};
 }

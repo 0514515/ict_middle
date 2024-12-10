@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
@@ -192,36 +193,64 @@ public class SalaryController {
 	public String getSalarySpecifyingForm(HttpSession session, Model model) {
 
 		String loginId = session.getAttribute("loginId").toString();
-		
+
 		RootCompany rootCompany = staffService.searchCompanyTreeDataByLoginId(loginId);
 		List<Commission> commissionList = salaryService.searchAllCommissionByLoginId(loginId);
-		
-		System.out.println(commissionList);
-		
+
+
 		model.addAttribute("rootCompany", rootCompany);
 		model.addAttribute("commissionList", commissionList);
 
 		return "salary/salarySpecifyingForm";
 	}
-	
+
 	// 급여 명세 페이지, 사원 추가 모달에서 사원 정보를 받고 사원의 기본급, 수당을 조회
 	@PostMapping("salary/specify/list")
 	@ResponseBody
-	public List<Staff> getStaffSalaryCommissionList(@RequestBody List<Staff> staff){
+	public List<Staff> getStaffSalaryCommissionList(@RequestBody List<Staff> staff) {
 		return salaryService.searchStaffWithBasicSalaryAndStaffCommissions(staff);
 	}
-	
+
 	// 급여 명세
 	@PostMapping("salary/specify")
 	@ResponseBody
 	public Integer specify(@RequestBody List<SalaryHistory> salaryHistory) {
-		System.out.println(salaryHistory);
 		return salaryService.specify(salaryHistory);
 	}
 
 	// 급여 명세 리스트
 	@GetMapping("salary/specification")
-	public String getSalarySpecificationList() {
+	public String getSalarySpecificationList(String searchOption, String searchKeyword, Integer pageNum, Model model,
+			HttpSession httpSession) {
+		// 기본값 (첫 페이지 로딩 시 searchOption, searchKeyword가 null임)
+		if (searchOption == null)
+			searchOption = "name";
+		if (searchKeyword == null)
+			searchKeyword = "";
+		if (pageNum == null || pageNum < 0)
+			pageNum = 1;
+
+		String loginId = httpSession.getAttribute("loginId").toString();
+
+		// 검색 옵션과 키워드로 페이지네이션 검색 (회사 검색)
+		Map<String, Object> result = salaryService.searchSalaryHistory(loginId, searchOption, searchKeyword, pageNum, 10);
+		
+		model.addAttribute("salaryHistoryList", result.get("salaryHistoryList")); // 회사 목록
+		model.addAttribute("totalPage", result.get("totalPages")); // 최대 페이지
+		model.addAttribute("pageNum", pageNum + ""); // 현재 페이지
+
+		// 검색 도구 값 유지용
+		model.addAttribute("searchOption", searchOption);
+		model.addAttribute("searchKeyword", searchKeyword);
+		
 		return "salary/salarySpecificationList";
+	}
+	
+	//급여 1개 상세 조회
+	@GetMapping("salary/specification/detail")
+	@ResponseBody
+	public SalaryHistory getDetailSalaryHistory(@RequestParam Long id) {
+		System.out.println(salaryService.searchDetailSalaryHistory(id));
+		return salaryService.searchDetailSalaryHistory(id);
 	}
 }

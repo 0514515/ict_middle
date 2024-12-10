@@ -53,7 +53,15 @@ public interface SalaryService {
 
 	// 급여 명세 : 사원의 기본급과 수당들 조회
 	List<Staff> searchStaffWithBasicSalaryAndStaffCommissions(List<Staff> staff);
-	
+
 	// 급여 명세
 	Integer specify(List<SalaryHistory> salaryHistory);
+
+	// 급여 페이지네이션 조회
+	Map<String, Object> searchSalaryHistory(String loginId, String searchOption, String searchKeyword, Integer pageNum,
+			Integer pageSize);
+
+	// 급여 상세 조회
+	SalaryHistory searchDetailSalaryHistory(Long id);
+
 }

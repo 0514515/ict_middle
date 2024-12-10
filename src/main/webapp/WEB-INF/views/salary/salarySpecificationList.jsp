@@ -71,6 +71,10 @@ body {
 .ms-4 {
 	margin-top: 1rem;
 }
+
+#tableContainer {
+	height: 510px;
+}
 </style>
 
 </head>
@@ -112,67 +116,135 @@ body {
 				</div>
 				<div class="col p-4">
 					<div class="d-flex align-items-center justify-content-between mb-4">
-						<div class="d-flex align-items-center justify-content-start">
-							<div class="d-flex w-25 justify-content-start w-50">
-								<select class="form-select w-100"
-									aria-label="Default select example">
-									<option value="1" selected>One</option>
-									<option value="2">Two</option>
-									<option value="3">Three</option>
-								</select>
+						<!-- 검색 도구 start -->
+						<form action="/salary/specification" method="GET">
+							<div class="d-flex align-items-center justify-content-start">
+								<div class="d-flex w-25 justify-content-start w-50">
+									<!-- 이전 검색 도구의 값을 유지 -->
+									<select class="form-select w-100" name="searchOption"
+										id="searchOption">
+										<option value="year"
+											${"year".equals(searchOption) ? "selected" : ""}>년도</option>
+									</select>
+								</div>
+								<input type="text" class="form-control ms-2"
+									value="${searchKeyword != null ? searchKeyword : ''}"
+									name="searchKeyword" id="searchKeyword">
+								<button type="button"
+									class="btn btn-primary ms-2 px-4 text-nowrap">검색</button>
 							</div>
-							<input type="text" class="form-control ms-2" name="name"
-								id="name">
-							<button type="button" class="btn btn-primary ms-2 px-4 text-nowrap">검색</button>
-						</div>
+						</form>
 					</div>
-					<div class="bg-light rounded min-vh-100 p-4">
-					
-						<!-- 이 테이블에 데이터 뿌리기, 없으면 목록이 없다는 라벨 하나 보여줘야 함 -->
-						<table class="table table table-hover">
-							<thead>
-								<tr>
-									<th scope="col">부서명</th>
-									<th scope="col">사원 이름</th>
-									<th scope="col">직급</th>
-									<th scope="col">급여 명세 제목</th>
-									<th scope="col">생성일</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>부서 1</td>
-									<td>사원 1</td>
-									<td>직급 1</td>
-									<td>010-0000-0000</td>
-									<td>2020-00-00</td>
-								</tr>
-								<tr>
-									<td>부서 1</td>
-									<td>사원 1</td>
-									<td>직급 1</td>
-									<td>010-0000-0000</td>
-									<td>2020-00-00</td>
-								</tr>
-							</tbody>
-						</table>
+					<div class="col">
+						<div id="tableContainer" class="bg-light rounded p-4">
 
+							<!-- 이 테이블에 데이터 뿌리기, 없으면 목록이 없다는 라벨 하나 보여줘야 함 -->
+							<table class="table table table-hover">
+								<thead>
+									<tr>
+										<th scope="col">번호</th>
+										<th scope="col">제목</th>
+										<th scope="col">총 금액</th>
+										<th scope="col">명세일</th>
+									</tr>
+								</thead>
+								<tbody id="tableBody">
+									<c:forEach var="salaryHistory" items="${salaryHistoryList}">
+										<tr>
+											<td id="salaryHistoryId">${salaryHistory.id}</td>
+											<td id="salaryHistoryName">${salaryHistory.name}</td>
+											<td id="totalAmount">${salaryHistory.totalAmount}</td>
+											<td>${salaryHistory.specifiedAt}</td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+
+						</div>
 					</div>
 				</div>
 			</div>
+
+			<!-- Modal -->
+			<div class="modal fade" id="detailModal" tabindex="-1"
+				aria-labelledby="detailModalTitle" aria-hidden="true"
+				style="display: none;">
+				<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+					<div class="modal-content">
+						<div class="modal-body">
+						<h5 class="modal-title" id="detailModalTitle"></h5>
+							<div class="col">
+								<div id="modalTableContainer">
+
+									<!-- 이 테이블에 데이터 뿌리기, 없으면 목록이 없다는 라벨 하나 보여줘야 함 -->
+									<table class="table table table-hover">
+										<thead>
+											<tr>
+												<th scope="col">이름</th>
+												<th scope="col">금액</th>
+											</tr>
+										</thead>
+										<tbody id="modalTableBody">
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-bs-dismiss="modal">닫기</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- pagination start -->
 			<div class="d-flex align-items-center justify-content-center">
 				<nav aria-label="Page navigation">
 					<ul class="pagination pt-3 pr-3">
-						<li class="page-item"><a class="page-link" href="#">이전</a></li>
-						<li class="page-item"><a class="page-link" href="#">1</a></li>
-						<li class="page-item"><a class="page-link" href="#">2</a></li>
-						<li class="page-item active"><a class="page-link" href="#">3</a></li>
-						<li class="page-item"><a class="page-link" href="#">4</a></li>
-						<li class="page-item"><a class="page-link" href="#">5</a></li>
-						<li class="page-item"><a class="page-link" href="#">다음</a></li>
+						<!-- 현재 페이지가 1페이지일 경우 "이전" 버튼 없음 -->
+						<c:if test="${pageNum != 1}">
+							<li class="page-item"><a class="page-link"
+								href="/salary/specification?searchOption=${searchOption}&searchKeyword=${searchKeyword}&pageNum=${pageNum-1}">이전</a>
+							</li>
+						</c:if>
+
+						<!-- pageNum-2가 0보다 작으면 1로 설정 -->
+						<!-- 파라미터 pageNum을 받아와서 로컬 pageNum으로 만들기 -->
+						<c:set var="pageNum"
+							value="${param.pageNum != null ? param.pageNum : 1 }" />
+
+						<!-- pageNum-2가 1보다 작으면 1로 설정 -->
+						<!-- begin 선언 -->
+						<c:set var="begin" value="${pageNum-2}" />
+						<c:if test="${begin<1 }">
+							<c:set var="begin" value="1" />
+						</c:if>
+
+						<!-- pageNum이 총 페이지 수를 넘지 않도록 설정 -->
+						<c:set var="end" value="${pageNum + 2}" />
+						<c:if test="${end > totalPage}">
+							<c:set var="end" value="${totalPage}" />
+						</c:if>
+
+						<!-- 페이지 번호 출력 -->
+						<c:forEach var="i" begin="${begin}" end="${end}" step="1">
+							<li class="page-item ${i == pageNum ? 'active' : ''}"><a
+								class="page-link"
+								href="/salary/specification?searchOption=${searchOption}&searchKeyword=${searchKeyword}&pageNum=${i}">${i}</a>
+							</li>
+						</c:forEach>
+
+						<!-- 현재 페이지가 마지막 페이지일 경우 "다음" 버튼 없음 -->
+						<c:if test="${pageNum != totalPage}">
+							<li class="page-item"><a class="page-link"
+								href="/salary/specification?searchOption=${searchOption}&searchKeyword=${searchKeyword}&pageNum=${pageNum+1}">다음</a>
+							</li>
+						</c:if>
 					</ul>
 				</nav>
 			</div>
+			<!-- pagination end -->
 			<!-- 본문 끝 (body end) -->
 
 
@@ -206,6 +278,7 @@ body {
 
 	<!-- Template Javascript -->
 	<script src="/resources/template/js/main.js"></script>
+	<script src="/resources/salary/js/salarySpecification.js"></script>
 </body>
 
 </html>
