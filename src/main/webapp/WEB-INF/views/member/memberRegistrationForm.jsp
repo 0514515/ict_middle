@@ -106,7 +106,7 @@ body {
 
 			<!-- 본문 작성 (body start) -->
 			<!-- 회사 등록 요청 작업 / action, method, name -->
-			<form action="/member/new" method="POST">
+			<form action="/member/new" method="POST" enctype="multipart/form-data">
 				<!-- 필수 입력 정보 패널 -->
 				<div class="container pt-4 px-4">
 					<div class="d-flex align-items-center justify-content-between mb-4">
@@ -120,15 +120,22 @@ body {
 						</div>
 						<div class="bg-light rounded h-100 p-4">
 
-							<input type="hidden" name="companyId" id="companyId" value="${companyId}">
+							<input type="hidden" name="companyId" id="companyId"
+								value="${companyId}">
 
 							<div class="mb-3">
-								<label for="departmentId" class="form-label">부서 번호</label> <input
-									type="text" class="form-control" name="departmentId" id="departmentId">
+								<label for="departmentId" class="form-label">부서 번호</label><select
+									class="form-select mb-3" name="departmentId" id="departmentId">
+									<c:forEach var="department" items="${departmentList}">
+										<option value="${department.id}">${department.name}</option>
+									</c:forEach>
+								</select>
 							</div>
+
 							<div class="mb-3">
 								<label for="staffName" class="form-label">사원 이름</label> <input
-									type="text" class="form-control" name="staffName" id="staffName">
+									type="text" class="form-control" name="staffName"
+									id="staffName">
 							</div>
 
 							<div class="mb-3">
@@ -150,7 +157,8 @@ body {
 
 							<div class="mb-3">
 								<label for="phoneNumber" class="form-label">전화번호</label> <input
-									type="text" class="form-control" id="phoneNumber" name="phoneNumber">
+									type="text" class="form-control" id="phoneNumber"
+									name="phoneNumber">
 							</div>
 
 							<div class="mb-3">
@@ -170,17 +178,22 @@ body {
 							<h5>선택 입력 정보</h5>
 						</div>
 						<div class="bg-light rounded h-100 p-4">
+						<div class="mb-3">
+								<label for="hiredDate" class="form-label">입사일</label> <input
+									type="date" class="form-control" name="hiredDate"
+									id="hiredDate">
+							</div>
 							<div class="mb-3">
 								<label for="picture" class="form-label">사진</label> <input
 									accept="image/*" type="file" class="form-control"
-									name="picture" id="picture">
+									name="pictureFile" id="pictureFile">
 							</div>
 
 
 							<div class="mb-3">
 								<label for="sign" class="form-label">결재 도장</label> <input
-									accept="image/*" type="file" class="form-control" id="sign"
-									name="sign">
+									accept="image/*" type="file" class="form-control" id="signFile"
+									name="signFile">
 							</div>
 							<div class="mb-3">
 								<label for="address" class="form-label">거주지 주소</label> <input
@@ -197,6 +210,7 @@ body {
 									type="date" class="form-control" name="birthdate"
 									id="birthdate">
 							</div>
+							
 						</div>
 
 					</div>

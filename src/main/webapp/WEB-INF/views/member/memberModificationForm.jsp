@@ -106,31 +106,28 @@ body {
 
 			<!-- 본문 작성 (body start) -->
 			<!-- 회사 등록 요청 작업 / action, method, name -->
-			<form>
-				<input type="hidden" id="id" name="name" />
+			<form action="/member/modify" method="POST"
+				enctype="multipart/form-data">
 				<!-- 필수 입력 정보 패널 -->
 				<div class="container pt-4 px-4">
 					<div class="d-flex align-items-center justify-content-between mb-4">
-						<h4>사원 정보 수정</h4>
+						<h4>사원 등록</h4>
 						<button type="button" class="btn btn-outline-primary">목록으로</button>
 					</div>
 					<div class="col p-4">
 						<div
 							class="d-flex align-items-center justify-content-between mb-4">
 							<h5>필수 입력 정보</h5>
-
 						</div>
 						<div class="bg-light rounded h-100 p-4">
 
+							<input type="hidden" name="companyId" id="companyId"
+								value="${companyId}">
 
 							<div class="mb-3">
-								<label for="name" class="form-label">사원 이름</label> <input
-									type="text" class="form-control" name="name" id="name">
-							</div>
-
-							<div class="mb-3">
-								<label for="loginId" class="form-label">로그인 아이디</label> <input
-									type="text" class="form-control" name="loginId" id="loginId">
+								<label for="staffName" class="form-label">사원 이름</label> <input
+									type="text" class="form-control" name="staffName"
+									id="staffName" value="${staff.staffName}">
 							</div>
 
 							<div class="mb-3">
@@ -140,19 +137,15 @@ body {
 							</div>
 
 							<div class="mb-3">
-								<label for="passwordConfirm" class="form-label">비밀번호 확인</label>
-								<input type="password" class="form-control"
-									name="passwordConfirm" id="passwordConfirm">
-							</div>
-
-							<div class="mb-3">
 								<label for="phoneNumber" class="form-label">전화번호</label> <input
-									type="text" class="form-control" id="phoneNumber">
+									type="text" class="form-control" id="phoneNumber"
+									name="phoneNumber" value="${staff.phoneNumber}">
 							</div>
 
 							<div class="mb-3">
 								<label for="email" class="form-label">이메일</label> <input
-									type="text" class="form-control" id="email" name="email">
+									type="text" class="form-control" id="email" name="email"
+									value="${staff.email}">
 							</div>
 						</div>
 					</div>
@@ -167,56 +160,64 @@ body {
 							<h5>선택 입력 정보</h5>
 						</div>
 						<div class="bg-light rounded h-100 p-4">
-
 							<div class="mb-3">
-								<label for="memberPhoto" class="form-label">사진</label> <input
-									accept="image/*" type="file" class="form-control"
-									name="memberPhoto" id="memberPhoto">
+								<label for="hiredDate" class="form-label">입사일</label> <input
+									type="date" class="form-control" name="hiredDate"
+									id="hiredDate" value="${staff.hiredDate}">
 							</div>
 
+							<div class="mb-3">
+								<div class="col-sm-3">
+									<img src="${staff.picture}" class="img-thumbnail">
+								</div>
+							</div>
+							<div class="mb-3">
+								<label for="picture" class="form-label">사진</label> <input
+									accept="image/*" type="file" class="form-control"
+									name="pictureFile" id="pictureFile">
+							</div>
 
 							<div class="mb-3">
+								<div class="col-sm-3">
+									<img src="${staff.picture}" class="img-thumbnail">
+								</div>
+							</div>
+							<div class="mb-3">
 								<label for="sign" class="form-label">결재 도장</label> <input
-									accept="image/*" type="file" class="form-control" id="sign"
-									name="sign">
+									accept="image/*" type="file" class="form-control" id="signFile"
+									name="signFile">
 							</div>
 							<div class="mb-3">
 								<label for="address" class="form-label">거주지 주소</label> <input
-									type="text" class="form-control" name="address" id="address">
+									type="text" class="form-control" name="address" id="address"
+									value="${staff.address}">
 							</div>
 
 							<div class="mb-3">
 								<label for="gender" class="form-label">성별</label> <input
-									type="text" class="form-control" name="gender" id="gender">
+									type="text" class="form-control" name="gender" id="gender"
+									value="${staff.gender}">
 							</div>
 
 							<div class="mb-3">
 								<label for="birthdate" class="form-label">생년월일</label> <input
-									type="text" class="form-control" name="birthdate"
-									id="birthdate">
+									type="date" class="form-control" name="birthdate"
+									id="birthdate" value="${staff.birthdate}">
 							</div>
-
-
-
-							<div class="mb-3">
-								<label for="email" class="form-label">이메일</label> <input
-									type="text" class="form-control" id="email" name="email">
-							</div>
-
-
 
 						</div>
+
 					</div>
 				</div>
-
 				<div class="container-fluid">
 					<div
 						class="d-flex bg-white rounded h-100 mt-3 mx-3 mb-3 justify-content-center">
 						<button type="submit" class="btn btn-primary h-50 w-25">수정</button>
 					</div>
 				</div>
-
 			</form>
+
+
 			<!-- 본문 끝 (body end) -->
 
 

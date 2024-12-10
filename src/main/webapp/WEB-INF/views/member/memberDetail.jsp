@@ -151,7 +151,7 @@ body {
 								<div class="row mb-3 justify-content-center">
 									<label for="inputEmail3" class="col-sm-3 col-form-label h5">생년월일</label>
 									<div class="col-sm-6">
-										<label for="inputEmail3" class="col-form-label">${staff.birthdate }</label>
+										<label for="inputEmail3" class="col-form-label">${staff.birthdate}</label>
 									</div>
 								</div>
 								<div class="row mb-3 justify-content-center">
@@ -175,7 +175,7 @@ body {
 								<div class="row mb-3 justify-content-center">
 									<h5 class="col-sm-3">사진</h5>
 									<div class="col-sm-6">
-										<img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgKm1v1NZfQDYxjXhOJZxdGMzff1-pRVIojAUTzdapA4FySgjo0mcLaLhJ4fL1Q5BQmgp2_KDhbkx11TaNY3ijlMPkTbXnoWqfO6EzJzL6xnsuv8xYLXCe1NjUGccOIBO53FxX_HXXOkCM/s800/character_boy_normal.png" class="img-thumbnail">
+										<img src="${staff.picture}" class="img-thumbnail">
 									</div>
 								</div>
 								<!-- 사원 사진 end -->
@@ -184,7 +184,7 @@ body {
 								<div class="row mb-3 justify-content-center">
 									<h5 class="col-sm-3">도장</h5>
 									<div class="col-sm-6">
-										<img src="https://t1.daumcdn.net/thumb/R720x0/?fname=http://t1.daumcdn.net/brunch/service/user/5lSD/image/UDF5Zbg4Joe84NQHijQrfVFfaNg.png" class="img-thumbnail">
+										<img src="${staff.sign}" class="img-thumbnail">
 									</div>
 								</div>
 								<!-- 사원 도장 end -->

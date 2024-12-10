@@ -246,4 +246,10 @@ public class StaffRepositoryImpl implements StaffRepository {
 		return mybatis.selectOne("selectCompanyTreeData",loginId);
 	}
 	
+	// 사원 업데이트
+	@Override
+	public Integer updateStaff(Staff staff) {
+		return mybatis.update("StaffRepository.updateStaff",staff);
+	};
+	
 }

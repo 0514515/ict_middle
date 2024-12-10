@@ -56,6 +56,9 @@ public interface StaffRepository {
 
 	// 회사 조직 트리구조 데이터 조회용
 	RootCompany selectCompanyTreeDataByLoginId(String loginId);
+	
+	// 사원 업데이트
+	Integer updateStaff(Staff staff);
 
 	// 로그인
 	String login(Login login);

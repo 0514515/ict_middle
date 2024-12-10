@@ -27,10 +27,12 @@
 	<!-- 회사 조직 트리구조 데이터 조회용 -->
 	<select id="selectCompanyTreeData" resultMap="selectCompanyTree">
 		SELECT
-		c.id company_id,
+		c.id
+		company_id,
 		c.name company_name,
 		d.id department_id,
-		d.name department_name,
+		d.name
+		department_name,
 		d.company_id department_company_id,
 		s.id staff_id,
 		s.department_id staff_department_id,
@@ -51,16 +53,25 @@
 
 	<!-- 사원 등록 -->
 	<insert id="insertStaff" parameterType="Staff">
-		INSERT INTO STAFF(id,
-		name, login_id, password, phone_number, email,
-		picture, sign, address,
-		gender, birthdate,
-		department_id, company_id)
-		VALUES
-		(seq_staff_id.nextval, #{staffName}, #{loginId}, #{password},
-		#{phoneNumber}, #{email}, #{picture},
-		#{sign}, #{address}, #{gender},
-		#{birthdate}, #{departmentId}, #{companyId})
+		INSERT INTO STAFF (
+		id, name, login_id, password, phone_number, email,
+		picture,
+		sign, address, gender, birthdate, hired_date, department_id,
+		company_id
+		)
+		VALUES (
+		seq_staff_id.nextval,
+		#{staffName}, #{loginId},
+		#{password}, #{phoneNumber}, #{email},
+		<if test="picture != null">#{picture}</if>
+		<if test="picture == null">NULL</if>
+		,
+		<if test="sign != null">#{sign}</if>
+		<if test="sign == null">NULL</if>
+		,
+		#{address}, #{gender}, TO_DATE(#{birthdate}, 'YYYY-MM-DD'),
+		TO_DATE(#{hiredDate}, 'YYYY-MM-DD'), #{departmentId}, #{companyId}
+		)
 	</insert>
 
 	<!-- 부서 등록 -->
@@ -100,12 +111,15 @@
 	<!-- 로그인 아이디로 사원 정보 조회 -->
 	<select id="selectStaffInformationByLoginId"
 		parameterType="String" resultType="Staff">
-		SELECT name staffName, phone_number,
+		SELECT id staffId,name staffName,
+		phone_number,
 		RANK, address, gender, birthdate, email,
 		TO_CHAR(hired_date,
-		'YYYY-MM-DD') hired_date
+		'YYYY-MM-DD') hired_date,
+		picture, sign
 		FROM STAFF
-		WHERE login_id=#{loginId}
+		WHERE
+		login_id=#{loginId}
 	</select>
 
 	<!-- 사원 id로 사원 정보 조회 -->
@@ -113,7 +127,8 @@
 		resultType="Staff">
 		SELECT s.name staffName, s.RANK rank, d.name departmentName
 		FROM STAFF s INNER JOIN DEPARTMENT d ON s.DEPARTMENT_ID = d.ID
-		WHERE s.id=#{loginId}
+		WHERE
+		s.id=#{loginId}
 	</select>
 
 	<!-- 로그인 아이디로 사원 정보, 권한 조회 -->
@@ -170,6 +185,24 @@
 			</choose>
 		</if>
 	</select>
+
+	<!-- 사원 업데이트 -->
+	<update id="updateStaff" parameterType="Staff">
+		UPDATE staff
+		<set>
+			<if test="password != null and password != ''">password = #{password},</if>
+			<if test="staffName != null and staffName != ''">name = #{staffName},</if>
+			<if test="phoneNumber != null and phoneNumber != ''">phone_number = #{phoneNumber},</if>
+			<if test="address != null and address != ''">address = #{address},</if>
+			<if test="gender != null and gender != ''">gender = #{gender},</if>
+			<if test="birthdate != null and birthdate != ''">birthdate = TO_DATE(#{birthdate}, 'YYYY-MM-DD'),</if>
+			<if test="email != null and email != ''">email = #{email},</if>
+			<if test="picture != null and picture != ''">picture = #{picture},</if>
+			<if test="sign != null and sign != ''">sign = #{sign},</if>
+			<if test="hiredDate != null and hiredDate != ''">hired_date = TO_DATE(#{hiredDate}, 'YYYY-MM-DD'),</if>
+		</set>
+		WHERE id = #{staffId}
+	</update>
 
 	<!-- 사원 권한 업데이트 -->
 	<update id="updateStaffAuthority" parameterType="Staff">

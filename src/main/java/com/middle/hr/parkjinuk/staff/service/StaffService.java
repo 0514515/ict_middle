@@ -23,7 +23,7 @@ public interface StaffService {
 
 	// 로그인 아이디로 사원 정보 조회
 	Staff searchStaffInformationByLoginId(String loginId);
-	
+
 	// 사원 ID로 사원 정보 조회
 	Staff searchStaffInformationById(Long id);
 
@@ -53,6 +53,9 @@ public interface StaffService {
 
 	// 사원 생성
 	Integer createStaff(Staff staff);
+
+	// 사원 업데이트
+	Integer updateStaff(Staff staff);
 
 	// 회사 조직 트리구조 데이터 조회용
 	RootCompany searchCompanyTreeDataByLoginId(String loginId);

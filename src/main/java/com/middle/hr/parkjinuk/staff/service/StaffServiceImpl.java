@@ -115,4 +115,10 @@ public class StaffServiceImpl implements StaffService {
 	public RootCompany searchCompanyTreeDataByLoginId(String loginId) {
 		return staffRepository.selectCompanyTreeDataByLoginId(loginId);
 	}
+	
+	// 사원 업데이트
+	@Override
+	public Integer updateStaff(Staff staff) {
+		return staffRepository.updateStaff(staff);
+	};
 }
