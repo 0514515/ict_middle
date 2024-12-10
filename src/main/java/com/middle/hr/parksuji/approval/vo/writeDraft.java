@@ -14,7 +14,7 @@ import lombok.ToString;
 @ToString
 @Component
 @RequiredArgsConstructor
-public class writeDraftFormVO {
+public class writeDraft {
 
 	// 기안작성하기 제목 필드 
 	private String draftTitle; 

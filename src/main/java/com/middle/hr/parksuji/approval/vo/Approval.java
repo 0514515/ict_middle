@@ -1,10 +1,17 @@
 package com.middle.hr.parksuji.approval.vo;
 
+import java.util.List;
+
+import org.springframework.stereotype.Component;
+
+import com.middle.hr.parkjinuk.staff.vo.Staff;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Component
 @NoArgsConstructor
 @AllArgsConstructor
 public class Approval {
@@ -19,7 +26,13 @@ public class Approval {
 	private String createdAt; // 데이터 생성일
 	private String updatedAt;  // 최종 정보 변경일
 	private String documentNumber; // 문서번호
-	private Integer staffId;  // 사원 id number
+	private Integer staffId;  // 사원 id number  (결재자) 
 	private Integer companyId; // 회사 id number 
+	
+	private String departmentName; // department name(부서명) 
+	
+	// 스마트 에디터에서 입력된 html 내용을 담는 필드
+	private String noticeContent; 
+	private List<ApprovalLine> approvalLines; 
 	
 }

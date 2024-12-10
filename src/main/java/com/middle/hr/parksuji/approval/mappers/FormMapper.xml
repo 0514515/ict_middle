@@ -3,7 +3,88 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="FormRepository">
 
-	<!-- db에 값 입력하기 -->
+
+	<insert id="save" parameterType="Approval" >
+		INSERT INTO APPROVAL(
+			ID, DRAFTED_AT, DOCUMENT_AT, STATUS, TITLE, CURRENT_SIGNING_STAFF, 
+			CREATED_AT, UPDATED_AT, DOCUMENT_NUMBER, STAFF_ID, COMPANY_ID
+			)
+		VALUES (
+			SEQ_DOCUMENT_FORM_ID.nextval, #{draftedAt, jdbcType=DATE}, #{documentAt}, #{status}, #{title}, #{currentSigningStaff}, 
+			#{createdAt}, #{updatedAt}, #{documentNumber}, #{staffId}, #{companyId})
+	
+	</insert>
+	
+	<insert id="saveAll" parameterType="ApprovalLine">
+		INSERT INTO APPROVAL_LINE(ID, ID2, "TYPE" , SIGNED , PRIORITY , SIGNED_AT , CREATED_AT, UPDATED_AT)
+		VALUES (SEQ_APPROVAL_LINE_ID.nextval, #{id2}, #{type}, #{signed}, #{priority}, #{signedAt}, #{createdAt}, #{updatedAt})
+	
+	</insert>
+
+
+<!-- 회사 트리구조 -->
+
+	<!-- 객체 매핑용 -->
+	<resultMap id="selectCompanyTree" type="RootCompany">
+		<!-- company -->
+		<id property="id" column="company_id" />
+		<result property="name" column="company_name" />
+		
+		<!-- department -->
+		<collection property="departments" ofType="Department">
+			<id property="id" column="department_id" />
+			<result property="name" column="department_name" />
+			<result property="companyId" column="department_company_id" />
+
+			<!-- staff -->
+			<collection property="staffs" ofType="Staff">
+				<id property="staffId" column="staff_id" />
+				<result property="staffName" column="staff_name" />
+				<result property="departmentId" column="staff_department_id" />
+				<result property="rank" column="rank" />
+			</collection>
+		</collection>
+	</resultMap>
+	
+	<!-- 회사 조직 트리구조 데이터 조회용 -->
+	<select id="selectCompanyTreeDataById" resultMap="selectCompanyTree">
+		SELECT
+			c.id company_id,
+			c.name company_name,
+			d.id department_id,
+			d.name department_name,
+			d.company_id department_company_id,
+			s.id staff_id,
+			s.department_id staff_department_id,
+			s.name staff_name,
+			s.rank rank   <!-- 이 부분 추가 --> 
+		FROM 
+			company c
+			INNER JOIN department d ON
+			c.id = d.company_id
+			INNER JOIN staff s ON
+			d.id = s.department_id
+		WHERE
+			c.id = (
+					SELECT s.company_id
+					FROM Staff s
+					WHERE login_id=#{login_id}
+					)
+	</select>
+
+<!-- 회사 트리구조 끝 -->
+
+
+	<!-- 로그인 아이디로 스태프 이름, 부서, 직급 조회 -->
+	<select id="getStaffByLoginId" parameterType="String" resultType="StaffInfo">
+		SELECT s.NAME AS name, s."RANK" AS "rank", d.NAME AS departmentName 
+		FROM staff s INNER JOIN department d
+		ON s.department_id = d.id	
+		WHERE login_id = #{loginId}
+	</select>
+
+
+	<!-- db에 폼 양식 입력하기 -->
 	<insert id="insertForm" parameterType="Forms">
 
 		INSERT INTO DOCUMENT_FORM (
@@ -31,8 +112,7 @@
 	</select>
 
 	<!-- 폼 목록 조회 -->
-	<select id="getFormList" parameterType="String"
-		resultType="Forms">
+	<select id="getFormList" parameterType="String" resultType="Forms">
 		SELECT DOC.ID ID, DOC.PATH PATH, DOC.TITLE TITLE, DOC.CREATED_AT
 		CREATEDAT,
 		DOC.UPDATED_AT UPDATEDAT, DOC.DOCUMENT_TYPE DOCUMENTTYPE,
@@ -70,6 +150,9 @@
 		</where>
 		ORDER BY DOC.ID DESC
 	</select>
+
+
+
 
 
 	<!-- 페이지네이션용 페이지 수 조회 () -->
@@ -147,5 +230,8 @@
 			#{formIds}
 		</foreach>
 	</select>
+	
+
+	
 
 </mapper>

@@ -245,15 +245,15 @@
 			  <div class="mb-3 row title_div">
 			    <label for="inputTitle" class="col-sm-1 col-form-label">제목</label>
 			    <div class="col-sm-11 title_txt">
-			       ${writeDraftForm.draftTitle}
-			      <!-- <input type="text" class="form-control" id="inputTitle">  -->
+			      <input type="text" class="form-control" id="inputTitle" name="title" value=" ${title}">
 			    </div>
 			  </div>
 				
 			  <!-- html 출력 -->	
 			  <div class="html_view">
 			  	<div id="pdf_view">
-			  		${writeDraftForm.noticeContent}
+			  		<h2></h2>
+			  		${noticeContent}
 			  	</div>
 			  </div>
 
