@@ -14,6 +14,6 @@ import lombok.ToString;
 public class DetailCommission {
 	private Long id;
 	private String name;
-	private Integer amount;
+	private String amount;
 	private Long salaryHistoryId;
 }

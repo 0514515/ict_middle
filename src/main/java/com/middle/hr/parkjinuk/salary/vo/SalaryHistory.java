@@ -16,10 +16,10 @@ import lombok.ToString;
 public class SalaryHistory {
 	private Long id;
 	private String name;
-	private Long totalAmount;
+	private String totalAmount;
 	private String specifiedAt;
 	private Long companyId;
 	private Long staffId;
-	private Integer basicSalaryAmount;
+	private String basicSalaryAmount;
 	private List<DetailCommission> detailCommissions;
 }
