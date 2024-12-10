@@ -7,7 +7,8 @@ $(function(){
             'three_state': false
            }     // 모든 체크박스가 독립적으로 동작하도록 설정
     }).jstree('open_all');
-		
+	
+	
 	// 결재 추가 버튼 클릭시 
 	$('#line_plus').click(function() {
 		// 체크된 노드들 가져오기 

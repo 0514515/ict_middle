@@ -16,15 +16,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.middle.hr.parkjinuk.staff.service.StaffService;
+import com.middle.hr.parkjinuk.staff.vo.RootCompany;
 import com.middle.hr.parksuji.approval.service.FormService;
+import com.middle.hr.parksuji.approval.vo.Approval;
 import com.middle.hr.parksuji.approval.vo.Forms;
-import com.middle.hr.parksuji.approval.vo.writeDraftFormVO;
+import com.middle.hr.parksuji.approval.vo.StaffInfo;
+import com.middle.hr.parksuji.approval.vo.writeDraft;
 
 @Controller
 public class ApprovalController {
@@ -42,14 +48,33 @@ public class ApprovalController {
 		return "/approval/home";
 	}
 	
-	// 기안 작성하기 
+	// 기안 작성시 로그인아이디로 이름, 직책, 부서명 자동입력 
 	@GetMapping("approval/writeDraft")
-	public String writeDraft() {	
+	public String getDraftWriterInfoByLoginId(HttpSession session, Model model) {	
+	 
+		//세션에서 로그인 아이디 받아오기
+		String loginId = session.getAttribute("loginId").toString();
 		
+		// 세션에 loginId가 존재하지 않으면 예외 처리
+	    if (loginId == null || loginId.isEmpty()) {
+	        throw new IllegalArgumentException("로그인 세션이 만료되었거나, 로그인되지 않았습니다.");
+	    }
+		
+		StaffInfo staffInfo = formService.getStaffByLoginId(loginId); // 로그인id로 staffInfo 객체 조회 
+		
+		// staffInfo가 null이면 예외 처리
+	    if (staffInfo == null) {
+	        throw new IllegalArgumentException("로그인 ID에 해당하는 직원 정보를 찾을 수 없습니다.");
+	    }
+		
+		model.addAttribute("departmentName", staffInfo.getDepartmentName()); // 부서명
+		model.addAttribute("name", staffInfo.getName());  // 이름
+		model.addAttribute("rank", staffInfo.getRank()); // 직책 
+	
 		return "/approval/writeDraft"; 
 	}
 	
-	// 모달 - 결재 양식 db에서 불러오기  
+	// 모달 - 결재 양식 목록 DB에서 모달창으로 불러오기  
 	@GetMapping("approval/getApprovalForm")
 	@ResponseBody  // ajax로 불러올 때 사용
 	public List<Forms> getApprovalForm() throws IOException {
@@ -73,80 +98,53 @@ public class ApprovalController {
 	
 	
 	
-	
-	
-	
 	// 모달 - 결재선 db에서 불러오고 선택하기  
-	
+	// 회사 조직 트리구조 데이터 조회용 ajax
+	@GetMapping("approval/company/tree")
+	@ResponseBody  
+	public RootCompany getCompanyTreeData(HttpSession session) {  // RootCompany => vo
+		
+		RootCompany rootCompany = formService.searchCompanyTreeDataByLoginId(session.getAttribute("loginId").toString());
+		
+		return rootCompany;
+	}
 	
 	
 	
 	// 기안 작성 후 결재상신 버튼 클릭시 폼 제출되며 불러오는 컨트롤러  
-//	@PostMapping("/draft_save")  // form action값 기입 
-//	public String saveWriteDraft(@RequestParam("draftDate") String draftedAt,  // 기안일자 input name값 가져오기 
-//									@RequestParam("documentType") String documentType,  // input name값 가져오기
-//									@RequestParam("formContent") String formContent,  // input name값 가져오기
-//									Model model, HttpSession session) throws IOException {
-//		
-//		// 결재상신 버튼 클릭하면 기안일자, 결재양식, 결재선, 기안서 제목, html 내용 담아서 완료 페이지로 보내기  
-//		
-//		
-//		 // 네트워크 공유 폴더의 경로 (절대 경로 사용)
-//	    String uploadDirectory = "\\\\DESKTOP-B94HRMS\\file\\approval\\uploads\\forms"; // 네트워크 공유 폴더 경로
-//		
-//		// 1. HTML 콘텐츠를 파일로 저장
-//		// String fileName = "form_" + System.currentTimeMillis() + ".html"; // 파일명, 날짜로 생성하는 방법
-//		String fileName = "form_" + UUID.randomUUID().toString() + ".html"; // 파일명, uuid로 생성하는 방법  
-//		File file = new File(uploadDirectory, fileName); // 실제 파일 객체 생성
-//		
-//		// 파일 경로 확인
-//	    System.out.println("Saving file to: " + file.getAbsolutePath());
-//		
-//		 // HTML 콘텐츠를 파일로 작성
-//	    try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-//	        writer.write(formContent);
-//	    } catch (IOException e) {
-//	        e.printStackTrace();
-//	        throw new IOException(" HTML content를 파일로 작성하는 데 실패했습니다.", e);
-//	    }
-//		
-//		// Forms 객체 생성하여 값 설정
-//		Forms forms = new Forms();  // vo 
-//		forms.setTitle(draftedAt); // 양식 제목 
-//		forms.setDocumentType(documentType); // 문서 구분
-//		forms.setFormContent(formContent); // html 콘텐츠
-//		forms.setPath(uploadDirectory + "\\" + fileName); // 파일 경로 
-//		
-//		//세션에서 로그인 아이디 받아오기
-//		String loginId = session.getAttribute("loginId").toString();
-//		
-//		//로그인 아이디로 회사 번호 가져오기
-//		Integer companyId = staffService.searchCompanyIdByLoginId(loginId);
-//		
-//		//로그인 아이디로 사번 가져오기
-//		Integer staffId = staffService.searchStaffIdByLoginId(loginId);
-//		
-//		//회사 번호와 사번을 forms에 set
-//		forms.setCompanyId(companyId);
-//		forms.setStaffId(staffId);
-//		
-//		// FormService를 통해 DB에 저장
-//		formService.insertForm(forms);
-//		
-//		// CURRVAL을 사용하여 방금 저장된 formId를 가져오기 (이미 생성된 ID를 가져옴)
-//		// FormService에서 formId를 가지고 forms 가져오는 코드
-//		Integer formId = formService.getRecentFormId(loginId);
-//		System.out.println(" ================> 컨트롤러 : " + formId);
-//	//	forms = new Forms();
-//	//	forms.setId(formId);
-//		
-//		// 모델에 forms 객체 추가 
-//		//model.addAttribute("formId", formId);
-//		
-//		// 양식 생성 완료 페이지로 이동
-//		return "redirect:approval/completionDraft?formId=" + formId; 
-//		
-//	}
+	@PostMapping("/draft_save")  // form action값 기입    // @ ModelAttribute : 폼 데이터를 객체에 자동으로 바인딩하는 역할 
+	public String saveWriteDraft(@ModelAttribute Approval approval, 
+								@RequestParam("approvalLines") String approvalLinesJson, // 결재라인 
+								@RequestParam("approval_form") String formName, // 양식명
+								@RequestParam("draftedAt") String draftedAt, // 기안일자
+								Model model, HttpSession session) throws IOException {
+								  
+		
+	  	//세션에서 로그인 아이디 받아오기
+  		String loginId = session.getAttribute("loginId").toString();
+  		
+  		if (loginId == null) {
+  		    throw new IllegalArgumentException("loginId가 null입니다.");
+  		}
+  		
+  		// approvalLinesJson 결재선, 참조선 파싱
+  	    ObjectMapper objectMapper = new ObjectMapper();
+  	    List<StaffInfo> approvalLines = objectMapper.readValue(approvalLinesJson, new TypeReference<List<StaffInfo>>() {});
+  		
+  	    // 양식명, 기안일자 
+  	    System.out.println("양식명 : " + formName ); // formName을 approval 객체에 설정
+  	    System.out.println("기안일자 : " + draftedAt ); 
+  	    
+  		// 서비스 레이어에 모든 처리 위임 
+  		formService.processApprovalDraft(approval, approvalLines, loginId);
+		
+  	    // 양식 생성 완료 페이지로 이동
+  		return "redirect:approval/completionDraft?approvalId=" + approval.getId();
+  		 
+		
+	}
+	
+	
 	
 	
 	// 기안 작성 후 결재 상신 완료 
@@ -166,7 +164,7 @@ public class ApprovalController {
 		// System.out.println("Received content: " + noticeContent);  // html이 제대로 넘어오는지 확인 
 		
 		// writeDraftFormVO 객체 생성하고 값 설정
-		writeDraftFormVO writeDraftForm = new writeDraftFormVO();
+		writeDraft writeDraftForm = new writeDraft();
 		writeDraftForm.setDraftTitle(draftTitle);
 		writeDraftForm.setNoticeContent(noticeContent); // SmartEditor에서 입력한 HTML 저장
 		
@@ -174,6 +172,8 @@ public class ApprovalController {
 		return "/approval/completionDraft";  // html을 렌더링할 결과 페이지 
 		
 	}
+	
+	
 	
 	// 결재 받을 문서
 	

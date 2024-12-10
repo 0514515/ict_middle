@@ -41,6 +41,8 @@
 				<!-- parksuji -->
 				<value>com.middle.hr.parksuji.approval.vo.Forms</value>
 				<value>com.middle.hr.parksuji.approval.vo.Approval</value>
+				<value>com.middle.hr.parksuji.approval.vo.StaffInfo</value>
+				<value>com.middle.hr.parksuji.approval.vo.ApprovalLine</value>
 				<!-- parkeunbyeol -->
 				<value>com.middle.hr.parkeunbyeol.attendance.vo.Attendance</value>
 			</list>
