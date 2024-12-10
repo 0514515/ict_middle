@@ -3,7 +3,7 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="SalaryRepository">
 
-	<!-- 기본급 항목 전체 조회 -->
+	<!-- 로그인 아이디로 기본급 항목 전체 조회 -->
 	<select id="selectBaseSalaryByLoginId" parameterType="String"
 		resultType="Salary">
 		SELECT bs.id id, bs.name name, bs.amount amount,
@@ -138,17 +138,199 @@
 
 	<!-- 추가 수당을 받는 사원 조회 -->
 	<select id="selectStaffCommission" resultType="StaffCommission">
-		SELECT sc.staff_id staffId, c.id commissionId, s.name staffName, c.name
-		commissionName,  sc.check_default_amount checkDefaultAmount,
+		SELECT sc.staff_id staffId, c.id commissionId, s.name staffName,
+		c.name
+		commissionName, sc.check_default_amount checkDefaultAmount,
 		CASE
 		WHEN sc.check_default_amount = 1 THEN c.default_amount
 		ELSE sc.amount
 		END amount
-		FROM STAFF_COMMISION sc INNER JOIN STAFF s ON sc.STAFF_ID = s.ID
+		FROM STAFF_COMMISION sc INNER JOIN STAFF s ON sc.STAFF_ID =
+		s.ID
 		INNER JOIN COMMISSION c ON sc.COMMISSION_ID = c.ID
-		WHERE sc.COMMISSION_ID IN 
-		<foreach collection="commissionList" item="commission" open="(" separator="," close=")">
+		WHERE
+		sc.COMMISSION_ID IN
+		<foreach collection="commissionList" item="commission"
+			open="(" separator="," close=")">
 			#{commission.id}
 		</foreach>
 	</select>
+
+	<!-- 사원의 추가 수당 지급 삭제 -->
+	<delete id="deleteStaffCommission"
+		parameterType="StaffCommission">
+		DELETE FROM staff_commision
+		WHERE commission_id =
+		#{commissionId} AND staff_id = #{staffId}
+	</delete>
+
+	<!-- 사원의 추가수당 추가 -->
+	<insert id="insertStaffCommission"
+		parameterType="StaffCommission">
+		INSERT INTO staff_commision(commission_id, staff_id,
+		check_default_amount, amount)
+		VALUES(${commissionId},${staffId},${checkDefaultAmount},${amount})
+	</insert>
+
+	<!-- 급여 명세 : 한 사원이 받는 수당들 조회 -->
+	<resultMap id="StaffWithStaffCommissionsResultMap"
+		type="Staff">
+		<id property="staffId" column="staffId" />
+		<result property="staffName" column="staffName" />
+		<result property="companyId" column="companyId" />
+		<result property="basicSalaryAmount" column="basicSalaryAmount" />
+		<collection property="staffCommissionList"
+			ofType="StaffCommission">
+			<id property="commissionId" column="commissionId" />
+			<result property="commissionName" column="commissionName" />
+			<result property="staffId" column="staffId" />
+			<result property="amount" column="commissionAmount" />
+			<result property="checkDefaultAmount"
+				column="checkDefaultAmount" />
+		</collection>
+	</resultMap>
+
+	<select id="selectStaffWithBasicSalaryAndStaffCommissions"
+		resultMap="StaffWithStaffCommissionsResultMap">
+		SELECT
+		s.company_id AS companyId,
+		s.id AS staffId,
+		s.name AS staffName,
+		bs.amount AS basicSalaryAmount,
+		c.id AS commissionId,
+		c.name AS
+		commissionName,
+		NVL(sc.amount, 0) AS commissionAmount,
+		NVL(sc.check_default_amount, 0) AS checkDefaultAmount
+		FROM
+		staff s
+		INNER
+		JOIN
+		basic_salary bs ON bs.id = s.salary_id
+		CROSS JOIN
+		commission c
+		LEFT
+		JOIN
+		staff_commision sc ON s.id = sc.staff_id AND c.id =
+		sc.commission_id
+		WHERE
+		s.id IN
+		<foreach collection="list" item="staff" open="(" separator=","
+			close=")">
+			#{staff.staffId}
+		</foreach>
+	</select>
+
+	<!-- 급여 명세 -->
+	<!-- salary_history 테이블에 데이터 삽입 -->
+	<insert id="insertSalaryHistory" parameterType="SalaryHistory">
+		<selectKey keyProperty="id" resultType="Long" order="BEFORE">
+			SELECT
+			seq_salary_history_id.nextval FROM dual
+		</selectKey>
+
+		INSERT INTO salary_history (
+		id, name, total_amount, company_id,
+		staff_id, basic_salary_amount
+		) VALUES (
+		#{id}, TO_CHAR(SYSDATE, 'YYYY')
+		|| '년 ' || TO_CHAR(SYSDATE, 'FMMM') || '월 명세',
+		#{totalAmount},
+		#{companyId},
+		#{staffId}, #{basicSalaryAmount}
+		)
+	</insert>
+
+	<!-- detail_commission 테이블에 데이터 삽입 -->
+	<insert id="insertDetailCommission"
+		parameterType="DetailCommission">
+		INSERT INTO detail_commission (
+		id, name, amount,
+		salary_history_id
+		) VALUES (
+		seq_detail_commission_id.nextval,
+		#{name},
+		#{amount}, #{salaryHistoryId}
+		)
+	</insert>
+
+	<!-- 급여 명세 이력 페이지네이션 -->
+	<select id="selectSalaryHistory" parameterType="String"
+		resultType="SalaryHistory">
+		SELECT sh.id id, sh.name name, sh.TOTAL_AMOUNT totalAmount,
+		TO_CHAR(sh.SPECIFIED_AT ,'YYYY-MM-DD') specifiedAt
+		FROM SALARY_HISTORY
+		sh INNER JOIN staff s ON s.id = sh.STAFF_ID
+		<where>
+			sh.staff_id = (SELECT id FROM staff WHERE login_id=#{loginId})
+			<if test="searchOption != null and searchOption != ''">
+				<choose>
+					<when test="searchOption == 'year'">
+						AND TO_CHAR(SPECIFIED_AT,'YYYY') = #{searchKeyword}
+					</when>
+				</choose>
+			</if>
+		</where>
+	</select>
+
+	<!-- 급여 명세 이력 페이지네이션 -->
+	<select id="selectSalaryHistoryCount" parameterType="String"
+		resultType="int">
+		SELECT COUNT(*)
+		FROM SALARY_HISTORY
+		sh INNER JOIN staff s ON s.id =
+		sh.STAFF_ID
+		<where>
+			sh.staff_id = (SELECT id FROM staff WHERE login_id=#{loginId})
+			<if test="searchOption != null and searchOption != ''">
+				<choose>
+					<when test="searchOption == 'year'">
+						AND TO_CHAR(SPECIFIED_AT,'YYYY') = #{searchKeyword}
+					</when>
+				</choose>
+			</if>
+		</where>
+	</select>
+
+	<!-- salaryhistory, detailcommission 매핑 -->
+	<resultMap id="SalaryHistoryMap" type="SalaryHistory">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="totalAmount" column="total_amount" />
+		<result property="specifiedAt" column="specified_at" />
+		<result property="companyId" column="company_id" />
+		<result property="staffId" column="staff_id" />
+		<result property="basicSalaryAmount"
+			column="basic_salary_amount" />
+
+		<collection property="detailCommissions"
+			ofType="DetailCommission">
+			<id property="id" column="dc_id" />
+			<result property="name" column="dc_name" />
+			<result property="amount" column="dc_amount" />
+			<result property="salaryHistoryId" column="salary_history_id" />
+		</collection>
+	</resultMap>
+
+	<!-- 급여 이력 1개 상세 조회 -->
+	<select id="selectDetailSalaryHistory" parameterType="Long" resultMap="SalaryHistoryMap">
+		SELECT sh.id,
+		sh.name,
+		TO_CHAR(sh.total_amount,'FM999,999,999,999') total_amount,
+		sh.specified_at,
+		sh.company_id,
+		sh.staff_id,
+		TO_CHAR(sh.basic_salary_amount,'FM999,999,999,999') basic_salary_amount,
+		dc.id AS dc_id,
+		dc.name AS dc_name,
+		TO_CHAR(dc.amount,'FM999,999,999,999') dc_amount,
+		dc.salary_history_id
+		FROM salary_history sh
+		INNER JOIN detail_commission dc
+		ON sh.id =
+		dc.salary_history_id
+		WHERE sh.id=#{id}
+	</select>
+
+
 </mapper>

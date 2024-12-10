@@ -3,6 +3,7 @@ package com.middle.hr.parkjinuk.staff.repository;
 import java.util.List;
 import java.util.Map;
 
+import com.middle.hr.parkjinuk.salary.vo.StaffCommission;
 import com.middle.hr.parkjinuk.staff.vo.Department;
 import com.middle.hr.parkjinuk.staff.vo.Login;
 import com.middle.hr.parkjinuk.staff.vo.RootCompany;
@@ -23,6 +24,9 @@ public interface StaffRepository {
 	// 로그인 아이디로 사원 정보 조회
 	Staff selectStaffInformationByLoginId(String loginId);
 
+	// 사원 ID로 사원 정보 조회
+	Staff selectStaffInformationById(Long id);
+
 	// 로그인 아이디로 사원 정보, 권한 목록 조회
 	Map<String, Object> selectStaffAndAuthorityByLoginId(String loginId, String searchOption, String searchKeyword,
 			Integer pageNum, Integer pageSize);
@@ -42,7 +46,7 @@ public interface StaffRepository {
 
 	// 부서 생성
 	Integer insertDepartment(Department department);
-	
+
 	// 사원 생성
 	Integer insertStaff(Staff staff);
 
@@ -52,7 +56,7 @@ public interface StaffRepository {
 
 	// 회사 조직 트리구조 데이터 조회용
 	RootCompany selectCompanyTreeDataByLoginId(String loginId);
-	
+
 	// 로그인
 	String login(Login login);
 }

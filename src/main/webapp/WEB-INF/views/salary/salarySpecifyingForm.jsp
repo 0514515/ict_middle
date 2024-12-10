@@ -14,6 +14,9 @@
 <!-- Favicon -->
 <link href="img/favicon.ico" rel="icon">
 
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+
 <!-- Google Web Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -142,11 +145,12 @@ body {
 					</div>
 					<div class="d-flex rounded h-100 justify-content-center">
 						<div class="d-flex pe-1 justify-content-end h-50">
-							<button type="button" id="add_button" class="btn btn-primary text-nowrap" data-bs-toggle="modal" data-bs-target="#exampleModal">사원
-								추가</button>
+							<button type="button" id="add_button"
+								class="btn btn-primary text-nowrap" data-bs-toggle="modal"
+								data-bs-target="#modal">사원 추가</button>
 						</div>
 						<div class="d-flex ps-1 justify-content-start h-50 ">
-							<button type="button" class="btn btn-outline-primary text-nowrap">선택
+							<button type="button" class="btn btn-outline-primary text-nowrap" id="deleteButton">선택
 								삭제</button>
 						</div>
 					</div>
@@ -160,432 +164,18 @@ body {
 								<thead>
 									<tr>
 										<th><input type="checkbox" class="form-check-input"
-											id="exampleCheck1"></th>
+											id="allCheck"></th>
 										<th scope="col">사원 번호</th>
 										<th scope="col">사원 이름</th>
-										<th scope="col">실수령액</th>
+										<th scope="col">합계</th>
 										<th scope="col">기본급</th>
-										<th scope="col">주휴수당</th>
-										<th scope="col">시간외근무수당</th>
-										<th scope="col">자격수당</th>
-										<th scope="col">국민연금</th>
+										<c:forEach var="commission" items="${commissionList}">
+											<th scope="col" id="commission_${commission.id}">${commission.name}</th>
+										</c:forEach>
 									</tr>
 								</thead>
-								<tbody>
-									<tr class="align-middle">
-										<td><input type="checkbox" class="form-check-input"
-											id="exampleCheck1"></td>
-										<td>1</td>
-										<td>사원 1</td>
-										<td>2,100,000</td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-
-									</tr>
-									<tr class="align-middle">
-										<td><input type="checkbox" class="form-check-input"
-											id="exampleCheck1"></td>
-										<td>1</td>
-										<td>사원 1</td>
-										<td>2,100,000</td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-
-									</tr>
-									<tr class="align-middle">
-										<td><input type="checkbox" class="form-check-input"
-											id="exampleCheck1"></td>
-										<td>1</td>
-										<td>사원 1</td>
-										<td>2,100,000</td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-
-									</tr>
-									<tr class="align-middle">
-										<td><input type="checkbox" class="form-check-input"
-											id="exampleCheck1"></td>
-										<td>1</td>
-										<td>사원 1</td>
-										<td>2,100,000</td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-
-									</tr>
-									<tr class="align-middle">
-										<td><input type="checkbox" class="form-check-input"
-											id="exampleCheck1"></td>
-										<td>1</td>
-										<td>사원 1</td>
-										<td>2,100,000</td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-
-									</tr>
-									<tr class="align-middle">
-										<td><input type="checkbox" class="form-check-input"
-											id="exampleCheck1"></td>
-										<td>1</td>
-										<td>사원 1</td>
-										<td>2,100,000</td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-
-									</tr>
-									<tr class="align-middle">
-										<td><input type="checkbox" class="form-check-input"
-											id="exampleCheck1"></td>
-										<td>1</td>
-										<td>사원 1</td>
-										<td>2,100,000</td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-
-									</tr>
-									<tr class="align-middle">
-										<td><input type="checkbox" class="form-check-input"
-											id="exampleCheck1"></td>
-										<td>1</td>
-										<td>사원 1</td>
-										<td>2,100,000</td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-
-									</tr>
-									<tr class="align-middle">
-										<td><input type="checkbox" class="form-check-input"
-											id="exampleCheck1"></td>
-										<td>1</td>
-										<td>사원 1</td>
-										<td>2,100,000</td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-
-									</tr>
-									<tr class="align-middle">
-										<td><input type="checkbox" class="form-check-input"
-											id="exampleCheck1"></td>
-										<td>1</td>
-										<td>사원 1</td>
-										<td>2,100,000</td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-
-									</tr>
-									<tr class="align-middle">
-										<td><input type="checkbox" class="form-check-input"
-											id="exampleCheck1"></td>
-										<td>1</td>
-										<td>사원 1</td>
-										<td>2,100,000</td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-
-									</tr>
-									<tr class="align-middle">
-										<td><input type="checkbox" class="form-check-input"
-											id="exampleCheck1"></td>
-										<td>1</td>
-										<td>사원 1</td>
-										<td>2,100,000</td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-
-									</tr>
-									<tr class="align-middle">
-										<td><input type="checkbox" class="form-check-input"
-											id="exampleCheck1"></td>
-										<td>1</td>
-										<td>사원 1</td>
-										<td>2,100,000</td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-
-									</tr>
-									<tr class="align-middle">
-										<td><input type="checkbox" class="form-check-input"
-											id="exampleCheck1"></td>
-										<td>1</td>
-										<td>사원 1</td>
-										<td>2,100,000</td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-
-									</tr>
-									<tr class="align-middle">
-										<td><input type="checkbox" class="form-check-input"
-											id="exampleCheck1"></td>
-										<td>1</td>
-										<td>사원 1</td>
-										<td>2,100,000</td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-
-									</tr>
-									<tr class="align-middle">
-										<td><input type="checkbox" class="form-check-input"
-											id="exampleCheck1"></td>
-										<td>1</td>
-										<td>사원 1</td>
-										<td>2,100,000</td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-
-									</tr>
-									<tr class="align-middle">
-										<td><input type="checkbox" class="form-check-input"
-											id="exampleCheck1"></td>
-										<td>1</td>
-										<td>사원 1</td>
-										<td>2,100,000</td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-
-									</tr>
-									<tr class="align-middle">
-										<td><input type="checkbox" class="form-check-input"
-											id="exampleCheck1"></td>
-										<td>1</td>
-										<td>사원 1</td>
-										<td>2,100,000</td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-
-									</tr>
-									<tr class="align-middle">
-										<td><input type="checkbox" class="form-check-input"
-											id="exampleCheck1"></td>
-										<td>1</td>
-										<td>사원 1</td>
-										<td>2,100,000</td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-
-									</tr>
-									<tr class="align-middle">
-										<td><input type="checkbox" class="form-check-input"
-											id="exampleCheck1"></td>
-										<td>1</td>
-										<td>사원 1</td>
-										<td>2,100,000</td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-
-									</tr>
-									<tr class="align-middle">
-										<td><input type="checkbox" class="form-check-input"
-											id="exampleCheck1"></td>
-										<td>1</td>
-										<td>사원 1</td>
-										<td>2,100,000</td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-
-									</tr>
-									<tr class="align-middle">
-										<td><input type="checkbox" class="form-check-input"
-											id="exampleCheck1"></td>
-										<td>1</td>
-										<td>사원 1</td>
-										<td>2,100,000</td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-
-									</tr>
-									<tr class="align-middle">
-										<td><input type="checkbox" class="form-check-input"
-											id="exampleCheck1"></td>
-										<td>1</td>
-										<td>사원 1</td>
-										<td>2,100,000</td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-										<td><input class="form-control" type="text"
-											placeholder="등급" value="2,300,000"></td>
-
-									</tr>
+								<tbody id="tableBody">	
+								
 								</tbody>
 							</table>
 
@@ -594,12 +184,12 @@ body {
 					</div>
 				</div>
 				<div class="d-grid gap-2 d-md-flex justify-content-center mx-4 my-4">
-					<button class="btn btn-primary px-5" type="button">발급</button>
+					<button class="btn btn-primary px-5" type="button" id="specifyButton">발급</button>
 				</div>
 			</div>
 
 			<!-- Modal -->
-			<div class="modal fade" id="exampleModal" tabindex="-1"
+			<div class="modal fade" id="modal" tabindex="-1"
 				aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
 					<div class="modal-content">
@@ -612,46 +202,42 @@ body {
 						<div class="modal-body">
 							<div class="row">
 								<div class="col">
-									<div class="bg-light rounded p-4">
-										<h5 class="mb-4 text-center">사원 주소록</h5>
-										<div class="table-responsive" style="height: 550px">
-											<table class="table table-hover">
-												<thead>
-													<tr class="align-middle">
-														<th scope="col"><input type="checkbox"
-															class="form-check-input" id="exampleCheck1"></th>
-														<th scope="col">추가수당 이름</th>
-														<th scope="col">기본 액수</th>
-													</tr>
-												</thead>
-												<tbody>
+									<div class="bg-white rounded p-4">
+										<!-- 트리구조 조직도 -->
+										<div class="tree_div overflow-scroll" style="height: 550px">
+											<div id="jstree">
+												<ul>
+													<!-- 회사 -->
+													<li id="root">${rootCompany.name}
+														<ul>
+															<!-- 부서 -->
+															<c:forEach var="department"
+																items="${rootCompany.departments}">
+																<li class="group" id="group${department.id}">${department.name}
+																	<ul>
+																		<!-- 직원 -->
+																		<c:forEach var="staff" items="${department.staffs}">
+																			<li staffId="${staff.staffId}"
+																				id="child${staff.staffId}">${staff.staffName}</li>
+																		</c:forEach>
+																	</ul>
+																</li>
+															</c:forEach>
+														</ul>
+													</li>
+												</ul>
+											</div>
 
-													<tr class="align-middle">
-														<th><input type="checkbox" class="form-check-input"
-															id="exampleCheck1"></th>
-														<td>John</td>
-														<td class="w-50"><input class="form-control"
-															type="text" placeholder="등급"></td>
-													</tr>
-													<tr class="align-middle">
-														<th><input type="checkbox" class="form-check-input"
-															id="exampleCheck1"></th>
-														<td>Mark</td>
-														<td class="w-50"><input class="form-control"
-															type="text" placeholder="등급"></td>
-													</tr>
-
-												</tbody>
-											</table>
 										</div>
 									</div>
-								</div>	
+								</div>
 							</div>
 						</div>
 
 						<div class="modal-footer">
 							<div class="mx-auto">
-								<button type="button" class="btn btn-primary">저장</button>
+								<button type="button" class="btn btn-primary"
+									id="modalAddButton">추가</button>
 								<button type="button" class="btn btn-secondary"
 									data-bs-dismiss="modal">닫기</button>
 							</div>
@@ -692,6 +278,13 @@ body {
 
 	<!-- Template Javascript -->
 	<script src="/resources/template/js/main.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+
+	<script type="text/javascript"
+		src="/resources/salary/js/jstreeCustom.js"></script>
+	<script type="text/javascript"
+		src="/resources/salary/js/salarySpecifyingForm.js"></script>
 </body>
 
 </html>

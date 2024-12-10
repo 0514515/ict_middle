@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.middle.hr.parkjinuk.salary.repository.SalaryRepository;
 import com.middle.hr.parkjinuk.salary.vo.Commission;
 import com.middle.hr.parkjinuk.salary.vo.Salary;
+import com.middle.hr.parkjinuk.salary.vo.SalaryHistory;
 import com.middle.hr.parkjinuk.salary.vo.StaffCommission;
 import com.middle.hr.parkjinuk.staff.vo.Staff;
 
@@ -81,7 +82,43 @@ public class SalaryServiceImpl implements SalaryService {
 
 	// 추가 수당을 받는 사원 조회
 	@Override
-	public List<StaffCommission> searchStaffCommission(List<Commission> commissionList){
+	public List<StaffCommission> searchStaffCommission(List<Commission> commissionList) {
 		return salaryRepository.selectStaffCommission(commissionList);
+	};
+
+	// 사원 추가 수당 지급
+	@Override
+	public Integer addStaffCommission(List<StaffCommission> staffCommission) {
+		return salaryRepository.insertStaffCommission(staffCommission);
+	};
+
+	// 추가 수당 지급 삭제
+	@Override
+	public Integer deleteStaffCommission(List<StaffCommission> staffCommission) {
+		return salaryRepository.deleteStaffCommission(staffCommission);
+	};
+
+	// 급여 명세 : 사원의 기본급과 수당들 조회
+	@Override
+	public List<Staff> searchStaffWithBasicSalaryAndStaffCommissions(List<Staff> staff) {
+		return salaryRepository.selectStaffWithBasicSalaryAndStaffCommissions(staff);
+	};
+
+	// 급여 명세
+	@Override
+	public Integer specify(List<SalaryHistory> salaryHistory) {
+		return salaryRepository.specify(salaryHistory);
+	};
+
+	// 급여 페이지네이션 조회
+	@Override
+	public Map<String, Object> searchSalaryHistory(String loginId, String searchOption, String searchKeyword,
+			Integer pageNum, Integer pageSize) {
+		return salaryRepository.selectSalaryHistory(loginId, searchOption, searchKeyword, pageNum, pageSize);
+	}
+	
+	// 급여 상세 조회
+	public SalaryHistory searchDetailSalaryHistory(Long id) {
+		return salaryRepository.selectDetailSalaryHistory(id);
 	};
 }

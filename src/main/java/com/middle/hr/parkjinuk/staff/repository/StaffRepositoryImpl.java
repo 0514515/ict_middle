@@ -11,6 +11,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.middle.hr.parkjinuk.salary.vo.StaffCommission;
 import com.middle.hr.parkjinuk.staff.vo.Department;
 import com.middle.hr.parkjinuk.staff.vo.Login;
 import com.middle.hr.parkjinuk.staff.vo.RootCompany;
@@ -69,6 +70,12 @@ public class StaffRepositoryImpl implements StaffRepository {
 	public Staff selectStaffInformationByLoginId(String loginId) {
 		return mybatis.selectOne("StaffRepository.selectStaffInformationByLoginId", loginId);
 	}
+	
+	// 사원 ID로 사원 정보 조회
+	@Override
+	public Staff selectStaffInformationById(Long id) {
+		return mybatis.selectOne("StaffRepository.selectStaffInformationById",id);
+	};
 
 	// 로그인 아이디로 사원 정보와 권한 목록 조회
 	@Override
@@ -238,4 +245,5 @@ public class StaffRepositoryImpl implements StaffRepository {
 	public RootCompany selectCompanyTreeDataByLoginId(String loginId) {
 		return mybatis.selectOne("selectCompanyTreeData",loginId);
 	}
+	
 }

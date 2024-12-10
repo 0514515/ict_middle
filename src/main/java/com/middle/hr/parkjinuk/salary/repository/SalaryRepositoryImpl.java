@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.middle.hr.parkjinuk.salary.vo.Commission;
+import com.middle.hr.parkjinuk.salary.vo.DetailCommission;
 import com.middle.hr.parkjinuk.salary.vo.Salary;
+import com.middle.hr.parkjinuk.salary.vo.SalaryHistory;
 import com.middle.hr.parkjinuk.salary.vo.StaffCommission;
 import com.middle.hr.parkjinuk.staff.vo.Staff;
 
@@ -141,13 +143,123 @@ public class SalaryRepositoryImpl implements SalaryRepository {
 
 	// 추가 수당을 받는 사원 조회
 	@Override
-	public List<StaffCommission> selectStaffCommission(List<Commission> commissionList){
-		if(commissionList == null || commissionList.isEmpty()) {
+	public List<StaffCommission> selectStaffCommission(List<Commission> commissionList) {
+		if (commissionList == null || commissionList.isEmpty()) {
 			return new ArrayList<>();
 		}
-		
-	    Map<String, Object> param = new HashMap<>();
-	    param.put("commissionList", commissionList);
-		return mybatis.selectList("SalaryRepository.selectStaffCommission",param);
+
+		Map<String, Object> param = new HashMap<>();
+		param.put("commissionList", commissionList);
+		return mybatis.selectList("SalaryRepository.selectStaffCommission", param);
 	}
+
+	// 사원 추가 수당 지급
+	@Override
+	public Integer insertStaffCommission(List<StaffCommission> staffCommission) {
+		// 배치 처리용 세션 열기
+		SqlSession sqlSession = mybatis.getSqlSessionFactory().openSession(ExecutorType.BATCH, false);
+
+		try {
+			// 리스트의 각 staff에 대해 UPDATE 쿼리 실행
+			for (StaffCommission sc : staffCommission) {
+				sqlSession.update("SalaryRepository.insertStaffCommission", sc);
+			}
+
+			// 배치 후 커밋
+			sqlSession.commit();
+		} finally {
+			sqlSession.close();
+		}
+
+		return staffCommission.size();
+	};
+
+	// 추가 수당 지급 삭제
+	@Override
+	public Integer deleteStaffCommission(List<StaffCommission> staffCommission) {
+		// 배치 처리용 세션 열기
+		SqlSession sqlSession = mybatis.getSqlSessionFactory().openSession(ExecutorType.BATCH, false);
+
+		try {
+			// 리스트의 각 staff에 대해 UPDATE 쿼리 실행
+			for (StaffCommission sc : staffCommission) {
+				sqlSession.update("SalaryRepository.deleteStaffCommission", sc);
+			}
+
+			// 배치 후 커밋
+			sqlSession.commit();
+		} finally {
+			sqlSession.close();
+		}
+		return staffCommission.size();
+	}
+
+	// 급여 명세 : 사원의 기본급과 수당들 조회
+	@Override
+	public List<Staff> selectStaffWithBasicSalaryAndStaffCommissions(List<Staff> staff) {
+		return mybatis.selectList("SalaryRepository.selectStaffWithBasicSalaryAndStaffCommissions", staff);
+	};
+
+	// 급여 명세
+	@Override
+	public Integer specify(List<SalaryHistory> salaryHistoryList) {
+		SqlSession sqlSession = mybatis.getSqlSessionFactory().openSession(ExecutorType.BATCH, false);
+
+		try {
+			for (SalaryHistory sh : salaryHistoryList) {
+				sqlSession.insert("SalaryRepository.insertSalaryHistory", sh);
+
+				// detail_commission 삽입
+				for (DetailCommission commission : sh.getDetailCommissions()) {
+					commission.setSalaryHistoryId(sh.getId()); // salary_history의 ID 설정
+					sqlSession.insert("SalaryRepository.insertDetailCommission", commission);
+				}
+			}
+			sqlSession.commit();
+		} catch (Exception e) {
+			sqlSession.rollback();
+			e.printStackTrace();
+		} finally {
+			sqlSession.close();
+		}
+		return salaryHistoryList.size();
+	}
+
+	// 급여 페이지네이션 조회
+	@Override
+	public Map<String, Object> selectSalaryHistory(String loginId, String searchOption, String searchKeyword,
+			Integer pageNum, Integer pageSize) {
+		// 검색 조건에 맞는 전체 레코드 수 조회
+		Map<String, Object> params = new HashMap<>();
+		params.put("searchOption", searchOption);
+		params.put("searchKeyword", searchKeyword);
+		params.put("loginId", loginId);
+
+		int totalCount = mybatis.selectOne("SalaryRepository.selectSalaryHistoryCount", params);
+
+		// 전체 페이지 수 계산
+		int totalPages = (int) Math.ceil((double) totalCount / pageSize);
+
+		// RowBounds를 사용하여 페이지네이션 적용
+		RowBounds rowBounds = new RowBounds((pageNum - 1) * pageSize, pageSize);
+
+		// 사원 조회
+		List<SalaryHistory> salaryHistoryList = mybatis.selectList("SalaryRepository.selectSalaryHistory", params,
+				rowBounds);
+
+		// 결과를 맵으로 반환
+		Map<String, Object> result = new HashMap<>();
+		result.put("salaryHistoryList", salaryHistoryList); // 페이지네이션된 결과
+		result.put("totalCount", totalCount); // 전체 레코드 수
+		result.put("totalPages", totalPages); // 전체 페이지 수
+		
+		return result;
+	};
+
+	
+	// 급여 상세 조회
+	@Override
+	public SalaryHistory selectDetailSalaryHistory(Long id) {
+		return mybatis.selectOne("SalaryRepository.selectDetailSalaryHistory",id);
+	};
 }

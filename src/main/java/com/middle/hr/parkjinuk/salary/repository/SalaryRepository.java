@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.middle.hr.parkjinuk.salary.vo.Commission;
 import com.middle.hr.parkjinuk.salary.vo.Salary;
+import com.middle.hr.parkjinuk.salary.vo.SalaryHistory;
 import com.middle.hr.parkjinuk.salary.vo.StaffCommission;
 import com.middle.hr.parkjinuk.staff.vo.Staff;
 
@@ -45,4 +46,24 @@ public interface SalaryRepository {
 	
 	// 추가 수당을 받는 사원 조회
 	List<StaffCommission> selectStaffCommission(List<Commission> commissionList);
+	
+	// 사원 추가 수당 지급
+	Integer insertStaffCommission(List<StaffCommission> staffCommission);
+	
+	// 추가 수당 지급 삭제
+	Integer deleteStaffCommission(List<StaffCommission> staffCommission);
+	
+	// 급여 명세 : 사원의 기본급과 수당들 조회
+	List<Staff> selectStaffWithBasicSalaryAndStaffCommissions(List<Staff> staff);
+	
+	// 급여 명세
+	Integer specify(List<SalaryHistory> salaryHistoryList);
+	
+	// 급여 페이지네이션 조회
+	Map<String, Object> selectSalaryHistory(String loginId, String searchOption, String searchKeyword,
+	Integer pageNum, Integer pageSize);
+	
+	// 급여 상세 조회
+	SalaryHistory selectDetailSalaryHistory(Long id);
+
 }
