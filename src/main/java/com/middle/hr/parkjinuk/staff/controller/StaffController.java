@@ -183,7 +183,7 @@ public class StaffController {
 
 		// 현재 로그인한 loginId로 사원 정보 조회
 		Staff staff = staffService.searchStaffInformationByLoginId(loginId);
-
+		
 		model.addAttribute("staff", staff);
 
 		return "/member/memberDetail";

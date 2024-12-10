@@ -23,6 +23,9 @@ public interface StaffService {
 
 	// 로그인 아이디로 사원 정보 조회
 	Staff searchStaffInformationByLoginId(String loginId);
+	
+	// 사원 ID로 사원 정보 조회
+	Staff searchStaffInformationById(Long id);
 
 	// 로그인 아이디로 사원 정보, 권한 목록 조회
 	Map<String, Object> searchStaffAndAuthorityByLoginId(String loginId, String searchOption, String searchKeyword,

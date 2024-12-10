@@ -70,6 +70,12 @@ public class StaffRepositoryImpl implements StaffRepository {
 	public Staff selectStaffInformationByLoginId(String loginId) {
 		return mybatis.selectOne("StaffRepository.selectStaffInformationByLoginId", loginId);
 	}
+	
+	// 사원 ID로 사원 정보 조회
+	@Override
+	public Staff selectStaffInformationById(Long id) {
+		return mybatis.selectOne("StaffRepository.selectStaffInformationById",id);
+	};
 
 	// 로그인 아이디로 사원 정보와 권한 목록 조회
 	@Override

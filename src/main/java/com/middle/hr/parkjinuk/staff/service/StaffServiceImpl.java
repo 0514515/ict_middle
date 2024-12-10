@@ -46,6 +46,12 @@ public class StaffServiceImpl implements StaffService {
 				pageSize);
 	}
 
+	// 사원 ID로 사원 정보 조회
+	@Override
+	public Staff searchStaffInformationById(Long id) {
+		return staffRepository.selectStaffInformationById(id);
+	};
+
 	// 사원 권한 업데이트
 	@Override
 	public Integer updateStaffAuthority(List<Staff> staffList) {
