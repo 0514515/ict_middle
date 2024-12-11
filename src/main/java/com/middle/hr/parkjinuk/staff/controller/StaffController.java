@@ -364,7 +364,7 @@ public class StaffController {
 	public String readImageFromNetworkShare(String filePath) throws IOException {
 		File file = new File(filePath);
 		if (!file.exists()) {
-			throw new IOException("파일을 찾을 수 없습니다: " + filePath);
+			return "";
 		}
 
 		try (FileInputStream fis = new FileInputStream(file)) {

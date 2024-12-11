@@ -3,20 +3,42 @@ package com.middle.hr.parkjinuk.common.controller;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 
 import com.middle.hr.parkjinuk.common.service.CommonService;
 import com.middle.hr.parkjinuk.common.vo.Administrator;
 import com.middle.hr.parkjinuk.common.vo.Company;
 
 @Controller
+@CrossOrigin(origins = "*")
 public class CommonController {
 
 	@Autowired
 	CommonService commonService;
+
+	@GetMapping("weather")
+	@ResponseBody
+	public ResponseEntity<String> getWeather(@RequestParam String base_date, @RequestParam String base_time,
+			@RequestParam int nx, @RequestParam int ny) {
+		// 외부 API URL
+		String apiUrl = "https://apihub.kma.go.kr/api/typ02/openApi/VilageFcstInfoService_2.0/getUltraSrtNcst"
+				+ "?pageNo=1&numOfRows=1000&dataType=JSON" + "&base_date=" + base_date + "&base_time=" + base_time
+				+ "&nx=" + nx + "&ny=" + ny + "&authKey=B-aqHGevT_Smqhxnr2_0eA";
+
+		// RestTemplate을 이용하여 외부 API 호출
+		RestTemplate restTemplate = new RestTemplate();
+		String response = restTemplate.getForObject(apiUrl, String.class);
+
+		return ResponseEntity.ok(response);
+	}
 
 	// 회사 목록 페이지
 	@GetMapping("super/company")

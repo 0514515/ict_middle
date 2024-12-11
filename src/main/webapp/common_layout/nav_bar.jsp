@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     
     <!-- Navbar Start -->
             <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
@@ -91,6 +92,10 @@
                         </div>
                     </div>
                     -->
+                    <h6 id="weather"></h6>
                 </div>
             </nav>
             <!-- Navbar End -->
+            
+            <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+            <script src="/resources/nav_bar.js"></script>
