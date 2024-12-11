@@ -36,8 +36,8 @@ public interface FormRepository {
 	// 회사 조직 트리구조 데이터 조회용
 	RootCompany selectCompanyTreeDataByLoginId(String loginId);
 		
-	public void save(Approval approval); 
+	public Integer saveApproval(Approval approval); 
 	
-	public void saveAll(List<ApprovalLine> approvalLineList);
+	public void saveApprovalLine(List<ApprovalLine> approvalLineList);
 		
 }

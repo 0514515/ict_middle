@@ -127,8 +127,7 @@
 		resultType="Staff">
 		SELECT s.name staffName, s.RANK rank, d.name departmentName
 		FROM STAFF s INNER JOIN DEPARTMENT d ON s.DEPARTMENT_ID = d.ID
-		WHERE
-		s.id=#{loginId}
+		WHERE s.id=#{id}
 	</select>
 
 	<!-- 로그인 아이디로 사원 정보, 권한 조회 -->

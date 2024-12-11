@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ApprovalLine {
-	private Integer id;        // 결재 라인 id 
-	private Integer id2;       // 결재 id => approval id와 같음
+	private Integer id;        // 결재 라인 id (시퀀스) 
+	private Integer approvalId;       // 결재 id => approval id와 같음
 	private Integer type;      // 유형
 	private Integer signed;    // 결재 여부
 	private Integer priority;  // 순번

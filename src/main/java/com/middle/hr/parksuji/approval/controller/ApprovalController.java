@@ -26,6 +26,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.middle.hr.parkjinuk.staff.service.StaffService;
 import com.middle.hr.parkjinuk.staff.vo.RootCompany;
+import com.middle.hr.parkjinuk.staff.vo.Staff;
 import com.middle.hr.parksuji.approval.service.FormService;
 import com.middle.hr.parksuji.approval.vo.Approval;
 import com.middle.hr.parksuji.approval.vo.Forms;
@@ -78,20 +79,19 @@ public class ApprovalController {
 	@GetMapping("approval/getApprovalForm")
 	@ResponseBody  // ajax로 불러올 때 사용
 	public List<Forms> getApprovalForm() throws IOException {
-		System.out.println("여기****************");
 		List<Forms> formList = formService.getApprovalForm(); // getApprovalForm 통해서 forms 정보 가져와 담기 
-		System.out.println("===> [컨트롤러][approval/getApprovalForm]" + formList.toString());
+		// System.out.println("===> [컨트롤러][approval/getApprovalForm]" + formList.toString());
 		
 		// 각 양식의 HTML 내용을 네트워크 공유 폴더에서 읽어와서 추가
 		for(Forms forms : formList) {
 			String filePath = forms.getPath();  // DB에 저장된 파일 경로
 			String formContent = readFileFromNetworkShare(filePath);  // 네트워크 공유 폴더에서 HTML 내용 읽기(아래 부분에 있음) 
 				   forms.setFormContent(formContent); 
-				   System.out.println("===> [컨트롤러][approval/getApprovalForm => forms]" + forms.toString());
+				   // System.out.println("===> [컨트롤러][approval/getApprovalForm => forms]" + forms.toString());
 		}
 		
 		// 최종적으로 HTML 내용을 포함한 양식 목록을 반환하기 전에 확인
-	    System.out.println("===> [컨트롤러][getApprovalForm] 반환할 formList: " + formList);
+	    // System.out.println("===> [컨트롤러][getApprovalForm] 반환할 formList: " + formList);
 		
 		return formList;  // 최종적으로 HTML 내용을 포함한 양식 목록 반환
 	}
@@ -113,31 +113,59 @@ public class ApprovalController {
 	
 	// 기안 작성 후 결재상신 버튼 클릭시 폼 제출되며 불러오는 컨트롤러  
 	@PostMapping("/draft_save")  // form action값 기입    // @ ModelAttribute : 폼 데이터를 객체에 자동으로 바인딩하는 역할 
-	public String saveWriteDraft(@ModelAttribute Approval approval, 
-								@RequestParam("approvalLines") String approvalLinesJson, // 결재라인 
-								@RequestParam("approval_form") String formName, // 양식명
-								@RequestParam("draftedAt") String draftedAt, // 기안일자
-								Model model, HttpSession session) throws IOException {
-								  
+	public String saveWriteDraft(
+			String formTitle // 양식명
+			,String draftedAt // 기안일자
+			,String title // 기안 제목
+			,String noticeContent // 스마트에디터 html  
+			,String approvalLines // 결재라인
+			,String referenceLines // 참조라인
+			,HttpSession session) throws IOException { 								
+		
+		// 서버에서 approvalLinesJson 값 확인
+  	    System.out.println("Received approvalLinesJson: " + approvalLines);
+  	    System.out.println("Received referenceLinesJson: " + referenceLines);
+  	    System.out.println("Received formName: " + formTitle);
+  	    System.out.println("Received draftedAt: " + draftedAt);
 		
 	  	//세션에서 로그인 아이디 받아오기
   		String loginId = session.getAttribute("loginId").toString();
+  		
+  	// 로그인 아이디로 회사 번호, 사원id 가져오기
+  		Integer companyId = staffService.searchCompanyIdByLoginId(loginId);
+  		Integer staffId = staffService.searchStaffIdByLoginId(loginId);
   		
   		if (loginId == null) {
   		    throw new IllegalArgumentException("loginId가 null입니다.");
   		}
   		
-  		// approvalLinesJson 결재선, 참조선 파싱
-  	    ObjectMapper objectMapper = new ObjectMapper();
-  	    List<StaffInfo> approvalLines = objectMapper.readValue(approvalLinesJson, new TypeReference<List<StaffInfo>>() {});
+  	// companyId 또는 staffId가 null인 경우 예외 처리
+	    if (companyId == null || staffId == null) {
+	        throw new IllegalArgumentException("로그인 정보에 해당하는 사원 정보가 존재하지 않습니다.");
+	    }
   		
-  	    // 양식명, 기안일자 
-  	    System.out.println("양식명 : " + formName ); // formName을 approval 객체에 설정
-  	    System.out.println("기안일자 : " + draftedAt ); 
+  		// approvalLinesJson 결재선, 참조선 파싱
+  		// approvalLinesJson을 ObjectMapper를 사용해 List<Staff> 객체로 변환
+  	    ObjectMapper objectMapper = new ObjectMapper();
+  	    List<Staff> approvalLine = objectMapper.readValue(approvalLines, new TypeReference<List<Staff>>() {});
+  	    List<Staff> referenceLine = objectMapper.readValue(referenceLines, new TypeReference<List<Staff>>() {});
+  	    
+  	    //Approval 객체 생성 및 값 설정 
+  	    Approval approval = new Approval();
+  	    approval.setFormTitle(formTitle);
+  	    approval.setTitle(title);
+  	    approval.setNoticeContent(noticeContent); 
+  	    approval.setDraftedAt(draftedAt);
+		approval.setStaffId(staffId);  // 기안자 (로그인한 사람) 
+		approval.setCompanyId(companyId); // 로그인한 사람의 회사 정보
+  	 
   	    
   		// 서비스 레이어에 모든 처리 위임 
-  		formService.processApprovalDraft(approval, approvalLines, loginId);
+  		Approval savedApproval = formService.processApprovalDraft(approval, approvalLine, referenceLine, loginId);
 		
+  		// 저장된 객체에서 id 가져오기 (결재 문서 입력시 id 시퀀스로 부여되므로) 
+  		Integer approvalId = savedApproval.getId(); 
+  		
   	    // 양식 생성 완료 페이지로 이동
   		return "redirect:approval/completionDraft?approvalId=" + approval.getId();
   		 
@@ -160,7 +188,7 @@ public class ApprovalController {
 									Model model) {
 		
 		// noticeContent는 SmartEditor에서 입력한 HTML 내용(textarea 안의 내용)
-		 System.out.println("Received content: " + draftTitle); 
+		// System.out.println("Received content: " + draftTitle); 
 		// System.out.println("Received content: " + noticeContent);  // html이 제대로 넘어오는지 확인 
 		
 		// writeDraftFormVO 객체 생성하고 값 설정
@@ -233,7 +261,7 @@ public class ApprovalController {
 		model.addAttribute("searchOption", searchOption);
 		model.addAttribute("searchKeyword", searchKeyword);
 		
-		System.out.println("[컨트롤러 : approval/approvalForm]model====> " + model + toString());
+		// System.out.println("[컨트롤러 : approval/approvalForm]model====> " + model + toString());
 		
 		return "/approval/approvalForm";
 	}
@@ -266,7 +294,7 @@ public class ApprovalController {
 		File file = new File(uploadDirectory, fileName); // 실제 파일 객체 생성
 		
 		// 파일 경로 확인
-	    System.out.println("Saving file to: " + file.getAbsolutePath());
+	    // System.out.println("Saving file to: " + file.getAbsolutePath());
 		
 		 // HTML 콘텐츠를 파일로 작성
 	    try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
@@ -302,7 +330,7 @@ public class ApprovalController {
 		// CURRVAL을 사용하여 방금 저장된 formId를 가져오기 (이미 생성된 ID를 가져옴)
 		// FormService에서 formId를 가지고 forms 가져오는 코드
 		Integer formId = formService.getRecentFormId(loginId);
-		System.out.println(" ================> 컨트롤러 : " + formId);
+	//	System.out.println(" ================> 컨트롤러 : " + formId);
 	//	forms = new Forms();
 	//	forms.setId(formId);
 		
@@ -320,13 +348,13 @@ public class ApprovalController {
 	public String getFormById(Integer formId, Model model) throws IOException {
 		System.out.println("--------------> [approval/approvalForm/detail]  id:" + formId);
 		Forms forms = formService.getFormById(formId); // formId 로 양식의 상세 정보 조회 
-		System.out.println("--------------> [컨트롤러][approval/approvalForm/detail]" + forms.toString());
+		// System.out.println("--------------> [컨트롤러][approval/approvalForm/detail]" + forms.toString());
 		
 		 // DB에서 가져온 경로를 사용하여 파일 내용 읽기
 	    String filePath = forms.getPath();  // DB에 저장된 파일 경로
-	    System.out.println("File path: " + filePath);
+	    // System.out.println("File path: " + filePath);
 	    String formContent = readFileFromNetworkShare(filePath);  // 네트워크 공유 폴더에서 HTML 내용 읽기
-	    System.out.println("formContent: " + formContent);
+	    // System.out.println("formContent: " + formContent);
 	    
 	    // 읽어온 formContent를 모델에 추가
 	    model.addAttribute("formContent", formContent); // 파일 내용 전달
