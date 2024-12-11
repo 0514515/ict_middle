@@ -151,17 +151,17 @@ public class FormRepositoryImpl implements FormRepository{
 		return mybatis.selectOne("FormRepository.getStaffByLoginId", loginId);
 	}
 
-	public void save(Approval approval) {
-		System.out.println("===> save() 호출");
+	public Integer saveApproval(Approval approval) {
+		System.out.println("===> saveApproval() 호출");
 		System.out.println(approval.toString());
-		mybatis.insert("FormRepository.save", approval);
+		return mybatis.insert("FormRepository.saveApproval", approval);
 		
 	}
 	
-	public void saveAll(List<ApprovalLine> approvalLineList) {
-		System.out.println("===> save() 호출");
+	public void saveApprovalLine(List<ApprovalLine> approvalLineList) {
+		System.out.println("===> saveApprovalLine() 호출");
 		System.out.println(approvalLineList.toString());
-		mybatis.insert("FormRepository.saveAll", approvalLineList);
+		mybatis.insert("FormRepository.saveApprovalLine", approvalLineList);
 		
 	}
 

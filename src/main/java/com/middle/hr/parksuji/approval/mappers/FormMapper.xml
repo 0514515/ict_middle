@@ -4,20 +4,20 @@
 <mapper namespace="FormRepository">
 
 
-	<insert id="save" parameterType="Approval" >
+	<insert id="saveApproval" parameterType="Approval" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO APPROVAL(
 			ID, DRAFTED_AT, DOCUMENT_AT, STATUS, TITLE, CURRENT_SIGNING_STAFF, 
 			CREATED_AT, UPDATED_AT, DOCUMENT_NUMBER, STAFF_ID, COMPANY_ID
 			)
 		VALUES (
-			SEQ_DOCUMENT_FORM_ID.nextval, #{draftedAt, jdbcType=DATE}, #{documentAt}, #{status}, #{title}, #{currentSigningStaff}, 
-			#{createdAt}, #{updatedAt}, #{documentNumber}, #{staffId}, #{companyId})
+			SEQ_DOCUMENT_FORM_ID.nextval, #{draftedAt}, #{documentAt}, #{status}, #{title}, #{currentSigningStaff}, 
+			#{createdAt}, #{updatedAt}, SEQ_APPROVAL_DOCUMENT_NUMBER.nextval, #{staffId}, #{companyId})
 	
 	</insert>
 	
-	<insert id="saveAll" parameterType="ApprovalLine">
-		INSERT INTO APPROVAL_LINE(ID, ID2, "TYPE" , SIGNED , PRIORITY , SIGNED_AT , CREATED_AT, UPDATED_AT)
-		VALUES (SEQ_APPROVAL_LINE_ID.nextval, #{id2}, #{type}, #{signed}, #{priority}, #{signedAt}, #{createdAt}, #{updatedAt})
+	<insert id="saveApprovalLine" parameterType="ApprovalLine">
+		INSERT INTO APPROVAL_LINE(ID, ID2, "TYPE" , SIGNED , PRIORITY, CREATED_AT, UPDATED_AT)
+		VALUES (SEQ_APPROVAL_LINE_ID.nextval, #{id2}, #{type}, #{signed}, #{priority}, #{createdAt}, #{updatedAt})
 	
 	</insert>
 

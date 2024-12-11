@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.middle.hr.parkjinuk.staff.service.StaffService;
 import com.middle.hr.parkjinuk.staff.vo.RootCompany;
+import com.middle.hr.parkjinuk.staff.vo.Staff;
 import com.middle.hr.parksuji.approval.repository.FormRepositoryImpl;
 import com.middle.hr.parksuji.approval.vo.Approval;
 import com.middle.hr.parksuji.approval.vo.ApprovalLine;
@@ -83,51 +84,42 @@ public class FormServiceImpl implements FormService {
 	}
 
 	@Override
-	public void processApprovalDraft(Approval approval, List<StaffInfo> approvalLines, String loginId) throws IOException {
+	public Approval processApprovalDraft(Approval approval, List<Staff> approvalLine, List<Staff> referenceLine, String loginId) throws IOException {
 		
-		// 로그인 아이디로 회사 번호, 사원id 가져오기
-		Integer companyId = staffService.searchCompanyIdByLoginId(loginId);
-		Integer staffId = staffService.searchStaffIdByLoginId(loginId);
 		
-		// companyId 또는 staffId가 null인 경우 예외 처리
-	    if (companyId == null || staffId == null) {
-	        throw new IllegalArgumentException("로그인 정보에 해당하는 사원 정보가 존재하지 않습니다.");
-	    }
 		
-		// Approval vo에 데이터 설정 => 폼에서 사용자가 넘긴 값   
+		
+		
+		// Approval vo에 데이터 설정  
 		approval.setStatus(1); // "결재 대기" 상태를 설정 
-		approval.setStaffId(staffId);  // 기안자 (로그인한 사람) 
-		approval.setCompanyId(companyId); // 로그인한 사람의 회사 정보
 		
 		 // HTML 콘텐츠 저장 및 경로 반환
 		String filePath = saveHtmlToFile(approval.getNoticeContent());
 		approval.setDocumentAt(filePath); // 파일 경로 설정
 		
 		// Approval 저장(Id 자동 생성)
-		formRepository.save(approval); 
+		formRepository.saveApproval(approval); 
 	
 		// ApprovalLine 초기화 및 순번 설정
-		List<ApprovalLine> approvalLineList = initializeApprovalLines(approvalLines, approval.getId());
+		List<ApprovalLine> approvalLineList = initializeApprovalLines(approvalLine, approval.getId());
 		
 		// ApprovalLine 저장
-		formRepository.saveAll(approvalLineList); 
+		formRepository.saveApprovalLine(approvalLineList); 
 		System.out.println("Approval 및 ApprovalLine 저장 완료. Approval ID: " + approval.getId());
+		
+		return approval;
 	}
 
 	// ApprovalLine 초기화 및 순번 설정
-	private List<ApprovalLine> initializeApprovalLines(List<StaffInfo> inputStaffInfos, Integer approvalId) {  // approvalId = approval.getId()
+	private List<ApprovalLine> initializeApprovalLines(List<Staff> inputStaffInfos, Integer approvalId) {  // approvalId = approval.getId()
         List<ApprovalLine> approvalLineList = new ArrayList<>();
         LocalDateTime now = LocalDateTime.now();
 
         for (int i = 0; i < inputStaffInfos.size(); i++) {
-            StaffInfo staffInfo = inputStaffInfos.get(i); // StaffInfo 객체
-            ApprovalLine line = new ApprovalLine();       // ApprovalLine 객체 생성
-            
-            
-            staffInfo.setName(staffInfo.getName());            // StaffInfo의 name 설정
-            staffInfo.setDepartmentName(staffInfo.getDepartmentName()); // 부서명 설정
-            staffInfo.setRank(staffInfo.getRank());            // 직급 설정
-            line.setId2(approvalId);               // Approval ID 연결 : formRepository.save(approval) 호출 후 approval.getId()로 ID를 가져와 ApprovalLine의 id2 필드에 설정
+            Staff staff = inputStaffInfos.get(i); // StaffInfo 객체
+            ApprovalLine line = new ApprovalLine();  // ApprovalLine 객체 생성
+
+            line.setApprovalId(approvalId);               // Approval ID 연결 : formRepository.save(approval) 호출 후 approval.getId()로 ID를 가져와 ApprovalLine의 id2 필드에 설정
             line.setType(1);                              // 기본 결재 타입
             line.setSigned(0);                            // 결재 대기 상태
             line.setPriority(i + 1);                      // 순번 설정
