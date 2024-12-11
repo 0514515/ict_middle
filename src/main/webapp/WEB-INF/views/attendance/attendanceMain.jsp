@@ -216,7 +216,7 @@
 					<div class="row g-0">
 						<div class="col-sm-6 col-md-8">
 							<div class="progress" style="position: relative; height:25px">
-							  <div class="progress-bar" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"> 
+							  <div class="progress-bar" role="progressbar" style="width: 70%;" aria-valuenow="db값 넘어와서 여기가 주단위 근무시간 나오게 하기" aria-valuemin="40" aria-valuemax="40"> 
 							  										<!-- aira-valuenow=현재 진행률, width=진행된 프로그래스 바의 길이(파란색), aria-valuemax=최대값 -->
 							  <span class="progress-text" style="position: absolute; top: auto; left: 50%; transform: translateX(-50%);">70%</span> <!-- 70% 프로그래스바 위에 나타나는 수치 -->
 							  </div>
@@ -225,9 +225,12 @@
 								<div class="main_total_time_div">
 									<h2>24시간 17분</h2>
 								</div>
-								<div class="main_work_type_div">
-										<h3 class="main_work_type" name="main_work_type" value='attendanceStartAt.name'>
-										<span>정시 근무 시간</span>
+								<div class="main_work_type_div"> 
+									<h3 class="main_work_type" name="main_work_type" value='attendanceStartAt.name'>
+										[ ${afterModel.name}${getModel.name} <!--  출근 기록이 아예 없는 사원 / 출근 기록이 있는 사원 -->
+										  ${afterModel.rank}${getModel.rank} <!-- 직책 -->
+										  ${afterModel.deptName}${getModel.deptName}] <!-- 부서명 -->
+										<span></span> 
 										<span class="staff_name"> </span> <br/><p> 09:00 ~ 18:00 </p>
 									</h3>
 								</div>
@@ -238,21 +241,20 @@
 							<div class="card">
 								<div class="d-grid gap-2 col-12 mx-auto">
 									<input type="hidden" id="staffId" value="${staffId}">
-									<%-- [ ${workingStatus} ] [ ${workingStatus eq '퇴근'} ] --%> <!-- db에 출근 상태가 null이면 출근버튼 떠야함 확인용 -->
-									<c:if test ="${workingStatus eq '출근'}">
+									<%-- [ ${defaultWorkingStatus} ] [ ${defaultWorkingStatus eq '퇴근'} ] --%> <!-- db에 출근 상태가 null이면 기본 값으로 "퇴근"을 줌 -> 그럼 출근 버튼 떠야함 확인용 -->
+									<c:if test ="${defaultWorkingStatus eq '출근'}">
 										<button type='button' class="btn btn_start btn-danger"  value="퇴근">퇴근</button>
 									</c:if>
-									<c:if test ="${workingStatus eq '퇴근'}">
+									<c:if test ="${defaultWorkingStatus eq '퇴근'}">
 										<button type='button' class="btn btn_start btn-primary"  value="출근">출근</button>
-									</c:if>
-																			
+									</c:if>										
 								</div>
 								<div class="row card-body">
-									<h5 class="col-5 start_title">출근 시간</h5><p id="start_body" class="col-7 start_body"> </p>
+									<h5 class="col-5 start_title">출근 시간</h5><p id="start_body" class="col-7 start_body"></p>
 									<h5 class="col-5 end_title">퇴근 시간</h5><p id="end_body" class="col-7 end_body"> </p>
 								</div>
 								<div class="d-grid gap-2 col-12 mx-auto">
-									<a href="#" class="btn btn_modify btn-primary">출/퇴근 관리</a>
+									<a href="#" class="btn btn_modify btn-primary">출/퇴근 관리</a>	
 								</div>
 							</div>
 						</div>

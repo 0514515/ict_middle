@@ -1,4 +1,5 @@
-package com.middle.hr.parkeunbyeol.attendance.vo;
+package com.middle.hr.parkeunbyeol.mgworksystem.vo;
+
 
 import lombok.*;
 

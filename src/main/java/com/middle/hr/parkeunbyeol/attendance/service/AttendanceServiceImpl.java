@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.middle.hr.parkeunbyeol.attendance.repository.AttendanceRepository;
 import com.middle.hr.parkeunbyeol.attendance.vo.Attendance;
@@ -16,16 +17,24 @@ public class AttendanceServiceImpl implements AttendanceService {
 	
 	// 로그인 된 id로 working_status와 출근 기록 입력
 	@Override
-	public void insertStartAt(Integer staff_id, String workingStatus) {
+	public void insertRecode(Integer staff_id, String workingStatus) {
 		
-		attendanceRepository.insertStartAt(staff_id, workingStatus);  
+		attendanceRepository.insertRecode(staff_id, workingStatus);  
+		
+	}
+	
+	// 퇴근 시간 입력하기
+	@Override
+	public void updateRecode(Integer staff_id, String workingStatus) {
+
+		attendanceRepository.updateRecode(staff_id, workingStatus);
 		
 	}
 	
 	// 로그인 아이디로 사원의 출근 시간 조회
 	@Override
 	public Attendance selectStartAt(Attendance staffId) {
-	
+	 
 		return attendanceRepository.selectStartAt(staffId);
 	}
 	
@@ -35,10 +44,10 @@ public class AttendanceServiceImpl implements AttendanceService {
 	public String getWorkingStatusByLoginId(Integer staffId) {
 		 
 		return attendanceRepository.getWorkingStatusByLoginId(staffId);
-		
+		 
 	}
 
-	// 로그인 아이디로 사원의 정보 조회
+	// 로그인 아이디로 사원의 정보 조회 첫번째
 	@Override
 	public Attendance getStaffInfoByLoginId(Integer staffId) {
 		
@@ -51,6 +60,22 @@ public class AttendanceServiceImpl implements AttendanceService {
 		attendanceRepository.insertDefaultStaffIdByLoginId(staffId);  
 		
 	}
+
+	// 오늘 날짜 기준 "출근"인 데이터 유무 조회
+	@Override
+	public Boolean searchWorkingHistoryByStaffId(Integer staff_id) {
+		
+		return attendanceRepository.searchWorkingHistoryByStaffId(staff_id);
+	}
+
+	
+	
+	// 최초 로그인시 로그인 아이디로 사원 정보 검색 _ 초기
+//	@Override
+//	public Attendance getStaffInfoDefault(Integer staffId) {
+//		
+//		return attendanceRepository.getStaffInfoDefault(staffId);
+//	}
 
 	
 

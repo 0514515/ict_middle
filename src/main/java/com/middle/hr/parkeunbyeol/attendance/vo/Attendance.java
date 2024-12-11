@@ -22,4 +22,7 @@ public class Attendance {
 	private String	rank;			// 직책
 	private String 	name;			// 사원이름
 	private String 	deptName; 		// 부서이름
+	private String	createdAt;		// 데이터 생성일
+	private String	updatedAt;		// 최종 정보 변경일
+
 }

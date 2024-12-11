@@ -23,7 +23,7 @@ public class CommonRepositoryImpl implements CommonRepository {
 	public Integer insertCompany(Company company) {
 
 		return mybatis.insert("CommonRepository.insertCompany", company);
-	}
+	} 
 
 	// 회사 목록 페이지네이션 조회
 	@Override

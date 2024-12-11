@@ -313,7 +313,7 @@
 	}
 	
 	/* 셀렉트 박스 시작 */
-	.holiday_selcect {
+	.holiday_select {
 		margin-left : 35px;
 	}
 	
@@ -420,12 +420,12 @@
 								 </div>
 									 <div class="d-flex align-items-center mb-3"> 
 						          		<p>휴가 구분</p>
-						          		<div class="holiday_selcect">
-											<select class="form-select form-select-sm" aria-label=".form-select-sm example">
-											  <option selected>휴가 구분</option>
-											  <option value="1">연차</option>
-											  <option value="2">반차</option>
-											  <option value="3">반반차</option>
+						          		<div class="holiday_select">
+											<select  name='holidaySelectBox' class="form-select form-select-sm" aria-label=".form-select-sm example">
+											  <option selected value='' disabled>휴가 구분</option>
+											  <option value="연차">연차</option>
+											  <option value="반차">반차</option>
+											  <option value="반반차">반반차</option> 
 											</select>
 										</div>
 									 </div>
@@ -446,11 +446,11 @@
 						          	  	<p>시간 선택</p>
 						          	  		<div class="d-flex align-items-center justify-content-between">
 							          	  		<div class="cs-form">
-													<input type="time" class="form-control"/>
+													<input id='holidayTimePickerStart' type="time" class="form-control"/>
 												</div>	
 						          	  			<label class="mx-2">~</label>
 							          	  		<div class="cs-form">
-													<input type="time" class="form-control"/>
+													<input id='holidayTimePickerEnd' type="time" class="form-control"/>
 											     </div>
 										    </div>
 									  </div>	       	          	 

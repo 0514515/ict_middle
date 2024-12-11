@@ -22,7 +22,7 @@ public class StaffRepositoryImpl implements StaffRepository {
 
 	@Autowired
 	private SqlSessionTemplate mybatis;
-
+ 
 	// 사원 목록 검색
 	@Override
 	public Map<String, Object> selectStaffList(String loginId, String searchOption, String searchKeyword,

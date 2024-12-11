@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Worksystem">
+<resultMap id="WorksystemResultMap" type="Worksystem">
+    <result property="workSystemId" column="ID"/>
+    <result property="workSystemName" column="NAME"/>
+    <result property="workSystemStartedAt" column="STARTED_AT"/>
+    <result property="workSystemEndedAt" column="ENDED_AT"/>
+    <result property="activingStatus" column="ACTIVING_STATUS"/>
+    <result property="companyId" column="COMPANY_ID"/>
+</resultMap>
+
+	<insert id="insertWorkSystemByCompanyId" parameterType="worksystem">
+			INSERT INTO WORKING_POLICY(id, name, STARTED_AT, ENDED_AT, COMPANY_ID)
+			VALUES (seq_working_policy_id.nextval, #{workSystemName}, TO_TIMESTAMP(#{workSystemStartedAt}, 'HH24:MI:SS'), TO_TIMESTAMP(#{workSystemEndedAt}, 'HH24:MI:SS'), #{companyId})
+	
+	</insert>
+
+	<select id="selectTimeByWorkName" parameterType="String" resultMap="WorksystemResultMap">
+		SELECT ID, NAME , TO_CHAR(STARTED_AT,'HH24:MI') STARTED_AT, TO_CHAR(ENDED_AT,'HH24:MI') ENDED_AT, ACTIVING_STATUS, COMPANY_ID
+		FROM WORKING_POLICY
+		WHERE NAME = #{workName}
+		ORDER BY STARTED_AT ASC
+	</select>
+
+ 
+	<select id="selectStaffListCount" parameterType="Map" resultType="int">
+		SELECT COUNT(*)
+		FROM STAFF s INNER JOIN DEPARTMENT d 
+			ON s.DEPARTMENT_ID = d.ID LEFT JOIN WORKING_POLICY wp 
+			ON s.COMPANY_ID = wp.COMPANY_ID AND s.WORKING_POLICY_ID = wp.ID
+		WHERE s.COMPANY_ID = ${companyId} 	
+	</select>
+
+	<!-- vo가 staff임 -->
+<!-- 	<select id="selectStaffListOnStaff" parameterType="Integer" resultType="staff">
+		SELECT s.ID staffId, s.NAME staffName, s.COMPANY_ID companyId, d.NAME departmentName
+		FROM STAFF s INNER JOIN DEPARTMENT d 
+			ON s.DEPARTMENT_ID = d.ID 
+		WHERE s.COMPANY_ID = #{companyId}
+	</select> -->
+	
+	<select id="selectStaffListOnWorksystem" parameterType="Map" resultType="worksystem">
+		SELECT s.ID staffId, d.NAME departmentName, s.NAME staffName, s.COMPANY_ID companyId, wp.NAME workSystemName
+			, TO_CHAR(wp.STARTED_AT, 'HH24:MI') workSystemStartedAt, TO_CHAR(wp.ENDED_AT, 'HH24:MI') workSystemEndedAt, wp.ID workSystemId
+		FROM STAFF s INNER JOIN DEPARTMENT d 
+			ON s.DEPARTMENT_ID = d.ID LEFT JOIN WORKING_POLICY wp 
+			ON s.COMPANY_ID = wp.COMPANY_ID AND s.WORKING_POLICY_ID = wp.ID
+		WHERE s.COMPANY_ID = ${companyId}
+		ORDER BY staffId ASC 
+	</select>
+	 
+		
+	<select id='selectStaffListByDepartmentCount' parameterType="Map" resultType="int">
+		SELECT COUNT(*)
+		FROM STAFF s INNER JOIN DEPARTMENT d 
+			ON s.DEPARTMENT_ID = d.ID LEFT JOIN WORKING_POLICY wp 
+			ON s.COMPANY_ID = wp.COMPANY_ID AND s.WORKING_POLICY_ID = wp.ID
+		WHERE s.COMPANY_ID = ${companyId} AND d.NAME = '${departmentName}' 		
+	</select>
+	
+	
+	<select id="selectStaffBycompanIdDeptName" parameterType="worksystem" resultType="worksystem">
+		SELECT s.ID staffId, d.NAME departmentName, s.NAME staffName, s.COMPANY_ID companyId, wp.NAME workSystemName
+			, TO_CHAR(wp.STARTED_AT, 'HH24:MI') workSystemStartedAt, TO_CHAR(wp.ENDED_AT, 'HH24:MI') workSystemEndedAt, wp.ID workSystemId
+		FROM STAFF s INNER JOIN DEPARTMENT d 
+			ON s.DEPARTMENT_ID = d.ID LEFT JOIN WORKING_POLICY wp 
+			ON s.COMPANY_ID = wp.COMPANY_ID AND s.WORKING_POLICY_ID = wp.ID
+		WHERE s.COMPANY_ID = ${companyId} AND d.NAME = '${departmentName}'
+		ORDER BY staffId ASC 
+	</select>
+	
+	
+</mapper>

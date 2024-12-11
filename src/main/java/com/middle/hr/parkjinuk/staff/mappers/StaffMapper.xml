@@ -125,9 +125,12 @@
 	<!-- 사원 id로 사원 정보 조회 -->
 	<select id="selectStaffInformationById" parameterType="Long"
 		resultType="Staff">
-		SELECT s.name staffName, s.RANK rank, d.name departmentName
-		FROM STAFF s INNER JOIN DEPARTMENT d ON s.DEPARTMENT_ID = d.ID
-		WHERE s.id=#{id}
+		SELECT name staffName, phone_number,
+		RANK, address, gender, birthdate, email,
+		TO_CHAR(hired_date,
+		'YYYY-MM-DD') hired_date
+		FROM STAFF
+		WHERE login_id=#{loginId}
 	</select>
 
 	<!-- 로그인 아이디로 사원 정보, 권한 조회 -->
@@ -202,7 +205,6 @@
 		</set>
 		WHERE id = #{staffId}
 	</update>
-
 	<!-- 사원 권한 업데이트 -->
 	<update id="updateStaffAuthority" parameterType="Staff">
 		UPDATE staff
@@ -412,7 +414,6 @@
 			</if>
 		</where>
 		GROUP BY d.id, d.name)
-
 	</select>
 
 
