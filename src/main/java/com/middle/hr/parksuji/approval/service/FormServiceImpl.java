@@ -85,14 +85,7 @@ public class FormServiceImpl implements FormService {
 
 	@Override
 	public Approval processApprovalDraft(Approval approval, List<Staff> approvalLine, List<Staff> referenceLine, String loginId) throws IOException {
-		
-		
-		
-		
-		
-		// Approval vo에 데이터 설정  
-		approval.setStatus(1); // "결재 대기" 상태를 설정 
-		
+
 		 // HTML 콘텐츠 저장 및 경로 반환
 		String filePath = saveHtmlToFile(approval.getNoticeContent());
 		approval.setDocumentAt(filePath); // 파일 경로 설정
@@ -102,6 +95,19 @@ public class FormServiceImpl implements FormService {
 	
 		// ApprovalLine 초기화 및 순번 설정
 		List<ApprovalLine> approvalLineList = initializeApprovalLines(approvalLine, approval.getId());
+		
+		// 첫번째 결재자 설정 
+		if (!approvalLine.isEmpty()) {
+		    Long staffId = approvalLine.get(0).getStaffId();
+		    if (staffId != null) {
+		        approval.setCurrentSigningStaff(staffId);  // 첫 번째 결재자
+		        formRepository.updateApprovalCurrentSigningStaff(approval); // DB에 반영
+		    } else {
+		        System.out.println("첫 번째 결재자의 StaffId가 null입니다.");
+		    }
+		} else {
+		    System.out.println("approvalLine이 비어 있습니다.");
+		}
 		
 		// ApprovalLine 저장
 		formRepository.saveApprovalLine(approvalLineList); 
@@ -127,6 +133,7 @@ public class FormServiceImpl implements FormService {
             line.setUpdatedAt(now.toString());            // 변경일시
 
             approvalLineList.add(line);
+            System.out.println("[FormServiceImpl] approvalLineList :" + approvalLineList);
         }
 
         return approvalLineList;   // 호출한 processApprovalDraft에 리턴값 반환  

@@ -560,7 +560,7 @@
 						<!-- 제목 영역 -->
 						<div class="mb-3">
 							<label for="inputTitle" class="form-label">제목</label>
-							<input type="text" class="form-control" id="inputTitle" name="draftTitle">
+							<input type="text" class="form-control" id="inputTitle" name="title">
 						</div>		
 									
 						<!-- SmartEditor2  -->
@@ -823,6 +823,7 @@
 		 					// 각 부서를 위한 <li> 요소 생성	
 		 					let departmentHtml = $('<li/>', {
 		 						class:'group',
+		 						departmentname:department.name,
 		 						id: 'group'+department.id,
 		 						html: department.name // 부서 이름 설정 
 		 					});	
@@ -834,8 +835,10 @@
 		 					department.staffs.forEach(function(staff){
 		 						// 각 직원을 위한 <li/> 요소 생성
 		 						let staffHtml=$('<li/>', {
+		 							staffRank:staff.rank, 
+		 							staffid:staff.staffId,
 		 							id:'child'+staff.staffId,
-		 							text:staff.staffName + ' ' +staff.rank // 직원 이름, 직책 설정
+		 							text:staff.staffName // 직원 이름		
 		 						});
 		 					// 직원<li> 요소를 <ul>에 추가 
 		 						staffListHtml.append(staffHtml);
@@ -983,8 +986,7 @@
 			 
 			    table1Rows.forEach(row => {
 					const fullText = row.querySelector("td:nth-child(1)").innerText.trim(); // 전체 텍스트
-					
-					console.log('fullText: ', fullText);  // fullText가 잘 추출되는지 확인
+
 					
 				    const matches = fullText.match(/\[([^\]]+)\]\s+(.+)\s+(.+)/); // 정규식으로 부서, 이름, 직책 추출
 				    

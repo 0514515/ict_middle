@@ -127,6 +127,7 @@ public class ApprovalController {
   	    System.out.println("Received referenceLinesJson: " + referenceLines);
   	    System.out.println("Received formName: " + formTitle);
   	    System.out.println("Received draftedAt: " + draftedAt);
+  	    System.out.println("Received title: " + title);
 		
 	  	//세션에서 로그인 아이디 받아오기
   		String loginId = session.getAttribute("loginId").toString();
@@ -149,6 +150,7 @@ public class ApprovalController {
   	    ObjectMapper objectMapper = new ObjectMapper();
   	    List<Staff> approvalLine = objectMapper.readValue(approvalLines, new TypeReference<List<Staff>>() {});
   	    List<Staff> referenceLine = objectMapper.readValue(referenceLines, new TypeReference<List<Staff>>() {});
+  	  
   	    
   	    //Approval 객체 생성 및 값 설정 
   	    Approval approval = new Approval();
@@ -158,7 +160,7 @@ public class ApprovalController {
   	    approval.setDraftedAt(draftedAt);
 		approval.setStaffId(staffId);  // 기안자 (로그인한 사람) 
 		approval.setCompanyId(companyId); // 로그인한 사람의 회사 정보
-  	 
+		approval.setStatus(1); // "결재 대기" 상태를 설정 
   	    
   		// 서비스 레이어에 모든 처리 위임 
   		Approval savedApproval = formService.processApprovalDraft(approval, approvalLine, referenceLine, loginId);

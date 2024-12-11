@@ -165,6 +165,12 @@ public class FormRepositoryImpl implements FormRepository{
 		
 	}
 
+	public void updateApprovalCurrentSigningStaff(Approval approval) {
+		System.out.println("===> updateApprovalCurrentSigningStaff() 호출");
+		mybatis.update("FormRepository.updateApprovalCurrentSigningStaff", approval); 
+		
+	}
+
 	
 
 

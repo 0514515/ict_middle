@@ -36,8 +36,10 @@ public interface FormRepository {
 	// 회사 조직 트리구조 데이터 조회용
 	RootCompany selectCompanyTreeDataByLoginId(String loginId);
 		
-	public Integer saveApproval(Approval approval); 
+	public Integer saveApproval(Approval approval);  // 결재 관련  
 	
-	public void saveApprovalLine(List<ApprovalLine> approvalLineList);
+	public void saveApprovalLine(List<ApprovalLine> approvalLineList);  // 결재 라인 배열
+	
+	public void updateApprovalCurrentSigningStaff(Approval approval);   // 현재 결재 순번 업데이트 
 		
 }

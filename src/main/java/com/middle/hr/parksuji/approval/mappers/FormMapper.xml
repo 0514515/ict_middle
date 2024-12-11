@@ -15,11 +15,19 @@
 	
 	</insert>
 	
-	<insert id="saveApprovalLine" parameterType="ApprovalLine">
+	<insert id="saveApprovalLine" parameterType="java.util.List">
 		INSERT INTO APPROVAL_LINE(ID, ID2, "TYPE" , SIGNED , PRIORITY, CREATED_AT, UPDATED_AT)
-		VALUES (SEQ_APPROVAL_LINE_ID.nextval, #{id2}, #{type}, #{signed}, #{priority}, #{createdAt}, #{updatedAt})
-	
+		VALUES 
+		<foreach collection="list" item="line" separator="," >
+			(SEQ_APPROVAL_LINE_ID.nextval, #{line.approvalId}, #{line.type}, #{line.signed}, #{line.priority}, #{line.createdAt}, #{line.updatedAt})
+		</foreach>
 	</insert>
+	
+	<update id="updateApprovalCurrentSigningStaff" parameterType="Integer">
+		UPDATE approval
+		SET current_signing_staff = #{currentSigningStaff}
+		WHERE ID=#{id}
+	</update>
 
 
 <!-- 회사 트리구조 -->
