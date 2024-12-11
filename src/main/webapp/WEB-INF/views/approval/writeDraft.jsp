@@ -664,7 +664,7 @@
 				const draftDateInput = document.createElement("input");
 				draftDateInput.type = "hidden";
 				draftDateInput.name = "draftedAt";   // Approval vo와 같게 맞춰줌 
-				draftDateInput.value = "today";  // draftDate의 값으로 설정
+				draftDateInput.value = today;  // draftDate의 값으로 설정
 				document.getElementById("writeDraftForm").appendChild(draftDateInput); // 폼에 숨겨진 필드 추가
 				
 			}
@@ -769,6 +769,14 @@
 						// 텍스트 필드에 선택된 양식 이름 표시
 				        var selectedTitle = selectedForms.next('span').text(); // 체크박스 옆에 있는 span의 텍스트
 				        textField.val(selectedTitle || ''); // 선택된 양식 이름 없으면 빈 값 설정	
+				        
+				     // 'formTitle'값을 숨겨진 필드로 추가해서 writeDraftForm에 붙이기 
+						const formTitleInput = document.createElement("input");
+						formTitleInput.type = "hidden";
+						formTitleInput.name = "formTitle";   // Approval vo와 같게 맞춰줌 
+						formTitleInput.value = selectedTitle;  // draftDate의 값으로 설정
+						document.getElementById("writeDraftForm").appendChild(formTitleInput); // 폼에 숨겨진 필드 추가
+				        
 				     
 						
 					})//   #formSelectBtn 클릭 end
@@ -925,7 +933,7 @@
 			   });
 			
 			  
-			// writeDraftForm 폼에 submit 이벤트가 일어날 때, 
+		/* 	// writeDraftForm 폼에 submit 이벤트가 일어날 때, 
 			document.getElementById("writeDraftForm").addEventListener("submit", function(event){
 				
 				// 결재선, 참조선 동적테이블 담아서 데이터 추출 
@@ -936,19 +944,14 @@
 			        const approvalLines = extractApprovalLines(tableId);
 			        allApprovalLines.push(...approvalLines); // 결과를 통합
 			    });
-				
-			 	// 결과 확인
-			    console.log(allApprovalLines);
 			 	    
 				
 				// 결재라인 _ 숨겨진 필드로 추가 
 				const LinesHiddenInput = document.createElement("input");
 				LinesHiddenInput.type = "hidden";
 				LinesHiddenInput.name = "approvalLines";
-				LinesHiddenInput.value = JSON.stringify(approvalLines); // JSON 형태로 변환
+				LinesHiddenInput.value = JSON.stringify(allApprovalLines); // JSON 형태로 변환
 				this.appendChild(LinesHiddenInput); // "writeDraftForm" 폼에 숨겨진 폼 붙이기 
-				
-				
 				
 				// 결재양식 input 박스 _ 숨겨진 필드로 추가 
 				const formInput = document.querySelector("#approval_form"); // "#approval_form"값 가져오기 
@@ -956,58 +959,100 @@
 					const hiddenInput = document.createElement("input");
 					hiddenInput.type = "hidden";
 					hiddenInput.name = "approval_form";  // input의 id를 name으로 설정
-					hiddenInput.value = "formInput.value"; // input의 값
+					hiddenInput.value = formInput.value; // formInput의 값을 설정
 					this.appendChild(hiddenInput); 
 				}
 				
 					
 			});
-			
-			// 본문 결재선, 참조선 동적 테이블의 데이터를 수집,  "[부서] 유재석 부장" => 이 구조에서 내용 추출  
-			function extractApprovalLines(tableId){
-				
-				const approvalLines = []; 
-				document.querySelectorAll(`#${tableId} tbody tr`).forEach(row => {
-					const fullText = row.querySelector("td:nth-child(1)").innerText.trim(); // 전체 텍스트
-				    const matches = fullText.match(/\[([^\]]+)\]\s+(.+)\s+(.+)/); // 정규식으로 부서, 이름, 직책 추출
-				    
-				    if(matches){
-				    	const department = matches[1]; // [부서]
-				    	const name = matches[2];  // 유재석
-				    	const rank = matches[3]; // 부장 
-				  		
-				    	approvalLines.push({
-				    		departmentName,  // List<StaffInfo> 클래스 필드 이름과 동일하게 해야함  
-				    		name,
-				    		rank
-				    	});
-				    } 
-				   
-				});
-				return approvalLines; 
-				
-			}
-			
-			
-			
-			
-			
-			
-			
-			
+			 */
 			
 			
 			// 결재 상신 버튼 클릭시 실행될 함수 
- 			$('.choice_send').click(function(){
+ 			$('.choice_send').click(function(event){
+ 				
+ 				event.preventDefault();  // 기본 동작 방지 (폼 자동 제출 방지, 아래 모두 실행 후 제출하도록함)
+ 				
+ 				
+ 				 // 본문 결재선, 참조선 동적 테이블의 데이터를 수집,  "[부서] 유재석 부장" => 이 구조에서 내용 추출  
+				const approvalLines = [];
+ 				const referenceLines = []; 
+			    
+			    // 결재선 테이블에서 데이터 추출
+			    const table1Rows = document.querySelectorAll("#body_line_table tbody tr");
+			 
+			    table1Rows.forEach(row => {
+					const fullText = row.querySelector("td:nth-child(1)").innerText.trim(); // 전체 텍스트
+					
+					console.log('fullText: ', fullText);  // fullText가 잘 추출되는지 확인
+					
+				    const matches = fullText.match(/\[([^\]]+)\]\s+(.+)\s+(.+)/); // 정규식으로 부서, 이름, 직책 추출
+				    
+				    console.log(matches);  // matches 값 확인
+				    
+				    if(matches){				  		
+				    	approvalLines.push({
+				    		departmentName: matches[1], // 부서  VO 값과 동일값으로 넣어주기
+				    		staffName: matches[2], // 이름
+			                rank: matches[3] // 직책
+				    	});
+				    } else{
+				    	console.log("정규식 매칭 실패 : ", fullText);
+				    } 
+				   
+				});
+			    
+			    
+			 // 참조선 테이블에서 데이터 추출
+			    const table2Rows = document.querySelectorAll("#body_ref_table tbody tr");
+			 
+			    table2Rows.forEach(row => {
+					const fullText = row.querySelector("td:nth-child(1)").innerText.trim(); // 전체 텍스트
+				    const matches = fullText.match(/\[([^\]]+)\]\s+(.+)\s+(.+)/); // 정규식으로 부서, 이름, 직책 추출
+				    
+				    if(matches){				  		
+				    	referenceLines.push({
+				    		departmentName: matches[1], // 부서  VO 값과 동일값으로 넣어주기
+				    		staffName: matches[2], // 이름
+			                rank: matches[3] // 직책
+				    	});
+				    }else{
+				    	console.log("정규식 매칭 실패 : ", fullText);
+				    } 
+				   
+				});
+				
+				// 결재라인 _ 숨겨진 필드로 추가 
+				const approvalHiddenInput = document.createElement("input");
+				approvalHiddenInput.type = "hidden";
+				approvalHiddenInput.name = "approvalLines";
+				approvalHiddenInput.value = JSON.stringify(approvalLines); // JSON 형태로 변환
+				document.getElementById("writeDraftForm").appendChild(approvalHiddenInput); // "writeDraftForm" 폼에 숨겨진 폼 붙이기 
+			    
+				const referenceHiddenInput = document.createElement("input");
+				referenceHiddenInput.type = "hidden";
+				referenceHiddenInput.name = "referenceLines";  // 참조선
+				referenceHiddenInput.value = JSON.stringify(referenceLines);  // JSON 형태로 변환
+			    document.getElementById("writeDraftForm").appendChild(referenceHiddenInput);
+				
+				
+				console.log('Approval lines data:', JSON.stringify(approvalLines)); 
+				console.log('Reference lines data:', JSON.stringify(referenceLines)); 
+ 				
+ 	
+ 				
 			    // SmartEditor에서 textarea에 내용 업데이트
 			    oEditors.getById["smartEditor"].exec("UPDATE_CONTENTS_FIELD", []); // 이 명령이 `textarea`의 값을 업데이트함
 				
 			    var htmlContent = document.getElementsByName("noticeContent")[0].value;
-			    // console.log(htmlContent);  // 콘솔에서 HTML 값 확인
+			    console.log(htmlContent);  // 콘솔에서 HTML 값 확인
 			    
+				
 				// 폼 제출 (textarea 값은 자동으로 폼에 포함됨)
 			    $('#writeDraftForm').submit(); // form 제출 (action 요청 실행)
-			}) 
+			});
+			 
+	 		 
 			
 			// 취소 버튼 클릭시 페이지 리로드  
 			$('.choice_cancel').click(function(){

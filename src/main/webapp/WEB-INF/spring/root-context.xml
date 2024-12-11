@@ -47,6 +47,7 @@
 				<value>com.middle.hr.parksuji.approval.vo.ApprovalLine</value>
 				<!-- parkeunbyeol -->
 				<value>com.middle.hr.parkeunbyeol.attendance.vo.Attendance</value>
+				<value>com.middle.hr.parkeunbyeol.mgworksystem.vo.Worksystem</value>
 			</list>
 		</property>
 	</bean>

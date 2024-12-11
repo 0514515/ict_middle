@@ -1,16 +1,11 @@
 package com.middle.hr.parksuji.approval.service;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
-
 import com.middle.hr.parkjinuk.staff.vo.RootCompany;
+import com.middle.hr.parkjinuk.staff.vo.Staff;
 import com.middle.hr.parksuji.approval.vo.Approval;
-import com.middle.hr.parksuji.approval.vo.ApprovalLine;
 import com.middle.hr.parksuji.approval.vo.Forms;
 import com.middle.hr.parksuji.approval.vo.StaffInfo;
 
@@ -44,7 +39,7 @@ public interface FormService {
 	StaffInfo getStaffByLoginId(String loginId);
 	
 	// 결재 작성 후 폼 저장
-	void processApprovalDraft(Approval approval, List<StaffInfo> approvalLines, String loginId) throws IOException; 
+	Approval processApprovalDraft(Approval approval, List<Staff> approvalLine, List<Staff> referenceLine, String loginId) throws IOException; 
 	
 	String saveHtmlToFile(String formContent) throws IOException; 
 	
