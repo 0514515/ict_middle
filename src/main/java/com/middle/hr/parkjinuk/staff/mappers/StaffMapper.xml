@@ -116,7 +116,7 @@
 		RANK, address, gender, birthdate, email,
 		TO_CHAR(hired_date,
 		'YYYY-MM-DD') hired_date,
-		picture, sign
+		picture, sign, authority
 		FROM STAFF
 		WHERE
 		login_id=#{loginId}

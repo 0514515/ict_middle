@@ -359,6 +359,28 @@ public class StaffController {
 
 		return "/member/memberDetail";
 	}
+	
+	// 사원 정보 조회 ajax
+	@GetMapping("member/detail/ajax")
+	@ResponseBody
+	public Staff getMemberDetailAjax(HttpSession httpSession) throws Exception {
+
+		String loginId = httpSession.getAttribute("loginId").toString();
+
+		// 현재 로그인한 loginId로 사원 정보 조회
+		Staff staff = staffService.searchStaffInformationByLoginId(loginId);
+
+		// 네트워크 공유 폴더에서 이미지 파일 읽기
+		if (staff.getPicture() != null) {
+			staff.setPicture(readImageFromNetworkShare(staff.getPicture()));
+		}
+
+		if (staff.getSign() != null) {
+			staff.setSign(readImageFromNetworkShare(staff.getSign()));
+		}
+
+		return staff;
+	}
 
 	// 이미지 파일을 Base64로 읽어오기
 	public String readImageFromNetworkShare(String filePath) throws IOException {

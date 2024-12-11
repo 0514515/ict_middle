@@ -133,13 +133,13 @@ body {
 								<div class="row mb-3 justify-content-center">
 									<label for="inputEmail3" class="col-sm-3 col-form-label h5">직급</label>
 									<div class="col-sm-6">
-										<label for="inputEmail3" class="col-form-label h5">${staff.rank}</label>
+										<label for="inputEmail3" class="col-form-label">${staff.rank}</label>
 									</div>
 								</div>
 								<div class="row mb-3 justify-content-center">
 									<label for="inputEmail3" class="col-sm-3 col-form-label h5">주소</label>
 									<div class="col-sm-6">
-										<label for="inputEmail3" class="col-form-label h5">${staff.address}</label>
+										<label for="inputEmail3" class="col-form-label">${staff.address}</label>
 									</div>
 								</div>
 								<div class="row mb-3 justify-content-center">

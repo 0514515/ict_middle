@@ -92,7 +92,7 @@
                         </div>
                     </div>
                     -->
-                    <h6 id="weather"></h6>
+                    <h6 id="weather" class="my-auto"></h6>
                 </div>
             </nav>
             <!-- Navbar End -->

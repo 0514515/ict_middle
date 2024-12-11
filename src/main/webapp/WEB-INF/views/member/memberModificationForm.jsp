@@ -167,26 +167,27 @@ body {
 							</div>
 
 							<div class="mb-3">
-								<div class="col-sm-3">
-									<img src="${staff.picture}" class="img-thumbnail">
-								</div>
-							</div>
-							<div class="mb-3">
 								<label for="picture" class="form-label">사진</label> <input
 									accept="image/*" type="file" class="form-control"
 									name="pictureFile" id="pictureFile">
 							</div>
-
 							<div class="mb-3">
 								<div class="col-sm-3">
 									<img src="${staff.picture}" class="img-thumbnail">
 								</div>
 							</div>
+
 							<div class="mb-3">
 								<label for="sign" class="form-label">결재 도장</label> <input
 									accept="image/*" type="file" class="form-control" id="signFile"
 									name="signFile">
 							</div>
+							<div class="mb-3">
+								<div class="col-sm-3">
+									<img src="${staff.sign}" class="img-thumbnail">
+								</div>
+							</div>
+
 							<div class="mb-3">
 								<label for="address" class="form-label">거주지 주소</label> <input
 									type="text" class="form-control" name="address" id="address"
