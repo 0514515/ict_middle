@@ -7,9 +7,16 @@ import com.middle.hr.parkeunbyeol.attendance.vo.Attendance;
 public interface AttendanceService {
 	
 	// CRUD
-	// 출근 기록 등록 세션의 staff_id를 인자로 넘겨준다.
-	void insertStartAt(Integer staff_id, String workingStatus);
+	
+	// 오늘 날짜 기준 "출근"인 데이터 조회
+	Boolean searchWorkingHistoryByStaffId(Integer staff_id);
+	
+	// 출근 시간 입력하기
+	void insertRecode(Integer staff_id, String workingStatus);
 
+	// 퇴근 시간 입력하기	
+	void updateRecode(Integer staff_id, String workingStatus);
+	
 	// 사원의 출근 시간 조회
 	Attendance selectStartAt(Attendance staffId);
 	
@@ -20,7 +27,7 @@ public interface AttendanceService {
 	Attendance getStaffInfoByLoginId(Integer staffId);
 	
 	// 로그인 아이디로 사원 정보 검색_초기
-	Attendance getStaffInfoDefault(Integer staffId);
+//	Attendance getStaffInfoDefault(Integer staffId);
 	
 	// 최초 로그인시 로그인 아이디로 working_history테이블에 해당 사원의 staffId 넣어주기
 	void insertDefaultStaffIdByLoginId(Integer staffId);

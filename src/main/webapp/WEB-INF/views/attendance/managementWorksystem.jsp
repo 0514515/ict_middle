@@ -116,6 +116,10 @@
 		   border: 1.5px solid #14A4ff;
 		}
 		
+		.worksystem_select {
+			width : fit-content;
+		}
+		
 		.worksystem_select select {
 		    width: 114.33px;
 		    height: 38px;
@@ -131,7 +135,181 @@
 		.form-check .form-check-input {
 		    float: left;
 		    margin-left: -0.5em;
-		}	
+		}
+		
+		
+		.workSystemBtn {
+			width : 114.55px;
+		}
+		
+		.workStartTime {
+			width : 150px;
+		}
+		
+			
+/* 모달 커스텀 */
+	#modal_workSystem {
+		text-align : center;
+		position: fixed;
+		left: 50%;
+		top: 75%;
+		transform: translate(-50%, -50%);
+	}
+
+	.modal-title {
+		color :  #009CFF;
+	}
+	
+	.modal table {
+		color: #191C24;
+      
+      }
+      
+	
+	.modal-body {
+	    padding: 2rem;
+	}
+	
+	.modal-dialog {
+		display : inline-block;
+		text-align : left;
+		font-size : 0.9em;
+		vertical-align : middle;
+		width : 80%;
+		height : auto;
+		margin : 0;
+		padding : 0;
+	}
+	
+	.modal-content {
+		heigh : auto;
+		min-height : 100%;
+		border-radius : 10px;
+		border: 2px solid #009CFF;
+	}
+	
+	@media screen and (min-width: 78px) {
+		#modal_workSystem : before {
+			display : inline-block;
+			vertical-align : middle;
+			content: " ";
+			height: 50%;
+		}
+	}
+	
+	.modal-footer {
+	    justify-content: center;
+	} 
+
+
+	.modal-body tr th {
+	 	width:40%;
+	 	padding: .3rem .3rem;
+	}
+	
+	.modal-body tr td {
+	 	padding: .3rem .3rem;
+	}
+
+	/* 요청 후 출퇴근 시간 간격 */
+
+	
+	.form-control{
+		margin-bottom: 1rem;		
+	}
+	
+	.modal-body table:nth-child(3) td input {
+		border: 1px solid #000;
+	    padding: 0px 15px;
+	}
+	
+	.cs-form .form-control{
+		padding : 0px;
+		margin-bottom : 0px;
+	}
+
+	
+	.btn-group {
+		padding-right : 200px;
+	}
+	
+	.btn-group>.btn {
+	    position: relative;
+	    flex: 1 1 auto;
+	    font-weight: 500;
+	}
+
+	.modal-body p {
+	    margin-top: 0;
+	    margin-bottom: 0rem;
+	    font-size: large;
+	    font-weight: bold;
+	    color: #191C24;
+	}
+	
+	/* <p> 사용일자 */
+
+	
+	.table_div {
+		margin-bottom : 3.0rem;
+	}
+	
+	/* 셀렉트 박스 시작 */
+	.selectWorkSystem {
+		margin-left : 35px;
+	}
+	
+	.form-select {
+		color : #009CFF;
+		width: 150px;
+    	text-align: center;
+	}	
+	
+	select option {
+		color : #757575;
+	}
+
+	
+/* 	.datepicker_div{
+	    margin-right: 2px;
+	 }
+	 */
+	
+	/* 셀렉트 박스 끝 */
+	
+	#datePicker_start, #datePicker_end {
+		background-image : url('/resources/datepicker_template/img/icon.png');
+		background-repeat : no-repeat;
+		background-size : 20px;
+	    background-position: 122px center;
+   		margin-bottom: 0rem;
+		height: 31px;
+    	width: 150px;
+    	padding-left: 20px;
+    	color: #009CFF;
+    	cursor : pointer;	
+	}
+	
+	.datepicker_div, .timepicker_div {
+	    margin-right: 2px;
+	 }
+	 
+	 
+	.form-control[type='time'] {
+		height: 31px;
+   		width: 150px;
+   		color: #009CFF;
+   		text-align : center;
+   		cursor : pointer;	
+  
+	}
+	
+	.timepicker_div p {
+		margin-right : 14px
+	}
+	
+	/* 모달 끝 */	
+			
     </style>
     
 </head>
@@ -165,7 +343,70 @@
          
          
    <!-- 본문 작성 (body start) -->
-   
+
+
+		
+			<!-- 휴가 생성 모달 팝업 시작 -->
+      
+			     <div class="modal" id="modal_workSystem" tabindex="-1">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+					        	<h5 class="modal-title">근무제 생성</h5>
+					       		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					     	</div>
+					      	<div class="modal-body">
+									 <div class="d-flex align-items-center justify-content-center mb-4"> 
+						          		<p>근무제 이름</p>
+						          		<div class="selectWorkSystem">
+											<select name='selectWorkSystemName' class="selectWorkSystemName form-select form-select-sm" aria-label=".form-select-sm example">
+											  <option value="" selected disabled>근무제 선택</option>
+											  <option class="option" value="정시 근무">정시 근무</option>
+											  <option class="option" value="탄력 근무">탄력 근무</option>
+											</select>
+										</div>
+									 </div>
+									  
+									 <!-- timepicker start -->
+									 <div class="timepicker_div d-flex align-items-center justify-content-center mb-1">
+							          	  <div class="workSystemTimePicker">	
+							          	  	<div>
+						          	  			<div class="d-flex align-items-center mb-2 ">
+								          	  		<div>
+								          	  			<p>출근 시간 설정</p>
+									          	  	</div>
+									          	  	<div class="cs-form">
+														<input type="time" id="timePickerStart" class="form-control" required/>
+													</div>	 
+												 </div>
+							          	  	</div>
+							          	  		<div class="d-flex align-items-center mb-2">
+  									          	  	<p>퇴근 시간 설정</p>
+								          	  		<div class="cs-form">
+														<input type="time" id="timePickerEnd" class="form-control"  required/>
+													</div>	
+											    </div>
+											</div>        									    
+									  </div>	       	          	 
+									  <!-- timepicker end -->
+					     	</div> 
+					     	
+					     	<!-- end of modal body -->
+					     	
+					     	<!-- start of modal footer -->
+					     	
+					      	<div class="modal-footer">
+					        	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+					        	<button type="button" class="insertWorkBtn btn btn-primary">근무제생성</button>
+					      	</div>
+					      	
+					      	<!-- end fo modal footer -->
+					      	
+					    </div>
+					 </div>
+				 </div>
+			
+			       <!-- 모달 팝업 끝-->   
 
        
          <div class="container container-fluid pt-4 px-4">
@@ -175,16 +416,48 @@
            <div class="mx-4 my-2">   	
     			 <div class="d-flex align-items-center justify-content-between mb-1"> 
 	          		<div class="worksystem_select">
-						<select class="form-select form-select-sm" aria-label=".form-select-sm example">
-						  <option selected>전체 부서</option>
-						  <option value="1">경영지원부</option>
-						  <option value="2">영업부</option>
-						  <option value="3">디자인</option>
+						<select name="departmentSelect" class="form-select form-select-sm" aria-label=".form-select-sm example">
+						  <option selected value="전체부서">전체부서</option>
+						  <option value="대표이사">대표이사</option>
+						  <option value="경영지원부">경영지원부</option>
+						  <option value="디자인부">디자인부</option>
+						  <option value="영업부">영업부</option>
 						</select>
 					</div>
-					<div>
-						<button type="button" class="list_btn btn btn-primary">변경사항저장</button>
-				 	</div>
+					<div  class="d-flex align-items-center justify-content-between mb-1">
+	                    <div class="worksystem_select" style ="margin-right : 10px;">
+							<select name="workSystemName" class="workSystem form-select form-select-sm" aria-label=".form-select-sm example">
+							  		<option selected value='' disabled>근무유형</option>
+							  		<option value="정시 근무">정시근무</option>
+							  		<option value="탄력 근무">탄력근무</option>
+							 </select>
+						</div>
+						<div class="worksystem_select" style ="margin-right : 10px;">
+							<select name="workStartTime" class="workStartTime form-select form-select-sm" aria-label=".form-select-sm example" style=" width: 150px;">
+								<option selected value='' disabled>시간선택</option>				  
+								<!-- <option value="1"></option>
+								<option value="2"></option>
+								<option value="3"></option> -->
+							</select>
+						</div>
+<!-- 						<div class="worksystem_select" style ="margin : 0 auto;">
+							<select name="workEndTime" class="workEndTime form-select form-select-sm" aria-label=".form-select-sm example">
+								  <option selected value='' disabled>종료시간</option>
+								  <option value="1"></option>
+								  <option value="2"></option>
+								  <option value="3"></option>
+							</select>
+						</div> -->
+						<div>
+							<button type="button" class="saveInformation list_btn btn btn-primary">변경사항저장</button>
+						</div>
+					 </div>	
+					 
+					 	<div style="display: inline-flex; ">	
+							<div class="workSystem" >
+								<button type="button" class="workSystemBtn list_btn btn btn-primary">근무제생성</button>
+					 		</div>	
+				 		</div>
 				 </div>
 	        </div>      
          <!-- 테이블 시작 -->
@@ -195,204 +468,112 @@
 	                 <tr class="table_th" style="border-block-width: 1px;">
 	                 	<td class="table-light">
 		                 	<div class="form-check">
-								<input class="check_total form-check-input" type="checkbox" value="" id="flexCheckDefault">
+								<input class="check_total form-check-input" type="checkbox" value="" id="flexCheckDefaultAll">
 							</div>
 						</td>
 	                    <th class="table-light">사원아이디</th>
 	                    <th class="table-light">부서명</th>                    
 	                    <th class="table-light">사원명</th>
-	                    <th class="table-light">근무유형</th>
+	                    <th class="table-light">근무유형
+	                    </th>
 	                    <th class="table-light">근무시작</th>        
 	                    <th class="table-light">근무종료</th>  	                 
 	                 </tr>
+
+	                 <tbody id = "defaultStaffTableBody">
+   	                 <%-- <c:forEach var="staff" items="${staffList}" varStatus="status"> --%>
+   	                 <c:forEach var="workSystemList" items="${workSystemList}"> 
 	                 <tr>
 	                 	<td>
-	                 	<div class="form-check">
-							<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-						</div>
-						</td>	                 
-	                    <td>-</td>
-	                    <td>-</td>
-	                    <td>-</td>
-	                    <td>
-		                    <div class="worksystem_select">
-								<select class="work_start form-select form-select-sm" aria-label=".form-select-sm example">
-								  <option selected>근무유형</option>
-								  <option value="1">정시근무</option>
-								  <option value="2">탄력근무</option>
-								</select>
-							</div>
-	                    </td>
-	                    <td>
-		                    <div class="worksystem_select">
-								<select class="work_end form-select form-select-sm" aria-label=".form-select-sm example">
-								  <option selected>시작시간</option>
-								  <option value="1">08:00</option>
-								  <option value="2">09:00</option>
-								  <option value="3">10:00</option>
-								</select>
-							</div>
-	                    </td>
-	                    <td>
-		                    <div class="worksystem_select">
-								<select class="work_system form-select form-select-sm" aria-label=".form-select-sm example">
-								  <option selected>종료시간</option>
-								  <option value="1">18:00</option>
-								  <option value="2">19:00</option>
-								  <option value="3">20:00</option>
-								</select>
-							</div>
-	                    </td>
-	                 </tr>
-	                 <tr>
-	                 	<td>
-	                 	<div class="form-check">
+	                 	<div id="staffListByDepartment" class="form-check">
 							<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
 						</div>
 						</td>
-	                    <td>111</td>
-	                    <td>영업부</td>
-	                    <td>박명수</td>
-	                    <td>-</td>
-	                    <td>-</td>
-	                    <td>-</td>
+<%-- 		                    <td>${staff.staffId}</td>
+		                    <td>${staff.departmentName}</td>
+		                    <td>${staff.staffName}</td>
+		                    <td>${workSystemList[status.index].workSystemName}</td>
+		                    <td>${workSystemList[status.index].workSystemStartedAt}</td>
+		                    <td>${workSystemList[status.index].workSystemEndedAt}</td> --%>
+	                 		<td>${workSystemList.staffId}</td>
+		                    <td>${workSystemList.departmentName}</td>
+		                    <td>${workSystemList.staffName}</td>
+		                    <td>${workSystemList.workSystemName}</td>
+		                    <td>${workSystemList.workSystemStartedAt}</td>
+		                    <td>${workSystemList.workSystemEndedAt}</td>
+	                 
 	                 </tr>
-	                 <tr>
-	                 	<td>
-	                 	<div class="form-check">
-							<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-						</div>
-						</td>	                 
-	                    <td>111</td>
-	                    <td>영업부</td>
-	                    <td>정준하</td>
-	                    <td>-</td>
-	                    <td>-</td>
-	                    <td>-</td>
-	                 </tr> 
-	                 <tr>
-	                 	<td>
-	                 	<div class="form-check">
-							<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-						</div>
-						</td>	                 
-	                    <td>111</td>
-	                    <td>영업부</td>
-	                    <td>정형돈</td>
-	                    <td>-</td>
-	                    <td>-</td>
-	                    <td>-</td>
-	                 </tr>
-	                 <tr>
-	                 	<td>
-	                 	<div class="form-check">
-							<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-						</div>
-						</td>	                 
-	                    <td>111</td>
-	                    <td>영업부</td>
-	                    <td>하동훈</td>
-	                    <td>-</td>
-	                    <td>-</td>
-	                    <td>-</td>
-	                 </tr>
-	                 <tr>
-	                 	<td>
-	                 	<div class="form-check">
-							<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-						</div>
-						</td>	                    
-	                    <td>111</td>
-	                    <td>경영지원부</td>
-	                    <td>홍진경</td>
-	                    <td>-</td>
-	                    <td>-</td>
-	                    <td>-</td>
-	                 </tr>
-	                 <tr>
-	                 	<td>
-	                 	<div class="form-check">
-							<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-						</div>
-						</td>	                    
-	                    <td>111</td>
-	                    <td>경영지원부</td>
-	                    <td>남창희</td>
-	                    <td>-</td>
-	                    <td>-</td>
-	                    <td>-</td>	                    
-	                 </tr>
-	                 <tr>
-	                 	<td>
-	                 	<div class="form-check">
-							<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-						</div>
-						</td>	                    
-	                    <td>111</td>
-	                    <td>디자인</td>
-	                    <td>양세찬</td>
-	                    <td>-</td>
-	                    <td>-</td>
-	                    <td>-</td>	                    
-	                 </tr>
-	                 <tr>
-	                 	<td>
-	                 	<div class="form-check">
-							<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-						</div>
-						</td>	                    
-	                    <td>111</td>
-	                    <td>디자인</td>
-	                    <td>이광수</td>
-	                    <td>-</td>
-	                    <td>-</td>
-	                    <td>-</td>	                    
-	                 </tr>
-	                 <tr>
-	                 	<td>
-	                 	<div class="form-check">
-							<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-						</div>
-						</td>	                    
-	                    <td>111</td>
-	                    <td>test</td>
-	                    <td>test</td>
-	                    <td>-</td>
-	                    <td>-</td>
-	                    <td>-</td>	                    
-	                 </tr>
-	                 <tr>
-	                 	<td>
-	                 	<div class="form-check">
-							<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-						</div>
-						</td>	                    
-	                    <td>111</td>
-	                    <td>test</td>
-	                    <td>test</td>
-	                    <td>-</td>
-	                    <td>-</td>
-	                    <td>-</td>	                    
-	                 </tr>
+	                 </c:forEach>
+	                 </tbody> 
+	                 <tbody id="staffTableBody">
+        <!-- 동적으로 행이 추가될 곳 -->
+    				 </tbody>
 	            </table>
 	            </div>
 	            
 	            <!-- 페이징 버튼 -->
 	            <div class="d-flex align-items-center justify-content-center">
 	                     <nav aria-label="Page navigation">
-	                        <ul class="pagination pt-3 pr-3">
-	                           <li class="page-item"><a class="page-link" href="#">이전</a></li>
-	                           <li class="page-item active"><a class="page-link" href="#">1</a></li>
+	                        <ul id="paginationDefault" class="pagination pt-3 pr-3">
+	                        <!-- 현재 페이지가 1페이지일 경우 "이전" 버튼 없음 -->
+		                    <c:if test="${pageNum != 1}">
+	                           <li class="page-item"><a class="page-link" 
+	                           							href="/management/worksystem?pageNum=${pageNum-1}">이전</a>
+	                           </li>
+	                        </c:if> 
+	                           <!-- pageNum-2가 0보다 작으면 1로 설정 -->
+                 			   <!-- 파라미터 pageNum을 받아와서 로컬 pageNum으로 만들기 -->
+	                            <c:set var="pageNum"
+                          			 value="${param.pageNum != null ? param.pageNum : 1 }"/>
+	                           
+	                           <!-- pageNum-2가 1보다 작으면 1로 설정 -->
+			                    <!-- begin 선언 -->
+			                    <c:set var="begin" value="${pageNum-2}"/>
+			                    <c:if test="${begin<1 }">
+			                        <c:set var="begin" value="1"/>
+			                    </c:if>
+			                    
+			                    <!-- pageNum이 총 페이지 수를 넘지 않도록 설정 -->
+			                    <c:set var="end" value="${pageNum + 2}"/>
+			                    <c:if test="${end > totalPage}">
+			                        <c:set var="end" value="${totalPage}"/>
+			                    </c:if>
+			                    
+			                    <!-- 페이지 번호 출력 -->
+			                    <c:forEach var="i" begin="${begin}" end="${end}" step="1">
+			                        <li class="page-item ${i == pageNum ? 'active' : ''}"><a
+			                                class="page-link"
+			                                href="/management/worksystem?pageNum=${i}">${i}</a>
+			                        </li>
+			                    </c:forEach>
+			                    
+			                    <!-- 현재 페이지가 마지막 페이지일 경우 "다음" 버튼 없음 -->
+			                   	<c:if test="${pageNum != totalPage}">
+			                       <li class="page-item"><a class="page-link"
+			                                                href="/management/worksystem?pageNum=${pageNum+1}">다음</a>
+			                       </li>
+			                   	</c:if>
+	                           
+	                          <!--  <li class="page-item active"><a class="page-link" href="#">1</a></li>
 	                           <li class="page-item"><a class="page-link" href="#">2</a></li>
 	                           <li class="page-item"><a class="page-link" href="#">3</a></li>
 	                           <li class="page-item"><a class="page-link" href="#">4</a></li>
 	                           <li class="page-item"><a class="page-link" href="#">5</a></li>
-	                           <li class="page-item"><a class="page-link" href="#">다음</a></li>
+	                           <li class="page-item"><a class="page-link" href="#">다음</a></li> -->
 	                        </ul>
 	                     </nav>
 	                 </div>
-	                 
-         </div> <!-- end of class = container-fluid -->
+
+				<!-- ajax에서 부서별로 페이징 구현 될 부분 -->
+				<div class="d-flex align-items-center justify-content-center">
+					<nav aria-label="Page navigation">
+						<ul class="pagination pt-3 pr-3" id="pagination">
+							<!-- 페이징 버튼은 여기에 동적으로 삽입됩니다 -->
+						</ul>
+					</nav>
+				</div>
+
+			</div> <!-- end of class = container-fluid -->
    
          <!-- 본문 끝 (body end) -->
 

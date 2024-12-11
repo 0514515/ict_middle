@@ -32,7 +32,7 @@ public class AttendanceController {
 		String workingStatus = (String) httpSession.getAttribute("workingStatus");
 
 		// 만약 세션에 workingStatus 값이 없다면?
-		if (workingStatus == null) {
+		if ( workingStatus == null ) {
 			
 			// 세션으로부터 로그인 id 얻어와서
 			String loginId = httpSession.getAttribute("loginId").toString();
@@ -42,60 +42,53 @@ public class AttendanceController {
 			Integer staffId = staffService.searchStaffIdByLoginId(loginId);
 			System.out.println("인자로 넘길 수 있음? staffId : " + staffId);
 
-			// (1) 위에서 얻어온 staffId를 인자로 넘겨서 db에 있는 그 해당 staffId의 workingStatus(상태)를 가져온다.
+			// (1) 해당 사원의 출근 상태 db로부터 가져오기 = dbworkingStatus
 			// 가져온 그 workingStatus를 dbworkingStatus이라 칭한다.
 			String dbworkingStatus = attendanceService.getWorkingStatusByLoginId(staffId);
 
-			System.out.println("getWorkingStatusByLoginId() db단의 초기 출근 상태 값: " + dbworkingStatus);
-			// (2) 위에서 얻어온 staffId를 인자로 넘겨서 db에 있는 그 해당 staffId를 통해 해당 사원의 정보를 가져온다.
-			/*
-			 * Attendance attendance = new Attendance(); attendance.setStaffId(staffId);
-			 * 
-			 * System.out.println("인자로 넘길 수 있음?" + attendance.toString());
-			 */
-			
-			 System.out.println("아이디 확인 : " + staffId);
+				System.out.println("getWorkingStatusByLoginId() db단의 초기 출근 상태 값: " + dbworkingStatus);			
+				System.out.println("아이디 확인 : " + staffId);
 			 
+			 // (2) 해당 사원의 기본 정보 가져오기
 			Attendance defaultStaffInfo = attendanceService.getStaffInfoByLoginId(staffId);
 				System.out.println("defaultStaffInfo 첫번째 확인 : " + defaultStaffInfo);
 			
-			// System.out.println("StaffInfo => getStaffInfoByLoginId 값 확인: " +
-			// staffInfo.toString());
-
-			// 만약 기본 사원 정보가 없다면 => 테이블에 staffId가 없어서 사원 정보 조회가 안된다면
+				
+			// (2)-1 기본 사원 정보 없을 시 => 테이블에 staffId가 없어서 사원 정보 조회가 안된다면
 			if ( defaultStaffInfo == null) {
 				// 직접 해당 사원의 staffId 값을 working_history 테이블에 넣어주기
 				attendanceService.insertDefaultStaffIdByLoginId(staffId);
-				
-				
+								
 				// staffId를 넣어준 뒤 다시 사원 정보 출력하기
-				Attendance afterInsertStaffId = attendanceService.getStaffInfoDefault(staffId);
-				System.out.println("db에 staffId 입력 후 getStaffInfoByLoginId() 호출 :  " + afterInsertStaffId.toString() );
+				Attendance afterInsertStaffId = attendanceService.getStaffInfoByLoginId(staffId);
+					System.out.println("db에 staffId 입력 후 getStaffInfoByLoginId() 호출 :  " + afterInsertStaffId.toString() );
 			
-				httpSession.setAttribute("afterInsertStaffId", afterInsertStaffId); // 받아온 값들 세션에 저장하기
+				httpSession.setAttribute("afterInsertStaffId", afterInsertStaffId); // 받아온 값들 세션에 저장하기				
+				model.addAttribute("afterModel", afterInsertStaffId); // jsp 파일에 사용하기 위해 model에 저장
 				
-				model.addAttribute(afterInsertStaffId); // jsp 파일에 사용하기 위해 model에 저장
+			} 
 				
-			
-				// 만약 기본 사원 정보가 있다면
-			} else if ( defaultStaffInfo != null ) {
+			// (2)-2 만약 기본 사원 정보가 있다면
+			if ( defaultStaffInfo != null ) {
 				// ( working_status에 staffId가 있어서 조회가 가능할 경우) 사원 정보 불러오기
 				Attendance getDefaultStaffInfo = attendanceService.getStaffInfoByLoginId(staffId); 		
 				System.out.println("insertDefaultStaffIdByLoginId이 not null 일 때 getStaffInfoByLoginId() 호출 :" + getDefaultStaffInfo.toString());
 				
-				httpSession.setAttribute("getDefaultStaffInfo", getDefaultStaffInfo); // 받아온 값을 세션에 저장하기
-				
-				model.addAttribute(getDefaultStaffInfo); //// jsp 파일에 사용하기 위해 model에 저장
+				httpSession.setAttribute("getDefaultStaffInfo", getDefaultStaffInfo); // 받아온 값을 세션에 저장하기		
+				model.addAttribute("getModel", getDefaultStaffInfo); //// jsp 파일에 사용하기 위해 model에 저장
 				
 			}
  
-			// 만약 db에서 가져온 workingStatus의 값인 dbworkingStatus가 null 값이라면? ( 다시말해 해당 사원의
-			// workingStatus의 값이 db에 없다면)
+			// ==== 사원 정보 입력 및 조회 후 workingStatus 기준으로 버튼 CSS 새로 고침 시 고정 값 주기 ======
+			
+			// 만약 db에서 가져온 workingStatus의 값인 dbworkingStatus가 null 값이라면? ( 다시말해 해당 사원의workingStatus의 값이 db에 없다면)
+			
+			// (1)-1 workingStatus의 값이 db에 없다면
 			if (dbworkingStatus == null) {
-				// 기본 값으로 "퇴근"을 준다. -> 그래야 실행했을 때 출근을 누를 수 있는 버튼이 나옴. 이게 없다면 페이지를 켰을 때 받아온 값이
-				// 없으므로 버튼이 아예 안나옴
+				// 기본 값으로 "퇴근"을 준다. -> 그래야 실행했을 때 출근을 누를 수 있는 버튼이 나옴. 이게 없다면 페이지를 켰을 때 받아온 값이 없으므로 버튼이 아예 안나옴
 				dbworkingStatus = "퇴근";
 			}
+			
 			// null일 경우 여기에 "출근"이라 찍힘 -> 디폴트 값이 잘 먹혔는지 확인
 			System.out.println("세션에 저장된 workingStatus db에서 확인, null값이면 퇴근 찍힘:" + dbworkingStatus);
 
@@ -105,17 +98,18 @@ public class AttendanceController {
 			// jsp에서 사용할 수 있도록 모델에 추가함
 			model.addAttribute("staffId", staffId);
 
-		} // end of first it{}
+		} // end of first if{}
 
 		model.addAttribute("defaultWorkingStatus", workingStatus); // --1
 
 		return "attendance/attendanceMain"; // 이 jsp의 페이지로 리턴
 	}
 
+	
 	// 출근 시간 db에 입력하기
 	@GetMapping("recode")
 	@ResponseBody
-	public String insertStartAt(HttpSession httpSession, @RequestParam String workingStatus) {
+	public String insertStartAt(HttpSession httpSession, @RequestParam String workingStatus, @RequestParam String staffId) {
 		// 출근 시간 잘 넘어가는지 확인
 		System.out.println("출근 시간 입력 확인:");
 
@@ -131,19 +125,78 @@ public class AttendanceController {
 		// 스태프 아이디를 잘 받아왔는지 확인하기
 		System.out.println("스태프아이디:" + staff_id);
 	
-		//System.out.println(staff_id);
-		//attendanceService.insertStartAt(staff_id);
+		// 오늘 날짜 기준 "출근"인 데이터가 있는지 조회
+		String searchRecode = attendanceService.searchWorkingHistoryByStaffId(staff_id).toString();
+		 System.out.println("오늘 날짜기준으로 startAt(출근기록)이 있으면 false 없으면 true : " + searchRecode);
+		  
+		if ( searchRecode.equals("true") ) {
+			
 
+		/*		if( workingStatus.equals("출근") )  {
+					
+					System.out.println( "ajax에서 넘어온 workingStatus 값 (if=출근) :   " + workingStatus);
+					
+					// 세션에서 얻어온 스태프 아이디와 ajax에서 넘어온 working_status를 넘기기
+					attendanceService.insertRecode(staff_id, workingStatus);
+					
+				}
+		*/		
+				System.out.println( "ajax에서 넘어온 workingStatus 값 (if=출근) :   " + workingStatus);
+				
+				// 세션에서 얻어온 스태프 아이디와 ajax에서 넘어온 working_status를 넘기기
+				attendanceService.insertRecode(staff_id, workingStatus);
+
+				
+		}	else if ( searchRecode == "false") {
+			
+			
+/*			if ( workingStatus.equals("퇴근") ) {
+				
+				System.out.println( "ajax에서 넘어온 workingStatus 값  (if=퇴근) :   " + workingStatus);
+				
+				// 세션에서 얻어온 스태프 아이디와 ajax에서 넘어온 working_status를 넘기기
+				attendanceService.updateRecode(staff_id, workingStatus);
+				
+			} 
+*/
+			System.out.println( "ajax에서 넘어온 workingStatus 값  (if=퇴근) :   " + workingStatus);
+			
+			// 세션에서 얻어온 스태프 아이디와 ajax에서 넘어온 working_status를 넘기기
+			attendanceService.updateRecode(staff_id, workingStatus);
+			
+			
+		}
+		
+		 
 		// workin_status 값 확인하기
 		System.out.println("ajax에서 넘어온 working_status 값 :" + workingStatus);
 
+		
+	/*	if( workingStatus.equals("출근") )  {
+			
+			System.out.println( "ajax에서 넘어온 workingStatus 값 (if=출근) :   " + workingStatus);
+			
+			// 세션에서 얻어온 스태프 아이디와 ajax에서 넘어온 working_status를 넘기기
+			attendanceService.insertRecode(staff_id, workingStatus);
+			
+		}
+		
+		if ( workingStatus.equals("퇴근") ) {
+			
+			System.out.println( "ajax에서 넘어온 workingStatus 값  (if=퇴근) :   " + workingStatus);
+			
+			// 세션에서 얻어온 스태프 아이디와 ajax에서 넘어온 working_status를 넘기기
+			attendanceService.updateRecode(staff_id, workingStatus);
+			
+		} 
+	*/
+		
+		System.out.println("여기는??????????????");
 		// 세션에 workingStautus 상태 저장하기
 		httpSession.setAttribute("workingStatus", workingStatus);
 
-		// 세션에서 얻어온 스태프 아이디와 ajax에서 넘어온 working_status를 넘기기
-		attendanceService.insertStartAt(staff_id, workingStatus);
 		// 서비스 단으로 인자 보냄
-		return "ok"; // js파일의 ajax의 result로 넘어감
+		return searchRecode; // js파일의 ajax의 result로 넘어감
 
 	}
 
@@ -182,8 +235,8 @@ public class AttendanceController {
 
 	@PostMapping("sendData")
 	@ResponseBody
-	public Attendance getStaffInfo(HttpSession httpSession,@RequestParam("workingStatus") String workingStatus, @RequestParam("staff_id") String staffId) {
-		
+//	public Attendance getStaffInfo(HttpSession httpSession,@RequestParam("workingStatus") String workingStatus, @RequestParam("staffId") String staffId) {
+	public Attendance getStaffInfo(HttpSession httpSession, @RequestParam("staffId") String staffId) {		
 		// 세션에서 로그인 아이디 받아오기 String loginId =
 		String loginId = (String) httpSession.getAttribute("loginId");
 		
@@ -195,18 +248,19 @@ public class AttendanceController {
 //		String timeOnlyStart = StaffInfo.getStartAt().substring(11, 19);
 //		System.out.println("페이지에 넘길 시간 확인 : " + timeOnlyStart);
 	
-		System.out.println(workingStatus);
-		System.out.println(staffId);
+		
+		//System.out.println(workingStatus);
+		System.out.println(staffInfo.getStaffId());
 		
 		return staffInfo;
 	}
 	
 	
-	// 휴가 관리 및 신청_나의 일정 메인
-	@GetMapping("attendance/holiday")
-	public String attendenceHoliday() {
-		return "attendance/attendanceHoliday";
-	}
+//	// 휴가 관리 및 신청_나의 일정 메인
+//	@GetMapping("attendance/holiday")
+//	public String attendenceHoliday() {
+//		return "attendance/attendanceHoliday";
+//	}
 
 	// 휴가 신청 내역_휴가 신청 내역 메인
 	@GetMapping("attendance/list")
@@ -220,10 +274,6 @@ public class AttendanceController {
 		return "attendance/managementRequest";
 	}
 
-	// 관리자 설정 _ 근무제 설정 메인
-	@GetMapping("management/worksystem")
-	public String managementWorksystem() {
-		return "attendance/managementWorksystem";
-	}
+
 
 }
