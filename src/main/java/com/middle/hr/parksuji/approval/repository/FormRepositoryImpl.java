@@ -171,6 +171,18 @@ public class FormRepositoryImpl implements FormRepository{
 		
 	}
 
+	@Override
+	public Approval getApprovalById(Integer approvalId) {
+		System.out.println("[Repository] ===> getApprovalById() 호출");
+		return mybatis.selectOne("FormRepository.getApprovalById", approvalId);
+	}
+
+	@Override
+	public List<ApprovalLine> getApprovalLineById(Integer approvalId) {
+		System.out.println("[Repository] ===> getApprovalLineById() 호출");
+		return mybatis.selectList("FormRepository.getApprovalLineById", approvalId);
+	}
+
 	
 
 

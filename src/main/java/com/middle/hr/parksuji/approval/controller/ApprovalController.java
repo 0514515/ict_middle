@@ -29,6 +29,7 @@ import com.middle.hr.parkjinuk.staff.vo.RootCompany;
 import com.middle.hr.parkjinuk.staff.vo.Staff;
 import com.middle.hr.parksuji.approval.service.FormService;
 import com.middle.hr.parksuji.approval.vo.Approval;
+import com.middle.hr.parksuji.approval.vo.ApprovalLine;
 import com.middle.hr.parksuji.approval.vo.Forms;
 import com.middle.hr.parksuji.approval.vo.StaffInfo;
 import com.middle.hr.parksuji.approval.vo.writeDraft;
@@ -126,7 +127,7 @@ public class ApprovalController {
 		// 서버에서 approvalLinesJson 값 확인
   	    System.out.println("Received approvalLinesJson: " + approvalLines);
   	    System.out.println("Received referenceLinesJson: " + referenceLines);
-  	    System.out.println("Received formName: " + formTitle);
+  	    System.out.println("Received formTitle: " + formTitle);
   	    System.out.println("Received draftedAt: " + draftedAt);
   	    System.out.println("Received title: " + title);
 		
@@ -158,8 +159,8 @@ public class ApprovalController {
   	    
   	    //Approval 객체 생성 및 값 설정 
   	    Approval approval = new Approval();
-  	    approval.setFormTitle(formTitle);
-  	    approval.setTitle(title);
+  	    approval.setFormTitle(formTitle);  // 양식명
+  	    approval.setTitle(title);  // 결재 제목 
   	    approval.setNoticeContent(noticeContent); 
   	    approval.setDraftedAt(draftedAt);
 		approval.setStaffId(staffId);  // 기안자 (로그인한 사람) 
@@ -174,7 +175,7 @@ public class ApprovalController {
   		Integer approvalId = savedApproval.getId(); 
   		
   	    // 양식 생성 완료 페이지로 이동
-  		return "redirect:approval/completionDraft?approvalId=" + approval.getId();
+  		return "redirect:approval/writeDraft/completionDraft?approvalId=" + approval.getId();  // approvalId에 해당하는 결재 상세페이지 불러오기
   		 
 		
 	}
@@ -182,11 +183,36 @@ public class ApprovalController {
 	
 	
 	
-	// 기안 작성 후 결재 상신 완료 
+	// 결재 상세페이지 _ 결재id로 문서 조회   
 	@GetMapping("approval/writeDraft/completionDraft")
-	public String CompletionDraft() {
+	public String CompletionDraft(Integer approvalId, Model model) throws IOException {
+		
+		System.out.println("-------> [CompletionDraft] approval :" + approvalId);
+		Approval approval = formService.getApprovalById(approvalId);
+		//System.out.println("--------------> [컨트롤러][CompletionDraft]" + approval.toString());
+		
+		List<ApprovalLine> approvalLine = formService.getApprovalLineById(approvalId); 
+		
+		System.out.println("[*************" + approvalLine);
+		 // DB에서 가져온 경로를 사용하여 파일 내용 읽기
+	    String filePath = approval.getDocumentAt();  // DB에 저장된 파일 경로
+	    System.out.println("File path: " + filePath);
+	    String ApprovalContent = readFileFromNetworkShare(filePath);  // 네트워크 공유 폴더에서 HTML 내용 읽기
+	    System.out.println("ApprovalContent: " + ApprovalContent);
+	    
+	    // 읽어온 formContent를 모델에 추가
+	    model.addAttribute("ApprovalContent", ApprovalContent); // 파일 내용 전달
+		
+		// approval 값 설정
+		model.addAttribute("approval", approval); // approval 이름으로 Model에 객체 담기
+		
+		// approvalLine 값 설정
+		model.addAttribute("approvalLine", approvalLine); // approvalLine 이름으로 Model에 객체 담기
+		
 		return "/approval/completionDraft"; 
 	}
+	
+	
 	
 	// 기안 작성시 html 입력 내용 저장하기 
 	@PostMapping("/save")  // form action값 기입

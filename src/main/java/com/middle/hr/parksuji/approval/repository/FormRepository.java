@@ -41,5 +41,9 @@ public interface FormRepository {
 	public void saveApprovalLine(List<ApprovalLine> approvalLineList);  // 결재 라인 배열
 	
 	public void updateApprovalCurrentSigningStaff(Approval approval);   // 현재 결재 순번 업데이트 
+	
+	public Approval getApprovalById(Integer approvalId);
+	
+	public List<ApprovalLine> getApprovalLineById(Integer approvalId); 
 		
 }

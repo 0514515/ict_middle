@@ -4,27 +4,53 @@
 <mapper namespace="FormRepository">
 
 
+	
+	<!-- approval id로 해당하는 approval 정보 불러오기 -->
+	<select id="getApprovalById" parameterType="int" resultType="Approval">
+		SELECT *
+		FROM APPROVAL
+		WHERE id=#{id}
+	</select>
+
+	<!-- approval id로 해당하는 approvalLine (type = 1)인 정보만 불러오기  -->
+	<select id="getApprovalLineById" parameterType="int" resultType="ApprovalLine">
+		SELECT al.*, d.NAME departmentName, s.NAME staffName, s."RANK" staffRank 
+		FROM APPROVAL_LINE al INNER JOIN STAFF s
+		ON al.staff_id = s.id
+		INNER JOIN DEPARTMENT d 
+		ON d.ID =s.DEPARTMENT_ID 
+		WHERE al.ID in (
+				SELECT al.ID
+				FROM APPROVAL_LINE al
+				WHERE TYPE=1 AND APPROVAL_ID=#{approvalId})
+	</select>
+
 	<insert id="saveApproval" parameterType="Approval">
 		INSERT INTO APPROVAL(
 			ID, DOCUMENT_AT, STATUS, TITLE, CURRENT_SIGNING_STAFF, 
-			DOCUMENT_NUMBER, STAFF_ID, COMPANY_ID
+			DOCUMENT_NUMBER, STAFF_ID, COMPANY_ID, FORM_TITLE
 			)
 		VALUES (
 			SEQ_DOCUMENT_FORM_ID.nextval, #{documentAt}, #{status}, #{title}, #{currentSigningStaff}, 
-			SEQ_APPROVAL_DOCUMENT_NUMBER.nextval, #{staffId}, #{companyId})
+			SEQ_APPROVAL_DOCUMENT_NUMBER.nextval, #{staffId}, #{companyId}, #{formTitle})
 			
 			<selectKey keyProperty="id" resultType="int" order="AFTER">
-				SELECT SEQ_APPROVAL_DOCUMENT_NUMBER.currval FROM DUAL
+				SELECT SEQ_DOCUMENT_FORM_ID.currval FROM DUAL
 			</selectKey>
 	
 	</insert>
 	
+	<!-- approvalLine 저장, 배열 여러개 입력하는 방식이라 foreach는 A로 감싸주고 시퀀스는 따로 빼서 PK(시퀀스id) 중복되지 않도록 처리  -->
 	<insert id="saveApprovalLine" parameterType="java.util.List">
-		INSERT INTO APPROVAL_LINE(ID, ID2, "TYPE" , SIGNED , PRIORITY, CREATED_AT, UPDATED_AT)
-		VALUES 
-		<foreach collection="list" item="line">
-			(SEQ_APPROVAL_LINE_ID.nextval, #{line.approvalId}, #{line.type}, #{line.signed}, #{line.priority}, #{line.createdAt}, #{line.updatedAt})
-		</foreach>
+		INSERT INTO APPROVAL_LINE(ID, APPROVAL_ID, "TYPE" , SIGNED , PRIORITY, STAFF_ID)
+		SELECT SEQ_APPROVAL_LINE_ID.nextval, A.* FROM (
+			<foreach collection="list" item="line" separator="UNION ALL ">
+			SELECT 
+			#{line.approvalId}, #{line.type}, #{line.signed}, #{line.priority}, #{line.staffId}
+			FROM DUAL
+			</foreach>
+		) A
+		
 	</insert>
 	
 	<update id="updateApprovalCurrentSigningStaff" parameterType="Approval">
@@ -242,8 +268,6 @@
 			#{formIds}
 		</foreach>
 	</select>
-	
-
 	
 
 </mapper>

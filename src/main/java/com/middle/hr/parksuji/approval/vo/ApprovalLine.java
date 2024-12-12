@@ -19,6 +19,11 @@ public class ApprovalLine {
 	private String signedAt;   // 결재 일시
 	private String createdAt;   // 데이터 생성일
 	private String updatedAt;   // 최종 정보 변경일
+	private Long staffId;  // 사원 id number  (결재자) 
+	
+	private String departmentName;
+    private String staffName;
+    private String staffRank;
 	
 	
 //	id  | id2 (결재 ID) | priority (순번) | 기타 필드들
