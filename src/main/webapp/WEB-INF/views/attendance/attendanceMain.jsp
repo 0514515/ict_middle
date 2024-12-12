@@ -269,50 +269,31 @@
 						<div class="bg-light_list text-center rounded p-4">
 							<div class="d-flex align-items-center justify-content-between mb-2">
 								<h4 class="mb-0">휴가 신청 내역</h4>
-								<a href="">더보기</a>
+								<a href="http://localhost:8080/attendance/list">더보기</a>
 							</div>
 							<div class="mt-3">
 								<table class="table">
 	                                <thead>
 	                                    <tr>
 	                                        <th scope="col">번호</th>
-	                                        <th scope="col">요청명</th>
+	                                        <th scope="col">휴가종류</th>
 	                                        <th scope="col">신청일</th>
 	                                        <th scope="col">진행상태</th>
 	                                    </tr>
 	                                </thead>
-	                                <tbody>
-	                                    <tr>
-	                                        <td>1</td>
-	                                        <td>연차</td>
-	                                        <td>2024-11-19</td>
-	                                        <td><span class="badge bg-warning text-dark">결재대기</span></td>
-	                                    </tr>
-	                                    <tr>
-	                                        <td>2</td>
-	                                        <td>연차</td>
-	                                        <td>2024-10-02</td>
-	                                        <td><span class="badge bg-danger">반려</span></td>
-	                                    </tr>
-	                                    <tr>
-	                                        <td>3</td>
-	                                        <td>반차</td>
-	                                        <td>2024-07-21</td>
-	                                        <td><span class="badge bg-info">승인완료</span></td>
-	                                    </tr>
-	                                    <tr>
-	                                        <td>4</td>
-	                                        <td>반차</td>
-	                                        <td>2024-06-01</td>
-	                                        <td><span class="badge bg-info">승인완료</span></td>
-	                                    </tr>
-	                                    <tr>
-	                                        <td>5</td>
-	                                        <td>반반차</td>
-	                                        <td>2024-05-09</td>
-	                                        <td><span class="badge bg-info">승인완료</span></td>
-	                                    </tr>	                                    	                                    
-	                                </tbody>
+									<tbody>
+										<c:forEach var="defaultStaffHolidayList" items="${defaultStaffHolidayList}" varStatus="status">
+										<c:set var='i' value="${i+1 }" />
+											<tr>
+												<td>${i }</td>
+												<td>${defaultStaffHolidayList.type}</td> <!--기존사원-->
+												<td>${defaultStaffHolidayList.createdAt}</td>
+												<td>${newStaffHolidayList[status.index].type}</td> <!-- 신규사원 -->
+												<td>${newStaffHolidayList[status.index].createdAt}</td>										
+											</tr> 
+										</c:forEach>
+									</tbody>	                                   
+	          
                            		 </table>
                            	</div>							
 						</div>
@@ -321,7 +302,7 @@
 						<div class="bg-light_list text-center rounded p-4">
 							<div class="d-flex align-items-center justify-content-between mb-2">
 								<h4 class="mb-0">최근 출/퇴근 기록</h4>
-								<a href="">더보기</a>
+								<a href="http://localhost:8080/attendance/modify">더보기</a>
 							</div>
 							<div class="mt-3">
 								<table class="table">

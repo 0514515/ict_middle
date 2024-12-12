@@ -1,5 +1,7 @@
 package com.middle.hr.parkeunbyeol.attendance.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.middle.hr.parkeunbyeol.attendance.service.AttendanceService;
 import com.middle.hr.parkeunbyeol.attendance.vo.Attendance;
+import com.middle.hr.parkeunbyeol.holiday.service.HolidayService;
+import com.middle.hr.parkeunbyeol.holiday.vo.Holiday;
 import com.middle.hr.parkjinuk.staff.service.StaffService;
 
 @Controller
@@ -23,6 +27,9 @@ public class AttendanceController {
 
 	@Autowired
 	StaffService staffService;
+	
+	@Autowired
+	HolidayService holidayservice;
 
 	// 근태 관리 _ 나의 근태 현황 메인 페이지
 	@GetMapping("attendance")
@@ -30,9 +37,11 @@ public class AttendanceController {
 
 		// 세션에서 workingStatus 값 받아오기
 		String workingStatus = (String) httpSession.getAttribute("workingStatus");
+		
+		System.out.println("d워킹 스테이터스==========="+ workingStatus +"=========");
 
 		// 만약 세션에 workingStatus 값이 없다면?
-		if ( workingStatus == null ) {
+		if ( workingStatus == null || workingStatus.equals("출근") ) {
 			
 			// 세션으로부터 로그인 id 얻어와서
 			String loginId = httpSession.getAttribute("loginId").toString();
@@ -45,15 +54,14 @@ public class AttendanceController {
 			// (1) 해당 사원의 출근 상태 db로부터 가져오기 = dbworkingStatus
 			// 가져온 그 workingStatus를 dbworkingStatus이라 칭한다.
 			String dbworkingStatus = attendanceService.getWorkingStatusByLoginId(staffId);
-
-				System.out.println("getWorkingStatusByLoginId() db단의 초기 출근 상태 값: " + dbworkingStatus);			
-				System.out.println("아이디 확인 : " + staffId);
+			System.out.println("getWorkingStatusByLoginId() db단의 초기 출근 상태 값: " + dbworkingStatus);			
+			System.out.println("아이디 확인 : " + staffId);
 			 
 			 // (2) 해당 사원의 기본 정보 가져오기
 			Attendance defaultStaffInfo = attendanceService.getStaffInfoByLoginId(staffId);
-				System.out.println("defaultStaffInfo 첫번째 확인 : " + defaultStaffInfo);
-			
-				
+			System.out.println("defaultStaffInfo 첫번째 확인 : " + defaultStaffInfo);
+		
+	
 			// (2)-1 기본 사원 정보 없을 시 => 테이블에 staffId가 없어서 사원 정보 조회가 안된다면
 			if ( defaultStaffInfo == null) {
 				// 직접 해당 사원의 staffId 값을 working_history 테이블에 넣어주기
@@ -61,11 +69,21 @@ public class AttendanceController {
 								
 				// staffId를 넣어준 뒤 다시 사원 정보 출력하기
 				Attendance afterInsertStaffId = attendanceService.getStaffInfoByLoginId(staffId);
-					System.out.println("db에 staffId 입력 후 getStaffInfoByLoginId() 호출 :  " + afterInsertStaffId.toString() );
-			
+				System.out.println("db에 staffId 입력 후 getStaffInfoByLoginId() 호출 :  " + afterInsertStaffId.toString() );
+				
+				// 신규 및 정보 없는 사원 - 회사 id 가져와서 휴가 리스트 출력
+				Integer afterInsertCompanyId = afterInsertStaffId.getCompanyId();
+				System.out.println("afterInsertCompanyId  : " +  afterInsertCompanyId);
+				
+				// 가져온 회사 id와 사원id로 휴가 테이블 정보 가져오기(holiday 서비스단에서 넘겨 받는 인자 => afterInsertCompanyId = companyIdByStaffId, staffId = staffId)			
+				List<Holiday> newStaffHolidayList = holidayservice.getHolidayListByCompanyId(afterInsertCompanyId, staffId);
+				System.out.println("가져온 휴가 테이블 확인 : " + newStaffHolidayList);
+				
+				
 				httpSession.setAttribute("afterInsertStaffId", afterInsertStaffId); // 받아온 값들 세션에 저장하기				
 				model.addAttribute("afterModel", afterInsertStaffId); // jsp 파일에 사용하기 위해 model에 저장
-				
+				model.addAttribute("newStaffHolidayList", newStaffHolidayList); // 신규 직원 휴가 리스트
+
 			} 
 				
 			// (2)-2 만약 기본 사원 정보가 있다면
@@ -74,9 +92,18 @@ public class AttendanceController {
 				Attendance getDefaultStaffInfo = attendanceService.getStaffInfoByLoginId(staffId); 		
 				System.out.println("insertDefaultStaffIdByLoginId이 not null 일 때 getStaffInfoByLoginId() 호출 :" + getDefaultStaffInfo.toString());
 				
+				// 기존 사원 - 회사id 가져와서 휴가 리스트 출력
+				Integer defaultCompanyId = getDefaultStaffInfo.getCompanyId();
+				System.out.println("defaultCompanyId : " + defaultCompanyId);
+				
+				// 가져온 회사 id와 사원id로 휴가 테이블 정보 가져오기 ( holiday 서비스단에서 넘겨 받는 인자 => defaultCompanyId = companyIdByStaffId, staffId = staffId)			
+				List<Holiday> defaultStaffHolidayList = holidayservice.getHolidayListByCompanyId(defaultCompanyId, staffId);
+				System.out.println("가져온 휴가 테이블 확인 : " + defaultStaffHolidayList);
+				
 				httpSession.setAttribute("getDefaultStaffInfo", getDefaultStaffInfo); // 받아온 값을 세션에 저장하기		
 				model.addAttribute("getModel", getDefaultStaffInfo); //// jsp 파일에 사용하기 위해 model에 저장
-				
+				model.addAttribute("defaultStaffHolidayList", defaultStaffHolidayList); // 기존 직원의 경우 휴가 리스트 입력
+
 			}
  
 			// ==== 사원 정보 입력 및 조회 후 workingStatus 기준으로 버튼 CSS 새로 고침 시 고정 값 주기 ======
@@ -99,9 +126,9 @@ public class AttendanceController {
 			model.addAttribute("staffId", staffId);
 
 		} // end of first if{}
-
+		
 		model.addAttribute("defaultWorkingStatus", workingStatus); // --1
-
+		
 		return "attendance/attendanceMain"; // 이 jsp의 페이지로 리턴
 	}
 
@@ -256,18 +283,6 @@ public class AttendanceController {
 	}
 	
 	
-//	// 휴가 관리 및 신청_나의 일정 메인
-//	@GetMapping("attendance/holiday")
-//	public String attendenceHoliday() {
-//		return "attendance/attendanceHoliday";
-//	}
-
-	// 휴가 신청 내역_휴가 신청 내역 메인
-	@GetMapping("attendance/list")
-	public String attendenceList() {
-		return "attendance/attendanceList";
-	}
-
 	// 관리자 설정 _ 정정 및 휴가 요청서_ 근태/휴가 관리 메인
 	@GetMapping("management/request")
 	public String managementRequest() {

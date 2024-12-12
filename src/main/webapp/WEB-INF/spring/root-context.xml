@@ -52,6 +52,8 @@
 				<!-- parkeunbyeol -->
 				<value>com.middle.hr.parkeunbyeol.attendance.vo.Attendance</value>
 				<value>com.middle.hr.parkeunbyeol.mgworksystem.vo.Worksystem</value>
+				<value>com.middle.hr.parkeunbyeol.holiday.vo.Holiday</value>
+				<value>com.middle.hr.parkeunbyeol.modify.vo.Modify</value>
 			</list>
 		</property>
 	</bean>

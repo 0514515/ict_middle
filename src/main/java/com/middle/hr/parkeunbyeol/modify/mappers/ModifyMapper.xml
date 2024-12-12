@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Modify">
+
+	<select id="selectWorkHistoryListByCompanyIdStaffId" parameterType="Modify" resultType="Modify">
+	<![CDATA[	
+		SELECT TO_CHAR(wh.CREATED_AT, 'YYYY-MM-DD') insertDate
+			, WH.ID historyId
+			, TO_CHAR(WH.STARTED_AT, 'HH24:MI:SS') startedAt
+			, TO_CHAR(WH.ENDED_AT, 'HH24:MI:SS') endedAt
+			, TO_CHAR(ROUND((WH.ENDED_AT - WH.STARTED_AT) * 24)) workingTime	
+			, WH.WORKING_STATUS workingStatus
+			, WH.CREATED_AT createdAt
+			, WH.UPDATED_AT updatedAt
+			, WH.COMPANY_ID companyId
+			, WH.STAFF_ID staffId
+			, CASE
+        		WHEN ROUND((WH.ENDED_AT - WH.STARTED_AT) * 24) < 9 
+        			OR (WH.ENDED_AT IS NULL OR WH.STARTED_AT IS NULL) 
+        			THEN '근태이상'
+        			ELSE '정상'
+        	END AS workingSign
+		FROM WORKING_HISTORY wh
+		WHERE WH.COMPANY_ID = #{companyId} AND WH.STAFF_ID = #{staffId}
+	 ]]>
+	</select>
+
+	
+	<insert id="insertModify" parameterType="Modify">
+		INSERT INTO WORKING_HISTORY_MDFCTN_RQST 
+					(
+					ID
+					, AFTER_STARTING_TIME
+					, AFTER_ENDING_TIME
+					, REASON_OF_MODIFICATION
+					, STATUS
+					, CREATED_AT
+					, UPDATED_AT
+					, COMPANY_ID 
+					, REQUESTED_FROM_ID
+					, REQUESTED_TO_ID
+					)
+		VALUES (seq_WORKING_HISTORY_RQST_ID.nextval
+				, TO_DATE(#{afterStartingTime}, 'YYYY-MM-DD HH24:MI:SS')
+				, TO_DATE(#{afterEndingTime}, 'YYYY-MM-DD HH24:MI:SS')
+				, #{reasonOfModification}
+				, 1
+				, sysdate
+				, sysdate
+				, #{companyId}, #{requestedFromId}, #{requestedToId})
+		
+	</insert>
+
+</mapper>
