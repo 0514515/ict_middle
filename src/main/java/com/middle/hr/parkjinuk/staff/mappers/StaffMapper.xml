@@ -57,7 +57,7 @@
 		id, name, login_id, password, phone_number, email,
 		picture,
 		sign, address, gender, birthdate, hired_date, department_id,
-		company_id
+		company_id, salary_id
 		)
 		VALUES (
 		seq_staff_id.nextval,
@@ -70,7 +70,8 @@
 		<if test="sign == null">NULL</if>
 		,
 		#{address}, #{gender}, TO_DATE(#{birthdate}, 'YYYY-MM-DD'),
-		TO_DATE(#{hiredDate}, 'YYYY-MM-DD'), #{departmentId}, #{companyId}
+		TO_DATE(#{hiredDate}, 'YYYY-MM-DD'), #{departmentId}, #{companyId},
+        (SELECT ID FROM BASIC_SALARY WHERE company_id = #{companyId} AND ROWNUM = 1)
 		)
 	</insert>
 
@@ -116,7 +117,7 @@
 		RANK, address, gender, birthdate, email,
 		TO_CHAR(hired_date,
 		'YYYY-MM-DD') hired_date,
-		picture, sign
+		picture, sign, authority
 		FROM STAFF
 		WHERE
 		login_id=#{loginId}
