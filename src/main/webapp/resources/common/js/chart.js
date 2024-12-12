@@ -66,6 +66,8 @@ $(function(){
 			}
 			
 			renderSingleBarChart("#approvalChart",labels,datas);
+		},error:function(result){
+			renderSingleBarChart("#approvalChart",labels,datas);
 		}
 	});
 });
@@ -135,13 +137,22 @@ let renderDoughnutChart = function(component,labels,data){
     });
 }
 
-let renderSingleBarChart = function(component,labels,data,datasets){
+let renderSingleBarChart = function(component,labels,data){
     var ctx = $(component).get(0).getContext("2d");
     var myChart = new Chart(ctx, {
         type: "bar",
         data: {
             labels: labels,
-            datasets: datasets
+            datasets: [{
+                backgroundColor: [
+                    "rgba(0, 156, 255, .7)",
+                    "rgba(0, 156, 255, .6)",
+                    "rgba(0, 156, 255, .5)",
+                    "rgba(0, 156, 255, .4)",
+                    "rgba(0, 156, 255, .3)"
+                ],
+                data: data
+            }]
         },
         options: {
             responsive: true
