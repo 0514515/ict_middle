@@ -48,15 +48,20 @@
 	<!-- approvalLine 저장, 배열 여러개 입력하는 방식이라 foreach는 A로 감싸주고 시퀀스는 따로 빼서 PK(시퀀스id) 
 		중복되지 않도록 처리 -->
 	<insert id="saveApprovalLine" parameterType="java.util.List">
-		INSERT INTO APPROVAL_LINE(ID, APPROVAL_ID, "TYPE" , SIGNED , PRIORITY,
-		STAFF_ID)
+		INSERT INTO APPROVAL_LINE(ID, APPROVAL_ID, "TYPE" , SIGNED ,SIGNED_AT , PRIORITY, STAFF_ID)
 		SELECT SEQ_APPROVAL_LINE_ID.nextval, A.* FROM (
-		<foreach collection="list" item="line" separator="UNION ALL ">
-			SELECT
-			#{line.approvalId}, #{line.type}, #{line.signed}, #{line.priority},
-			#{line.staffId}
-			FROM DUAL
-		</foreach>
+			<foreach collection="list" item="line" separator="UNION ALL ">
+				SELECT 
+				#{line.approvalId}, #{line.type}, #{line.signed}, 
+				<if test="line.signedAt == null">
+                    NULL
+                </if>
+                <if test="line.signedAt != null">
+                    #{line.signedAt}
+                </if>,
+                #{line.priority}, #{line.staffId}
+				FROM DUAL   
+			</foreach>
 		) A
 
 	</insert>

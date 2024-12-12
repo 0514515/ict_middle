@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix='c' uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix='fmt' uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -200,6 +201,42 @@
     		text-align:left; 
     	}
     	
+    	#approval_table tbody tr td{
+    		width:135px;
+    	}
+    	
+    	#approvalLine_table, #approvalLine_table th, #approvalLine_table td{
+			 border: 1px solid black; /* 테이블 테두리 확인 */
+    		 border-collapse: collapse;
+		}
+    	
+    	#approvalLine_table th, #approvalLine_table td{
+    		padding: 8px 10px; 
+    		text-align:center; 
+    	}
+    	
+    	.inline_div{
+    		display:inline-block;
+
+    	}
+    	
+    	.inline_div:nth-of-type(1) {
+		    margin-right: 20px;
+		}
+    	
+    	#approvalLine_table tbody .tr_height{
+    		height:82px;
+    	}
+    	
+    	#approvalLine_table tbody .tr_height td{
+    		width:108px;
+    	}
+    	
+    	#table_wrapper{
+    		text-align:center;
+    	}
+    	
+    	
     	
     </style>
     
@@ -268,36 +305,52 @@
 			  <!-- html 출력 -->	
 			  <div class="html_view">
 			  	<div id="pdf_view">
-			  		<h2>${approval.formTitle}</h2>
-
-				<div>
-			  		<table id="approval_table">
-			  			<tr>
-			  				<th>기안자</th>
-			  				<td>${approvalLine[0].staffName}</td>
-			  			</tr>
-			  			<tr>
-			  				<th>소속부서</th>
-			  				<td>${approvalLine[0].departmentName}</td>
-			  			</tr>
-			  			<tr>
-			  				<th>기안일</th>
-			  				<td>${approval.createdAt}</td>
-			  			</tr>
-			  			<tr>
-			  				<th>문서번호</th>
-			  				<td>${approval.documentNumber}</td>
-			  			</tr>
-			  		</table>
-			  	  </div>
-				
-				  <div>
-				  	<table>
-				  	<tr>
-				  	</table>
-				  
-				  </div>
-
+			  	<h2>${approval.formTitle}</h2>
+				<div id="table_wrapper">
+					<div class="inline_div">
+				  		<table id="approval_table">
+				  			<tr>
+				  				<th>기안자</th>
+				  				<td>${approvalLine[0].staffName}</td>
+				  			</tr>
+				  			<tr>
+				  				<th>소속부서</th>
+				  				<td>${approvalLine[0].departmentName}</td>
+				  			</tr>
+				  			<tr>
+				  				<th>기안일</th>
+				  				<td>${approval.createdAt.split(" ")[0]}</td>
+				  			</tr>
+				  			<tr>
+				  				<th>문서번호</th>
+				  				<td>${approval.documentNumber}</td>
+				  			</tr>
+				  		</table>
+				  	  </div>
+					
+					  <div class="inline_div">
+					  	<table id="approvalLine_table">
+					  		<tr>
+					  			<td rowspan='3'>기<br/>안<br/>자</td>
+					  			<td>${approvalLine[0].staffName} ${approvalLine[0].staffRank}</td>
+					  			<td rowspan='3'>승<br/>인<br/>자</td>
+					  			<td>${approvalLine[1].staffName} ${approvalLine[1].staffRank}</td>
+					  			<td>${approvalLine[2].staffName} ${approvalLine[2].staffRank}</td>
+					  		</tr>
+					  		<tr class="tr_height">		  			
+					  			<td></td>
+					  			<td></td>
+					  			<td></td>
+					  		</tr>
+					  		<tr>	  			
+					  			<td>${approval.createdAt.split(" ")[0]}</td>
+					  			<td>${approvalLine[1].signedAt}</td>
+					  			<td>${approvalLine[2].signedAt}</td>
+					  		</tr>
+					  
+					  	</table>
+					  </div>
+					</div>
 
 			  		
 			  		${ApprovalContent}
