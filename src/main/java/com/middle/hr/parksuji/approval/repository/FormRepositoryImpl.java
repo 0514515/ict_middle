@@ -152,17 +152,35 @@ public class FormRepositoryImpl implements FormRepository{
 	}
 
 	public Integer saveApproval(Approval approval) {
-		System.out.println("===> saveApproval() 호출");
-		System.out.println(approval.toString());
+		System.out.println("[Repository] ===> saveApproval() 호출");
+//		System.out.println(approval.toString());
 		return mybatis.insert("FormRepository.saveApproval", approval);
 		
 	}
 	
 	public void saveApprovalLine(List<ApprovalLine> approvalLineList) {
-		System.out.println("===> saveApprovalLine() 호출");
+		System.out.println("[Repository] ===> saveApprovalLine() 호출");
 		System.out.println(approvalLineList.toString());
 		mybatis.insert("FormRepository.saveApprovalLine", approvalLineList);
 		
+	}
+
+	public void updateApprovalCurrentSigningStaff(Approval approval) {
+		System.out.println("[Repository] ===> updateApprovalCurrentSigningStaff() 호출");
+		mybatis.update("FormRepository.updateApprovalCurrentSigningStaff", approval); 
+		
+	}
+
+	@Override
+	public Approval getApprovalById(Integer approvalId) {
+		System.out.println("[Repository] ===> getApprovalById() 호출");
+		return mybatis.selectOne("FormRepository.getApprovalById", approvalId);
+	}
+
+	@Override
+	public List<ApprovalLine> getApprovalLineById(Integer approvalId) {
+		System.out.println("[Repository] ===> getApprovalLineById() 호출");
+		return mybatis.selectList("FormRepository.getApprovalLineById", approvalId);
 	}
 
 	

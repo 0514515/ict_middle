@@ -11,5 +11,6 @@ public class StaffInfo {
 	private String name;
 	private String departmentName; 
 	private String rank; 
+	private String id; // Staff 사원번호 
 	
 }

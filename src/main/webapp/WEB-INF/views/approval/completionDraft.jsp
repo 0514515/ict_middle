@@ -6,7 +6,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>DASHMIN - Bootstrap Admin Template</title>
+    <title>결재 상세보기</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -184,6 +184,22 @@
 		        background: none;  /* PDF 보기 div의 배경색 제거 */
 		    }
 		}
+		
+		#pdf_view h2{
+			text-align:center;
+			margin-bottom:50px;
+		}
+		
+		#approval_table, #approval_table th, #approval_table td{
+			 border: 1px solid black; /* 테이블 테두리 확인 */
+    		 border-collapse: collapse;
+		}
+    	
+    	#approval_table th, #approval_table td{
+    		padding: 8px 10px; 
+    		text-align:left; 
+    	}
+    	
     	
     </style>
     
@@ -226,7 +242,7 @@
 		     <div class="col-sm-6 col-md-4">
 				  <!-- 페이지 타이틀 -->
 				  <div class="mx-4 mt-4">	
-					<h4>결재 상신 완료</h4>
+					<h4>결재 상세보기</h4>
 				  </div>
 		     </div>
 			 <div class="col-sm-6 col-md-8"> 
@@ -245,15 +261,46 @@
 			  <div class="mb-3 row title_div">
 			    <label for="inputTitle" class="col-sm-1 col-form-label">제목</label>
 			    <div class="col-sm-11 title_txt">
-			      <input type="text" class="form-control" id="inputTitle" name="title" value=" ${title}">
+			      <input type="text" class="form-control" id="inputTitle" name="title" value=" ${approval.title}">
 			    </div>
 			  </div>
 				
 			  <!-- html 출력 -->	
 			  <div class="html_view">
 			  	<div id="pdf_view">
-			  		<h2></h2>
-			  		${noticeContent}
+			  		<h2>${approval.formTitle}</h2>
+
+				<div>
+			  		<table id="approval_table">
+			  			<tr>
+			  				<th>기안자</th>
+			  				<td>${approvalLine[0].staffName}</td>
+			  			</tr>
+			  			<tr>
+			  				<th>소속부서</th>
+			  				<td>${approvalLine[0].departmentName}</td>
+			  			</tr>
+			  			<tr>
+			  				<th>기안일</th>
+			  				<td>${approval.createdAt}</td>
+			  			</tr>
+			  			<tr>
+			  				<th>문서번호</th>
+			  				<td>${approval.documentNumber}</td>
+			  			</tr>
+			  		</table>
+			  	  </div>
+				
+				  <div>
+				  	<table>
+				  	<tr>
+				  	</table>
+				  
+				  </div>
+
+
+			  		
+			  		${ApprovalContent}
 			  	</div>
 			  </div>
 
