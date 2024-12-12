@@ -27,9 +27,9 @@
 				<a href="#" class="nav-link dropdown-toggle"
 					data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>근태관리</a>
 				<div class="dropdown-menu bg-transparent border-0">
-					<a href="#" class="dropdown-item">나의 근태 현황</a> <a href="#"
-						class="dropdown-item">출/퇴근 관리 및 근무제 변경</a> <a href="#"
-						class="dropdown-item">휴가 관리 및 신청</a> <a href="#"
+					<a href="/attendance" class="dropdown-item">나의 근태 현황</a> <a href="/attendance/modify"
+						class="dropdown-item">출/퇴근 관리 및 근무제 변경</a> <a href="/attendance/holiday"
+						class="dropdown-item">휴가 관리 및 신청</a> <a href="/attendance/list"
 						class="dropdown-item">휴가 신청 내역</a>
 				</div>
 			</div>
@@ -38,12 +38,9 @@
 				<a href="#" class="nav-link dropdown-toggle"
 					data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>전자결재</a>
 				<div class="dropdown-menu bg-transparent border-0">
-					<a href="#" class="dropdown-item">전자결재 현황</a> <a href="#"
-						class="dropdown-item">기안 작성하기</a> <a href="#"
-						class="dropdown-item">결재 받을 문서</a> <a href="#"
-						class="dropdown-item">결재 할 문서</a> <a href="#"
-						class="dropdown-item">임시보관함</a> <a href="#" class="dropdown-item">결재
-						양식 관리</a>
+					<a href="/approval" class="dropdown-item">전자결재 현황</a>
+					<a href="/approval/writeDraft"
+						class="dropdown-item">기안 작성하기</a>
 				</div>
 			</div>
 			<div class="nav-item dropdown">
@@ -54,25 +51,41 @@
 				</div>
 			</div>
 
-
+			<div class="nav-item dropdown">
+				<a href="#" class="nav-link dropdown-toggle"
+					data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>사원</a>
+				<div class="dropdown-menu bg-transparent border-0">
+					<a href="/member"
+							class="dropdown-item">사원 목록</a>
+				</div>
+			</div>
 			<c:if test="${menuStaff.authority>=9999}">
 				<div class="nav-item dropdown">
 					<a href="#" class="nav-link dropdown-toggle"
 						data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>관리자
 						설정</a>
 					<div class="dropdown-menu bg-transparent border-0">
-						<a href="#" class="dropdown-item"></a> <a href="#"
-							class="dropdown-item">[근태] 정정 및 휴가 요청서</a> <a href="#"
-							class="dropdown-item">[근태] 휴가 현황</a> <a href="#"
-							class="dropdown-item">[근태] 근무제 관리</a> <a href="#"
-							class="dropdown-item">[전자결재] 문서 통합 관리</a> <a href="#"
-							class="dropdown-item">[급여] 기본급 항목 관리</a> <a href="#"
-							class="dropdown-item">[급여] 사원 기본급 설정 </a> <a href="#"
-							class="dropdown-item">[급여] 추가수당 항목 관리</a> <a href="#"
-							class="dropdown-item">[급여] 급여 명세 </a>
+					<a href="/management/worksystem"
+							class="dropdown-item">[근태] 근무제 관리</a>
+							<a href="/approval/approvalForm"
+							class="dropdown-item">[전자결재] 문서 양식 관리</a>
+							<a href="/member"
+							class="dropdown-item">[회사] 사원 목록</a>
+							<a href="/department"
+							class="dropdown-item">[회사] 부서 목록</a>
+							<a href="/chart"
+							class="dropdown-item">[통계] 차트</a>
+							<a href="/salary/base/index"
+							class="dropdown-item">[급여] 기본급 항목 관리</a>
+							<a href="/salary/base"
+							class="dropdown-item">[급여] 사원 기본급 설정</a>
+							<a href="/salary/specify"
+							class="dropdown-item">[급여] 급여 명세</a>
 					</div>
 				</div>
 			</c:if>
+			
+			
 			<a href="/logout" class="nav-item nav-link"><i
 				class="fa fa-keyboard me-2"></i>로그아웃</a>
 
