@@ -21,7 +21,7 @@ public class Approval {
 	private String documentAt; // 결재문서 파일 경로 
 	private Integer status; //결재상태 
 	private String title;  // 제목
-	private Integer currentSigningStaff; // 현재 결재 순번
+	private Long currentSigningStaff; // 현재 결재를 진행중인 사람의 id 
 	private String reasonOfReturn; // 반려 사유 내용
 	private String createdAt; // 데이터 생성일
 	private String updatedAt;  // 최종 정보 변경일

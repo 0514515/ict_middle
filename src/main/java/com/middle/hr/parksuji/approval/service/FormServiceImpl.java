@@ -85,14 +85,7 @@ public class FormServiceImpl implements FormService {
 
 	@Override
 	public Approval processApprovalDraft(Approval approval, List<Staff> approvalLine, List<Staff> referenceLine, String loginId) throws IOException {
-		
-		
-		
-		
-		
-		// Approval vo에 데이터 설정  
-		approval.setStatus(1); // "결재 대기" 상태를 설정 
-		
+
 		 // HTML 콘텐츠 저장 및 경로 반환
 		String filePath = saveHtmlToFile(approval.getNoticeContent());
 		approval.setDocumentAt(filePath); // 파일 경로 설정
@@ -100,18 +93,37 @@ public class FormServiceImpl implements FormService {
 		// Approval 저장(Id 자동 생성)
 		formRepository.saveApproval(approval); 
 	
-		// ApprovalLine 초기화 및 순번 설정
-		List<ApprovalLine> approvalLineList = initializeApprovalLines(approvalLine, approval.getId());
+		// ApprovalLine 초기화 및 순번 설정(결재선)
+		List<ApprovalLine> approvalLineList = initializeApprovalLines(approvalLine, approval.getId(), 1);
+		
+		// ApprovalLine 초기화 및 순번 설정 (참조선)
+		List<ApprovalLine> referenceLineList = initializeApprovalLines(referenceLine, approval.getId(), 2);
+		
+		// 첫번째 결재자 설정 
+		if (!approvalLine.isEmpty()) {
+		    Long staffId = approvalLine.get(0).getStaffId();
+		    System.out.println("첫번째 결재자 => " + staffId);
+		    
+		    if (staffId != null) {
+		        approval.setCurrentSigningStaff(staffId.longValue());  // 첫 번째 결재자, Long타입으로 변환
+		        formRepository.updateApprovalCurrentSigningStaff(approval); // DB에 반영
+		    } else {
+		        System.out.println("첫 번째 결재자의 StaffId가 null입니다.");
+		    }
+		} else {
+		    System.out.println("approvalLine이 비어 있습니다.");
+		}
 		
 		// ApprovalLine 저장
 		formRepository.saveApprovalLine(approvalLineList); 
+		formRepository.saveApprovalLine(referenceLineList); 
 		System.out.println("Approval 및 ApprovalLine 저장 완료. Approval ID: " + approval.getId());
 		
 		return approval;
 	}
 
 	// ApprovalLine 초기화 및 순번 설정
-	private List<ApprovalLine> initializeApprovalLines(List<Staff> inputStaffInfos, Integer approvalId) {  // approvalId = approval.getId()
+	private List<ApprovalLine> initializeApprovalLines(List<Staff> inputStaffInfos, Integer approvalId, int type) {  // approvalId = approval.getId()
         List<ApprovalLine> approvalLineList = new ArrayList<>();
         LocalDateTime now = LocalDateTime.now();
 
@@ -120,13 +132,24 @@ public class FormServiceImpl implements FormService {
             ApprovalLine line = new ApprovalLine();  // ApprovalLine 객체 생성
 
             line.setApprovalId(approvalId);               // Approval ID 연결 : formRepository.save(approval) 호출 후 approval.getId()로 ID를 가져와 ApprovalLine의 id2 필드에 설정
-            line.setType(1);                              // 기본 결재 타입
+            line.setType(type);                           // 결재 타입 설정 (1: 결재선, 2: 참조선)
             line.setSigned(0);                            // 결재 대기 상태
             line.setPriority(i + 1);                      // 순번 설정
             line.setCreatedAt(now.toString());            // 생성일시
             line.setUpdatedAt(now.toString());            // 변경일시
-
+            line.setDepartmentName(staff.getDepartmentName());
+            line.setStaffName(staff.getStaffName());
+            line.setStaffRank(staff.getRank()); 
+            
+            // StaffId 설정
+            if(staff.getStaffId() != null) {
+            	line.setStaffId(staff.getStaffId());  // StaffId를 ApprovalLine에 설정 
+            }else {
+            	System.out.println("[FormServiceImpl _ initializeApprovalLines] StaffId가 null입니다.");
+            }
+            
             approvalLineList.add(line);
+            System.out.println("[FormServiceImpl] approvalLineList :" + approvalLineList);
         }
 
         return approvalLineList;   // 호출한 processApprovalDraft에 리턴값 반환  
@@ -135,11 +158,11 @@ public class FormServiceImpl implements FormService {
 	
    	public String saveHtmlToFile(String formContent) throws IOException{
 		// 네트워크 공유 폴더의 경로 (절대 경로 사용)
-	     String uploadDirectory = "\\\\DESKTOP-B94HRMS\\file\\approval\\uploads\\forms"; // 네트워크 공유 폴더 경로
+	     String uploadDirectory = "\\\\DESKTOP-B94HRMS\\file\\approval\\uploads\\approvals"; // 네트워크 공유 폴더 경로
 	    
 	     // HTML 콘텐츠를 파일로 저장
 		 // 스마트에디터에서 작성된 HTML 콘텐츠 : 폼에서 입력받은 본문 내용을 approval 객체의 noticeContent에 바인딩
-			String fileName = "form_" + UUID.randomUUID().toString() + ".html"; // 파일명, uuid로 생성하는 방법  
+			String fileName = "approval_" + UUID.randomUUID().toString() + ".html"; // 파일명, uuid로 생성하는 방법  
 			File file = new File(uploadDirectory, fileName); // 실제 파일 객체 생성
 			
 			// 파일 경로 확인
@@ -152,6 +175,20 @@ public class FormServiceImpl implements FormService {
 		   System.out.println("HTML 파일이 저장되었습니다: " + file.getAbsolutePath());
 		   return file.getAbsolutePath(); // 저장된 파일의 경로 반환
 		    
+	}
+
+	@Override
+	public Approval getApprovalById(Integer approvalId) {
+		return formRepository.getApprovalById(approvalId);
+	}
+
+	@Override
+	public List<ApprovalLine> getApprovalLineById(Integer approvalId) {
+		return formRepository.getApprovalLineById(approvalId);
 	}	
+   	
+   	
+   	
+   	
 
 }

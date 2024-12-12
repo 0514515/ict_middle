@@ -14,20 +14,40 @@ $(function(){
 		// 체크된 노드들 가져오기 
 		var selectedNodes = $('#jstree').jstree('get_selected', true);
 		
-	/*	var selectedNodeIds = selectedNodes.map(function(node) {
-			return node.id;
-		}); 
-		alert("선택된 항목 ID: " + selectedNodeIds.join(", ")); */
+		selectedNodes.forEach(function(node) {
+		    console.log("node.id", node.id);  // 노드의 ID
+		    console.log("node.text", node.text);  // 노드의 텍스트 (이름) 
+		    console.log("node.parent", node.parent);  // 부모 노드 ID
+		    console.log("node.attr", node.li_attr);  // 사용자 정의 속성들 (예: staffId, staffRank 등)
+		});
+		
 		
 		// 테이블에 추가할 사람들(체크된 노드의 정보) 
 		var rows=''; 
 		selectedNodes.forEach(function(node){
-			var groupName = $('#jstree').jstree('get_node', node.parent).text;
+			// 부모 노드의 ID
+	        var parentNodeId = node.parent;
+
+	        // 부모 노드의 li_attr 가져오기
+	        var parentNode = $('#jstree').jstree('get_node', parentNodeId);
+	        var parentLiAttr = parentNode.li_attr;
+
+	        console.log('Parent Node li_attr:', parentLiAttr);  // 부모 노드의 li_attr 출력
 			
-			rows+='<tr><td>' + '['+ groupName + '] ' + node.text 
-					+ '</td><td>' + '<div><button type="button" class="btn-close" aria-label="Close"></button></div>' 
-					+ '</td></tr>'; 
-		
+			var parentDepartmentName = parentLiAttr.departmentname || '알 수 없음';
+	        var staffname = node.text || '알 수 없음';
+	        var rank = node.li_attr.staffrank || '알 수 없음';
+	        var staffId = node.li_attr.staffid || '알 수 없음';  // staffId 추가
+			
+			if(parentDepartmentName && staffname && rank) {
+				  rows += '<tr data-staffId="' + staffId + '">' +  // staffId를 data- 속성으로 추가
+		                '<td>' + '[' + parentDepartmentName + '] '+ staffname + ' ' + rank + '</td>' +    // 부서명 + 이름 + 직급
+		                '<td><div><button type="button" class="btn-close" aria-label="Close"></button></div></td>' +
+		                '</tr>';
+			}else {
+				console.log('node를 찾을 수 없습니다', node);
+			}
+	
 		})
 		
 		// 테이블의 tbody에 추가 
@@ -40,42 +60,66 @@ $(function(){
 		$('.btn-close').click(function(){
 			// 클릭된 버튼이 속한 행을 삭제
 			$(this).closest('tr').remove(); 
-			
 		})
+	
+		
 		
 	});
 		
-		// 참조 추가 버튼 클릭시 
-		$('#ref_plus').click(function() {
-		    // 체크된 자식 노드들 가져오기 (부모는 제외)
-		    var selectedNodes = $('#jstree').jstree('get_selected', true);
+	// 참조 추가 버튼 클릭시 
+			$('#ref_plus').click(function() {
+			    // 체크된 자식 노드들 가져오기 (부모는 제외)
+			    var selectedNodes = $('#jstree').jstree('get_selected', true);
+			    
+			    selectedNodes.forEach(function(node) {
+				    console.log("node.id", node.id);  // 노드의 ID
+				    console.log("node.text", node.text);  // 노드의 텍스트 (이름) 
+				    console.log("node.parent", node.parent);  // 부모 노드 ID
+				    console.log("node.attr", node.li_attr);  // 사용자 정의 속성들 (예: staffId, staffRank 등)
+				});
+			    
 
-		    // 테이블에 추가할 사람들 (체크된 자식 노드의 정보)
-		    var rows = '';
+				// 테이블에 추가할 사람들(체크된 노드의 정보) 
+				var rows=''; 
+				selectedNodes.forEach(function(node){
+					// 부모 노드의 ID
+			        var parentNodeId = node.parent;
 
-		    var rows=''; 
-			selectedNodes.forEach(function(node){
-				var groupName = $('#jstree').jstree('get_node', node.parent).text;
+			        // 부모 노드의 li_attr 가져오기
+			        var parentNode = $('#jstree').jstree('get_node', parentNodeId);
+			        var parentLiAttr = parentNode.li_attr;
+
+			        console.log('Parent Node li_attr:', parentLiAttr);  // 부모 노드의 li_attr 출력
+					
+					var parentDepartmentName = parentLiAttr.departmentname || '알 수 없음';
+			        var staffname = node.text || '알 수 없음';
+			        var rank = node.li_attr.staffrank || '알 수 없음';
+			        var staffId = node.li_attr.staffid || '알 수 없음';  // staffId 추가
+					
+					if(parentDepartmentName && staffname && rank) {
+						  rows += '<tr data-staffId="' + staffId + '">' +  // staffId를 data- 속성으로 추가
+				                '<td>' + '[' + parentDepartmentName + '] '+ staffname + ' ' + rank + '</td>' +    // 부서명 + 이름 + 직급
+				                '<td><div><button type="button" class="btn-close" aria-label="Close"></button></div></td>' +
+				                '</tr>';
+					}else {
+						console.log('node를 찾을 수 없습니다', node);
+					}
+			
+				})
 				
-				rows+='<tr><td>' + '['+ groupName + '] ' + node.text 
-						+ '</td><td>' + '<div><button type="button" class="btn-close" aria-label="Close"></button></div>' 
-						+ '</td></tr>'; 
-			
-			})
-			
-			
-		    // 테이블의 tbody에 추가
-		    $('.ref_table tbody').append(rows);
-			
-			// 테이블에 옮긴 후에 체크박스 해제
-		    $('#jstree').jstree('deselect_all');
+				
+			    // 테이블의 tbody에 추가
+			    $('.ref_table tbody').append(rows);
+				
+				// 테이블에 옮긴 후에 체크박스 해제
+			    $('#jstree').jstree('deselect_all');
 
-		    // 추가된 버튼에 클릭 이벤트를 바인딩
-		    $('.btn-close').click(function() {
-		        // 클릭된 버튼이 속한 행을 삭제
-		        $(this).closest('tr').remove(); 
-		    });
-		});
+			    // 추가된 버튼에 클릭 이벤트를 바인딩
+			    $('.btn-close').click(function() {
+			        // 클릭된 버튼이 속한 행을 삭제
+			        $(this).closest('tr').remove(); 
+			    });
+			});
 		
 
 		
