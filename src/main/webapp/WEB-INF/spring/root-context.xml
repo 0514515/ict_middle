@@ -31,6 +31,10 @@
 				<!-- parkjinuk -->
 				<value>com.middle.hr.parkjinuk.common.vo.Company</value>
 				<value>com.middle.hr.parkjinuk.common.vo.Administrator</value>
+				<value>com.middle.hr.parkjinuk.common.vo.HiredDateChart</value>
+				<value>com.middle.hr.parkjinuk.common.vo.MonthlyLeaveChart</value>
+				<value>com.middle.hr.parkjinuk.common.vo.ApprovalChart</value>
+				<value>com.middle.hr.parkjinuk.common.vo.AgeChart</value>
 				<value>com.middle.hr.parkjinuk.staff.vo.Staff</value>
 				<value>com.middle.hr.parkjinuk.staff.vo.Login</value>
 				<value>com.middle.hr.parkjinuk.staff.vo.Department</value>

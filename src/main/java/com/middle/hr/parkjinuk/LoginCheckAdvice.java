@@ -62,6 +62,9 @@ public class LoginCheckAdvice {
 			staff.setSign(readImageFromNetworkShare(staff.getSign()));
 		}
 		
+		
+		
+		
 		//세션 없으면 null이므로 로그인 창으로 리다이렉트
 		if(staff==null) {
 			System.out.println("[*************** 세션 없음");

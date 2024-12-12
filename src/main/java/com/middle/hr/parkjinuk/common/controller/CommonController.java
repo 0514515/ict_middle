@@ -1,6 +1,9 @@
 package com.middle.hr.parkjinuk.common.controller;
 
+import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +18,11 @@ import org.springframework.web.client.RestTemplate;
 
 import com.middle.hr.parkjinuk.common.service.CommonService;
 import com.middle.hr.parkjinuk.common.vo.Administrator;
+import com.middle.hr.parkjinuk.common.vo.AgeChart;
+import com.middle.hr.parkjinuk.common.vo.ApprovalChart;
 import com.middle.hr.parkjinuk.common.vo.Company;
+import com.middle.hr.parkjinuk.common.vo.HiredDateChart;
+import com.middle.hr.parkjinuk.common.vo.MonthlyLeaveChart;
 
 @Controller
 @CrossOrigin(origins = "*")
@@ -133,5 +140,40 @@ public class CommonController {
 		}
 
 		return "redirect:/super/administrator";
+	}
+	
+	// 차트 페이지
+	@GetMapping("chart")
+	public String getChart(HttpSession session,Model model) {
+		
+		return "chart";
+	}
+	
+	// 입사년도 데이터
+	@GetMapping("chart/hiredDate")
+	@ResponseBody
+	public List<HiredDateChart> getChartHiredDate(HttpSession session){
+		return commonService.searchHiredDateChartData(session.getAttribute("loginId").toString());
+	}
+	
+	// 월별 휴가 데이터
+	@GetMapping("chart/monthlyLeave")
+	@ResponseBody
+	public List<MonthlyLeaveChart> getChartMonthlyLeave(HttpSession session){
+		return commonService.searchMonthlyChartData(session.getAttribute("loginId").toString());
+	}
+	
+	// 연령대 데이터
+	@GetMapping("chart/age")
+	@ResponseBody
+	public List<AgeChart> getChartAge(HttpSession session){
+		return commonService.searchAgeChartData(session.getAttribute("loginId").toString());
+	}
+	
+	// 부서별 기안 수 데이터
+	@GetMapping("chart/approval")
+	@ResponseBody
+	public List<ApprovalChart> getChartApproval(HttpSession session){
+		return commonService.searchApprovalChartData(session.getAttribute("loginId").toString());
 	}
 }

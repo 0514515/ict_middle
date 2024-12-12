@@ -107,6 +107,106 @@
 		</where>
 	</select>
 
-	<!--  -->
+	<!-- 관리자 통계 : -->
+	<select id="selectHiredDateChartData" parameterType="String"
+		resultType="HiredDateChart">
+		SELECT r.*
+		FROM (SELECT TO_CHAR(s.hired_date,'YYYY')
+		hired_date, COUNT(hired_date) staffCount
+		FROM STAFF s
+		WHERE s.COMPANY_ID
+		= (
+		SELECT s.company_id
+		FROM STAFF s
+		WHERE s.login_id = #{loginId}
+		)
+		GROUP
+		BY TO_CHAR(s.hired_date,'YYYY')
+		ORDER BY HIRED_DATE) r
+	</select>
 
+
+	<!-- 휴가 월 통계 -->
+	<select id="selectMonthlyLeaveChartData" parameterType="String"
+		resultType="MonthlyLeaveChart">
+    <![CDATA[
+        SELECT
+        ALL_MONTHS.MONTH,
+        NVL(ROUND((RATIO_TO_REPORT(L.COUNT) OVER() * 100), 2), 0) AS RATE
+        FROM (
+            SELECT ROWNUM AS MONTH
+            FROM (SELECT 1 FROM DUAL CONNECT BY ROWNUM <= 12)
+        ) ALL_MONTHS
+        LEFT JOIN (
+            SELECT
+                TO_NUMBER(TO_CHAR(STARTED_AT, 'MM')) AS MONTH,
+                COUNT(*) AS COUNT
+            FROM
+                LEAVE L
+            WHERE
+                L.COMPANY_ID = (
+                    SELECT S.COMPANY_ID
+                    FROM STAFF S
+                    WHERE S.LOGIN_ID = #{loginId}
+                )
+            GROUP BY
+                TO_NUMBER(TO_CHAR(STARTED_AT, 'MM'))
+        ) L
+        ON ALL_MONTHS.MONTH = L.MONTH
+        ORDER BY ALL_MONTHS.MONTH
+    ]]>
+	</select>
+
+	<!-- 연령대 -->
+	<select id="selectAgeChartData" parameterType="String"
+		resultType="AgeChart">
+		SELECT
+		age,
+		count(*) count
+		FROM
+		(
+		SELECT
+		CASE
+		WHEN
+		TO_CHAR(FLOOR((TO_CHAR(SYSDATE, 'YYYY') - TO_CHAR(S.BIRTHDATE,
+		'YYYY')
+		+ 1) / 10) * 10) || '대' = '대'
+		THEN '알 수 없음'
+		ELSE
+		TO_CHAR(FLOOR((TO_CHAR(SYSDATE, 'YYYY') - TO_CHAR(S.BIRTHDATE,
+		'YYYY')
+		+ 1) / 10) * 10) || '대'
+		END AGE
+		FROM
+		STAFF s
+		WHERE
+		s.company_id = (
+		SELECT
+		s.company_id
+		FROM
+		STAFF s
+		WHERE
+		s.login_id = #{loginId}
+		))
+		GROUP BY
+		age
+	</select>
+
+
+	<!-- 부서별 결재 기안 수 -->
+	<select id="selectApprovalChartData" parameterType="String" resultType="ApprovalChart">
+		SELECT d.name departmentName, COUNT(*) count
+		FROM APPROVAL a INNER JOIN STAFF s ON a.STAFF_ID = s.ID
+		INNER JOIN DEPARTMENT d ON d.ID = s.DEPARTMENT_ID
+		WHERE
+		s.company_id = (
+		SELECT
+		s.company_id
+		FROM
+		STAFF s
+		WHERE
+		s.login_id = #{loginId}
+		)
+		GROUP BY d.name
+	</select>
 </mapper>

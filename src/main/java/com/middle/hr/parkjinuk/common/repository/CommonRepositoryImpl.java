@@ -10,7 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.middle.hr.parkjinuk.common.vo.Administrator;
+import com.middle.hr.parkjinuk.common.vo.AgeChart;
+import com.middle.hr.parkjinuk.common.vo.ApprovalChart;
 import com.middle.hr.parkjinuk.common.vo.Company;
+import com.middle.hr.parkjinuk.common.vo.HiredDateChart;
+import com.middle.hr.parkjinuk.common.vo.MonthlyLeaveChart;
 
 @Repository
 public class CommonRepositoryImpl implements CommonRepository {
@@ -89,7 +93,27 @@ public class CommonRepositoryImpl implements CommonRepository {
 	    return result;
 	}
 
+	// 입사 년도 차트 데이터
+	@Override
+	public List<HiredDateChart> selectHiredDateChartData(String loginId){
+		return mybatis.selectList("selectHiredDateChartData",loginId);
+	}
+
+	// 월별 휴가 사용 데이터
+	@Override
+	// 월별 휴가 사용 비율
+	public List<MonthlyLeaveChart> selectMonthlyChartData(String loginId){
+		return mybatis.selectList("selectMonthlyLeaveChartData",loginId);
+	}
 	
-
-
+	// 연령대
+	@Override
+	public List<AgeChart> selectAgeChartData(String loginId){
+		return mybatis.selectList("selectAgeChartData",loginId);
+	}
+	
+	// 부서별 기안 수
+	public List<ApprovalChart> selectApprovalChartData(String loginId){
+		return mybatis.selectList("selectApprovalChartData",loginId);
+	};
 }
