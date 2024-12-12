@@ -133,7 +133,8 @@ public class FormServiceImpl implements FormService {
 
             line.setApprovalId(approvalId);               // Approval ID 연결 : formRepository.save(approval) 호출 후 approval.getId()로 ID를 가져와 ApprovalLine의 id2 필드에 설정
             line.setType(type);                           // 결재 타입 설정 (1: 결재선, 2: 참조선)
-            line.setSigned(0);                            // 결재 대기 상태
+            line.setSigned(0);
+            line.setSignedAt(null);             // 결재한 시간 (초기에는 null로 설정) 
             line.setPriority(i + 1);                      // 순번 설정
             line.setCreatedAt(now.toString());            // 생성일시
             line.setUpdatedAt(now.toString());            // 변경일시
