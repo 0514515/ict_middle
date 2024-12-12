@@ -14,6 +14,9 @@
     <!-- Favicon -->
     <link href="img/favicon.ico" rel="icon">
 
+	<!-- datepicker Stylesheet -->
+	<link href="/resources/datepicker_template/css/datepicker.css" rel="stylesheet">
+    
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -92,99 +95,166 @@
           	color:#055160;
        }
        
-       /* 모달 커스텀 */
-		
-		#modal {
-			text-align : center;
-			position: fixed;
-			left: 50%;
-			top: 55%;
-			transform: translate(-50%, -50%);
-		}
+	
+/* 모달 커스텀 */
+	#modal {
+		text-align : center;
+		position: fixed;
+		left: 50%;
+		top: 55%;
+		transform: translate(-50%, -50%);
+	}
 
-		.modal-title {
-			color :  #009CFF;
-		}
-		
-		.modal table {
-			color: #191C24;
-       
-       }
-       
-		
-		.modal-body {
-		    padding: 2rem;
-		}
-		
-		.modal-dialog {
+	.modal-title {
+		color :  #009CFF;
+	}
+	
+	.modal table {
+		color: #191C24;
+      
+      }
+      
+	
+	.modal-body {
+	    padding: 2rem;
+	}
+	
+	.modal-dialog {
+		display : inline-block;
+		text-align : left;
+		font-size : 0.9em;
+		vertical-align : middle;
+		width : 80%;
+		height : auto;
+		margin : 0;
+		padding : 0;
+	}
+	
+	.modal-content {
+		heigh : auto;
+		min-height : 100%;
+		border-radius : 10px;
+		border: 2px solid #009CFF;
+	}
+	
+	@media screen and (min-width: 78px) {
+		#modal : before {
 			display : inline-block;
-			text-align : left;
-			font-size : 0.9em;
 			vertical-align : middle;
-			width : 80%;
-			height : auto;
-			margin : 0;
-			padding : 0;
+			content: " ";
+			height: 50%;
 		}
-		
-		.modal-content {
-			heigh : auto;
-			min-height : 100%;
-			border-radius : 10px;
-			border: 2px solid #009CFF;
-		}
-		
-		@media screen and (min-width: 78px) {
-			#modal : before {
-				display : inline-block;
-				vertical-align : middle;
-				content: " ";
-				height: 50%;
-			}
-		}
-		
-		.modal-footer {
-		    justify-content: center;
-		} 
+	}
+	
+	.modal-footer {
+	    justify-content: center;
+	} 
 
 
-		.modal-body tr th {
-		 	width:40%;
-		 	padding: .3rem .3rem;
-		}
-		
-		.modal-body tr td {
-		 	padding: .3rem .3rem;
-		}
+	.modal-body tr th {
+	 	width:40%;
+	 	padding: .3rem .3rem;
+	}
+	
+	.modal-body tr td {
+	 	padding: .3rem .3rem;
+	}
 
-		/* 요청 후 출퇴근 시간 간격 */
-		.modal-body .d-flex {
-			border: 1px solid rgba(0, 0, 0, 0.2);
-    		padding: 15px;
-		}
-		
-		.form-control{
-			margin-bottom: 1rem;		
-		}
-		
-		.modal-body table:nth-child(3) td input {
-			border: 1px solid #000;
-		    padding: 0px 15px;
-		}
-		
-		.cs-form .form-control{
-			padding : 0px;
-			margin-bottom : 0px;
-		}
-		
-		label {
-		    display: inline-block;
-		    font-size: 15px;
-		    font-weight: 600;
-		    color: #191C24;
-		}
-		
-		/* 모달 커스텀 끝 */
+	/* 요청 후 출퇴근 시간 간격 */
+
+	
+	.form-control{
+		margin-bottom: 1rem;		
+	}
+	
+	.modal-body table:nth-child(3) td input {
+		border: 1px solid #000;
+	    padding: 0px 15px;
+	}
+	
+	.cs-form .form-control{
+		padding : 0px;
+		margin-bottom : 0px;
+	}
+
+	
+	.btn-group {
+		padding-right : 200px;
+	}
+	
+	.btn-group>.btn {
+	    position: relative;
+	    flex: 1 1 auto;
+	    font-weight: 500;
+	}
+
+	.modal-body p {
+	    margin-top: 0;
+	    margin-bottom: 0rem;
+	    font-size: large;
+	    font-weight: bold;
+	    color: #191C24;
+	}
+	
+	/* <p> 사용일자 */
+	.modal-body div:nth-child(3) p {
+		    width: 300px;
+	}
+	
+	.table_div {
+		margin-bottom : 3.0rem;
+	}
+	
+	/* 셀렉트 박스 시작 */
+	.holiday_select {
+		margin-left : 35px;
+	}
+	
+	.form-select {
+		color : #009CFF;
+		width: 150px;
+    	text-align: center;
+	}	
+	
+	select option {
+		color : #757575;
+	}
+
+	
+/* 	.datepicker_div{
+	    margin-right: 2px;
+	 }
+	 */
+	
+	/* 셀렉트 박스 끝 */
+	
+	#datePicker_start, #datePicker_end {
+		background-image : url('/resources/datepicker_template/img/icon.png');
+		background-repeat : no-repeat;
+		background-size : 20px;
+	    background-position: 122px center;
+   		margin-bottom: 0rem;
+		height: 31px;
+    	width: 150px;
+    	padding-left: 20px;
+    	color: #009CFF;
+    	cursor : pointer;	
+	}
+	
+	.datepicker_div, .timepicker_div {
+	    margin-right: 2px;
+	 }
+	 
+	 
+	.form-control[type='time'] {
+		height: 31px;
+   		width: 150px;
+   		color: #009CFF;
+   		text-align : center;
+   		cursor : pointer;	
+  
+	}
+	/* 모달 끝 */	
        
     </style>
     
@@ -221,74 +291,91 @@
    <!-- 본문 작성 (body start) -->
    
    
-         <!-- 휴가 생성 모달 팝업 시작 -->
+		<!-- 휴가 생성 모달 팝업 시작 -->
       
-	     <div class="modal" id="modal" tabindex="-1">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-			        	<h5 class="modal-title">출/퇴근 정정요청</h5>
-			       		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			     	</div>
-			      	<div class="modal-body">
-				      	<h6>요청자 정보</h6>
-			          	  <table class="table table-bordered">
-			          	  		<tr>
-			          	  			<th>요청자</th><td>정준하 과장</td>
-			          	  		</tr>
-								 <tr>
-			          	  			<th>근무일</th><td>2024-11-20</td>
-			          	  		</tr>
-						  </table>
-						  <h6>요청 전</h6>
-			          	  <table class="table table-bordered md-3">
-			          	  		<tr>
-			          	  			<th>출근 시간</th><td>10:55:27</td>
-			          	  		</tr>
-								 <tr>
-			          	  			<th>퇴근 시간</th><td>18:01:54</td>
-			          	  		</tr>
-						  </table>
-						 <h6>요청 후</h6>
-						 <!-- timepicker start -->
-						 <div class="d-flex align-items-center justify-content-between mb-3">
-			          	  	<label>출근 시간</label>
-			          	  		<div class="cs-form">
-									<input type="time" class="form-control"/>
-								</div>	
-	          	  			 <label>퇴근 시간</label>
-			          	  		  <div class="cs-form">
-									  <input type="time" class="form-control"/>
-							       </div>
-						  </div>	       	          	 
-						  <!-- timepicker end -->
-						  
-						  <h6>승인자 정보</h6>
-			          	  <table class="table table-bordered">
-			          	  		<tr>
-			          	  			<th>승인권자</th><td>이동욱 인사 담당자</td>
-			          	  		</tr>	          	  			
-						  </table>
-						  <div>
-		    	  			<h6>사유</h6>
-		    	  			<textarea class="form-control" placeholder="필수 입력 사항입니다." id="text_area" style="height: 50px;"></textarea>
-		    	  		  </div>
-		    	  		  <div>
-		    	  			<h6>증빙 서류</h6>
-							<div class="mb-3">
-								<input class="form-control form-control-sm" id="formFileSm" type="file">
-							</div>
-						   </div>
-			     	</div>
-			      	<div class="modal-footer">
-			        	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-			        	<button type="button" class="btn btn-primary">정정요청</button>
-			      	</div>
-			    </div>
-			 </div>
-		 </div>
+			     <div class="modal" id="modal" tabindex="-1">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+					        	<h5 class="modal-title">휴가 신청</h5>
+					       		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					     	</div>
+					      	<div class="modal-body">
+					      		<div class="table_div">
+					          	  <table id="requestInfoTable" class="table table-bordered">
+					          	  		<tr>
+					          	  			<th>신청자</th><td id="requestFromName">${holiday.name}</td>
+					          	  		</tr>
+										 <tr>
+					          	  			<th>승인자</th><td id="requestToName">${holiday.managerName}</td>
+					          	  		</tr>
+								  </table>
+								  <input id="requestedFromId" type="hidden" value="${holiday.requestedFromId}">
+								  <input id="requestedToId" type="hidden" value="${holiday.requestedToId}">								 
+								 </div>
+									 <div class="d-flex align-items-center mb-3"> 
+						          		<p>휴가 구분</p>
+						          		<div class="holiday_select">
+											<select  name='holidaySelectBox' class="form-select form-select-sm" aria-label=".form-select-sm example">
+											  <option selected value='' disabled>휴가 구분</option>
+											  <option value="연차">연차</option>
+											  <option value="반차">반차</option>
+											  <option value="반반차">반반차</option> 
+											</select>
+										</div>
+									 </div>
+									  
+									  
+									 <div class="d-flex align-items-center mb-3"> 
+						          		<p>사용 일자</p>
+										<!-- 시작시 기본 날짜 설정은 value를 이용 -->
+										<div class="datepicker_div d-flex align-items-center">	
+											<input type="text" id="datePicker_start" class="form-control" >
+											<label class="mx-2"> ~ </label>
+											<input type="text" id="datePicker_end" class="form-control">
+									 	</div>
+									 </div> 
+									 
+									 <!-- timepicker start -->
+									 <div class="timepicker_div d-flex align-items-center justify-content-between mb-5">
+						          	  	<p>시간 선택</p>
+						          	  		<div class="d-flex align-items-center justify-content-between">
+							          	  		<div class="cs-form">
+													<input id='holidayTimePickerStart' type="time" class="form-control"/>
+												</div>	
+						          	  			<label class="mx-2">~</label>
+							          	  		<div class="cs-form">
+													<input id='holidayTimePickerEnd' type="time" class="form-control"/>
+											     </div>
+										    </div>
+									  </div>	       	          	 
+									  <!-- timepicker end -->
+	
+									  <div class=" row d-flex justify-content-between mb-2">
+					    	  			<p class="mb-3">사유</p>
+					    	  			<div>
+					    	  			<textarea class="form-control" placeholder="필수 입력 사항입니다." id="text_area" style="height: 100px;"></textarea>
+					    	  		  	</div>
+					    	  		  </div>
 
-        <!-- 모달 팝업 끝-->
+					     	</div> 
+					     	
+					     	<!-- end of modal body -->
+					     	
+					     	<!-- start of modal footer -->
+					     	
+					      	<div class="modal-footer">
+					        	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+					        	<button type="button" class="btn btn-primary">휴가요청</button>
+					      	</div>
+					      	
+					      	<!-- end fo modal footer -->
+					      	
+					    </div>
+					 </div>
+				 </div>
+			
+			       <!-- 모달 팝업 끝-->
        
          <div class="container container-fluid pt-4 px-4">           
 	         <div class="d-flex align-items-center justify-content-between mx-4 my-4">   	
@@ -307,93 +394,63 @@
 	                    <th class="table-light">승인자</th>
 	                    <th class="table-light">진행상태</th>
 	                 </tr>
-	                 <tr>
-	                    <td>연차</td>
-	                    <td>2024-11-20</td>
-	                    <td>2024-11-20</td>
-	                    <td>이동욱</td>
-	                    <td><span class="badge bg-warning text-dark">결재대기</span></td>
-	                 </tr>
-	                 <tr>
-	                    <td>반차</td>
-	                    <td>2024-08-13</td>
-	                    <td>-</td>
-	                    <td>이동욱</td>
-	                    <td><span class="badge bg-danger">반려</span></td>
-	                 </tr> 
-	                 <tr>
-	                    <td>반반차</td>
-	                    <td>2024-07-28</td>
-	                    <td>2024-07-28</td>
-	                    <td>이동욱</td>
-	                    <td><span class="badge bg-info">승인완료</span></td>
-	                 </tr>
-	                 <tr>
-	                 	<td>반반차</td>
-	                    <td>2024-07-11</td>
-	                    <td>-</td>
-	                    <td>이동욱</td>
-	                    <td><span class="badge bg-danger">반려</span></td>
-	                 </tr>
-	                 <tr>
-	                    <td>test</td>
-	                    <td>test</td>
-	                    <td>test</td>
-	                    <td>test</td>
-	                    <td>test</td>
-	                 </tr>
-	                 <tr>
-	                    <td>test</td>
-	                    <td>test</td>
-	                    <td>test</td>
-	                    <td>test</td>
-	                    <td>test</td>
-	                 </tr>
-	                 <tr>
-	                    <td>test</td>
-	                    <td>test</td>
-	                    <td>test</td>
-	                    <td>test</td>
-	                    <td>test</td>
-	                 </tr>
-	                 <tr>
-	                    <td>test</td>
-	                    <td>test</td>
-	                    <td>test</td>
-	                    <td>test</td>
-	                    <td>test</td>
-	                 </tr>
-	                 <tr>
-	                    <td>test</td>
-	                    <td>test</td>
-	                    <td>test</td>
-	                    <td>test</td>
-	                    <td>test</td>
-	                 </tr>
-	                 <tr>
-	                    <td>test</td>
-	                    <td>test</td>
-	                    <td>test</td>
-	                    <td>test</td>
-	                    <td>test</td>
-	                 </tr>
+	                 <c:forEach var="holidayList" items="${holidayList}">
+		                 <tr>
+		                    <td>${holidayList.type}</td>
+		                    <td>${holidayList.createdAt}</td>
+		                    <td>${holidayList.processedAt}</td>
+		                    <td>${holidayList.managerName}</td>
+		                    <td><span class="badge bg-warning text-dark">결재대기</span></td>
+		                 </tr>
+	                 </c:forEach>
 	            </table>
 	            </div>
-	            
-	            <!-- 페이징 버튼 -->
-	            <div class="d-flex align-items-center justify-content-center">
+	             <!-- 페이징 버튼 -->
+					<div class="d-flex align-items-center justify-content-center">
 	                     <nav aria-label="Page navigation">
-	                        <ul class="pagination pt-3 pr-3">
-	                           <li class="page-item"><a class="page-link" href="#">이전</a></li>
-	                           <li class="page-item active"><a class="page-link" href="#">1</a></li>
-	                           <li class="page-item"><a class="page-link" href="#">2</a></li>
-	                           <li class="page-item"><a class="page-link" href="#">3</a></li>
-	                           <li class="page-item"><a class="page-link" href="#">4</a></li>
-	                           <li class="page-item"><a class="page-link" href="#">5</a></li>
-	                           <li class="page-item"><a class="page-link" href="#">다음</a></li>
+	                        <ul id="paginationDefault" class="pagination pt-3 pr-3">
+	                        <!-- 현재 페이지가 1페이지일 경우 "이전" 버튼 없음 -->
+		                    <c:if test="${pageNum != 1}">
+	                           <li class="page-item"><a class="page-link" 
+	                           							href="/attendance/list?pageNum=${pageNum-1}">이전</a>
+	                           </li>
+	                        </c:if> 
+	                           <!-- pageNum-2가 0보다 작으면 1로 설정 -->
+                 			   <!-- 파라미터 pageNum을 받아와서 로컬 pageNum으로 만들기 -->
+	                            <c:set var="pageNum"
+                          			 value="${param.pageNum != null ? param.pageNum : 1 }"/> 
+	                        <%--    <c:set var="pageNum"
+                          			 value="${param.pageNum != null && param.pageNum > 0 ? param.pageNum : 1 }"/> --%>
+	                           <!-- pageNum-2가 1보다 작으면 1로 설정 -->
+			                    <!-- begin 선언 -->
+			                    <c:set var="begin" value="${pageNum-2}"/>
+			                    <c:if test="${begin<1 }">
+			                        <c:set var="begin" value="1"/>
+			                    </c:if>
+			                    
+			                    <!-- pageNum이 총 페이지 수를 넘지 않도록 설정 -->
+			                    <c:set var="end" value="${pageNum + 2}"/>
+			                    <c:if test="${end > totalPage}">
+			                        <c:set var="end" value="${totalPage}"/>
+			                    </c:if>
+			                    
+			                    <!-- 페이지 번호 출력 -->
+			                    <c:forEach var="i" begin="${begin}" end="${end}" step="1">
+			                        <li class="page-item ${i == pageNum ? 'active' : ''}"><a
+			                                class="page-link"
+			                                href="/attendance/list?pageNum=${i}">${i}</a>
+			                        </li>
+			                    </c:forEach>
+			                    
+			                    <!-- 현재 페이지가 마지막 페이지일 경우 "다음" 버튼 없음 -->
+			                   	<c:if test="${pageNum != totalPage}">
+			                       <li class="page-item"><a class="page-link"
+			                                                href="/attendance/list?pageNum=${pageNum+1}">다음</a>
+			                       </li>
+			                   	</c:if>
 	                        </ul>
 	                     </nav>
-	                 </div>
+	                 </div> <!-- end of pagination -->
 	                 
          </div> <!-- end of class = container-fluid -->
    
@@ -423,6 +480,11 @@
     <script src="/resources/template/lib/tempusdominus/js/moment.min.js"></script>
     <script src="/resources/template/lib/tempusdominus/js/moment-timezone.min.js"></script>
     <script src="/resources/template/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+	<!-- datepicker-->
+	<script src="/resources/datepicker_template/js/bootstrap-datepicker.min.js"></script> 
+	<script src="/resources/datepicker_template/js/datepicker.js"></script>
+
 
     <!-- Template Javascript -->
     <script src="/resources/template/js/main.js" type="text/javascript"></script>

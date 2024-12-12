@@ -37,7 +37,7 @@ import com.middle.hr.parkjinuk.staff.vo.Staff;
 @Controller
 public class StaffController {
 
-	@Autowired
+	@Autowired 
 	private StaffService staffService;
 
 	// 사원 목록 페이지

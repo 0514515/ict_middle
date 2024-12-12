@@ -12,7 +12,7 @@ $(function() {
 		    endDate: '+365d',	//달력에서 선택 할 수 있는 가장 느린 날짜. 이후로 선택 불가 ( d : 일 m : 달 y : 년 w : 주)
 		    autoclose : true,	//사용자가 날짜를 클릭하면 자동 캘린더가 닫히는 옵션
 		    calendarWeeks : false, //캘린더 옆에 몇 주차인지 보여주는 옵션 기본값 false 보여주려면 true
-		    clearBtn : false, //날짜 선택한 값 초기화 해주는 버튼 보여주는 옵션 기본값 false 보여주려면 true
+		    clearBtn : true, //날짜 선택한 값 초기화 해주는 버튼 보여주는 옵션 기본값 false 보여주려면 true
 		    //datesDisabled : ['2019-06-24','2019-06-26'],//선택 불가능한 일 설정 하는 배열 위에 있는 format 과 형식이 같아야함.
 		    daysOfWeekDisabled : [0,6],	//선택 불가능한 요일 설정 0 : 일요일 ~ 6 : 토요일
 		    daysOfWeekHighlighted : [1,2,3,4,5], //강조 되어야 하는 요일 설정
@@ -62,14 +62,15 @@ $(function() {
 		});//datepicker_end end
 		
 		
-		// datepicker의 placeholder에 오늘 날짜 출력하기		
+/*		// datepicker의 placeholder에 오늘 날짜 출력하기		
 		var date = new Date();
 		var formattedDate = date.getFullYear() + '-' 
 							+ (date.getMonth() + 1).toString().padStart(2,'0')  // 한 자리인 월 단위 앞에 '0'추가
-							+ '-' + date.getDate().toString().padStart(2,'0');	// 한 자리인 일 단위 앞에 '0'추가
-		
-		$('.datepicker_div .form-control').attr('placeholder', formattedDate);	
-		
+							+ '-' + date.getDate().toString().padStart(2,'0');*/	// 한 자리인 일 단위 앞에 '0'추가
+		 
+		$('.datepicker_div .form-control').attr('placeholder', '날짜선택');
+
+
 		
 	});//ready end
 

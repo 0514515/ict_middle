@@ -1,4 +1,4 @@
-package com.middle.hr.parkeunbyeol.holiday.vo;
+package com.middle.hr.parkeunbyeol.attendance.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

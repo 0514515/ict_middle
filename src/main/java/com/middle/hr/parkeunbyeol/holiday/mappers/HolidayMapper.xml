@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Holiday">
+
+	<select id="selectStaffInfoByStaffId" parameterType="Integer" resultType="Holiday">
+		SELECT s.NAME name, s.COMPANY_ID companyId, s.ID requestedFromId, s.MANAGER_ID requestedToId, m.NAME managerName
+		FROM STAFF s LEFT JOIN STAFF m 
+			ON s.MANAGER_ID = m.ID
+		WHERE s.ID = #{staffId}
+	</select> 
+	
+	<select id="selectHolidayListByCompanyId" parameterType="Holiday" resultType="Holiday">
+	 	SELECT *
+ 		FROM (
+ 				SELECT LEAVE.TYPE type, TO_CHAR(LEAVE.CREATED_AT, 'YYYY-MM-DD') createdAt
+				FROM LEAVE
+				WHERE LEAVE.COMPANY_ID = #{companyId} AND REQUESTED_FROM_ID = #{staffId}
+				ORDER BY leave.CREATED_AT DESC
+		 	 )
+		WHERE ROWNUM <![CDATA[<=]]> 5
+	</select>
+	
+	<insert id="insertHolidayList" parameterType="Holiday">
+		INSERT INTO LEAVE (
+			ID, TYPE, STARTED_AT, ENDED_AT, REASON_OF_REQUEST
+		 	, COMPANY_ID, REQUESTED_FROM_ID, REQUESTED_TO_ID
+		 	, STARTED_TIME, ENDED_TIME
+		)
+		VALUES (
+			seq_leave_id.nextval
+			, #{type}
+			, TO_DATE(#{startedAt}, 'YYYY-MM-DD')
+			, TO_DATE(#{endedAt}, 'YYYY-MM-DD')
+			, #{reasonOfRequest}
+		 	, #{companyId}
+		 	, #{requestedFromId}
+		 	, #{requestedToId}
+		 	, TO_DATE(#{startedTime}, 'HH24:MI')
+		 	, TO_DATE(#{endedTime}, 'HH24:MI')
+		 		)			
+	</insert>
+	
+	<select id="selectHolidayListCount" parameterType="Map" resultType="int">
+		SELECT COUNT(*)
+		FROM STAFF s LEFT JOIN STAFF m 
+			ON s.MANAGER_ID = m.ID INNER JOIN LEAVE l
+			ON s.ID = l.REQUESTED_FROM_ID AND l.COMPANY_ID = #{companyId}
+		WHERE s.ID = #{staffId}		
+	</select>
+
+	<select id="selectHolidayListPagination" parameterType="Map" resultType="Holiday">
+		SELECT s.NAME name
+				, s.COMPANY_ID companyId
+				, s.ID requestedFromId
+				, s.MANAGER_ID requestedToId
+				, m.NAME managerName
+				, l.ID Id
+				, l.TYPE Type
+				, TO_CHAR(l.STARTED_AT, 'HH24:MI') startedAt
+				, TO_CHAR(l.ENDED_AT, 'HH24:MI') endedAt
+				, l.REASON_OF_REQUEST reasonOfRequest
+				, TO_CHAR(l.CREATED_AT, 'YYYY-MM-DD') createdAt
+				, TO_CHAR(l.PROCESSED_AT, 'YYYY-MM-DD') processedAt
+		FROM STAFF s LEFT JOIN STAFF m 
+			ON s.MANAGER_ID = m.ID INNER JOIN LEAVE l
+			ON s.ID = l.REQUESTED_FROM_ID AND l.COMPANY_ID = #{companyId}
+		WHERE s.ID = #{staffId}	
+	</select>
+	
+</mapper>

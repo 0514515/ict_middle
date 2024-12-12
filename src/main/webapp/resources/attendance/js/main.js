@@ -2,23 +2,6 @@ $(function(){
 	
 	// attendence 나의 근태 현황 _ 메인 페이지 js
 
-	// working_status가 "출근"이면 퇴근버튼으로, "퇴근"이면 출근버튼으로 상태값에 따라 버튼 변경
-
-//	 let workingStatus = '${workingStatus}';
-//	 console.log("상태 값 : " + workingStatus);
-//	
-//	if ( workingStatus === "출근") {		
-//		
-//		// 출근 상태일때 퇴근 버튼으로 바꾸기
-//		$(".btn_start").css({"background-color" : "#DC3545", "border-color" : "#DC3545"});
-//		$(".btn_start").html("퇴근");	
-//	
-//	} else if ( workingStatus === "퇴근" ){ 
-//			// 퇴근 상태일 때
-//		$(".btn_start").css({"background-color" : "#009CFF", "border-color" : "#009CFF"});
-//		$(".btn_start").html("출근");
-//	}
-	
 	// 버튼의 텍스트 값을 가져와서 buttonText에 넣는다.
 	let buttonText1 = $(".btn_start").html();	
 	console.log("새로고침시 누른 버튼의 텍스르를 보냄");
@@ -101,7 +84,7 @@ $(function(){
 			//, dataType : "json"
 			, data : param
 			, success : function(searchRecode) { // 오늘 날짜 기준 출근 유무 확인 결과 값 / true or false 출력
-				alert("시간 입력 성공" + searchRecode);
+				//alert("출근이 완료되었습니다.");
 				
 				//console.log("오늘 출근 여부 확인 : " + result.toString());
 				// 오늘 출근한 기록이 없으면 selectByrecode(); 실행
@@ -115,7 +98,7 @@ $(function(){
 					
 					selectByrecode(searchRecode);
 					
-					alert("searchRecode 값이 false임 ");
+					//alert("이미 퇴근 완료하셨습니다.");
 				}
 				
 			
@@ -135,7 +118,7 @@ $(function(){
 				, type : "get" // 넘어오는 거 많으면 post로 바꾸기
 				, data : param
 				, success : function(result) {
-					alert("두번째 ajax selectRecode 성공" + result);
+					//alert("두번째 ajax selectRecode 성공" + result);
 					
 					// 상태에 따라 버튼 css 변경
 
@@ -146,7 +129,7 @@ $(function(){
 							$(".btn_start").css({"background-color" : "#DC3545", "border-color" : "#DC3545"});
 							$(".btn_start").html("퇴근");	
 							
-							alert("출근 되었습니다.");
+							alert("출근이 완료되었습니다.");
 							
 							console.log("출근입력시 퇴근값 유무 확인 : " + result.endAt)
 							// 사원이름과 부서도 바꿔주기				
@@ -212,32 +195,15 @@ $(function(){
 				, type : "post"
 				, data : param
 				, success : function(result){
-					alert("데이터 컨트롤러에 요청 성공");
+					//alert("데이터 컨트롤러에 요청 성공");
 				}
 				, error : function(error){
-					alert("데이터 컨트롤러에 요청 실패");
+					//alert("데이터 컨트롤러에 요청 실패");
 				}
 			}); // end of ajax
 			
 		} // end of sendDataToController
 		
 		
-		/*function disableButtonUntilNextDay() {
-			let currentDate = new Date(); // 현재 날짜
-			let currentTime = currentDate.getTime(); // 현재 날짜의 시간을 가져옴
-			
-			// 내일 자정까지 00시까지 비활성화 (하루뒤)
-			let tomorrow = new Date(currenDate);
-			tomorrw.setHours(24, 0, 0, 0); // 다음날 00시
-			
-			// 다음날까지의 시간 = 다음날의 시간 - 현재시간
-			let timeToNextDay = tomorrow.getTime() - currentTime; 
-			
-			setTimeout(function() {$(".btn_start").prop('disabled', false);
-			}, timeToNextDay); // 내일 00시가 되면 버튼 활성화
-			
-			
-		} // end of disableButtonUntilNextDay
-*/		
 	}); // end of click function
 });

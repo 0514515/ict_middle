@@ -409,14 +409,16 @@
 					     	</div>
 					      	<div class="modal-body">
 					      		<div class="table_div">
-					          	  <table class="table table-bordered">
+					          	  <table id="requestInfoTable" class="table table-bordered">
 					          	  		<tr>
-					          	  			<th>신청자</th><td>정준하 과장</td>
+					          	  			<th>신청자</th><td id="requestFromName">${holiday.name}</td>
 					          	  		</tr>
 										 <tr>
-					          	  			<th>승인자</th><td>이동욱 과장</td>
+					          	  			<th>승인자</th><td id="requestToName">${holiday.managerName}</td>
 					          	  		</tr>
 								  </table>
+								  <input id="requestedFromId" type="hidden" value="${holiday.requestedFromId}">
+								  <input id="requestedToId" type="hidden" value="${holiday.requestedToId}">								 
 								 </div>
 									 <div class="d-flex align-items-center mb-3"> 
 						          		<p>휴가 구분</p>
@@ -574,7 +576,7 @@
 							<h4>휴가 신청 내역</h4>
 						</div>
 						<div>
-							<a href="">더보기</a>
+							<a href="/attendance/list">더보기</a>
 						</div>
 					</div>
 						
@@ -585,55 +587,16 @@
 							<th class="table-light">신청일자</th>
 							<th class="table-light">진행상태</th>
 						</tr>
+						<c:forEach var="holidayList" items="${holidayList}">
+							<c:set var='i' value="${i+1 }"/>
 						<tr>
-							<td>1</td>						
-							<td>2024-11-19</td>
-							<td>08:51:11</td>
+							<td>${i }</td>						
+							<td>${holidayList.type}</td>
+							<td>${holidayList.createdAt}</td> 
 							<td></td>
 						</tr>
-						<tr>
-							<td>2</td>
-							<td>2024-11-18</td>
-							<td>10:55:27</td>
-							<td><span class="badge bg-danger">근태이상</span></td>
-						</tr>
-						<tr>
-							<td>3</td>
-							<td>2024-11-17</td>
-							<td>09:00:00</td>
-							<td><span class="badge bg-info">승인완료</span></td>
-						</tr>
-						<tr>
-							<td>4</td>
-							<td>2024-11-16</td>
-							<td>08:54:12</td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>5</td>
-							<td>2024-11-16</td>
-							<td></td>
-							<td></td>
-						</tr>						
-						<tr>
-							<td>6</td>
-							<td>2024-11-16</td>
-							<td></td>
-							<td></td>
-						</tr>	
-						<tr>
-							<td>7</td>
-							<td>2024-11-16</td>
-							<td></td>
-							<td></td>
-						</tr>							
-						<tr>
-							<td>8</td>
-							<td>2024-11-16</td>
-							<td></td>
-							<td></td>
-						</tr>						
-					</table>
+						</c:forEach>
+					</table> 
 				</div>
 				
 		         <div class="col-md-5">		         

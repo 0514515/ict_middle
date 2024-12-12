@@ -1,6 +1,23 @@
+<%@page import="java.util.Calendar"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix='c' uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Date" %>
+<%
+
+	// 현재 날짜 가져오기
+	Calendar calendar = Calendar.getInstance();
+
+	// 현재 달의 첫째 날 
+	calendar.set(Calendar.DAY_OF_MONTH, 1);
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	String firstDayOfMonth = sdf.format(calendar.getTime());
+	
+	// 현재 달의 마지막 날
+    calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+	String lastDayOfMonth = sdf.format(calendar.getTime());
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -260,21 +277,25 @@
 			     	</div>
 			      	<div class="modal-body">
 				      	<h6>요청자 정보</h6>
-			          	  <table class="table table-bordered">
+			          	  <table id='requestInfoTable' class="table table-bordered">
 			          	  		<tr>
-			          	  			<th>요청자</th><td>정준하 과장</td>
+			          	  			<th>요청자</th>
+			          	  			<td>${holiday.name}</td>
 			          	  		</tr>
 								 <tr>
-			          	  			<th>근무일</th><td>2024-11-20</td>
+			          	  			<th>근무일</th>
+			          	  			<td></td>
 			          	  		</tr>
 						  </table>
 						  <h6>요청 전</h6>
-			          	  <table class="table table-bordered md-3">
+			          	  <table id='beforeRequestTable' class="table table-bordered md-3">
 			          	  		<tr>
-			          	  			<th>출근 시간</th><td>10:55:27</td>
+			          	  			<th>출근 시간</th>
+			          	  			<td></td>
 			          	  		</tr>
 								 <tr>
-			          	  			<th>퇴근 시간</th><td>18:01:54</td>
+			          	  			<th>퇴근 시간</th>
+			          	  			<td></td>
 			          	  		</tr>
 						  </table>
 						 <h6>요청 후</h6>
@@ -282,19 +303,19 @@
 						 <div class="d-flex align-items-center justify-content-between mb-3">
 			          	  	<label>출근 시간</label>
 			          	  		<div class="cs-form">
-									<input type="time" class="form-control"/>
+									<input id="modifyTimePickerStart" type="time" class="form-control"/>
 								</div>	
 	          	  			 <label>퇴근 시간</label>
 			          	  		  <div class="cs-form">
-									  <input type="time" class="form-control"/>
+									  <input id="modifyTimePickerEnd" type="time" class="form-control"/>
 							       </div>
 						  </div>	       	          	 
 						  <!-- timepicker end -->
 						  
 						  <h6>승인자 정보</h6>
-			          	  <table class="table table-bordered">
+			          	  <table id="managerInfoTable" class="table table-bordered">
 			          	  		<tr>
-			          	  			<th>승인권자</th><td>이동욱 인사 담당자</td>
+			          	  			<th>승인권자</th><td>${holiday.managerName}</td>
 			          	  		</tr>	          	  			
 						  </table>
 						  <div>
@@ -307,10 +328,21 @@
 								<input class="form-control form-control-sm" id="formFileSm" type="file">
 							</div>
 						   </div>
+						   
+						                  <!-- 폼 추가 -->
+                <form id="modifyRequestForm" action="/insertModify" method="POST">
+                    <input type="hidden" name="modifyTimePickerStartInput" id="modifyTimePickerStartInput">
+                    <input type="hidden" name="modifyTimePickerEndInput" id="modifyTimePickerEndInput">
+                    <input type="hidden" name="managerNameInput" id="managerNameInput">
+                     <input type="hidden" name="managerId" id="managerId">
+                    <input type="hidden" name="reasonInput" id="reasonInput">
+                    <input type="hidden" name="insertDateInput" id="insertDateInput">
+                </form>
+                
 			     	</div>
-			      	<div class="modal-footer">
+			      	<div class="modifyModal modal-footer">
 			        	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-			        	<button type="button" class="btn btn-primary">정정요청</button>
+			        	<button type="submit" class="btn btn-primary">정정요청</button>
 			      	</div>
 			    </div>
 			 </div>
@@ -357,12 +389,12 @@
            
          <!-- 테이블 명 -->        
          <div class="mx-4 mb-3">   
-            <h4>정준하님의 &nbsp<span> 2024-11-01~2024-11-30 출/퇴근 기록</span></h4>
+            <h4>${holiday.name}님의 <span><%= firstDayOfMonth %> ~ <%= lastDayOfMonth %></span> 출/퇴근 기록</h4>
          </div>
             
          <!-- 테이블 시작 -->
          <div class="mx-4 my-4">
-            <table class="table table-hover">
+            <table id="workingHistoryTable" class="table table-hover">
                  <tr>
                     <th class="table-light">일자</th>
                     <th class="table-light">출근시간</th>
@@ -371,86 +403,28 @@
                     <th class="table-light">근태이상</th>
                     <th class="table-light">진행상태</th>
                  </tr>
-                 <tr data-toggle="modal" data-target="#modal">
-                    <td>2024-11-19</td>
-                    <td>08:51:11</td>
-                    <td>18:12:45</td>
-                    <td>09h</td>
-                    <td></td>
-                    <td></td>
-                 </tr>
-                 <tr>
-                    <td>2024-11-18</td>
-                    <td>10:55:27</td>
-                    <td>18:01:46</td>
-                    <td>06h</td>
-                    <td><span class="badge bg-danger">근태이상</span></td>
-                    <td></td>
-                 </tr> 
-                 <tr>
-                    <td>2024-11-17</td>
-                    <td>09:00:00</td>
-                    <td>18:00:00</td>
-                    <td>09h</td>
-                    <td></td>
-                    <td><span class="badge bg-info">승인완료</span></td>
-                 </tr>
-                 <tr>
-                    <td>2024-11-16</td>
-                    <td>08:54:12</td>
-                    <td>18:11:57</td>
-                    <td>09h</td>
-                    <td></td>
-                    <td></td>
-                 </tr>
-                 <tr>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                 </tr>
-                 <tr>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                 </tr>
-                 <tr>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                 </tr>
-                 <tr>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                 </tr>
-                 <tr>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                 </tr>
-                 <tr>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                    <td>test</td>
-                 </tr>
+                 <c:forEach var="history" items="${historyByCompanyIdStaffId}">
+	                 <tr data-toggle="modal" data-target="#modal">
+	                    <td>${history.insertDate}</td>
+	                    <td>${history.startedAt}</td>
+	                    <td>${history.endedAt}</td>
+	                    <td>
+	                    	<c:choose>
+	                    		<c:when test="${history.workingTime != null}">
+	                    			${history.workingTime}h
+	                    		</c:when>
+	                    	</c:choose>
+	                    </td>
+	                    <td>
+	                    	<c:choose>
+	                    		<c:when test="${history.workingSign != null and history.workingSign eq '근태이상'}">
+	                    			<span class="badge bg-danger">근태이상</span>
+	                    		</c:when>
+	                    	</c:choose>
+	                    </td>
+	                    <td></td>
+	                 </tr>
+                 </c:forEach>
             </table>
             </div>
             
