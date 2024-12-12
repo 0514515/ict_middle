@@ -517,8 +517,9 @@
 						<div class="body_table_height">
 						<table id="body_line_table" class="table">
 							<tbody>
-								<tr>
+								<tr>  <!-- 기안 작성시 로그인아이디로 이름, 직책, 부서명 자동입력 -->
 									<td colspan=2>[${departmentName}] ${name} ${rank}</td>
+									<span class="hidden-id" style="display:none">${staffId}</span>
 								</tr>
 								
 								<!-- 동적 테이블 생성 -->
@@ -790,7 +791,7 @@
 			
 		 	
 			
-		 	// 결재선 선택 모달이 열릴 떄마다 Ajax 요청을 보내 데이터 로드
+		 	// JSTREE : 결재선 선택 모달이 열릴 떄마다 Ajax 요청을 보내 데이터 로드
 		 	$('#lineModal').on('show.bs.modal', function(e){
 		 		
 		 		$.ajax({
@@ -887,38 +888,29 @@
 			       $('.line_table tbody tr').each(function() {
 			           // 행의 데이터를 가져옴
 			           var name = $(this).find('td').eq(0).text();
-			           // var position = $(this).find('td').eq(1).text();
+			           var staffId = $(this).data('staffid');  // data-staffId에서 staffId 값 가져오기
 			
-			           // 새로운 행을 mainTable에 추가
-			           var newRow = '<tr><td>' + name + '</td><td>' + '<div><button type="button" class="btn-close" aria-label="Close"></button></div>' + '</td></tr>';
+			        // 새로운 행을 mainTable에 추가
+			           var newRow = '<tr data-staffId="' + staffId + '">' + 
+			                        '<td>' + name + '</td>' +
+			                        '<td>' + '<div><button type="button" class="btn-close" aria-label="Close"></button></div>' + 
+			                        '</td></tr>';
 			           $('#body_line_table tbody').append(newRow);
 			       });
-			
-			       // 모달 닫기
-			       $('#lineModal').modal('hide');
-			
-			       // 모달 내용 비우기
-			       $('.line_table tbody').empty();
 			       
-			    // 추가된 버튼에 클릭 이벤트를 바인딩
-				    $('.btn-close').click(function() {
-				        // 클릭된 버튼이 속한 행을 삭제
-				        $(this).closest('tr').remove(); 
-				    });
 			       
-			   });
-
-			// '적용' 버튼 클릭 시 '참조자' mainTable에 데이터 추가
-			   $('#line_complete').click(function() {
 			       // 모달에서 추가된 행들을 가져오기
 			       $('.ref_table tbody tr').each(function() {
 			           // 행의 데이터를 가져옴
 			           var name = $(this).find('td').eq(0).text();
-			           // var position = $(this).find('td').eq(1).text();
-			
-			           // 새로운 행을 mainTable에 추가
-			           var newRow = '<tr><td>' + name + '</td><td>' + '<div><button type="button" class="btn-close" aria-label="Close"></button></div>' + '</td></tr>';
-			           $('#body_ref_table tbody').append(newRow);
+			           var staffId = $(this).data('staffid');  // data-staffId에서 staffId 값 가져오기
+						
+				        // 새로운 행을 mainTable에 추가
+				           var newRow = '<tr data-staffId="' + staffId + '">' + 
+				                        '<td>' + name + '</td>' +
+				                        '<td>' + '<div><button type="button" class="btn-close" aria-label="Close"></button></div>' + 
+				                        '</td></tr>';
+				           $('#body_ref_table tbody').append(newRow);
 			       });
 			
 			       // 모달 닫기
@@ -934,6 +926,12 @@
 				    });
 			       
 			   });
+
+			// '적용' 버튼 클릭 시 '참조자' mainTable에 데이터 추가
+// 			   $('#line_complete').click(function() {
+			     
+			       
+// 			   });
 			
 			  
 		/* 	// writeDraftForm 폼에 submit 이벤트가 일어날 때, 
@@ -981,48 +979,62 @@
 				const approvalLines = [];
  				const referenceLines = []; 
 			    
-			    // 결재선 테이블에서 데이터 추출
-			    const table1Rows = document.querySelectorAll("#body_line_table tbody tr");
-			 
-			    table1Rows.forEach(row => {
-					const fullText = row.querySelector("td:nth-child(1)").innerText.trim(); // 전체 텍스트
+ 				// 결재선 첫번째 행 (로그인한 사람) 추가 
+ 				const firstApprover = $('span.hidden-id').text().trim();  // 로그인 id 값 가져오기
+ 				const firstRow = $('#body_line_table tbody tr').first(); // 첫 번째 tr (로그인한 사람)
+ 				
+ 				const fullText = firstRow.find("td").text().trim(); // 첫번째 행 텍스트 가져오기 
+ 				const matches = fullText.match(/\[([^\]]+)\]\s+(.+)\s+(.+)/);  // 정규식으로 부서, 이름, 직책 추출
+ 				
+ 				if (matches) {
+			            approvalLines.push({
+			            	staffId: firstApprover,          // 로그인한 사람의 사원 ID(StaffId), hidden-id 에서 추출
+			                departmentName: matches[1], // 부서명
+			                staffName: matches[2],      // 이름
+			                rank: matches[3]            // 직책
+			            });
+			        } else {
+			            console.log("정규식 매칭 실패: ", fullText);
+			        }
+ 				
+ 				
+ 			    // 결재선 테이블에서 데이터 추출
+ 			    $('#body_line_table tbody tr').not(':first').each(function() {  // 첫 번째 tr 제외한 나머지 행들
+ 			        const staffId = $(this).data('staffid'); // data-staffId 값 가져오기
+ 			        const fullText = $(this).find('td').eq(0).text().trim();
 
-					
-				    const matches = fullText.match(/\[([^\]]+)\]\s+(.+)\s+(.+)/); // 정규식으로 부서, 이름, 직책 추출
-				    
-				    console.log(matches);  // matches 값 확인
-				    
-				    if(matches){				  		
-				    	approvalLines.push({
-				    		departmentName: matches[1], // 부서  VO 값과 동일값으로 넣어주기
-				    		staffName: matches[2], // 이름
-			                rank: matches[3] // 직책
-				    	});
-				    } else{
-				    	console.log("정규식 매칭 실패 : ", fullText);
-				    } 
-				   
-				});
+ 			        // 정규식 매칭 (부서명, 이름, 직책)
+ 			        const matches = fullText.match(/\[([^\]]+)\]\s+(.+)\s+(.+)/);
+ 			        if (matches) {
+ 			            approvalLines.push({
+ 			                staffId: staffId,          // 사원 ID
+ 			                departmentName: matches[1], // 부서명
+ 			                staffName: matches[2],      // 이름
+ 			                rank: matches[3]            // 직책
+ 			            });
+ 			        } else {
+ 			            console.log("정규식 매칭 실패: ", fullText);
+ 			        }
+ 			    });
 			    
 			    
-			 // 참조선 테이블에서 데이터 추출
-			    const table2Rows = document.querySelectorAll("#body_ref_table tbody tr");
-			 
-			    table2Rows.forEach(row => {
-					const fullText = row.querySelector("td:nth-child(1)").innerText.trim(); // 전체 텍스트
-				    const matches = fullText.match(/\[([^\]]+)\]\s+(.+)\s+(.+)/); // 정규식으로 부서, 이름, 직책 추출
-				    
-				    if(matches){				  		
-				    	referenceLines.push({
-				    		departmentName: matches[1], // 부서  VO 값과 동일값으로 넣어주기
-				    		staffName: matches[2], // 이름
-			                rank: matches[3] // 직책
-				    	});
-				    }else{
-				    	console.log("정규식 매칭 실패 : ", fullText);
-				    } 
-				   
-				});
+ 			   // 참조선 테이블에서 데이터 추출
+ 			    $('#body_ref_table tbody tr').each(function() {
+ 			        const staffId = $(this).data('staffid'); // data-staffId 값 가져오기
+ 			        const fullText = $(this).find('td').eq(0).text().trim();
+
+ 			        const matches = fullText.match(/\[([^\]]+)\]\s+(.+)\s+(.+)/);
+ 			        if (matches) {
+ 			            referenceLines.push({
+ 			                staffId: staffId,          // 사원 ID
+ 			                departmentName: matches[1],
+ 			                staffName: matches[2],
+ 			                rank: matches[3]
+ 			            });
+ 			        } else {
+ 			            console.log("정규식 매칭 실패: ", fullText);
+ 			        }
+ 			    });
 				
 				// 결재라인 _ 숨겨진 필드로 추가 
 				const approvalHiddenInput = document.createElement("input");

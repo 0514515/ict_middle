@@ -49,7 +49,7 @@ public class ApprovalController {
 		return "/approval/home";
 	}
 	
-	// 기안 작성시 로그인아이디로 이름, 직책, 부서명 자동입력 
+	// 기안 작성시 로그인아이디로 사원id, 이름, 직책, 부서명 자동입력 
 	@GetMapping("approval/writeDraft")
 	public String getDraftWriterInfoByLoginId(HttpSession session, Model model) {	
 	 
@@ -71,6 +71,7 @@ public class ApprovalController {
 		model.addAttribute("departmentName", staffInfo.getDepartmentName()); // 부서명
 		model.addAttribute("name", staffInfo.getName());  // 이름
 		model.addAttribute("rank", staffInfo.getRank()); // 직책 
+		model.addAttribute("staffId", staffInfo.getId()); // 로그인한 사원의 사원 id 
 	
 		return "/approval/writeDraft"; 
 	}
@@ -151,6 +152,9 @@ public class ApprovalController {
   	    List<Staff> approvalLine = objectMapper.readValue(approvalLines, new TypeReference<List<Staff>>() {});
   	    List<Staff> referenceLine = objectMapper.readValue(referenceLines, new TypeReference<List<Staff>>() {});
   	  
+  	    if(title==null) {
+  	    	title="결재 문서";
+  	    }
   	    
   	    //Approval 객체 생성 및 값 설정 
   	    Approval approval = new Approval();
@@ -161,6 +165,7 @@ public class ApprovalController {
 		approval.setStaffId(staffId);  // 기안자 (로그인한 사람) 
 		approval.setCompanyId(companyId); // 로그인한 사람의 회사 정보
 		approval.setStatus(1); // "결재 대기" 상태를 설정 
+		approval.setCurrentSigningStaff((long)staffId);
   	    
   		// 서비스 레이어에 모든 처리 위임 
   		Approval savedApproval = formService.processApprovalDraft(approval, approvalLine, referenceLine, loginId);

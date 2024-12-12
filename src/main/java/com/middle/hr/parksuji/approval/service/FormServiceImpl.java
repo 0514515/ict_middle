@@ -99,8 +99,10 @@ public class FormServiceImpl implements FormService {
 		// 첫번째 결재자 설정 
 		if (!approvalLine.isEmpty()) {
 		    Long staffId = approvalLine.get(0).getStaffId();
+		    System.out.println("첫번째 결재자 => " + staffId);
+		    
 		    if (staffId != null) {
-		        approval.setCurrentSigningStaff(staffId);  // 첫 번째 결재자
+		        approval.setCurrentSigningStaff(staffId.longValue());  // 첫 번째 결재자, Long타입으로 변환
 		        formRepository.updateApprovalCurrentSigningStaff(approval); // DB에 반영
 		    } else {
 		        System.out.println("첫 번째 결재자의 StaffId가 null입니다.");

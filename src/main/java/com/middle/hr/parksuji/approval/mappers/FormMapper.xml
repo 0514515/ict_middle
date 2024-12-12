@@ -4,26 +4,30 @@
 <mapper namespace="FormRepository">
 
 
-	<insert id="saveApproval" parameterType="Approval" useGeneratedKeys="true" keyProperty="id">
+	<insert id="saveApproval" parameterType="Approval">
 		INSERT INTO APPROVAL(
-			ID, DRAFTED_AT, DOCUMENT_AT, STATUS, TITLE, CURRENT_SIGNING_STAFF, 
-			CREATED_AT, UPDATED_AT, DOCUMENT_NUMBER, STAFF_ID, COMPANY_ID
+			ID, DOCUMENT_AT, STATUS, TITLE, CURRENT_SIGNING_STAFF, 
+			DOCUMENT_NUMBER, STAFF_ID, COMPANY_ID
 			)
 		VALUES (
-			SEQ_DOCUMENT_FORM_ID.nextval, #{draftedAt}, #{documentAt}, #{status}, #{title}, #{currentSigningStaff}, 
-			#{createdAt}, #{updatedAt}, SEQ_APPROVAL_DOCUMENT_NUMBER.nextval, #{staffId}, #{companyId})
+			SEQ_DOCUMENT_FORM_ID.nextval, #{documentAt}, #{status}, #{title}, #{currentSigningStaff}, 
+			SEQ_APPROVAL_DOCUMENT_NUMBER.nextval, #{staffId}, #{companyId})
+			
+			<selectKey keyProperty="id" resultType="int" order="AFTER">
+				SELECT SEQ_APPROVAL_DOCUMENT_NUMBER.currval FROM DUAL
+			</selectKey>
 	
 	</insert>
 	
 	<insert id="saveApprovalLine" parameterType="java.util.List">
 		INSERT INTO APPROVAL_LINE(ID, ID2, "TYPE" , SIGNED , PRIORITY, CREATED_AT, UPDATED_AT)
 		VALUES 
-		<foreach collection="list" item="line" separator="," >
+		<foreach collection="list" item="line">
 			(SEQ_APPROVAL_LINE_ID.nextval, #{line.approvalId}, #{line.type}, #{line.signed}, #{line.priority}, #{line.createdAt}, #{line.updatedAt})
 		</foreach>
 	</insert>
 	
-	<update id="updateApprovalCurrentSigningStaff" parameterType="Integer">
+	<update id="updateApprovalCurrentSigningStaff" parameterType="Approval">
 		UPDATE approval
 		SET current_signing_staff = #{currentSigningStaff}
 		WHERE ID=#{id}
@@ -83,9 +87,9 @@
 <!-- 회사 트리구조 끝 -->
 
 
-	<!-- 로그인 아이디로 스태프 이름, 부서, 직급 조회 -->
+	<!-- 로그인 아이디로 스태프 이름, 사원id, 부서, 직급 조회 -->
 	<select id="getStaffByLoginId" parameterType="String" resultType="StaffInfo">
-		SELECT s.NAME AS name, s."RANK" AS "rank", d.NAME AS departmentName 
+		SELECT s.ID AS id, s.NAME AS name, s."RANK" AS "rank", d.NAME AS departmentName 
 		FROM staff s INNER JOIN department d
 		ON s.department_id = d.id	
 		WHERE login_id = #{loginId}
