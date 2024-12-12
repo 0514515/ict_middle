@@ -81,6 +81,8 @@
 							class="dropdown-item">[급여] 사원 기본급 설정</a>
 							<a href="/salary/specify"
 							class="dropdown-item">[급여] 급여 명세</a>
+							<a href="/salary/commission"
+							class="dropdown-item">[급여] 수당 관리</a>
 					</div>
 				</div>
 			</c:if>
