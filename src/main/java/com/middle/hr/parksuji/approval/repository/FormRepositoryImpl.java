@@ -21,24 +21,24 @@ import com.middle.hr.parksuji.approval.vo.Forms;
 import com.middle.hr.parksuji.approval.vo.StaffInfo;
 
 @Repository
-public class FormRepositoryImpl implements FormRepository{
+public class FormRepositoryImpl implements FormRepository {
 
 	@Autowired
-	private SqlSessionTemplate mybatis; 
-	
+	private SqlSessionTemplate mybatis;
+
 	@Override
 	public void insertForm(Forms forms) {
 		System.out.println("===> Mybatis insertForm() 호출");
 		System.out.println(forms.toString());
 		mybatis.insert("FormRepository.insertForm", forms);
-		
+
 	}
 
 	@Override
 	public void updateForm(Forms forms) {
 		System.out.println("===> Mybatis updateForm() 호출");
 		mybatis.update("FormRepository.updateForm", forms);
-		
+
 	}
 
 	@Override
@@ -48,31 +48,31 @@ public class FormRepositoryImpl implements FormRepository{
 		List<String> paths = mybatis.selectList("FormRepository.selectPathsByIds", formIds);
 		System.out.println("===> [Repository] path 정보 :" + paths);
 		// 가져온 path 값으로 실제 파일 지우기
-		if(paths != null && !paths.isEmpty()) {
-			for(String path : paths) {
+		if (paths != null && !paths.isEmpty()) {
+			for (String path : paths) {
 				System.out.println("===> [Repository] 경로 정보 :" + path);
 				try {
 					// 경로 구분자를 '/'로 변경하여 처리
-	                String normalizedPath = path.replace("\\", "/");  // 경로 구분자 변경
-	                System.out.println("===> [Repository 경로 구분자 변경 후]" + normalizedPath);
-	                Path file = Paths.get(normalizedPath);
-					
-					//Path file = Paths.get(path);
+					String normalizedPath = path.replace("\\", "/"); // 경로 구분자 변경
+					System.out.println("===> [Repository 경로 구분자 변경 후]" + normalizedPath);
+					Path file = Paths.get(normalizedPath);
+
+					// Path file = Paths.get(path);
 					// 파일이 존재하면 삭제
 					System.out.println("===> [Repository] 삭제될 파일 :" + file);
-					if(Files.exists(file)) {
+					if (Files.exists(file)) {
 						Files.delete(file);
-						System.out.println("삭제된 파일 : " + path); 
+						System.out.println("삭제된 파일 : " + path);
 					}
-					
-				}catch(IOException e) {
+
+				} catch (IOException e) {
 					System.err.println("파일 삭제 중 오류 발생 : " + e.getMessage());
 				}
 			}
-		}else {
+		} else {
 			System.out.println("===> [Repository] 경로 정보가 없음.");
 		}
-		
+
 		// 데이터베이스 레코드를 삭제
 		mybatis.delete("FormRepository.deleteForm", formIds);
 		return formIds;
@@ -83,12 +83,12 @@ public class FormRepositoryImpl implements FormRepository{
 		System.out.println("===> Mybatis getFormById() 호출 [" + id + "]");
 		return mybatis.selectOne("FormRepository.getFormById", id);
 	}
-	
+
 	@Override
 	public Integer getRecentFormId(String loginId) {
-		System.out.println("===> Mybatis getRecentFormId() 호출 0 [" +  loginId + "]");
+		System.out.println("===> Mybatis getRecentFormId() 호출 0 [" + loginId + "]");
 		Integer result = mybatis.selectOne("FormRepository.getRecentFormId", loginId);
-		System.out.println("===> Mybatis getRecentFormId() 호출 1 [" +  result + "]");
+		System.out.println("===> Mybatis getRecentFormId() 호출 1 [" + result + "]");
 		return result;
 	}
 
@@ -104,15 +104,15 @@ public class FormRepositoryImpl implements FormRepository{
 //	}
 
 	@Override
-	public Map<String, Object> getFormList(String loginId, String documentType,String searchOption, String searchKeyword,
-			Integer pageNum, Integer pageSize) {
+	public Map<String, Object> getFormList(String loginId, String documentType, String searchOption,
+			String searchKeyword, Integer pageNum, Integer pageSize) {
 		// 검색 조건에 맞는 전체 레코드 수 조회
 		Map<String, Object> params = new HashMap<>();
 		params.put("searchOption", searchOption);
 		params.put("searchKeyword", searchKeyword);
 		params.put("loginId", loginId);
 		params.put("documentType", documentType);
-		
+
 		int totalCount = mybatis.selectOne("FormRepository.selectFormCount", params);
 
 		// 전체 페이지 수 계산
@@ -145,7 +145,7 @@ public class FormRepositoryImpl implements FormRepository{
 		return mybatis.selectOne("FormRepository.selectCompanyTreeDataById", loginId);
 	}
 
-	// 로그인 아이디로 사원 정보 조회 
+	// 로그인 아이디로 사원 정보 조회
 	@Override
 	public StaffInfo getStaffByLoginId(String loginId) {
 		return mybatis.selectOne("FormRepository.getStaffByLoginId", loginId);
@@ -155,20 +155,20 @@ public class FormRepositoryImpl implements FormRepository{
 		System.out.println("[Repository] ===> saveApproval() 호출");
 //		System.out.println(approval.toString());
 		return mybatis.insert("FormRepository.saveApproval", approval);
-		
+
 	}
-	
+
 	public void saveApprovalLine(List<ApprovalLine> approvalLineList) {
 		System.out.println("[Repository] ===> saveApprovalLine() 호출");
 		System.out.println(approvalLineList.toString());
 		mybatis.insert("FormRepository.saveApprovalLine", approvalLineList);
-		
+
 	}
 
 	public void updateApprovalCurrentSigningStaff(Approval approval) {
 		System.out.println("[Repository] ===> updateApprovalCurrentSigningStaff() 호출");
-		mybatis.update("FormRepository.updateApprovalCurrentSigningStaff", approval); 
-		
+		mybatis.update("FormRepository.updateApprovalCurrentSigningStaff", approval);
+
 	}
 
 	@Override
@@ -183,7 +183,37 @@ public class FormRepositoryImpl implements FormRepository{
 		return mybatis.selectList("FormRepository.getApprovalLineById", approvalId);
 	}
 
-	
+	@Override
+	public Map<String, Object> selectApprovalList(String loginId, String searchOption, String documentType,
+			String searchKeyword, Integer pageNum, Integer pageSize) {
+		// 검색 조건에 맞는 전체 레코드 수 조회
+		Map<String, Object> params = new HashMap<>();
+		params.put("searchOption", searchOption);
+		params.put("searchKeyword", searchKeyword);
+		params.put("loginId", loginId);
+		params.put("documentType", documentType);
 
+		int totalCount = mybatis.selectOne("FormRepository.selectApprovalListCount", params);
+
+		// 전체 페이지 수 계산
+		int totalPages = (int) Math.ceil((double) totalCount / pageSize);
+
+		// RowBounds를 사용하여 페이지네이션 적용
+		RowBounds rowBounds = new RowBounds((pageNum - 1) * pageSize, pageSize);
+
+		// 사원 조회
+		List<Approval> approvalList = mybatis.selectList("FormRepository.selectApprovalList", params, rowBounds);
+
+		
+		System.out.println("*(**(&(*^%$^&*()"+approvalList.size());
+		
+		// 결과를 맵으로 반환
+		Map<String, Object> result = new HashMap<>();
+		result.put("approvalList", approvalList); // 페이지네이션된 결과
+		result.put("totalCount", totalCount); // 전체 레코드 수
+		result.put("totalPages", totalPages); // 전체 페이지 수
+
+		return result;
+	}
 
 }

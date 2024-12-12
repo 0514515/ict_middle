@@ -234,106 +234,66 @@ table {
 							<th class="table-light">제목</th>
 							<th class="table-light">기안자</th>
 							<th class="table-light">기안일</th>
-							<th class="table-light">구분</th>
-							<th class="table-light">진행상태</th>
 						</tr>
-						<tr>
-							<td>경영-0128</td>
-							<td>모니터 구입 건</td>
-							<td>하동훈 사원</td>
-							<td>2024-11-19</td>
-							<td>결재</td>
-							<td><span class="badge bg-success">진행중</span></td>
-						</tr>
-						<tr>
-							<td>경영-0128</td>
-							<td>모니터 구입 건</td>
-							<td>하동훈 사원</td>
-							<td>2024-11-19</td>
-							<td>결재</td>
-							<td><span class="badge bg-warning">결재대기</span></td>
-						</tr>
-						<tr>
-							<td>경영-0128</td>
-							<td>모니터 구입 건</td>
-							<td>하동훈 사원</td>
-							<td>2024-11-19</td>
-							<td>결재</td>
-							<td><span class="badge bg-danger">반려</span></td>
-						</tr>
-						<tr>
-							<td>경영-0128</td>
-							<td>모니터 구입 건</td>
-							<td>하동훈 사원</td>
-							<td>2024-11-19</td>
-							<td>결재</td>
-							<td><span class="badge bg-info">승인완료</span></td>
-						</tr>
-						<tr>
-							<td>test</td>
-							<td>test</td>
-							<td>test</td>
-							<td>test</td>
-							<td>test</td>
-							<td>test</td>
-						</tr>
-						<tr>
-							<td>test</td>
-							<td>test</td>
-							<td>test</td>
-							<td>test</td>
-							<td>test</td>
-							<td>test</td>
-						</tr>
-						<tr>
-							<td>test</td>
-							<td>test</td>
-							<td>test</td>
-							<td>test</td>
-							<td>test</td>
-							<td>test</td>
-						</tr>
-						<tr>
-							<td>test</td>
-							<td>test</td>
-							<td>test</td>
-							<td>test</td>
-							<td>test</td>
-							<td>test</td>
-						</tr>
-						<tr>
-							<td>test</td>
-							<td>test</td>
-							<td>test</td>
-							<td>test</td>
-							<td>test</td>
-							<td>test</td>
-						</tr>
-						<tr>
-							<td>test</td>
-							<td>test</td>
-							<td>test</td>
-							<td>test</td>
-							<td>test</td>
-							<td>test</td>
-						</tr>
+						<c:forEach var="approval" items="${approvalList}">
+							<tr>
+								<td>${approval.id }</td>
+								<td>${approval.title}</td>
+								<td>${approval.staffName}</td>
+								<td>${approval.createdAt}</td>
+								<td></td>
+							</tr>
+						</c:forEach>
 					</table>
 				</div>
 
-				<!-- 페이징 버튼 -->
+				<!-- pagination start -->
 				<div class="d-flex align-items-center justify-content-center">
 					<nav aria-label="Page navigation">
 						<ul class="pagination pt-3 pr-3">
-							<li class="page-item"><a class="page-link" href="#">이전</a></li>
-							<li class="page-item active"><a class="page-link" href="#">1</a></li>
-							<li class="page-item"><a class="page-link" href="#">2</a></li>
-							<li class="page-item"><a class="page-link" href="#">3</a></li>
-							<li class="page-item"><a class="page-link" href="#">4</a></li>
-							<li class="page-item"><a class="page-link" href="#">5</a></li>
-							<li class="page-item"><a class="page-link" href="#">다음</a></li>
+							<!-- 현재 페이지가 1페이지일 경우 "이전" 버튼 없음 -->
+							<c:if test="${pageNum != 1}">
+								<li class="page-item"><a class="page-link"
+									href="/approval?pageNum=${pageNum-1}">이전</a>
+								</li>
+							</c:if>
+
+							<!-- pageNum-2가 0보다 작으면 1로 설정 -->
+							<!-- 파라미터 pageNum을 받아와서 로컬 pageNum으로 만들기 -->
+							<c:set var="pageNum"
+								value="${param.pageNum != null ? param.pageNum : 1 }" />
+
+							<!-- pageNum-2가 1보다 작으면 1로 설정 -->
+							<!-- begin 선언 -->
+							<c:set var="begin" value="${pageNum-2}" />
+							<c:if test="${begin<1 }">
+								<c:set var="begin" value="1" />
+							</c:if>
+
+							<!-- pageNum이 총 페이지 수를 넘지 않도록 설정 -->
+							<c:set var="end" value="${pageNum + 2}" />
+							<c:if test="${end > totalPage}">
+								<c:set var="end" value="${totalPage}" />
+							</c:if>
+
+							<!-- 페이지 번호 출력 -->
+							<c:forEach var="i" begin="${begin}" end="${end}" step="1">
+								<li class="page-item ${i == pageNum ? 'active' : ''}"><a
+									class="page-link"
+									href="/approval?pageNum=${i}">${i}</a>
+								</li>
+							</c:forEach>
+
+							<!-- 현재 페이지가 마지막 페이지일 경우 "다음" 버튼 없음 -->
+							<c:if test="${pageNum != totalPage}">
+								<li class="page-item"><a class="page-link"
+									href="/approval?pageNum=${pageNum+1}">다음</a>
+								</li>
+							</c:if>
 						</ul>
 					</nav>
 				</div>
+				<!-- pagination end -->
 
 			</div>
 			<!-- end of class = container-fluid -->

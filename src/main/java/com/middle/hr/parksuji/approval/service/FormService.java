@@ -54,6 +54,7 @@ public interface FormService {
 	// 회사 조직 트리구조 데이터 조회용
 	RootCompany searchCompanyTreeDataByLoginId(String loginId);
 	
-	
+	Map<String, Object> getApprovalList(String loginId, String searchOption, String documentType,
+			String searchKeyword, Integer pageNum, Integer pageSize);
 	
 }	

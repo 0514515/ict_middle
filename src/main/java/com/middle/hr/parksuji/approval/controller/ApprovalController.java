@@ -46,7 +46,32 @@ public class ApprovalController {
 
 	// 전자결재 홈 
 	@GetMapping("approval")
-	public String getApprovalPage() {
+	public String getApprovalPage(String documentType, String searchOption, String searchKeyword, Integer pageNum, Model model, HttpSession httpSession) {
+		// 기본값 (첫 페이지 로딩 시 searchOption, searchKeyword가 null임)
+		if (searchOption == null)
+			searchOption = "title";
+		if (searchKeyword == null)
+			searchKeyword = "";
+		if (pageNum == null || pageNum < 0)
+			pageNum = 1;
+		
+		String loginId = httpSession.getAttribute("loginId").toString();
+		
+		// 검색 옵션과 키워드로 페이지네이션 검색 (회사 검색)
+		Map<String, Object> result = formService.getApprovalList(loginId, documentType, searchOption, searchKeyword, pageNum, 10);
+
+		model.addAttribute("approvalList", result.get("approvalList"));
+		model.addAttribute("totalPage", result.get("totalPages")); // 최대 페이지
+		model.addAttribute("pageNum", pageNum + ""); // 현재 페이지
+
+		System.out.println(result.get("totalPages"));
+
+		// 검색 도구 값 유지용
+		model.addAttribute("documentType", documentType); 
+		model.addAttribute("searchOption", searchOption);
+		model.addAttribute("searchKeyword", searchKeyword);
+		
+		// System.out.println("[컨트롤러 : approval/approvalForm]model====> " + model + toString());
 		return "/approval/home";
 	}
 	

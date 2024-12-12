@@ -28,7 +28,7 @@ public class Approval {
 	private String documentNumber; // 문서번호
 	private Integer staffId;  // 사원 id number  (결재자) 
 	private Integer companyId; // 회사 id number 
-	
+	private String staffName;
 	private String departmentName; // department name(부서명) 
 	
 	private String formTitle; // document_form name (양식명) 

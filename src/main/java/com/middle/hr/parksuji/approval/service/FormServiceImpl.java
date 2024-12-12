@@ -187,8 +187,11 @@ public class FormServiceImpl implements FormService {
 		return formRepository.getApprovalLineById(approvalId);
 	}	
    	
-   	
-   	
+   	@Override
+	public Map<String, Object> getApprovalList(String loginId, String searchOption, String documentType,
+			String searchKeyword, Integer pageNum, Integer pageSize){
+   		return formRepository.selectApprovalList(loginId, searchOption, documentType, searchKeyword, pageNum, pageSize);
+   	}
    	
 
 }

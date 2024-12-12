@@ -55,7 +55,7 @@
 			</div>
 
 
-			<c:if test="${staff.authority>=9999}">
+			<c:if test="${menuStaff.authority>=9999}">
 				<div class="nav-item dropdown">
 					<a href="#" class="nav-link dropdown-toggle"
 						data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>관리자
