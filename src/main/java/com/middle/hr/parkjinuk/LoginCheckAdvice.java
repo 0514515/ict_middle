@@ -37,6 +37,10 @@ public class LoginCheckAdvice {
 		System.out.println("[*************** 호출한 클래스 >>>>> " + className);
 		System.out.println("[*************** 호출한 메소드 >>>>> " + methodName);
 		
+		if(className.equals("CommonController")) {
+			return point.proceed();
+		}
+		
 		//세션을 얻기 위해 로그인 메소드를 실행해야하므로 로그인 메소드는 세션 검사 제외
 		if(methodName.equals("login")) {
 			return point.proceed();
